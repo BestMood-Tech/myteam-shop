@@ -33,5 +33,7 @@ To get more help on the `angular-cli` use `ng --help` or go check out the [Angul
 ## Правила коммитов
 
 (#3) (fix) фикс вот этого, так как была ошибка с ... 
+
 (#23) (feat) добавил вот это и это ... 
+
 решетка номер issue без скобок (fix или feat) фича или фикс и описание что было сделано
