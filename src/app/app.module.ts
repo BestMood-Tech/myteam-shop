@@ -9,8 +9,12 @@ import { ProductComponent } from './product/product.component';
 import { SearchComponent } from './search/search.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
-import { MainComponent } from './main/main.component';
+import { HomeComponent } from './home/home.component';
 import { BasketComponent } from './basket/basket.component';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { CurrencyPipe, MusicService, GamesService, FilmsService } from './shared';
 
 @NgModule({
   declarations: [
@@ -20,15 +24,21 @@ import { BasketComponent } from './basket/basket.component';
     SearchComponent,
     CheckoutComponent,
     ConfirmationComponent,
-    MainComponent,
-    BasketComponent
+    HomeComponent,
+    BasketComponent,
+    CurrencyPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    MusicService,
+    FilmsService,
+    GamesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
