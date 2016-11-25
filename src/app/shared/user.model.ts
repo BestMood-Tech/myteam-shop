@@ -28,16 +28,40 @@ export class User {
     return `${this.firsname} ${this.lastname}`;
   }
 
-  get Phone(): string {
+  get userPhone(): string {
     return `${this.phone}`;
   }
 
-  get Email(): string {
+  get userEmail(): string {
     return `${this.email}`;
   }
 
-  get Address(): string[] {
-    return this.address;
+  get userAddress(): string {
+    return `${this.address}`;
+  }
+
+  public updateProfile(profile) {
+    if (!profile) return;
+    this.firsname = profile.firsname;
+    this.lastname = profile.lastname;
+    this.email = profile.email;
+    this.phone = profile.phone;
+
+    this.updateLSUser(this.nickname, this.toJson());
+  }
+
+  public updateAddress(address) {
+    if (!address) return;
+    this.address = address;
+    this.updateLSUser(this.nickname, this.toJson());
+  }
+
+  public toJson() {
+    return JSON.stringify([this]);
+  }
+
+  private updateLSUser(nick, user) {
+    window.localStorage.setItem(nick, user);
   }
 
 
