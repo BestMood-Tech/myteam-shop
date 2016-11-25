@@ -24,19 +24,19 @@ export class User {
     ] = obj;
   }
 
-  get fullName():string {
+  get fullName(): string {
     return `${this.firsname} ${this.lastname}`;
   }
 
-  get Phone():string {
+  get Phone(): string {
     return `${this.phone}`;
   }
 
-  get Email():string {
+  get Email(): string {
     return `${this.email}`;
   }
 
-  get Address():string[] {
+  get Address(): string[] {
     return this.address;
   }
 

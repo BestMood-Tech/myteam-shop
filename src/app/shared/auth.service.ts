@@ -2,7 +2,7 @@
 
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import {User} from "./user.model";
+import { User } from "./user.model";
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -18,7 +18,7 @@ export class Auth {
     //window.localStorage.clear();
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
-    if(this.userProfile) this.saveProfile(this.userProfile);
+    if (this.userProfile) this.saveProfile(this.userProfile);
 
     // Add callback for the Lock `authenticated` event
     this.lock.on("authenticated", (authResult) => {
@@ -39,9 +39,17 @@ export class Auth {
     });
   }
 
-  get UserProfile() { return this.userProfile}
-  get User() { return this.user }
-  get UserAdress() {return this.user.Address}
+  get UserProfile() {
+    return this.userProfile
+  }
+
+  get User() {
+    return this.user
+  }
+
+  get UserAdress() {
+    return this.user.Address
+  }
 
 
   public login() {
@@ -67,10 +75,10 @@ export class Auth {
     this.user = undefined;
   };
 
-  public updateUserPersonal(nickname:string, firstname:string, lastname:string, email:string[], phone:string) {
+  public updateUserPersonal(nickname: string, firstname: string, lastname: string, email: string[], phone: string) {
     let personal = JSON.parse(window.localStorage.getItem(nickname));
 
-    if(!personal) return;
+    if (!personal) return;
 
     personal.firsname = firstname;
     personal.lastname = lastname;
@@ -78,32 +86,32 @@ export class Auth {
     personal.phone = phone;
 
     window.localStorage.removeItem(nickname);
-    window.localStorage.setItem(nickname,JSON.stringify(personal));
+    window.localStorage.setItem(nickname, JSON.stringify(personal));
 
     this.user = personal;
   }
 
-  public updateUserAddress(nickname:string, address:string[]) {
+  public updateUserAddress(nickname: string, address: string[]) {
     let personal = JSON.parse(window.localStorage.getItem(nickname));
 
-    if(!personal) return;
+    if (!personal) return;
 
     personal.address = address;
 
     window.localStorage.removeItem(nickname);
-    window.localStorage.setItem(nickname,JSON.stringify(personal));
+    window.localStorage.setItem(nickname, JSON.stringify(personal));
 
     this.user = personal;
   }
 
   private saveProfile(profile) {
 
-    if(window.localStorage.getItem(profile.nickname)) {
+    if (window.localStorage.getItem(profile.nickname)) {
       this.user = JSON.parse(window.localStorage.getItem(profile.nickname));
       return;
     }
 
-    if(profile.identities[0].provider == 'vkontakte') {
+    if (profile.identities[0].provider == 'vkontakte') {
       this.user = new User(
         [
           profile.nickname,
@@ -117,11 +125,11 @@ export class Auth {
           []
         ]
       );
-      localStorage.setItem(this.user.nickname,JSON.stringify(this.user));
+      localStorage.setItem(this.user.nickname, JSON.stringify(this.user));
       return;
     }
 
-    if(profile.identities[0].provider == 'github') {
+    if (profile.identities[0].provider == 'github') {
       this.user = new User(
         [
           profile.nickname,
@@ -135,7 +143,7 @@ export class Auth {
           []
         ]
       );
-      localStorage.setItem(this.user.nickname,JSON.stringify(this.user));
+      localStorage.setItem(this.user.nickname, JSON.stringify(this.user));
       return;
     }
 
