@@ -29,3 +29,19 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 ## Further help
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Правила коммитов
+
+(#3) (fix) фикс вот этого, так как была ошибка с ... 
+
+(#23) (feat) добавил вот это и это ... 
+
+решетка номер issue без скобок (fix или feat) фича или фикс и описание что было сделано
+
+## Правила именования веток
+
+Надо указать майлстоун и понятное словосочетание, по которому можно понять какое задание там выполняется.
+
+**M1/music-service**
+
+**M1/authorization**
