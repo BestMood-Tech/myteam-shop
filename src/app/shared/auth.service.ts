@@ -17,7 +17,13 @@ export class Auth {
   constructor() {
     //window.localStorage.clear();
     // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    try {
+      this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    }
+    catch (e) {
+      console.log(e);
+    }
+
     if (this.userProfile) this.saveProfile(this.userProfile);
 
     // Add callback for the Lock `authenticated` event
@@ -28,7 +34,7 @@ export class Auth {
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
           // Handle error
-          alert(error);
+          console.log(error);
           return;
         }
 
@@ -117,7 +123,7 @@ export class Auth {
           profile.nickname,
           profile.picture,
           profile.identities[0].provider,
-          [],
+          "",
           profile.given_name,
           profile.family_name,
           "",
@@ -135,7 +141,7 @@ export class Auth {
           profile.nickname,
           profile.picture,
           profile.identities[0].provider,
-          profile.emails,
+          profile.email[0].email,
           "",
           "",
           "",
