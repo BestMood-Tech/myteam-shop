@@ -13,9 +13,10 @@ import { MusicService, GamesService, MovieService } from './services';
     exports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CurrencyPipe
     ],
-    declarations: []
+    declarations: [CurrencyPipe]
 })
 
 export class SharedModule {
@@ -25,8 +26,7 @@ export class SharedModule {
             providers: [
                 MusicService,
                 GamesService,
-                MovieService,
-                CurrencyPipe
+                MovieService
             ]
         };
     }
