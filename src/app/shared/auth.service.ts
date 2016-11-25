@@ -2,6 +2,7 @@
 
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
+import {User} from "./user.model";
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -11,10 +12,13 @@ export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
   userProfile: Object;
+  user: User;
 
   constructor() {
+    //window.localStorage.clear();
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    if(this.userProfile) this.saveProfile(this.userProfile);
 
     // Add callback for the Lock `authenticated` event
     this.lock.on("authenticated", (authResult) => {
@@ -30,9 +34,15 @@ export class Auth {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
+        this.saveProfile(profile);
       });
     });
   }
+
+  get UserProfile() { return this.userProfile}
+  get User() { return this.user }
+  get UserAdress() {return this.user.Address}
+
 
   public login() {
     // Call the show method to display the widget.
@@ -54,9 +64,81 @@ export class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     this.userProfile = undefined;
+    this.user = undefined;
   };
 
-  public getUserProfile():Object {
-    return this.userProfile;
+  public updateUserPersonal(nickname:string, firstname:string, lastname:string, email:string[], phone:string) {
+    let personal = JSON.parse(window.localStorage.getItem(nickname));
+
+    if(!personal) return;
+
+    personal.firsname = firstname;
+    personal.lastname = lastname;
+    personal.email = email;
+    personal.phone = phone;
+
+    window.localStorage.removeItem(nickname);
+    window.localStorage.setItem(nickname,JSON.stringify(personal));
+
+    this.user = personal;
   }
+
+  public updateUserAddress(nickname:string, address:string[]) {
+    let personal = JSON.parse(window.localStorage.getItem(nickname));
+
+    if(!personal) return;
+
+    personal.address = address;
+
+    window.localStorage.removeItem(nickname);
+    window.localStorage.setItem(nickname,JSON.stringify(personal));
+
+    this.user = personal;
+  }
+
+  private saveProfile(profile) {
+
+    if(window.localStorage.getItem(profile.nickname)) {
+      this.user = JSON.parse(window.localStorage.getItem(profile.nickname));
+      return;
+    }
+
+    if(profile.identities[0].provider == 'vkontakte') {
+      this.user = new User(
+        [
+          profile.nickname,
+          profile.picture,
+          profile.identities[0].provider,
+          [],
+          profile.given_name,
+          profile.family_name,
+          "",
+          [],
+          []
+        ]
+      );
+      localStorage.setItem(this.user.nickname,JSON.stringify(this.user));
+      return;
+    }
+
+    if(profile.identities[0].provider == 'github') {
+      this.user = new User(
+        [
+          profile.nickname,
+          profile.picture,
+          profile.identities[0].provider,
+          profile.emails,
+          "",
+          "",
+          "",
+          [],
+          []
+        ]
+      );
+      localStorage.setItem(this.user.nickname,JSON.stringify(this.user));
+      return;
+    }
+
+  }
+
 }
