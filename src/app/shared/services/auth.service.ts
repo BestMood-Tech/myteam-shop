@@ -2,30 +2,28 @@
 
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from "./user.model";
-import { forEach } from '@angular/router/src/utils/collection';
+import { User } from "../user.model";
+
 
 // Avoid name not found warnings
-declare var Auth0Lock: any;
+declare let Auth0Lock: any;
 
 @Injectable()
 export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
-  userProfile: Object;
   user: User;
 
   constructor() {
-    //window.localStorage.clear();
     // Set userProfile attribute of already saved profile
     try {
-      this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        if(JSON.parse(localStorage.getItem('profile')))
+          this.saveProfile(JSON.parse(localStorage.getItem('profile')));
     }
     catch (e) {
       console.log(e);
     }
 
-    if (this.userProfile) this.saveProfile(this.userProfile);
 
     // Add callback for the Lock `authenticated` event
     this.lock.on("authenticated", (authResult) => {
@@ -40,29 +38,15 @@ export class Auth {
         }
 
         localStorage.setItem('profile', JSON.stringify(profile));
-        this.userProfile = profile;
         this.saveProfile(profile);
       });
     });
-  }
-
-  get getProfile() {
-    return this.userProfile;
-  }
-
-  get getUser() {
-    return this.user;
-  }
-
-  get getUserAdress() {
-    return this.user.userAddress;
   }
 
 
   public login() {
     // Call the show method to display the widget.
     this.lock.show((err, profile, id_token) => {
-      this.userProfile = profile;
       localStorage.setItem('profile', JSON.stringify(profile));
       localStorage.setItem('id_token', id_token);
     });
@@ -78,7 +62,6 @@ export class Auth {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
-    this.userProfile = undefined;
     this.user = undefined;
   };
 
@@ -130,7 +113,7 @@ export class Auth {
           []
         ]
       );
-      localStorage.setItem(this.user.nickname, JSON.stringify(this.user));
+      this.user.updateLSUser(this.user.nickname,this.user.toJson());
       return;
     }
   }

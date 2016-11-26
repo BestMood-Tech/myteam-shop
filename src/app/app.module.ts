@@ -2,23 +2,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AUTH_PROVIDERS }   from 'angular2-jwt';
-
 import { AppComponent } from './app.component';
-import {Auth} from "./shared/auth.service";
-
+import { SharedModule } from './shared/shared.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { MovieService } from './shared/services/movie.service';
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
-  ],
-  providers: [AUTH_PROVIDERS, Auth],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        routingComponents,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        AppRoutingModule,
+        SharedModule.forRoot()
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
