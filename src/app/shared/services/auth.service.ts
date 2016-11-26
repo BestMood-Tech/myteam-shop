@@ -2,7 +2,8 @@
 
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from "./user.model";
+import { User } from '../user.model';
+
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -45,16 +46,16 @@ export class Auth {
     });
   }
 
-  get UserProfile() {
-    return this.userProfile
+  get getProfile() {
+    return this.userProfile;
   }
 
-  get User() {
-    return this.user
+  get getUser() {
+    return this.user;
   }
 
-  get UserAdress() {
-    return this.user.Address
+  get getUserAdress() {
+    return this.user.userAddress;
   }
 
 
@@ -81,40 +82,20 @@ export class Auth {
     this.user = undefined;
   };
 
-  public updateUserPersonal(nickname: string, firstname: string, lastname: string, email: string[], phone: string) {
-    let personal = JSON.parse(window.localStorage.getItem(nickname));
-
-    if (!personal) return;
-
-    personal.firsname = firstname;
-    personal.lastname = lastname;
-    personal.email = email;
-    personal.phone = phone;
-
-    window.localStorage.removeItem(nickname);
-    window.localStorage.setItem(nickname, JSON.stringify(personal));
-
-    this.user = personal;
-  }
-
-  public updateUserAddress(nickname: string, address: string[]) {
-    let personal = JSON.parse(window.localStorage.getItem(nickname));
-
-    if (!personal) return;
-
-    personal.address = address;
-
-    window.localStorage.removeItem(nickname);
-    window.localStorage.setItem(nickname, JSON.stringify(personal));
-
-    this.user = personal;
-  }
-
   private saveProfile(profile) {
 
     if (window.localStorage.getItem(profile.nickname)) {
-      this.user = JSON.parse(window.localStorage.getItem(profile.nickname));
-      return;
+
+      try {
+        let userLS = JSON.parse(window.localStorage.getItem(profile.nickname));
+
+        this.user = this.ObjectInArray(userLS);
+        return;
+      }
+      catch (e) {
+        console.log(e);
+      }
+
     }
 
     if (profile.identities[0].provider == 'vkontakte') {
@@ -152,7 +133,16 @@ export class Auth {
       localStorage.setItem(this.user.nickname, JSON.stringify(this.user));
       return;
     }
+  }
 
+  private ObjectInArray(userLS) {
+    let buffer = [];
+
+    for (let key of Object.keys(userLS)) {
+      buffer.push(userLS[key]);
+    }
+
+    return new User(buffer);
   }
 
 }
