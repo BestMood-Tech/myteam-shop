@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MovieService } from './shared/services/movie.service';
-import { Auth } from './shared/services/auth.service';
+
 
 @Component({
     selector: 'app-root',
@@ -9,7 +9,7 @@ import { Auth } from './shared/services/auth.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    constructor(private router: Router, private movie:MovieService, private auth: Auth) {
+    constructor(private router: Router, private movie:MovieService) {
     }
 
     ngOnInit() {
