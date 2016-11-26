@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe } from './pipes/currency.pipe';
-import { MusicService, GamesService, MovieService } from './services';
+import { MusicService, GamesService, MovieService, Auth } from './services';
 
 @NgModule({
     imports: [
@@ -26,7 +26,8 @@ export class SharedModule {
             providers: [
                 MusicService,
                 GamesService,
-                MovieService
+                MovieService,
+                Auth
             ]
         };
     }
