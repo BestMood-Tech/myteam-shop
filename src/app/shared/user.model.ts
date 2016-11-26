@@ -28,6 +28,10 @@ export class User {
     return `${this.firsname} ${this.lastname}`;
   }
 
+  get userProfile():User {
+    return this;
+  }
+
   get userPhone(): string {
     return `${this.phone}`;
   }
@@ -36,8 +40,12 @@ export class User {
     return `${this.email}`;
   }
 
-  get userAddress(): string {
-    return `${this.address}`;
+  get userAddress(): string[] {
+    return this.address;
+  }
+
+  get userOrders():string[] {
+    return this.orders;
   }
 
   public updateProfile(profile) {
@@ -57,10 +65,10 @@ export class User {
   }
 
   public toJson() {
-    return JSON.stringify([this]);
+    return JSON.stringify(this);
   }
 
-  private updateLSUser(nick, user) {
+  public updateLSUser(nick, user) {
     window.localStorage.setItem(nick, user);
   }
 
