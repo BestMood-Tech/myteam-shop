@@ -29,7 +29,7 @@ export class MovieService {
   }
 
   search(query, filters) {
-    let searchURL = `${this.baseURL}search/movie/`;
+    let searchURL = `${this.baseURL}search/movie`;
 
     let params = new URLSearchParams();
     params.set("api_key",this.key);
