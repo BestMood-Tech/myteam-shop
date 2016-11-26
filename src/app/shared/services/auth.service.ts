@@ -17,8 +17,8 @@ export class Auth {
   constructor() {
     // Set userProfile attribute of already saved profile
     try {
-      if(JSON.parse(localStorage.getItem('profile')))
-        this.saveProfile(JSON.parse(localStorage.getItem('profile')));
+      if(JSON.parse(localStorage.getItem('currentUser')))
+        this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
     }
     catch (e) {
       console.log(e);
@@ -30,15 +30,15 @@ export class Auth {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error, profile) => {
+      this.lock.getProfile(authResult.idToken, (error, currentUser) => {
         if (error) {
           // Handle error
           console.log(error);
           return;
         }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
-        this.saveProfile(profile);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        this.saveProfile(currentUser);
       });
     });
   }
@@ -46,8 +46,8 @@ export class Auth {
 
   public login() {
     // Call the show method to display the widget.
-    this.lock.show((err, profile, id_token) => {
-      localStorage.setItem('profile', JSON.stringify(profile));
+    this.lock.show((err, currentUser, id_token) => {
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('id_token', id_token);
     });
   };
@@ -61,16 +61,16 @@ export class Auth {
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
+    localStorage.removeItem('currentUser');
     this.user = undefined;
   };
 
-  private saveProfile(profile) {
+  private saveProfile(currentUser) {
 
-    if (window.localStorage.getItem(profile.nickname)) {
+    if (window.localStorage.getItem(currentUser.nickname)) {
 
       try {
-        let userLS = JSON.parse(window.localStorage.getItem(profile.nickname));
+        let userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
 
         this.user = this.ObjectInArray(userLS);
         return;
@@ -81,31 +81,30 @@ export class Auth {
 
     }
 
-    if (profile.identities[0].provider == 'vkontakte') {
+    if (currentUser.identities[0].provider == 'vkontakte') {
       this.user = new User(
         [
-          profile.nickname,
-          profile.picture,
-          profile.identities[0].provider,
+          currentUser.nickname,
+          currentUser.picture,
+          currentUser.identities[0].provider,
           "",
-          profile.given_name,
-          profile.family_name,
+          currentUser.given_name,
+          currentUser.family_name,
           "",
           [],
           []
         ]
       );
-      localStorage.setItem(this.user.nickname, JSON.stringify(this.user));
       return;
     }
 
-    if (profile.identities[0].provider == 'github') {
+    if (currentUser.identities[0].provider == 'github') {
       this.user = new User(
         [
-          profile.nickname,
-          profile.picture,
-          profile.identities[0].provider,
-          profile.email[0].email,
+          currentUser.nickname,
+          currentUser.picture,
+          currentUser.identities[0].provider,
+          currentUser.email[0].email,
           "",
           "",
           "",
@@ -113,7 +112,6 @@ export class Auth {
           []
         ]
       );
-      this.user.updateLSUser(this.user.nickname,this.user.toJson());
       return;
     }
   }

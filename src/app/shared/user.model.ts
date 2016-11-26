@@ -1,43 +1,42 @@
 export class User {
 
-  nickname: string;
+  nickName: string;
   picture: string;
   provider: string;
   email: string;
-  firsname: string;
-  lastname: string;
+  firsName: string;
+  lastName: string;
   phone: string;
   address: string[];
   orders: string [];
 
   constructor(obj) {
     [
-      this.nickname,
+      this.nickName,
       this.picture,
       this.provider,
       this.email,
-      this.firsname,
-      this.lastname,
+      this.firsName,
+      this.lastName,
       this.phone,
       this.address,
       this.orders
     ] = obj;
+    this.updateLSUser(this.nickName,this.toJson());
   }
 
   get fullName(): string {
-    return `${this.firsname} ${this.lastname}`;
+    return `${this.firsName} ${this.lastName}`;
   }
 
-  get userProfile():User {
-    return this;
-  }
-
-  get userPhone(): string {
-    return `${this.phone}`;
-  }
-
-  get userEmail(): string {
-    return `${this.email}`;
+  get userProfile():Object {
+    return {
+      nickName: this.nickName,
+      firstName: this.firsName,
+      lastName: this.lastName,
+      phone: this.phone,
+      email: this.email
+    }
   }
 
   get userAddress(): string[] {
@@ -50,18 +49,18 @@ export class User {
 
   public updateProfile(profile) {
     if (!profile) return;
-    this.firsname = profile.firsname;
-    this.lastname = profile.lastname;
+    this.firsName = profile.firsName;
+    this.lastName = profile.lastName;
     this.email = profile.email;
     this.phone = profile.phone;
 
-    this.updateLSUser(this.nickname, this.toJson());
+    this.updateLSUser(this.nickName, this.toJson());
   }
 
   public updateAddress(address) {
     if (!address) return;
     this.address = address;
-    this.updateLSUser(this.nickname, this.toJson());
+    this.updateLSUser(this.nickName, this.toJson());
   }
 
   public toJson() {
