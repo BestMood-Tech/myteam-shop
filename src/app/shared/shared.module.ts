@@ -5,30 +5,30 @@ import { CurrencyPipe } from './pipes/currency.pipe';
 import { MusicService, GamesService, MovieService, Auth } from './services';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule
-    ],
-    exports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CurrencyPipe
-    ],
-    declarations: [CurrencyPipe]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CurrencyPipe
+  ],
+  declarations: [CurrencyPipe]
 })
 
 export class SharedModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: SharedModule,
-            providers: [
-                MusicService,
-                GamesService,
-                MovieService,
-                Auth
-            ]
-        };
-    }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        MusicService,
+        GamesService,
+        MovieService,
+        Auth
+      ]
+    };
+  }
 }

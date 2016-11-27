@@ -22,28 +22,28 @@ export class User {
       this.address,
       this.orders
     ] = obj;
-    this.updateLSUser(this.nickName,this.toJson());
+    this.updateLSUser(this.nickName, this.toJson());
   }
 
   get fullName(): string {
     return `${this.firsName} ${this.lastName}`;
   }
 
-  get userProfile():Object {
+  get userProfile(): Object {
     return {
       nickName: this.nickName,
       firstName: this.firsName,
       lastName: this.lastName,
       phone: this.phone,
       email: this.email
-    }
+    };
   }
 
   get userAddress(): string[] {
     return this.address;
   }
 
-  get userOrders():string[] {
+  get userOrders(): string[] {
     return this.orders;
   }
 

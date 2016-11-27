@@ -1,8 +1,8 @@
 // app/auth.service.ts
 
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from "../user.model";
+import { User } from '../user.model';
 
 
 // Avoid name not found warnings
@@ -17,7 +17,7 @@ export class Auth {
   constructor() {
     // Set userProfile attribute of already saved profile
     try {
-      if(JSON.parse(localStorage.getItem('currentUser')))
+      if (JSON.parse(localStorage.getItem('currentUser')))
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
     }
     catch (e) {
@@ -26,7 +26,7 @@ export class Auth {
 
 
     // Add callback for the Lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -87,10 +87,10 @@ export class Auth {
           currentUser.nickname,
           currentUser.picture,
           currentUser.identities[0].provider,
-          "",
+          '',
           currentUser.given_name,
           currentUser.family_name,
-          "",
+          '',
           [],
           []
         ]
@@ -105,9 +105,9 @@ export class Auth {
           currentUser.picture,
           currentUser.identities[0].provider,
           currentUser.email[0].email,
-          "",
-          "",
-          "",
+          '',
+          '',
+          '',
           [],
           []
         ]
