@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
     this._musicService.getItem('0sNOF9WDwhWunNAHPD3Baj').subscribe(res => console.log(res), err => console.log(err));
     this._musicService.search('', { artist: 'Disturbed', year: '2015' })
       .subscribe(res => console.log(res), err => console.log(err));
+    this._musicService.latest().subscribe(res => console.log(res), err => console.log(err));
   }
 
   search() {

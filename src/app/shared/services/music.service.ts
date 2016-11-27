@@ -42,4 +42,7 @@ export class MusicService {
       .map(res => res.json());
   }
 
+  latest() {
+    return this.search('', {tag: 'new'});
+  }
 }
