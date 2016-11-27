@@ -9,28 +9,28 @@ import { HomeComponent } from './home/home.component';
 import { BasketComponent } from './cart/cart.component';
 
 const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'home' },
-    { path: 'home', component: HomeComponent },
-    { path: 'category/:type', component: CategoryComponent },
-    { path: 'search', component: SearchComponent },
-    { path: 'checkout', component: CheckoutComponent },
-    { path: 'cart', component: BasketComponent },
-    { path: 'product', component: ProductComponent },
-    { path: 'confirmation', component: ConfirmationComponent }
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component: HomeComponent },
+  { path: 'category/:type', component: CategoryComponent },
+  { path: 'search', component: SearchComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'cart', component: BasketComponent },
+  { path: 'product', component: ProductComponent },
+  { path: 'confirmation', component: ConfirmationComponent }
 ];
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {
 }
 
 export const routingComponents = [
-    HomeComponent,
-    BasketComponent,
-    CategoryComponent,
-    CheckoutComponent,
-    ConfirmationComponent,
-    ProductComponent,
-    SearchComponent
+  HomeComponent,
+  BasketComponent,
+  CategoryComponent,
+  CheckoutComponent,
+  ConfirmationComponent,
+  ProductComponent,
+  SearchComponent
 ];

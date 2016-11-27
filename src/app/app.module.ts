@@ -8,19 +8,19 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        routingComponents,
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpModule,
-        AppRoutingModule,
-        SharedModule.forRoot()
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    routingComponents,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    AppRoutingModule,
+    SharedModule.forRoot()
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
