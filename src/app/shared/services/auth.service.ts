@@ -3,18 +3,19 @@
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from "../user.model";
+import { CanActivate, Router } from '@angular/router';
 
 
 // Avoid name not found warnings
 declare let Auth0Lock: any;
 
 @Injectable()
-export class Auth {
+export class Auth implements CanActivate{
   // Configure Auth0
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
   user: User;
 
-  constructor() {
+  constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
     try {
       if(JSON.parse(localStorage.getItem('currentUser')))
@@ -58,11 +59,18 @@ export class Auth {
     return tokenNotExpired();
   };
 
+  canActivate() {
+    return !!tokenNotExpired();
+  };
+
+
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('currentUser');
     this.user = undefined;
+
+    this.router.navigate(['./home']);
   };
 
   private saveProfile(currentUser) {

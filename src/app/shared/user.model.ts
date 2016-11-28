@@ -1,13 +1,14 @@
+import { Address } from './address.model';
 export class User {
 
   nickName: string;
   picture: string;
   provider: string;
   email: string;
-  firsName: string;
+  firstName: string;
   lastName: string;
   phone: string;
-  address: string[];
+  address: Address[];
   orders: string [];
 
   constructor(obj) {
@@ -16,30 +17,30 @@ export class User {
       this.picture,
       this.provider,
       this.email,
-      this.firsName,
+      this.firstName,
       this.lastName,
       this.phone,
-      this.address,
       this.orders
     ] = obj;
+    this.address = [new Address({street: "street", city: "city", zip: "zio"})];
     this.updateLSUser(this.nickName,this.toJson());
   }
 
   get fullName(): string {
-    return `${this.firsName} ${this.lastName}`;
+    return `${this.firstName} ${this.lastName}`;
   }
 
   get userProfile():Object {
     return {
       nickName: this.nickName,
-      firstName: this.firsName,
+      firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
       email: this.email
     }
   }
 
-  get userAddress(): string[] {
+  get userAddress(): Address[] {
     return this.address;
   }
 
@@ -49,7 +50,7 @@ export class User {
 
   public updateProfile(profile) {
     if (!profile) return;
-    this.firsName = profile.firsName;
+    this.firstName = profile.firstName;
     this.lastName = profile.lastName;
     this.email = profile.email;
     this.phone = profile.phone;

@@ -5,13 +5,11 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
-import { MovieService } from './shared/services/movie.service';
-
 
 @NgModule({
     declarations: [
         AppComponent,
-        routingComponents,
+        routingComponents
     ],
     imports: [
         BrowserModule,

@@ -23,11 +23,14 @@ export class AppComponent implements OnInit {
     // }).subscribe(res => console.log(res), err => console.log(err));
     // this.movie.getItem(3).subscribe(res => console.log(res), err => console.log(err));
     //
-    this._gamesService.getItem(85).subscribe(res => console.log(res), err => console.log(err));
+    /*this._gamesService.getItem(85).subscribe(res => console.log(res), err => console.log(err));
     this._gamesService.latest().subscribe(res => console.log(res), err => console.log(err));
     this._gamesService.search('zelda', {
       genres: 8
-    }).subscribe(res => console.log(res), err => console.log(err));
+    }).subscribe(res => console.log(res), err => console.log(err));*/
+
+
+
   }
 
   search() {
