@@ -12,16 +12,9 @@ export class User {
   orders: string [];
 
   constructor(obj) {
-    [
-      this.nickName,
-      this.picture,
-      this.provider,
-      this.email,
-      this.firstName,
-      this.lastName,
-      this.phone,
-      this.orders
-    ] = obj;
+    for(let key of Object.keys(obj)) {
+      this[key] = obj[key];
+    }
     this.address = [new Address({street: "street", city: "city", zip: "zio"})];
     this.updateLSUser(this.nickName,this.toJson());
   }
@@ -50,11 +43,10 @@ export class User {
 
   public updateProfile(profile) {
     if (!profile) return;
-    this.firstName = profile.firstName;
-    this.lastName = profile.lastName;
-    this.email = profile.email;
-    this.phone = profile.phone;
 
+    for(let key of Object.keys(profile)) {
+      this[key] = profile[key];
+    }
     this.updateLSUser(this.nickName, this.toJson());
   }
 

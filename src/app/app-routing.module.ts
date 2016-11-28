@@ -9,7 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { BasketComponent } from './cart/cart.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
-import { Auth } from './shared/services/auth.service';
+import { AuthGuard } from './shared/services/authGuard.service';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -20,8 +20,8 @@ const routes: Routes = [
   { path: 'cart', component: BasketComponent },
   { path: 'product', component: ProductComponent },
   { path: 'confirmation', component: ConfirmationComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [Auth] },
-  { path: 'address', component: AddressComponent, canActivate: [Auth] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'address', component: AddressComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

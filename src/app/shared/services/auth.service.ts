@@ -10,7 +10,7 @@ import { CanActivate, Router } from '@angular/router';
 declare let Auth0Lock: any;
 
 @Injectable()
-export class Auth implements CanActivate{
+export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
   user: User;
@@ -59,11 +59,6 @@ export class Auth implements CanActivate{
     return tokenNotExpired();
   };
 
-  canActivate() {
-    return !!tokenNotExpired();
-  };
-
-
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
@@ -80,7 +75,7 @@ export class Auth implements CanActivate{
       try {
         let userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
 
-        this.user = this.ObjectInArray(userLS);
+        this.user = new User(userLS);
         return;
       }
       catch (e) {
@@ -91,47 +86,28 @@ export class Auth implements CanActivate{
 
     if (currentUser.identities[0].provider == 'vkontakte') {
       this.user = new User(
-        [
-          currentUser.nickname,
-          currentUser.picture,
-          currentUser.identities[0].provider,
-          "",
-          currentUser.given_name,
-          currentUser.family_name,
-          "",
-          [],
-          []
-        ]
+        {
+          nickName: currentUser.nickname,
+          picture: currentUser.picture,
+          currentUser: currentUser.identities[0].provider,
+          firstName: currentUser.given_name,
+          lastName: currentUser.family_name,
+        }
       );
       return;
     }
 
     if (currentUser.identities[0].provider == 'github') {
       this.user = new User(
-        [
-          currentUser.nickname,
-          currentUser.picture,
-          currentUser.identities[0].provider,
-          currentUser.email[0].email,
-          "",
-          "",
-          "",
-          [],
-          []
-        ]
+        {
+          nickName: currentUser.nickname,
+          picture: currentUser.picture,
+          currentUser: currentUser.identities[0].provider,
+          email: currentUser.email[0].email
+        }
       );
       return;
     }
-  }
-
-  private ObjectInArray(userLS) {
-    let buffer = [];
-
-    for (let key of Object.keys(userLS)) {
-      buffer.push(userLS[key]);
-    }
-
-    return new User(buffer);
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -10,23 +11,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProfileComponent implements OnInit {
 
   public profileForm: FormGroup;
+  private user: User;
 
-  constructor(private auth: Auth, private formBuilder: FormBuilder) { }
+  constructor(private auth: Auth, private formBuilder: FormBuilder) {
+    this.user = new User(this.auth.user.userProfile);
+  }
 
   ngOnInit() {
+    console.log(this.user);
     this.profileForm = this.formBuilder.group({
-      nickName: [this.auth.user.nickName],
-      firstName: [this.auth.user.firstName, Validators.required],
-      lastName: [this.auth.user.lastName, Validators.required],
+      nickName: [this.user.nickName],
+      firstName: [this.user.firstName, Validators.required],
+      lastName: [this.user.lastName, Validators.required],
       email: [
-        this.auth.user.email,
+        this.user.email,
         [
           Validators.required,
           Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
         ]
       ],
       phone: [
-        this.auth.user.phone,
+        this.user.phone,
         [
           Validators.required
         ]
