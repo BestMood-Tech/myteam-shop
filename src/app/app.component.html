@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-static-top">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -15,6 +15,8 @@
         <li><a routerLink="/category/music">Music</a></li>
         <li><a routerLink="/category/games">Games</a></li>
         <li><a routerLink="/category/movies">Movie</a></li>
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a routerLink="/address">Address</a></li>
         <li>
           <form class="navbar-form" (submit)="search()">
             <div class="form-group">
@@ -41,5 +43,5 @@
       </form>
     </div>
   </div>
-</nav>
+</div>
 <router-outlet></router-outlet>

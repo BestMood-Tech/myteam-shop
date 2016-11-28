@@ -1,59 +1,52 @@
+import { Address } from './address.model';
 export class User {
 
   nickName: string;
   picture: string;
   provider: string;
   email: string;
-  firsName: string;
+  firstName: string;
   lastName: string;
   phone: string;
-  address: string[];
+  address: Address[];
   orders: string [];
 
   constructor(obj) {
-    [
-      this.nickName,
-      this.picture,
-      this.provider,
-      this.email,
-      this.firsName,
-      this.lastName,
-      this.phone,
-      this.address,
-      this.orders
-    ] = obj;
-    this.updateLSUser(this.nickName, this.toJson());
+    for(let key of Object.keys(obj)) {
+      this[key] = obj[key];
+    }
+    this.address = [new Address({street: "street", city: "city", zip: "zio"})];
+    this.updateLSUser(this.nickName,this.toJson());
   }
 
   get fullName(): string {
-    return `${this.firsName} ${this.lastName}`;
+    return `${this.firstName} ${this.lastName}`;
   }
 
-  get userProfile(): Object {
+  get userProfile():Object {
     return {
       nickName: this.nickName,
-      firstName: this.firsName,
+      firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
       email: this.email
-    };
+    }
   }
 
-  get userAddress(): string[] {
+  get userAddress(): Address[] {
     return this.address;
   }
 
-  get userOrders(): string[] {
+  get userOrders():string[] {
     return this.orders;
   }
 
   public updateProfile(profile) {
     if (!profile) return;
-    this.firsName = profile.firsName;
-    this.lastName = profile.lastName;
-    this.email = profile.email;
-    this.phone = profile.phone;
 
+    for(let key of Object.keys(profile)) {
+      this[key] = profile[key];
+    }
     this.updateLSUser(this.nickName, this.toJson());
   }
 

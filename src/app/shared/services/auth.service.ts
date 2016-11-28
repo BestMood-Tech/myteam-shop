@@ -1,8 +1,9 @@
 // app/auth.service.ts
 
-import { Injectable } from '@angular/core';
+import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from '../user.model';
+import { User } from "../user.model";
+import { CanActivate, Router } from '@angular/router';
 
 
 // Avoid name not found warnings
@@ -14,10 +15,10 @@ export class Auth {
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
   user: User;
 
-  constructor() {
+  constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
     try {
-      if (JSON.parse(localStorage.getItem('currentUser')))
+      if(JSON.parse(localStorage.getItem('currentUser')))
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
     }
     catch (e) {
@@ -26,7 +27,7 @@ export class Auth {
 
 
     // Add callback for the Lock `authenticated` event
-    this.lock.on('authenticated', (authResult) => {
+    this.lock.on("authenticated", (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -63,6 +64,8 @@ export class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('currentUser');
     this.user = undefined;
+
+    this.router.navigate(['./home']);
   };
 
   private saveProfile(currentUser) {
@@ -72,7 +75,7 @@ export class Auth {
       try {
         let userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
 
-        this.user = this.ObjectInArray(userLS);
+        this.user = new User(userLS);
         return;
       }
       catch (e) {
@@ -83,47 +86,28 @@ export class Auth {
 
     if (currentUser.identities[0].provider == 'vkontakte') {
       this.user = new User(
-        [
-          currentUser.nickname,
-          currentUser.picture,
-          currentUser.identities[0].provider,
-          '',
-          currentUser.given_name,
-          currentUser.family_name,
-          '',
-          [],
-          []
-        ]
+        {
+          nickName: currentUser.nickname,
+          picture: currentUser.picture,
+          currentUser: currentUser.identities[0].provider,
+          firstName: currentUser.given_name,
+          lastName: currentUser.family_name,
+        }
       );
       return;
     }
 
     if (currentUser.identities[0].provider == 'github') {
       this.user = new User(
-        [
-          currentUser.nickname,
-          currentUser.picture,
-          currentUser.identities[0].provider,
-          currentUser.email[0].email,
-          '',
-          '',
-          '',
-          [],
-          []
-        ]
+        {
+          nickName: currentUser.nickname,
+          picture: currentUser.picture,
+          currentUser: currentUser.identities[0].provider,
+          email: currentUser.email[0].email
+        }
       );
       return;
     }
-  }
-
-  private ObjectInArray(userLS) {
-    let buffer = [];
-
-    for (let key of Object.keys(userLS)) {
-      buffer.push(userLS[key]);
-    }
-
-    return new User(buffer);
   }
 
 }

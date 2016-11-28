@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Address</h1>
+  <div class="col-md-6">
+    <div *ngFor='let address of auth.user.address; let key = index; trackBy: trackByFn'>
+      <div class="input-group">
+        <p>{{address.getAddress()}}</p>
+        <span class="input-group-btn">
+        <button class="btn btn-success" type="button" (click)='update(key)'>Update</button>
+        <button class="btn btn-danger" type="button" (click)='delete(key)'>Delete</button>
+      </span>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success" (click)='add()'>Add</button>
+  </div>
+</div>
+

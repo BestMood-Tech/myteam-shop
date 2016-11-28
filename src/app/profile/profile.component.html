@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Profile</h1>
+  <div class="col-md-6">
+    <form [formGroup]="profileForm">
+      <div class="form-group">
+        <label for="nickName">Nickname:</label>
+        <input type="text" class="form-control" id="nickName" formControlName="nickName">
+        <p *ngIf="profileForm.controls.nickName.errors">This field is required!</p>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First name:</label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName">
+        <p *ngIf="profileForm.controls.firstName.errors">This field is required!</p>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last name:</label>
+        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+        <p *ngIf="profileForm.controls.lastName.errors">This field is required!</p>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+        <p *ngIf="profileForm.controls.email.errors">This field is required!</p>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="text" class="form-control" id="phone" formControlName="phone">
+        <p *ngIf="profileForm.controls.phone.errors">This field is required!</p>
+      </div>
+      <button type="submit" class="btn btn-success"
+              [disabled]="!profileForm.valid"
+              (click)="update()">Update
+      </button>
+    </form>
+  </div>
+</div>
