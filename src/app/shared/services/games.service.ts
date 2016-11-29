@@ -14,7 +14,6 @@ export class GamesService {
   private getParams(): URLSearchParams {
     let params = new URLSearchParams();
     params.set('fields', '*');
-    params.set('limit', '6');
     return params;
   }
 
@@ -58,8 +57,8 @@ export class GamesService {
   latest() {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
-
     params.set('order', 'release_dates.date:desc');
+    params.set('limit', '18');
     let options = new RequestOptions({
       search: params,
       headers: this.getHeaders()
@@ -67,5 +66,21 @@ export class GamesService {
 
     return this._http.get(getItemUrl, options)
       .map(res => res.json());
+  }
+
+  processData(data) {
+    let resultingData = [];
+    for (let i = 0; i < data.length; i++) {
+      let _tempObject = {};
+      _tempObject['name'] = data[i].name;
+      if (data[i].cover) {
+        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${data[i].cover.cloudinary_id}.jpg`;
+      } else _tempObject['cover'] = 'http://placehold.it/320x150';
+      if (data[i].summary) _tempObject['description'] = data[i].summary;
+      else _tempObject['description'] = "this game hasn't description yet.";
+      _tempObject['rating'] = Math.floor(data[i].popularity);
+      resultingData.push(_tempObject);
+    }
+    return resultingData;
   }
 }

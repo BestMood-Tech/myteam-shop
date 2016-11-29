@@ -1,3 +1,21 @@
-<p>
-  category works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="row">
+        <div class="col-sm-4 col-lg-4 col-md-4" *ngFor="let product of products">
+          <div class="thumbnail">
+            <img class ="thumb-image" [src]=[product.cover] alt="">
+            <div class="caption">
+              <h5>{{product.name}}</h5>
+              <p>{{product.description}}</p>
+            </div>
+            <div class="ratings">
+              <h4 class="pull-right">{{10 + product.rating}}$</h4>
+              <button class="md-btn">Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
