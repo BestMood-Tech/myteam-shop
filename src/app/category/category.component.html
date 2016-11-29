@@ -6,11 +6,11 @@
           <div class="thumbnail">
             <img class ="thumb-image" [src]=[product.cover] alt="">
             <div class="caption">
-              <h5>{{product.name}}</h5>
+              <h4 class = "product-name">{{product.name}}</h4>
               <p>{{product.description}}</p>
             </div>
             <div class="ratings">
-              <h4 class="pull-right">{{10 + product.rating}}$</h4>
+              <h4 class="pull-right">{{product.price}}$</h4>
               <button class="md-btn">Cart</button>
             </div>
           </div>

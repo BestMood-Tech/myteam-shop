@@ -69,18 +69,22 @@ export class GamesService {
   }
 
   processData(data) {
-    let resultingData = [];
-    for (let i = 0; i < data.length; i++) {
+    let resultingData = data.map(function(game){
       let _tempObject = {};
-      _tempObject['name'] = data[i].name;
-      if (data[i].cover) {
-        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${data[i].cover.cloudinary_id}.jpg`;
+
+      _tempObject['name'] = game.name;
+
+      if (game.cover) {
+        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
-      if (data[i].summary) _tempObject['description'] = data[i].summary;
+
+      if (game.summary) _tempObject['description'] = game.summary;
       else _tempObject['description'] = "this game hasn't description yet.";
-      _tempObject['rating'] = Math.floor(data[i].popularity);
-      resultingData.push(_tempObject);
-    }
+
+      _tempObject['price'] = Math.floor(game.popularity * 100) / 10;
+      return _tempObject;
+    });
+
     return resultingData;
   }
 }

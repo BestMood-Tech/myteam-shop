@@ -27,7 +27,6 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.data['category']);
     this.products = this.currentService.processData(this.route.snapshot.data['category']);
   }
 

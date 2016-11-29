@@ -48,16 +48,15 @@ export class MusicService {
 
   processData(data) {
     let results = data.albums.items;
-    let resultingData = [];
-    for (let i = 0; i < results.length; i++) {
+    let resultingData = results.map(function(album){
       let _tempObject = {};
-      _tempObject['name'] = results[i].name;
+      _tempObject['name'] = album.name;
       // noinspection TypeScriptUnresolvedVariable
-      _tempObject['cover'] = results[i].images[1].url;
-      _tempObject['description'] = results[i].artists[0].name;
-      _tempObject['rating'] = 10;
-      resultingData.push(_tempObject);
-    }
+      _tempObject['cover'] = album.images[1].url;
+      _tempObject['description'] = album.artists[0].name;
+      _tempObject['price'] = 10;
+      return _tempObject;
+    });
     return resultingData;
   }
 }
