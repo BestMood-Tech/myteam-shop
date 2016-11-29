@@ -6,18 +6,22 @@ import { SearchComponent } from './search/search.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { HomeComponent } from './home/home.component';
-import { BasketComponent } from './cart/cart.component';
+import { CartComponent } from './cart/cart.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
 import { AuthGuard } from './shared/services/authGuard.service';
+import { CategoryResolve } from './category/category.resolve';
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
-  { path: 'category/:type', component: CategoryComponent },
+  { path: 'category/music', component: CategoryComponent, resolve: { category: CategoryResolve } },
+  { path: 'category/games', component: CategoryComponent, resolve: { category: CategoryResolve } },
+  { path: 'category/movies', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'search', component: SearchComponent },
   { path: 'checkout', component: CheckoutComponent },
-  { path: 'cart', component: BasketComponent },
+  { path: 'cart', component: CartComponent },
   { path: 'product', component: ProductComponent },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
@@ -32,7 +36,7 @@ export class AppRoutingModule {
 
 export const routingComponents = [
   HomeComponent,
-  BasketComponent,
+  CartComponent,
   CategoryComponent,
   CheckoutComponent,
   ConfirmationComponent,

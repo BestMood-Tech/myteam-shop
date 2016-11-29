@@ -67,5 +67,18 @@ export class MovieService {
       .map(res => res.json());
   }
 
+  processData(data) {
+    let results = data.results;
+    let resultingData = results.map(function(movie){
+      let _tempObject = {};
+      _tempObject['name'] = movie.original_title;
+      _tempObject['cover'] = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+      _tempObject['description'] = movie.overview;
+      _tempObject['price'] = movie.vote_average * 20 / 10;
+      return _tempObject;
+    });
+
+    return resultingData;
+  }
 
 }
