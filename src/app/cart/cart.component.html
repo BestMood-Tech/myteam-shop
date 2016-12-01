@@ -19,7 +19,7 @@
     <h3>Total cost: ${{getTotalPrice()}}</h3>
     <p *ngIf="!autorization">For pay need autorization!!!</p>
     <button class="btn btn-success"
-            [disabled]="!autorization">
+            [disabled]="!disabledPay()">
       Pay
     </button>
   </div>

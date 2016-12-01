@@ -27,7 +27,7 @@ export class Cart {
   }
 
   public deleteItem(key) {
-    this.cart.splice(key,1);
+    this.cart.splice(key, 1);
     this.updateBasketLS(this.cart);
   }
 
@@ -37,7 +37,7 @@ export class Cart {
 
 
   updateBasketLS(basket) {
-    localStorage.setItem('cart',JSON.stringify(basket));
+    localStorage.setItem('cart', JSON.stringify(basket));
   }
 
 }
