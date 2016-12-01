@@ -6,8 +6,8 @@ export class Cart {
 
   constructor() {
     try {
-      if (JSON.parse(localStorage.getItem('basket')))
-        this.cart = JSON.parse(localStorage.getItem('basket'));
+      if (JSON.parse(localStorage.getItem('cart')))
+        this.cart = JSON.parse(localStorage.getItem('cart'));
       else this.cart = [];
     }
     catch (e) {
@@ -32,7 +32,7 @@ export class Cart {
   }
 
   updateBasketLS(basket) {
-    localStorage.setItem('basket',JSON.stringify(basket));
+    localStorage.setItem('cart',JSON.stringify(basket));
   }
 
 }
