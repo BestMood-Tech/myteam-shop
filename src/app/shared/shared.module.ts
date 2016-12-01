@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe } from './pipes/currency.pipe';
 import { MusicService, GamesService, MovieService, Auth, Cart, AuthGuard } from './services';
+import { ProductCardComponent } from './components/product-card.component';
+
 
 @NgModule({
   imports: [
@@ -14,9 +16,10 @@ import { MusicService, GamesService, MovieService, Auth, Cart, AuthGuard } from 
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CurrencyPipe
+    CurrencyPipe,
+    ProductCardComponent
   ],
-  declarations: [CurrencyPipe]
+  declarations: [CurrencyPipe, ProductCardComponent]
 })
 
 export class SharedModule {

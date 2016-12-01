@@ -25,8 +25,7 @@ const routes: Routes = [
   { path: 'product', component: ProductComponent },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
-  { path: 'cart', component: CartComponent}
+  { path: 'address', component: AddressComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
