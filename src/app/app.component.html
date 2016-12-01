@@ -38,7 +38,9 @@
         </li>
       </ul>
       <form class="navbar-form navbar-right">
-        <button class="btn btn-success btn-margin" routerLink="/cart">Basket</button>
+        <button class="btn btn-success btn-margin" routerLink="/cart">
+          Cart  <span *ngIf="count()" class="badge">{{count()}}</span>
+        </button>
         <button class="btn btn-success btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
         <button class="btn btn-success btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
       </form>

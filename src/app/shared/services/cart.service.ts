@@ -31,6 +31,11 @@ export class Cart {
     this.updateBasketLS(this.cart);
   }
 
+  public get countCart() {
+    return this.cart.length;
+  }
+
+
   updateBasketLS(basket) {
     localStorage.setItem('cart',JSON.stringify(basket));
   }

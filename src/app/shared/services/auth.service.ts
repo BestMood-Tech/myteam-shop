@@ -1,6 +1,6 @@
 // app/auth.service.ts
 
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ export class Auth {
   // Configure Auth0
   lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
   user: User;
+  onAuth = new EventEmitter();
 
   constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
@@ -35,11 +36,13 @@ export class Auth {
         if (error) {
           // Handle error
           console.log(error);
+          this.onAuth.emit(false);
           return;
         }
 
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         this.saveProfile(currentUser);
+        this.onAuth.emit(true);
       });
     });
   }
@@ -59,12 +62,13 @@ export class Auth {
     return tokenNotExpired();
   };
 
+
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('currentUser');
     this.user = undefined;
-
+    this.onAuth.emit(false);
     this.router.navigate(['./home']);
   };
 
