@@ -11,7 +11,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
 import { AuthGuard } from './shared/services/authGuard.service';
 import { CategoryResolve } from './category/category.resolve';
-import { BasketComponent } from './basket/basket.component';
 
 
 const routes: Routes = [
@@ -27,7 +26,7 @@ const routes: Routes = [
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
-  { path: 'basket', component: BasketComponent}
+  { path: 'cart', component: CartComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
@@ -45,6 +44,5 @@ export const routingComponents = [
   ProductComponent,
   SearchComponent,
   ProfileComponent,
-  AddressComponent,
-  BasketComponent
+  AddressComponent
 ];

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Auth } from '../shared/services/auth.service';
+import { Cart } from '../shared/services/cart.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-cart',
@@ -7,10 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  constructor() {
+  orders:any;
+  autorization:boolean;
+
+  constructor(private cart: Cart, private auth: Auth) {
+    this.orders = this.cart.getBasket();
+    this.autorization = !!this.auth.authenticated();
   }
 
   ngOnInit() {
+  }
+
+  deleteProduct(key) {
+    this.cart.deleteItem(key);
+    this.orders = this.cart.getBasket();
+  }
+
+  getTotalPrice() {
+    let price = 0.0;
+    this.orders.forEach((item) => {
+      price += item.price;
+    });
+    return price;
   }
 
 }
