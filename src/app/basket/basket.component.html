@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="col-md-12" *ngFor="let item of orders; let key = index; trackBy: trackByFn">
+    <div class="col-md-3 thumbnail">
+      <img class ="thumb-image" [src]=[item.cover] alt="">
+    </div>
+    <div class="col-md-6">
+      <h4>{{item.name}}</h4>
+      <p>Type: {{item.type}}</p>
+      <p class='description-basket'>Description: {{item.description}}</p>
+    </div>
+    <div class="col-md-3">
+      <h3>Price: ${{item.price}}</h3>
+      <button class="btn btn-danger" (click)='deleteProduct(key)'>
+        delete
+      </button>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <h3>Total cost: ${{getTotalPrice()}}</h3>
+    <p *ngIf="!autorization">For pay need autorization!!!</p>
+    <button class="btn btn-success"
+            [disabled]="!autorization">
+      Pay
+    </button>
+  </div>
+</div>

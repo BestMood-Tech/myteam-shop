@@ -1,9 +1,9 @@
 // app/auth.service.ts
 
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from "../user.model";
-import { CanActivate, Router } from '@angular/router';
+import { User } from '../user.model';
+import { Router } from '@angular/router';
 
 
 // Avoid name not found warnings
@@ -18,7 +18,7 @@ export class Auth {
   constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
     try {
-      if(JSON.parse(localStorage.getItem('currentUser')))
+      if (JSON.parse(localStorage.getItem('currentUser')))
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
     }
     catch (e) {

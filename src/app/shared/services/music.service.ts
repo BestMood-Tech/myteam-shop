@@ -45,4 +45,19 @@ export class MusicService {
   latest() {
     return this.search('', {tag: 'new'});
   }
+
+  processData(data) {
+    let results = data.albums.items;
+    let resultingData = results.map(function(album){
+      let _tempObject = {};
+      _tempObject['type'] = "music";
+      _tempObject['name'] = album.name;
+      // noinspection TypeScriptUnresolvedVariable
+      _tempObject['cover'] = album.images[1].url;
+      _tempObject['description'] = album.artists[0].name;
+      _tempObject['price'] = 10;
+      return _tempObject;
+    });
+    return resultingData;
+  }
 }
