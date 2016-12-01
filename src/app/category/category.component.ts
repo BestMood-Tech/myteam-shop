@@ -32,8 +32,8 @@ export class CategoryComponent implements OnInit {
     this.products = this.currentService.processData(this.route.snapshot.data['category']);
   }
 
-  addBasket(product) {
-    this._cart.addBasket(product);
+  addToCart(product) {
+    this._cart.addToCart(product);
   }
 
 

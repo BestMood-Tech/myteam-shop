@@ -14,21 +14,21 @@ export class Cart {
       console.log(e);
     }
 
-    this.updateBasketLS(this.cart);
+    this.updateCartLS(this.cart);
   }
 
-  public addBasket(product) {
+  public addToCart(product) {
     this.cart.push(product);
-    this.updateBasketLS(this.cart);
+    this.updateCartLS(this.cart);
   }
 
-  public getBasket() {
+  public getCart() {
     return this.cart;
   }
 
   public deleteItem(key) {
     this.cart.splice(key, 1);
-    this.updateBasketLS(this.cart);
+    this.updateCartLS(this.cart);
   }
 
   public get countCart() {
@@ -36,7 +36,7 @@ export class Cart {
   }
 
 
-  updateBasketLS(basket) {
+  updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
 

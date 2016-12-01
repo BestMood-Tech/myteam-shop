@@ -13,7 +13,7 @@ export class CartComponent implements OnInit {
   autorization: boolean;
 
   constructor(private cart: Cart, private auth: Auth) {
-    this.orders = this.cart.getBasket();
+    this.orders = this.cart.getCart();
     this.autorization = this.auth.authenticated();
   }
 
@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
 
   deleteProduct(key) {
     this.cart.deleteItem(key);
-    this.orders = this.cart.getBasket();
+    this.orders = this.cart.getCart();
   }
 
   getTotalPrice() {
