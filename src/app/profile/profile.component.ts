@@ -18,7 +18,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.user);
     this.profileForm = this.formBuilder.group({
       nickName: [this.user.nickName],
       firstName: [this.user.firstName, Validators.required],
@@ -40,7 +39,6 @@ export class ProfileComponent implements OnInit {
   }
 
   public update() {
-    console.log(this.auth.user);
     this.auth.user.updateProfile(this.profileForm.value);
   }
 

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Auth } from '../shared/services/auth.service';
+import { Cart } from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,10 +9,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  constructor() {
+  orders: any;
+  autorization: boolean;
+
+  constructor(private cart: Cart, private auth: Auth) {
+    this.orders = this.cart.getCart();
+    this.autorization = this.auth.authenticated();
   }
 
   ngOnInit() {
+    this.auth.onAuth.subscribe((value) => {
+      this.autorization = value;
+    });
   }
+
+
+  deleteProduct(key) {
+    this.cart.deleteItem(key);
+    this.orders = this.cart.getCart();
+  }
+
+  getTotalPrice() {
+    let price = 0.0;
+    this.orders.forEach((item) => {
+      price += item.price;
+    });
+    return price.toFixed(2);
+  }
+
+  disabledPay():boolean {
+    return !!this.cart.countCart && this.autorization;
+  }
+
 
 }
