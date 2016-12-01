@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from './shared/services/auth.service';
+import { Cart } from './shared/services/cart.service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { Auth } from './shared/services/auth.service';
 })
 
 export class AppComponent implements OnInit {
-  constructor(private router: Router, private auth: Auth) {
+  constructor(private router: Router, private auth: Auth, private cart: Cart) {
   }
 
   ngOnInit() {
@@ -19,5 +20,9 @@ export class AppComponent implements OnInit {
 
   search() {
     this.router.navigate(['/search']);
+  }
+
+  count() {
+    return this.cart.countCart;
   }
 }
