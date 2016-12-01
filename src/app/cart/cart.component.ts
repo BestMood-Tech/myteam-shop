@@ -11,10 +11,11 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class CartComponent implements OnInit {
 
   orders:any;
-  autorization:boolean = false;
+  autorization:boolean;
 
   constructor(private cart: Cart, private auth: Auth) {
     this.orders = this.cart.getBasket();
+    this.autorization = this.auth.authenticated();
   }
 
   ngOnInit() {

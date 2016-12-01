@@ -21,6 +21,7 @@ export class Auth {
     try {
       if (JSON.parse(localStorage.getItem('currentUser')))
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
+        this.onAuth.emit(true);
     }
     catch (e) {
       console.log(e);
