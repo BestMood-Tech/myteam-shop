@@ -3,17 +3,7 @@
     <div class="col-md-10 col-md-offset-1">
       <div class="row">
         <div class="col-sm-4 col-lg-4 col-md-4" *ngFor="let product of products">
-          <div class="thumbnail">
-            <img class ="thumb-image" [src]=[product.cover] alt="">
-            <div class="caption">
-              <h4 class = "product-name">{{product.name}}</h4>
-              <p>{{product.description}}</p>
-            </div>
-            <div class="ratings">
-              <h4 class="pull-right">{{product.price}}$</h4>
-              <button class="md-btn" (click)='addToCart(product)'>Cart</button>
-            </div>
-          </div>
+          <app-product-card [product]='product'></app-product-card>
         </div>
       </div>
     </div>

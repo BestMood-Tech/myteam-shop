@@ -6,6 +6,7 @@ import { MusicService, GamesService, MovieService, Auth, Cart, AuthGuard } from 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { HelperService } from './services/helper.service';
+import { ProductCardComponent } from './components/product-card.component';
 
 @NgModule({
   imports: [
@@ -20,9 +21,10 @@ import { HelperService } from './services/helper.service';
     ReactiveFormsModule,
     CurrencyPipe,
     NgbModule,
-    AddressFormComponent
+    AddressFormComponent,
+    ProductCardComponent
   ],
-  declarations: [CurrencyPipe, AddressFormComponent],
+  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent],
   entryComponents:[AddressFormComponent]
 })
 
