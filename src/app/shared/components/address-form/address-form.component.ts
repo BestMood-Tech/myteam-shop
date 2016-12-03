@@ -36,7 +36,16 @@ export class AddressFormComponent implements OnInit {
       zip: [this.copyAddress.zip, Validators.required],
       country: [this.copyAddress.country, Validators.required],
     });
-
   }
+
+  save() {
+    if(!this.addressForm.valid) return;
+    this.activeModal.close(this.addressForm.value);
+  }
+
+  compareCountry(data): boolean {
+    return this.copyAddress.country == data;
+  }
+
 
 }

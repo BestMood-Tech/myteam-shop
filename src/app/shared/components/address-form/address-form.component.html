@@ -35,8 +35,10 @@
       </div>
       <div class="col-md-6">
         <div class="form-group" [ngClass]="addressForm.controls.country.errors? 'has-error': 'has-success'">
-          <select class="form-control" id="country" formControlName="country" required>
-            <option *ngFor="let country of nameCountry;">{{country.name}}</option>
+          <select class="form-control" id="country" formControlName="country">
+            <option *ngFor="let nC of nameCountry;"
+                    [selected]="compareCountry(nC.name)">{{nC.name}}
+            </option>
           </select>
           <label for="country">Country</label>
         </div>
@@ -47,6 +49,6 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-success btn-secondary"
           [disabled]="!addressForm.valid"
-          (click)="activeModal.close(addressForm.value)">Save
+          (click)="save()">Save
   </button>
 </div>
