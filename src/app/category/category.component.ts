@@ -35,7 +35,4 @@ export class CategoryComponent implements OnInit {
   addToCart(product) {
     this._cart.addToCart(product);
   }
-
-
-
 }

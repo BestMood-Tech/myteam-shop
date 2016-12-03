@@ -1,16 +1,19 @@
 export class Address {
-  street: string;
+  country: string;
+  streetAddress: string;
+  addressLine2: string;
   zip: string;
   city: string;
+  state: string;
 
   constructor(obj) {
-      this.city = obj.city,
-      this.street = obj.street,
-      this.zip = obj.zip;
+    for (let key of Object.keys(obj)) {
+      this[key] = obj[key];
+    }
   }
 
   public getAddress() {
-    return `City: ${this.city}, Street: ${this.street}, Zip: ${this.zip}`;
+    return `City: ${this.city}, Street: ${this.streetAddress}, Zip: ${this.zip}`;
   }
 
   toJson() {
