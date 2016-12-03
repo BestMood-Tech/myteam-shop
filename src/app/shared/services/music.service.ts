@@ -50,7 +50,7 @@ export class MusicService {
     let results = data.albums.items;
     let resultingData = results.map(function(album){
       let _tempObject = {};
-      _tempObject['type'] = 'music';
+      _tempObject['type'] = "music";
       _tempObject['name'] = album.name;
       // noinspection TypeScriptUnresolvedVariable
       _tempObject['cover'] = album.images[1].url;

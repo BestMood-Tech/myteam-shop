@@ -72,7 +72,7 @@ export class GamesService {
     let resultingData = data.map(function(game){
       let _tempObject = {};
 
-      _tempObject['type'] = 'game'
+      _tempObject['type'] = "game";
       _tempObject['name'] = game.name;
 
       if (game.cover) {

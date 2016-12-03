@@ -71,7 +71,7 @@ export class MovieService {
     let results = data.results;
     let resultingData = results.map(function(movie){
       let _tempObject = {};
-      _tempObject['type'] = 'movie';
+      _tempObject['type'] = "movie";
       _tempObject['name'] = movie.original_title;
       _tempObject['cover'] = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
       _tempObject['description'] = movie.overview;
