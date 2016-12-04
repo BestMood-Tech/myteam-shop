@@ -9,14 +9,14 @@
       <p class='description-cart'>Description: {{item.description}}</p>
     </div>
     <div class="col-md-3">
-      <h3>Price: ${{item.price}}</h3>
+      <h3>Price: {{cartCurrency}}{{item.price | currency:cartCurrency}}</h3>
       <button class="btn btn-danger" (click)='deleteProduct(key)'>
         delete
       </button>
     </div>
   </div>
   <div class="col-md-12">
-    <h3>Total cost: ${{getTotalPrice()}}</h3>
+    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
     <p *ngIf="!autorization">For pay need autorization!!!</p>
     <button class="btn btn-success"
             [disabled]="!disabledPay()">

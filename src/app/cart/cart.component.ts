@@ -11,6 +11,7 @@ export class CartComponent implements OnInit {
 
   orders: any;
   autorization: boolean;
+  cartCurrency: any;
 
   constructor(private cart: Cart, private auth: Auth) {
     this.orders = this.cart.getCart();
@@ -18,6 +19,9 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.auth.user == null) this.cartCurrency = "$";
+    else this.cartCurrency = this.auth.user.currency;
+
     this.auth.onAuth.subscribe((value) => {
       this.autorization = value;
     });

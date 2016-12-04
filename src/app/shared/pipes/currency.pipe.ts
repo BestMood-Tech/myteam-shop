@@ -5,8 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CurrencyPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-    return null;
+  transform(value: any, cur: string): any {
+    switch (cur) {
+      case "₽" : return (value * 64.15).toFixed(2);
+      case "€" : return (value - (value * 0.0631)).toFixed(2);
+      default: return value;
+    }
   }
 
 }

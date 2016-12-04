@@ -5,7 +5,7 @@
     <p>{{product.description}}</p>
   </div>
   <div class="ratings">
-    <h4 class="pull-right">{{product.price}}$</h4>
+    <h4 class="pull-right">{{productCurrency}}{{product.price | currency:productCurrency}}</h4>
     <button class="md-btn" (click)='addToCart(product)'>Cart</button>
   </div>
 </div>

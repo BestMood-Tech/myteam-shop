@@ -1,4 +1,5 @@
 import { Address } from './address.model';
+import { Currency } from './currency.model';
 export class User {
 
   nickName: string;
@@ -10,6 +11,7 @@ export class User {
   phone: string;
   address: Address[];
   orders: string [];
+  currency: string = Currency.getCurrency().dollar[1];
 
   constructor(obj) {
     for (let key of Object.keys(obj)) {
@@ -34,7 +36,8 @@ export class User {
       firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
-      email: this.email
+      email: this.email,
+      currency: this.currency
     }
   }
 
