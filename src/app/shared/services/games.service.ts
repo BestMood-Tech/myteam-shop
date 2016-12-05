@@ -36,6 +36,36 @@ export class GamesService {
       .map(res => res.json());
   }
 
+  getDevelopers(ids) {
+    let idString = ids.join();
+    let getDeveloperUrl = `${this.baseUrl}companies/${idString}`;
+    let params = this.getParams();
+    params.set('fields', 'name');
+
+    let options = new RequestOptions({
+      search: params,
+      headers: this.getHeaders()
+    });
+
+    return this._http.get(getDeveloperUrl, options)
+      .map(res => res.json());
+  }
+
+  getGenres(ids) {
+    let idString = ids.join();
+    let getGenreUrl = `${this.baseUrl}genres/${idString}`;
+    let params = this.getParams();
+    params.set('fields', 'name');
+
+    let options = new RequestOptions({
+      search: params,
+      headers: this.getHeaders()
+    });
+
+    return this._http.get(getGenreUrl, options)
+      .map(res => res.json());
+  }
+
   search(query, filters) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
@@ -69,10 +99,11 @@ export class GamesService {
   }
 
   processData(data) {
+    console.log(data);
     let resultingData = data.map(function(game){
       let _tempObject = {};
-
-      _tempObject['type'] = 'game'
+      _tempObject['id'] = game.id;
+      _tempObject['type'] = 'game';
       _tempObject['name'] = game.name;
 
       if (game.cover) {
@@ -87,5 +118,29 @@ export class GamesService {
     });
 
     return resultingData;
+  }
+
+  processItem(data) {
+    console.log(data);
+    let resultingData = data.map(function(game){
+      let _tempObject = {};
+      _tempObject['id'] = game.id;
+      _tempObject['type'] = 'game';
+      _tempObject['name'] = game.name;
+      _tempObject['genres'] = game.genres;
+      _tempObject['developers'] = game.developers;
+      _tempObject['release_date'] = new Date(game.first_release_date).toDateString();
+      if (game.cover) {
+        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
+      } else _tempObject['cover'] = 'http://placehold.it/320x150';
+
+      if (game.summary) _tempObject['description'] = game.summary;
+      else _tempObject['description'] = "this game hasn't description yet.";
+
+      _tempObject['price'] = Math.floor(game.popularity * 100) / 10;
+      return _tempObject;
+    });
+
+    return resultingData[0];
   }
 }

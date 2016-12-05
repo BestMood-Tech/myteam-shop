@@ -1,11 +1,12 @@
 <div class="thumbnail">
   <img class ="thumb-image" [src]=[product.cover] alt="">
   <div class="caption">
-    <h4 class = "product-name">{{product.name}}</h4>
+    <h4 class = "product-name"><a [routerLink]="['/category',product.type,product.id]">{{product.name}}</a></h4>
+
     <p>{{product.description}}</p>
   </div>
   <div class="ratings">
     <h4 class="pull-right">{{product.price}}$</h4>
-    <button class="md-btn" (click)='addToCart(product)'>Cart</button>
+    <button class="md-btn" (click)="addToCart(product)">Cart</button>
   </div>
 </div>

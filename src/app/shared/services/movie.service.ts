@@ -68,9 +68,11 @@ export class MovieService {
   }
 
   processData(data) {
+    console.log(data);
     let results = data.results;
     let resultingData = results.map(function(movie){
       let _tempObject = {};
+      _tempObject['id'] = movie.id;
       _tempObject['type'] = 'movie';
       _tempObject['name'] = movie.original_title;
       _tempObject['cover'] = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
@@ -82,4 +84,19 @@ export class MovieService {
     return resultingData;
   }
 
+  processItem(movie) {
+    console.log(movie);
+    let _tempObject = {};
+    _tempObject['id'] = movie.id;
+    _tempObject['type'] = 'movie';
+    _tempObject['name'] = movie.title;
+    // noinspection TypeScriptUnresolvedVariable
+    _tempObject['cover'] = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+    _tempObject['description'] = movie.overview;
+    _tempObject['genres'] = movie.genres;
+    _tempObject['production_companies'] = movie.production_companies;
+    _tempObject['vote_average'] = movie.vote_average;
+    _tempObject['release_date'] = movie.release_date;
+    return _tempObject;
+  }
 }

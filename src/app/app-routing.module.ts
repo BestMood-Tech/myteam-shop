@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
 import { AuthGuard } from './shared/services/authGuard.service';
 import { CategoryResolve } from './category/category.resolve';
+import { ProductResolve } from './product/product.resolve';
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'product', component: ProductComponent },
+  { path: 'category/:type/:id', component: ProductComponent, resolve: {product: ProductResolve} },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] }
