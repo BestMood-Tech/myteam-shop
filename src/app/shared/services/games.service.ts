@@ -99,7 +99,6 @@ export class GamesService {
   }
 
   processData(data) {
-    console.log(data);
     let resultingData = data.map(function(game){
       let _tempObject = {};
       _tempObject['id'] = game.id;

@@ -1,6 +1,6 @@
 // app/auth.service.ts
 
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
 import { Router } from '@angular/router';

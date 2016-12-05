@@ -68,7 +68,6 @@ export class MovieService {
   }
 
   processData(data) {
-    console.log(data);
     let results = data.results;
     let resultingData = results.map(function(movie){
       let _tempObject = {};

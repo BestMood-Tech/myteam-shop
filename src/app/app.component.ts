@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Auth } from './shared/services/auth.service';
 import { Cart } from './shared/services/cart.service';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,4 +24,5 @@ export class AppComponent implements OnInit {
   count() {
     return this.cart.countCart;
   }
+
 }

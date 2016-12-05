@@ -1,16 +1,28 @@
 <div class="container">
   <h1>Address</h1>
-  <div class="col-md-6">
-    <div *ngFor='let address of auth.user.address; let key = index; trackBy: trackByFn'>
-      <div class="input-group">
-        <p>{{address.getAddress()}}</p>
-        <span class="input-group-btn">
-        <button class="btn btn-success" type="button" (click)='update(key)'>Update</button>
-        <button class="btn btn-danger" type="button" (click)='delete(key)'>Delete</button>
-      </span>
+  <div class="col-md-12 address-border" *ngFor='let address of auth.user.address; let key = index;'>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Street Address:</strong>{{address.streetAddress}}</p>
+          <p><strong>City:</strong>{{address.city}}</p>
+          <p><strong>Zip / Postal Code:</strong>{{address.zip}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Address Line 2:</strong>{{address.addressLine2}}</p>
+          <p><strong>State / Province / Region:</strong>{{address.state}}</p>
+          <p><strong>Country:</strong>{{address.country}}</p>
+        </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-success" (click)='add()'>Add</button>
+    <div class="col-md-3 pull-right">
+      <div class="btn-group btn-group-vertical">
+        <button class="btn btn-success" type="button" (click)='update(key)'>Update</button>
+        <button class="btn btn-danger" type="button" (click)='delete(key)'>Delete</button>
+      </div>
+    </div>
   </div>
+  <button type="submit" class="btn btn-success" (click)='add()'>Add address</button>
 </div>
+
 

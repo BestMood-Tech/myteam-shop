@@ -47,7 +47,6 @@ export class MusicService {
   }
 
   processData(data) {
-    console.log(data);
     let results = data.albums.items;
     let resultingData = results.map(function(album){
       let _tempObject = {};

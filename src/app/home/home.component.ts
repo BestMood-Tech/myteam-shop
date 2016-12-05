@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
   }

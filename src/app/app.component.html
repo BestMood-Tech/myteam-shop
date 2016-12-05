@@ -15,8 +15,6 @@
         <li><a routerLink="/category/music">Music</a></li>
         <li><a routerLink="/category/games">Games</a></li>
         <li><a routerLink="/category/movies">Movie</a></li>
-        <li><a routerLink="/profile">Profile</a></li>
-        <li><a routerLink="/address">Address</a></li>
         <li>
           <form class="navbar-form" (submit)="search()">
             <div class="form-group">
@@ -25,15 +23,13 @@
             <button type="submit" class="btn btn-success">Search</button>
           </form>
         </li>
-        <li class="dropdown pull-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Address</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">Logout</a></li>
+        <li class="dropdown pull-right d-inline-block" ngbDropdown>
+          <a class="dropdown-toggle" id="dropdownMenu" ngbDropdownToggle>
+            Dropdown <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a routerLink="/profile">Profile</a></li>
+            <li><a routerLink="/address">Address</a></li>
           </ul>
         </li>
       </ul>
@@ -48,3 +44,6 @@
   </div>
 </div>
 <router-outlet></router-outlet>
+<div class="container">
+  <template ngbModalContainer></template>
+</div>
