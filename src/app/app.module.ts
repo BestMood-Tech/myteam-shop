@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { ProductResolve } from './product/product.resolve';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
         AppRoutingModule,
         SharedModule.forRoot()
     ],
-    providers: [CategoryResolve],
+    providers: [CategoryResolve, ProductResolve],
     bootstrap: [AppComponent]
 })
 export class AppModule {
