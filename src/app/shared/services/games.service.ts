@@ -99,11 +99,13 @@ export class GamesService {
   }
 
   processData(data) {
-    let resultingData = data.map(function(game){
-      let _tempObject = {};
-      _tempObject['id'] = game.id;
-      _tempObject['type'] = 'game';
-      _tempObject['name'] = game.name;
+    return data.map(function(game){
+      let _tempObject = {
+        id: game.id,
+        type: 'game',
+        name: game.name,
+        price: Math.floor(game.popularity * 100) / 10
+      };
 
       if (game.cover) {
         _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
@@ -112,23 +114,21 @@ export class GamesService {
       if (game.summary) _tempObject['description'] = game.summary;
       else _tempObject['description'] = "this game hasn't description yet.";
 
-      _tempObject['price'] = Math.floor(game.popularity * 100) / 10;
       return _tempObject;
     });
-
-    return resultingData;
   }
 
   processItem(data) {
-    console.log(data);
     let resultingData = data.map(function(game){
-      let _tempObject = {};
-      _tempObject['id'] = game.id;
-      _tempObject['type'] = 'game';
-      _tempObject['name'] = game.name;
-      _tempObject['genres'] = game.genres;
-      _tempObject['developers'] = game.developers;
-      _tempObject['release_date'] = new Date(game.first_release_date).toDateString();
+      let _tempObject = {
+        id: game.id,
+        type: 'game',
+        name: game.name,
+        genres: game.genres,
+        developers: game.developers,
+        release_date: new Date(game.first_release_date).toDateString(),
+        price: Math.floor(game.popularity * 100) / 10
+      };
       if (game.cover) {
         _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
@@ -136,7 +136,7 @@ export class GamesService {
       if (game.summary) _tempObject['description'] = game.summary;
       else _tempObject['description'] = "this game hasn't description yet.";
 
-      _tempObject['price'] = Math.floor(game.popularity * 100) / 10;
+
       return _tempObject;
     });
 

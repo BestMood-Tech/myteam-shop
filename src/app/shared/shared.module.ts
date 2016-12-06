@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
     ReactiveFormsModule,
     NgbModule.forRoot()
   ],
@@ -28,7 +28,7 @@ import { RouterModule } from '@angular/router';
     ProductCardComponent
   ],
   declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent],
-  entryComponents:[AddressFormComponent]
+  entryComponents: [AddressFormComponent]
 })
 
 export class SharedModule {

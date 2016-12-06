@@ -12,7 +12,6 @@ export class ProductResolve implements Resolve<any> {
                 private _movieService: MovieService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    console.log(route);
     if (route.params['type'] === 'music') { return this._musicService.getItem(route.params['id']); }
     if (route.params['type'] === 'movie') { return this._movieService.getItem(route.params['id']); }
     return this._gamesService.getItem(route.params['id']);

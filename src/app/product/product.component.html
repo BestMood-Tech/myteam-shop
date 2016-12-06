@@ -40,6 +40,9 @@
             <li class="list-group-item">
               Release date:<span> {{product.release_date}}</span>
             </li>
+            <li class="list-group-item">
+              Price:<span>{{productCurrency}}{{product.price | currency:productCurrency}}</span>
+            </li>
           </ul>
         </div>
       </div>
@@ -51,7 +54,9 @@
       <ul class="list-group">
         <li *ngFor="let track of product.tracks.items" class="list-group-item">
           <span>{{track.name}}</span>
-          <a class="glyphicon glyphicon-play pull-right" aria-hidden="true" href="{{track.preview_url}}"></a>
+          <audio controls>
+            <source [src]=[track.preview_url] type="audio/mpeg">
+          </audio>
         </li>
       </ul>
     </div>
