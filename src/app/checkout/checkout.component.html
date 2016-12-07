@@ -47,22 +47,52 @@
                 <button class="btn btn-success" (click)='newAddress()'>New address</button>
               </div>
             </div>
+          </div>
 
-            <div class="row" *ngIf="checkOutAddress">
-              <div class="col-md-8">
-                  <pre>{{checkOutAddress | json}}</pre>
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)='differentAddress()'>different address</button>
+          <div class="row" *ngIf="checkOutAddress">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Street Address:</strong>{{checkOutAddress.streetAddress}}</p>
+                  <p><strong>City:</strong>{{checkOutAddress.city}}</p>
+                  <p><strong>Zip / Postal Code:</strong>{{checkOutAddress.zip}}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Address Line 2:</strong>{{checkOutAddress.addressLine2}}</p>
+                  <p><strong>State / Province / Region:</strong>{{checkOutAddress.state}}</p>
+                  <p><strong>Country:</strong>{{checkOutAddress.country}}</p>
+                </div>
               </div>
             </div>
+            <div class="col-md-4">
+              <button class="btn btn-success" (click)='differentAddress()'>different address</button>
+            </div>
+          </div>
 
+          <div class="form-group "
+               [ngClass]="checkOutForm.controls.payment.errors? 'has-error': 'has-success'">
+            <div class="row">
+              <div  class="col-md-8">
+                <h3>Payment system</h3>
+                <select class="form-control" formControlName="payment">
+                  <option *ngFor="let pS of paymentSystem;let key = index;" [value]="pS">
+                    {{pS}}
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
 
         </form>
       </div>
     </div>
-
     <hr>
+    <button *ngIf="!isRequesting" class="btn btn-success" [disabled]="!checkPay()"
+            (click)='pay()'
+            >Pay
+    </button>
+    <h3 *ngIf="isRequesting">
+      <img src="../../assets/loader.gif" alt="" class="checkoutLoad"> Treatment
+    </h3>
   </div>
 </div>

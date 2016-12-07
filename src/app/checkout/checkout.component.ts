@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../shared/address.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+import { Router } from '@angular/router';
+import { setInterval } from 'timers';
 
 @Component({
   selector: 'app-checkout',
@@ -20,11 +22,17 @@ export class CheckoutComponent implements OnInit {
 
   public acitvePromoCode: boolean;
   public arrayAddressUser: any;
+  public paymentSystem:string[] = [
+    "PayPal", "CreditCard", "Cash", "WebMoney", "QIWI", "Bitcoin"
+  ];
+
+  public isRequesting: boolean;
 
   constructor(private cart: Cart,
               private auth: Auth,
               private formBulder: FormBuilder,
-              private modalService: NgbModal) {}
+              private modalService: NgbModal,
+              private router: Router) {}
 
   ngOnInit() {
     if(this.auth.user) this.checkOutCurrency = this.auth.user.currency;
@@ -39,7 +47,8 @@ export class CheckoutComponent implements OnInit {
 
     this.checkOutForm = this.formBulder.group({
       promoCode: "",
-      address: [ this.checkOutAddress , Validators.required ]
+      address: [ this.checkOutAddress , Validators.required ],
+      payment: ["", Validators.required]
     });
 
     this.acitvePromoCode = true;
@@ -83,12 +92,37 @@ export class CheckoutComponent implements OnInit {
       },
       (reason) => null
     );
-    console.log(this.checkOutForm.value);
   }
 
   differentAddress() {
     this.checkOutAddress = null;
-    console.log(this.checkOutForm.controls);
+    this.checkOutForm.controls['address'].reset();
   }
+
+  checkPay() :boolean {
+    return this.checkOutForm.valid && this.checkOutAddress!=null;
+  }
+
+  saveOrders() {
+    this.auth.user.addOrders(JSON.stringify({
+      orders: this.orders,
+      total: this.getTotal(),
+      formProfile: this.checkOutForm.value
+    }));
+  }
+
+  pay() {
+    if(!this.checkPay()) return;
+    this.isRequesting = true;
+    setInterval( () =>{
+      this.cart.clearCart();
+      this.isRequesting = false;
+      this.saveOrders();
+      this.router.navigate(['./confirmation']);
+    }, 5000);
+
+  }
+
+
 
 }

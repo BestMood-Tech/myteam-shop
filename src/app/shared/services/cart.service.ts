@@ -43,6 +43,10 @@ export class Cart {
     return price.toFixed(2);
   }
 
+  clearCart() {
+    this.cart = [];
+  }
+
 
   updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
