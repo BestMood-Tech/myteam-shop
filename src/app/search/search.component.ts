@@ -4,10 +4,7 @@ import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { MusicService } from '../shared/services/music.service';
 import { FormControl } from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/merge';
+import { Observable } from 'rxjs/Rx';
 
 
 @Component({
@@ -29,19 +26,17 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.term.valueChanges
       .debounceTime(500)
+      .filter(item => item && item.length > 3)
       .distinctUntilChanged()
-      .switchMap(term => {
-        if(term) {
-          this.products = [];
-
-          return this._musicService.search(term, { limit: '10' }).merge(
+      .mergeMap(term => {
+          return Observable.forkJoin([
+            this._musicService.search(term, { limit: '10' }),
             this._gamesService.search(term, { limit: '10' }),
             this._movieService.search(term, { limit: '10' })
-          );
-        }
-        return;
+          ])
       })
       .subscribe(items => {
+        this.products = [];
         if(items.albums) {
           this.products = this.products.concat(this._musicService.processData(items));
           return;
