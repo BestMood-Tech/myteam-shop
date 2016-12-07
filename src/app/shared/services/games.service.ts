@@ -66,17 +66,22 @@ export class GamesService {
       .map(res => res.json());
   }
 
-  search(query, filters) {
+  search(query, filters?) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
-    params.set(`filter[name][eq]`, query);
-
-    for (let value of Object.keys(filters)) {
-      params.set(`filter[${value}][eq]`, filters[value]);
+    let limit;
+    params.set(`search`, query);
+    if(filters) {
+      for (let value of Object.keys(filters)) {
+        if (value === 'limit') limit = filters[value];
+        else params.set(`filter[${value}][eq]`, filters[value]);
+      }
     }
 
+    if (limit) params.set('limit', limit);
+
     let options = new RequestOptions({
-      search: this.getParams(),
+      search: params,
       headers: this.getHeaders()
     });
 
