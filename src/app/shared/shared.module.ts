@@ -7,11 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { HelperService } from './services/helper.service';
 import { ProductCardComponent } from './components/product-card.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
     ReactiveFormsModule,
     NgbModule.forRoot()
   ],
@@ -25,7 +28,7 @@ import { ProductCardComponent } from './components/product-card.component';
     ProductCardComponent
   ],
   declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent],
-  entryComponents:[AddressFormComponent]
+  entryComponents: [AddressFormComponent]
 })
 
 export class SharedModule {

@@ -69,17 +69,30 @@ export class MovieService {
 
   processData(data) {
     let results = data.results;
-    let resultingData = results.map(function(movie){
-      let _tempObject = {};
-      _tempObject['type'] = "movie";
-      _tempObject['name'] = movie.original_title;
-      _tempObject['cover'] = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-      _tempObject['description'] = movie.overview;
-      _tempObject['price'] = movie.vote_average * 20 / 10;
-      return _tempObject;
+    return results.map(function(movie){
+      return {
+        id: movie.id,
+        type: 'movie',
+        name: movie.title,
+        cover: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        description: movie.overview,
+        price: movie.vote_average * 20 / 10
+      };
     });
-
-    return resultingData;
   }
 
+  processItem(movie) {
+    return {
+      id: movie.id,
+      type: 'movie',
+      name: movie.title,
+      cover: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      description: movie.overview,
+      genres: movie.genres,
+      production_companies: movie.production_companies,
+      vote_average: movie.vote_average,
+      release_date: movie.release_date,
+      price: movie.vote_average * 20 / 10
+    };
+  }
 }

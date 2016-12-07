@@ -9,7 +9,7 @@ import { MusicService } from '../shared/services/music.service';
 export class CategoryResolve implements Resolve<any> {
 
   constructor ( private _musicService: MusicService,
-                private  _movieService: MovieService,
+                private _movieService: MovieService,
                 private _gamesService: GamesService) {}
   resolve(route: ActivatedRouteSnapshot) {
     if (route.url[1].path === 'music') { return this._musicService.latest(); }
