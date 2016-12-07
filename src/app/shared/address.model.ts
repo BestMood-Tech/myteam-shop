@@ -13,7 +13,7 @@ export class Address {
   }
 
   public getAddress() {
-    return `City: ${this.city}, Street: ${this.streetAddress}, Zip: ${this.zip}`;
+    return `City: ${this.city}, streetAddress: ${this.streetAddress}, addressLine2: ${this.addressLine2}`;
   }
 
   toJson() {

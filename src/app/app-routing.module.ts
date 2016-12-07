@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'category/games', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'category/movies', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'search', component: SearchComponent },
-  { path: 'checkout', component: CheckoutComponent },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent },
   { path: 'product', component: ProductComponent },
   { path: 'confirmation', component: ConfirmationComponent },
