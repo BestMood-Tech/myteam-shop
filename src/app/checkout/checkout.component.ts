@@ -22,7 +22,7 @@ export class CheckoutComponent implements OnInit {
 
   public acitvePromoCode: boolean;
   public arrayAddressUser: any;
-  public paymentSystem:string[] = [
+  public paymentSystem: string[] = [
     "PayPal", "CreditCard", "Cash", "WebMoney", "QIWI", "Bitcoin"
   ];
 
@@ -32,10 +32,11 @@ export class CheckoutComponent implements OnInit {
               private auth: Auth,
               private formBulder: FormBuilder,
               private modalService: NgbModal,
-              private router: Router) {}
+              private router: Router) {
+  }
 
   ngOnInit() {
-    if(this.auth.user) this.checkOutCurrency = this.auth.user.currency;
+    if (this.auth.user) this.checkOutCurrency = this.auth.user.currency;
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
@@ -47,7 +48,7 @@ export class CheckoutComponent implements OnInit {
 
     this.checkOutForm = this.formBulder.group({
       promoCode: "",
-      address: [ this.checkOutAddress , Validators.required ],
+      address: [this.checkOutAddress, Validators.required],
       payment: ["", Validators.required]
     });
 
@@ -64,16 +65,19 @@ export class CheckoutComponent implements OnInit {
   }
 
   checkPromoCode() {
-    if(!this.checkOutForm.value.promoCode.length && this.acitvePromoCode) return;
+    if (!this.checkOutForm.value.promoCode.length && this.acitvePromoCode) return;
 
     let discount = 1;
 
     switch (this.checkOutForm.value.promoCode) {
-      case "ANGULAR 2": discount = 0.75; break;
-      default: discount = 1;
+      case "ANGULAR 2":
+        discount = 0.75;
+        break;
+      default:
+        discount = 1;
     }
 
-    if(discount == 1) return;
+    if (discount == 1) return;
 
     this.orders.map((item) => item.price *= discount);
     this.acitvePromoCode = false;
@@ -99,8 +103,8 @@ export class CheckoutComponent implements OnInit {
     this.checkOutForm.controls['address'].reset();
   }
 
-  checkPay() :boolean {
-    return this.checkOutForm.valid && this.checkOutAddress!=null;
+  checkPay(): boolean {
+    return this.checkOutForm.valid && this.checkOutAddress != null;
   }
 
   saveOrders() {
@@ -112,9 +116,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   pay() {
-    if(!this.checkPay()) return;
+    if (!this.checkPay()) return;
     this.isRequesting = true;
-    setInterval( () =>{
+    setInterval(() => {
       this.cart.clearCart();
       this.isRequesting = false;
       this.saveOrders();
@@ -122,7 +126,6 @@ export class CheckoutComponent implements OnInit {
     }, 5000);
 
   }
-
 
 
 }

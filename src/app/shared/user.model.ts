@@ -10,7 +10,7 @@ export class User {
   lastName: string;
   phone: string;
   address: Address[];
-  orders =  [];
+  orders = [];
   currency: string = Currency.getCurrency().dollar[1];
 
   constructor(obj) {
