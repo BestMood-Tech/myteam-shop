@@ -16,9 +16,9 @@
         <li><a routerLink="/category/games">Games</a></li>
         <li><a routerLink="/category/movies">Movie</a></li>
         <li>
-          <form class="navbar-form" (submit)="search()">
+          <form class="navbar-form" (submit)="search()" [formGroup]="searchTermForm">
             <div class="form-group">
-              <input type="text" placeholder="Search..." class="form-control">
+              <input type="text" placeholder="Search..." class="form-control" formControlName="term">
             </div>
             <button type="submit" class="btn btn-success">Search</button>
           </form>

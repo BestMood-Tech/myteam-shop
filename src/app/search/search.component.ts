@@ -1,9 +1,9 @@
-///<reference path="../../../node_modules/rxjs/add/operator/isEmpty.d.ts"/>
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { MusicService } from '../shared/services/music.service';
-import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
 
@@ -20,32 +20,46 @@ export class SearchComponent implements OnInit {
 
   constructor(private _musicService: MusicService,
               private _gamesService: GamesService,
-              private _movieService: MovieService) {
+              private _movieService: MovieService,
+              private _router: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.term.setValue(this._router.snapshot.params['q']);
+    this._router.params
+      .filter(term => term['q'] && term['q'].length > 3)
+      .switchMap(term => {
+        return Observable.forkJoin([
+          this._musicService.search(term['q'], { limit: '10' }),
+          this._gamesService.search(term['q'], { limit: '10' }),
+          this._movieService.search(term['q'], { limit: '10' })
+        ]);
+    })
+      .subscribe(items => {
+        console.log(items);
+        this.products = [];
+        this.products = this.products.concat(this._musicService.processData(items[0]),
+          this._gamesService.processData(items[1]),
+          this._movieService.processData(items[2]));
+        console.log(this.products);
+      });
     this.term.valueChanges
       .debounceTime(500)
       .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .mergeMap(term => {
-          return Observable.forkJoin([
+        return Observable.forkJoin([
             this._musicService.search(term, { limit: '10' }),
             this._gamesService.search(term, { limit: '10' }),
             this._movieService.search(term, { limit: '10' })
-          ])
+          ]);
       })
       .subscribe(items => {
+        console.log(items);
         this.products = [];
-        if(items.albums) {
-          this.products = this.products.concat(this._musicService.processData(items));
-          return;
-        };
-        if(items.results) {
-          this.products = this.products.concat(this._movieService.processData(items));
-          return;
-        };
-        this.products = this.products.concat(this._gamesService.processData(items));
+        this.products = this.products.concat(this._musicService.processData(items[0]),
+          this._gamesService.processData(items[1]),
+          this._movieService.processData(items[2]));
         console.log(this.products);
       });
   };
