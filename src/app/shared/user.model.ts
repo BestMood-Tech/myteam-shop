@@ -10,7 +10,7 @@ export class User {
   lastName: string;
   phone: string;
   address: Address[];
-  orders: string [];
+  orders = [];
   currency: string = Currency.getCurrency().dollar[1];
 
   constructor(obj) {
@@ -68,6 +68,11 @@ export class User {
     if (!address) return;
     this.address.push(address);
     this.updateLSUser(this.nickName, this.toJson());
+  }
+
+  public addOrders(item) {
+    this.orders.push(item);
+    this.updateAddress(this.nickName, this.toJson());
   }
 
   public deleteAddress(key) {
