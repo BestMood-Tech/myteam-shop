@@ -26,18 +26,21 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.term = new FormControl(this._route.snapshot.params['q']);
     this._route.params
-      .switchMap(term => {
+      .switchMap(({ q }) => {
         return Observable.forkJoin([
-          this._musicService.search(term['q'], { limit: '10' }),
-          this._gamesService.search(term['q'], { limit: '10' }),
-          this._movieService.search(term['q'], { limit: '10' })
+          this._musicService.search(q, { limit: '10' }),
+          this._gamesService.search(q, { limit: '10' }),
+          this._movieService.search(q, { limit: '10' })
         ]);
       })
+      .map(([music, games, movies]) => {
+        return [].concat(
+          this._musicService.processData(music),
+          this._gamesService.processData(games),
+          this._movieService.processData(movies));
+      })
       .subscribe(items => {
-        this.products = [].concat(
-          this._musicService.processData(items[0]),
-          this._gamesService.processData(items[1]),
-          this._movieService.processData(items[2]));
+        this.products = items;
       });
 
     this.term.valueChanges
