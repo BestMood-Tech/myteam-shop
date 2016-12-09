@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -37,6 +38,7 @@ export class GamesService {
   }
 
   getDevelopers(ids) {
+    if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getDeveloperUrl = `${this.baseUrl}companies/${idString}`;
     let params = this.getParams();
@@ -52,6 +54,7 @@ export class GamesService {
   }
 
   getGenres(ids) {
+    if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getGenreUrl = `${this.baseUrl}genres/${idString}`;
     let params = this.getParams();
@@ -66,17 +69,22 @@ export class GamesService {
       .map(res => res.json());
   }
 
-  search(query, filters) {
+  search(query, filters?) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
-    params.set(`filter[name][eq]`, query);
-
-    for (let value of Object.keys(filters)) {
-      params.set(`filter[${value}][eq]`, filters[value]);
+    let limit;
+    params.set(`search`, query);
+    if(filters) {
+      for (let value of Object.keys(filters)) {
+        if (value === 'limit') limit = filters[value];
+        else params.set(`filter[${value}][eq]`, filters[value]);
+      }
     }
 
+    if (limit) params.set('limit', limit);
+
     let options = new RequestOptions({
-      search: this.getParams(),
+      search: params,
       headers: this.getHeaders()
     });
 
