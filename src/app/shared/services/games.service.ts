@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -37,6 +38,7 @@ export class GamesService {
   }
 
   getDevelopers(ids) {
+    if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getDeveloperUrl = `${this.baseUrl}companies/${idString}`;
     let params = this.getParams();
@@ -52,6 +54,7 @@ export class GamesService {
   }
 
   getGenres(ids) {
+    if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getGenreUrl = `${this.baseUrl}genres/${idString}`;
     let params = this.getParams();
