@@ -35,9 +35,22 @@ export class Cart {
     return this.cart.length;
   }
 
+  public get Total() {
+    let price = 0.0;
+    this.cart.forEach((item) => {
+      price += item.price;
+    });
+    return price.toFixed(2);
+  }
+
+  clearCart() {
+    this.cart = [];
+  }
+
 
   updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
+
 
 }

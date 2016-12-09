@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'category/games', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'category/movies', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'search', component: SearchComponent },
-  { path: 'checkout', component: CheckoutComponent },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent },
   { path: 'category/:type/:id', component: ProductComponent, resolve: {product: ProductResolve} },
   { path: 'confirmation', component: ConfirmationComponent },
