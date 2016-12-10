@@ -93,6 +93,7 @@ export class CheckoutComponent implements OnInit {
     modalRef.result.then(
       (result) => {
         this.checkOutAddress = new Address(result);
+        this.checkOutForm.controls['address'].setValue(new Address(result));
       },
       (reason) => null
     );
@@ -108,23 +109,29 @@ export class CheckoutComponent implements OnInit {
   }
 
   saveOrders() {
-    this.auth.user.addOrders(JSON.stringify({
+    this.auth.user.addOrders({
       orders: this.orders,
       total: this.getTotal(),
-      formProfile: this.checkOutForm.value
-    }));
+      formProfile: this.checkOutForm.value,
+      addressOrder: this.checkOutAddress,
+      data: new Date()
+    });
   }
+
+  private myPay = function() {
+    this.cart.clearCart();
+    this.isRequesting = false;
+    this.saveOrders();
+    this.router.navigate(['./confirmation']);
+  };
 
   pay() {
     if (!this.checkPay()) return;
     this.isRequesting = true;
-    setInterval(() => {
-      this.cart.clearCart();
-      this.isRequesting = false;
-      this.saveOrders();
-      this.router.navigate(['./confirmation']);
-    }, 5000);
 
+    setTimeout(() => {
+      this.myPay();
+    }, 5000);
   }
 
 
