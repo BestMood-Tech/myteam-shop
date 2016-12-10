@@ -23,17 +23,21 @@ export class MusicService {
       .map(res => res.json());
   }
 
-  search(query, filters) {
+  search(query, filters?) {
     let params: URLSearchParams = new URLSearchParams;
     let getItemUrl = `${this.baseUrl}search`;
+    let limit;
 
-    for (let value of Object.keys(filters)) {
-      query += ' ' + value + ':' + filters[value];
+    if(filters) {
+      for (let value of Object.keys(filters)) {
+        if (value === 'limit') limit = filters[value];
+        else query += ' ' + value + ':' + filters[value];
+      }
     }
 
     params.set('q', query);
     params.set('type', 'album');
-
+    if (limit) params.set('limit', limit);
     let options = new RequestOptions({
       search: params
     });

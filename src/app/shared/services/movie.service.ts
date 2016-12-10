@@ -33,14 +33,16 @@ export class MovieService {
       .map(res => res.json());
   }
 
-  search(query, filters) {
+  search(query, filters?) {
     let searchURL = `${this.baseURL}search/movie`;
 
     let params = this.getParams();
     params.set('query', query);
 
-    for (let value of Object.keys(filters)) {
-      params.set(value, filters[value]);
+    if(filters) {
+      for (let value of Object.keys(filters)) {
+        params.set(value, filters[value]);
+      }
     }
 
     let options = new RequestOptions({
