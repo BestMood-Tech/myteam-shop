@@ -45,6 +45,7 @@ export class Cart {
 
   clearCart() {
     this.cart = [];
+    this.updateCartLS(this.cart);
   }
 
 
