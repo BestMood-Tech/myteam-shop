@@ -17,7 +17,7 @@ export class ConfirmationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.order = this.auth.user.orders[this.auth.user.orders.length-1];
+    this.order = this.auth.user.orders[this.auth.user.orders.length - 1];
     this.addressOrder = new Address(this.order.addressOrder);
     this.orderDate.setDate(new Date(this.order.data).getDate() + 14);
   }
