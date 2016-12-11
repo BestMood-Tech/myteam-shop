@@ -1,8 +1,37 @@
 "use strict";
 
-var express = require('express');
-var faker = require('faker');
-var app = express();
+const express = require('express');
+const faker = require('faker');
+const app = express();
+
+app.get('/api/selling', (req, res) => getSelling(req, res));
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+});
+
+
+function getSelling(req, res) {
+  let selling = [];
+  let lastIndex = getRandom(5);
+
+  for(let i = 0;i < lastIndex; i++) {
+    selling.push({
+      orders: getOrders(),
+      total: getRandom(1000),
+      formProfile: {
+        promoCode: faker.lorem.word(),
+        address: getAddress(),
+        payment: getKeyPayment(getRandom(6))
+      },
+      addressOrder: getAddress(),
+      data: new Date(faker.date.past())
+    });
+  }
+
+  res.json(selling);
+}
+
 
 function getRandom(max) {
   return Math.floor(Math.random()*(max));
@@ -44,30 +73,4 @@ function getOrders() {
     })
   }
   return orders;
-};
-
-
-app.get('/api/selling', function (req, res) {
-  let selling = [];
-  let lastIndex = getRandom(5);
-
-  for(let i = 0;i < lastIndex; i++) {
-    selling.push({
-      orders: getOrders(),
-      total: getRandom(1000),
-      formProfile: {
-        promoCode: faker.lorem.word(),
-        address: getAddress(),
-        payment: getKeyPayment(getRandom(6))
-      },
-      addressOrder: getAddress(),
-      data: faker.date.between()
-    });
-  }
-
-  res.json(selling);
-});
-
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-});
+}
