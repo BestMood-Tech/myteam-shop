@@ -32,6 +32,16 @@
             <li><a routerLink="/address">Address</a></li>
           </ul>
         </li>
+        <li class="dropdown pull-right d-inline-block" ngbDropdown>
+          <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
+            Admin panel <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
+            <li><a routerLink="/orders">Orders</a></li>
+            <li><a routerLink="/users">Users</a></li>
+            <li><a routerLink="/analytics">Analytics</a></li>
+          </ul>
+        </li>
       </ul>
       <form class="navbar-form navbar-right">
         <button class="btn btn-success btn-margin" routerLink="/cart">

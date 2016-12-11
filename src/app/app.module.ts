@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { ProductResolve } from './product/product.resolve';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { ProductResolve } from './product/product.resolve';
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        SharedModule.forRoot()
+        SharedModule.forRoot(),
+        AdminModule
     ],
     providers: [CategoryResolve, ProductResolve],
     bootstrap: [AppComponent]
