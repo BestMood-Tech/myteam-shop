@@ -4,12 +4,20 @@ const express = require('express');
 const faker = require('faker');
 const app = express();
 
-app.get('/api/selling', (req, res) => getSelling(req, res));
+/*******************
+ * *** Routes *** *
+ *******************/
+
+app.get('/api/selling', getSelling);
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 });
 
+
+/**********************
+ * *** Middleware *** *
+ **********************/
 
 function getSelling(req, res) {
   let selling = [];
