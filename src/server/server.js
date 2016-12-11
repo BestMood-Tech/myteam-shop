@@ -41,6 +41,10 @@ function getSelling(req, res) {
 }
 
 
+/*******************
+ * *** Common *** *
+ *******************/
+
 function getRandom(max) {
   return Math.floor(Math.random()*(max));
 }
