@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminComponent } from './admin.component';
 import { AdminRoutingModule, routingAdminComponents } from './admin-routing.module';
-import { AdminService } from './admin.service';
+import { AdminSharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    AdminSharedModule.forRoot()
   ],
-  declarations: [AdminComponent, routingAdminComponents],
-  providers: [ AdminService ]
+  declarations: [ routingAdminComponents]
 })
 export class AdminModule { }
