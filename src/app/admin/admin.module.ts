@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminRoutingModule, routingAdminComponents } from './admin-routing.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
@@ -14,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule.forRoot()
   ],
   declarations: [
-    routingAdminComponents,
     OrdersComponent,
     UsersComponent,
     AnalyticsComponent,
