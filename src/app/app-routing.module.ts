@@ -27,7 +27,8 @@ const routes: Routes = [
   { path: 'confirmation', component: ConfirmationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
-  { path: 'cart', component: CartComponent}
+  { path: 'cart', component: CartComponent},
+  { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
