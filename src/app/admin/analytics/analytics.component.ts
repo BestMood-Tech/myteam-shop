@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AnalyticsComponent implements OnInit {
 
   public chartData: any[];
-  public pieChartData:any[];
+  public pieChartData: any[];
 
   public labelMonth: any[] = [
     "January", "February", "March", "April",
@@ -20,18 +20,17 @@ export class AnalyticsComponent implements OnInit {
   ];
   public pieChartLabels: any[];
 
-  public ChartOptions:any = {
+  public ChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
 
-  public ChartLegend:boolean = true;
-  public ChartType:string = 'bar';
-  public pieChartType:string = 'pie';
+  public ChartLegend: boolean = true;
+  public ChartType: string = 'bar';
+  public pieChartType: string = 'pie';
 
   public analyticsForm: FormGroup;
-  public yearForm = [2014,2015,2016];
-
+  public yearForm = [2014, 2015, 2016];
 
 
   constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
@@ -42,18 +41,18 @@ export class AnalyticsComponent implements OnInit {
 
     this.analyticsForm = this.formBuilder.group({
       from: ["", Validators.required],
-      to: ["",[Validators.required]]
+      to: ["", [Validators.required]]
     })
 
 
   }
 
-  update(fromYear?,toYear?) {
+  update(fromYear?, toYear?) {
     this.chartData = [];
     this.pieChartData = [];
     this.pieChartLabels = [];
 
-    this.adminService.getSelling(fromYear,toYear).subscribe((res) => {
+    this.adminService.getSelling(fromYear, toYear).subscribe((res) => {
 
       res.forEach((item) => {
         let date = new Date(item.date);
@@ -71,7 +70,7 @@ export class AnalyticsComponent implements OnInit {
         } else {
 
           this.chartData[this.isYear(date.getFullYear())].data[date.getMonth()] += item.total;
-          this.pieChartData[this.isYear(date.getFullYear())] +=item.total;
+          this.pieChartData[this.isYear(date.getFullYear())] += item.total;
 
         }
 
@@ -92,7 +91,7 @@ export class AnalyticsComponent implements OnInit {
   private initData() {
     let data = [];
 
-    for(let i =0; i < 12; i++) {
+    for (let i = 0; i < 12; i++) {
       data.push(0)
     }
 
@@ -105,27 +104,43 @@ export class AnalyticsComponent implements OnInit {
 
   public toggle() {
     switch (this.ChartType) {
-      case "bar": this.ChartType = "line"; break;
-      case "line": this.ChartType = "radar"; break;
-      case "radar": this.ChartType = "bar"; break;
-      default: this.ChartType = "line"; break;
+      case "bar":
+        this.ChartType = "line";
+        break;
+      case "line":
+        this.ChartType = "radar";
+        break;
+      case "radar":
+        this.ChartType = "bar";
+        break;
+      default:
+        this.ChartType = "line";
+        break;
     }
 
     switch (this.pieChartType) {
-      case "doughnut": this.pieChartType = "pie"; break;
-      case "pie": this.pieChartType = "polarArea"; break;
-      case "polarArea": this.pieChartType = "doughnut"; break;
-      default: this.pieChartType = "pie"; break;
+      case "doughnut":
+        this.pieChartType = "pie";
+        break;
+      case "pie":
+        this.pieChartType = "polarArea";
+        break;
+      case "polarArea":
+        this.pieChartType = "doughnut";
+        break;
+      default:
+        this.pieChartType = "pie";
+        break;
     }
   }
 
   public show() {
-    if(!this.validDate()) return;
+    if (!this.validDate()) return;
 
-    this.update(this.analyticsForm.value.from,this.analyticsForm.value.to);
+    this.update(this.analyticsForm.value.from, this.analyticsForm.value.to);
   }
 
-  public validDate():boolean {
+  public validDate(): boolean {
     return this.analyticsForm.valid && !!(this.analyticsForm.value.from <= this.analyticsForm.value.to);
   }
 

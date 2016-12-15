@@ -19,15 +19,15 @@ app.listen(3000, function () {
  * *** Middleware *** *
  **********************/
 
-function getSelling(req, res) {
+function getSelling (req, res) {
 
-  let from = req.query.from?`${req.query.from}-01-01`:'2014-01-01';
-  let to = req.query.from?`${req.query.to}-11-31`:'2016-11-31';
+  let from = req.query.from ? `${req.query.from}-01-01` : '2014-01-01';
+  let to = req.query.from ? `${req.query.to}-11-31` : '2016-11-31';
 
   let selling = [];
   let lastIndex = getRandom(500);
 
-  for(let i = 0;i < lastIndex; i++) {
+  for (let i = 0; i < lastIndex; i++) {
     selling.push({
       orders: getOrders(),
       total: getRandom(1000),
@@ -49,16 +49,16 @@ function getSelling(req, res) {
  * *** Common *** *
  *******************/
 
-function getRandom(max) {
-  return Math.floor(Math.random()*(max+1));
+function getRandom (max) {
+  return Math.floor(Math.random() * (max + 1));
 }
 
-function getKeyType(key) {
-  let type = ["music","game","movie"];
+function getKeyType (key) {
+  let type = ["music", "game", "movie"];
   return type[key];
 }
 
-function getKeyPayment(key) {
+function getKeyPayment (key) {
   let payment = ["PayPal", "CreditCard", "Cash", "WebMoney", "QIWI", "Bitcoin"];
   return payment[key];
 }
@@ -74,11 +74,11 @@ function getAddress () {
   }
 }
 
-function getOrders() {
+function getOrders () {
   let orders = [];
   let lastIndex = getRandom(10);
 
-  for(let i = 0; i<lastIndex; i++) {
+  for (let i = 0; i < lastIndex; i++) {
     orders.push({
       id: faker.random.number(),
       type: getKeyType(getRandom(3)),
