@@ -6,12 +6,14 @@ import { UsersComponent } from './users/users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    ChartsModule
   ],
   declarations: [
     OrdersComponent,
