@@ -20,8 +20,12 @@ app.listen(3000, function () {
  **********************/
 
 function getSelling(req, res) {
+
+  let from = req.query.from?`${req.query.from}-01-01`:'2014-01-01';
+  let to = req.query.from?`${req.query.to}-11-31`:'2016-11-31';
+
   let selling = [];
-  let lastIndex = getRandom(5);
+  let lastIndex = getRandom(500);
 
   for(let i = 0;i < lastIndex; i++) {
     selling.push({
@@ -33,7 +37,7 @@ function getSelling(req, res) {
         payment: getKeyPayment(getRandom(6))
       },
       addressOrder: getAddress(),
-      data: new Date(faker.date.past())
+      date: new Date(faker.date.between(from, to))
     });
   }
 
@@ -46,7 +50,7 @@ function getSelling(req, res) {
  *******************/
 
 function getRandom(max) {
-  return Math.floor(Math.random()*(max));
+  return Math.floor(Math.random()*(max+1));
 }
 
 function getKeyType(key) {
