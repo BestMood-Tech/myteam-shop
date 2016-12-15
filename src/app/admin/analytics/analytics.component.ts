@@ -11,12 +11,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AnalyticsComponent implements OnInit {
 
   public chartData: any[];
-  public pieChartData: any[];
+  public pieChartData: string[];
 
-  public labelMonth: any[] = [
-    "January", "February", "March", "April",
-    "May", "June", "July", "August",
-    "September", "October", "November", "December"
+  public labelMonth: string[] = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
   ];
   public pieChartLabels: any[];
 
@@ -30,7 +30,7 @@ export class AnalyticsComponent implements OnInit {
   public pieChartType: string = 'pie';
 
   public analyticsForm: FormGroup;
-  public yearForm = [2014, 2015, 2016];
+  public yearForm: number[] = [2014, 2015, 2016];
 
 
   constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
@@ -40,9 +40,9 @@ export class AnalyticsComponent implements OnInit {
     this.update();
 
     this.analyticsForm = this.formBuilder.group({
-      from: ["", Validators.required],
-      to: ["", [Validators.required]]
-    })
+      from: ['', Validators.required],
+      to: ['', [Validators.required]]
+    });
 
 
   }
@@ -57,7 +57,7 @@ export class AnalyticsComponent implements OnInit {
       res.forEach((item) => {
         let date = new Date(item.date);
 
-        if (this.isYear(date.getFullYear()) == -1) {
+        if (this.isYear(date.getFullYear()) === -1) {
 
           let obj = { data: this.initData(), label: date.getFullYear() };
           obj.data[date.getMonth()] += item.total;
@@ -83,7 +83,9 @@ export class AnalyticsComponent implements OnInit {
   private isYear(year): number {
     let key = -1;
     this.chartData.forEach((item, index) => {
-      if (item.label == year) key = index;
+      if (item.label === year) {
+        key = index;
+      }
     });
     return key;
   }
@@ -91,8 +93,8 @@ export class AnalyticsComponent implements OnInit {
   private initData() {
     let data = [];
 
-    for (let i = 0; i < 12; i++) {
-      data.push(0)
+    for (let i = 0; i < this.labelMonth.length; i++) {
+      data.push(0);
     }
 
     return data;
@@ -104,32 +106,32 @@ export class AnalyticsComponent implements OnInit {
 
   public toggle() {
     switch (this.ChartType) {
-      case "bar":
-        this.ChartType = "line";
+      case 'bar':
+        this.ChartType = 'line';
         break;
-      case "line":
-        this.ChartType = "radar";
+      case 'line':
+        this.ChartType = 'radar';
         break;
-      case "radar":
-        this.ChartType = "bar";
+      case 'radar':
+        this.ChartType = 'bar';
         break;
       default:
-        this.ChartType = "line";
+        this.ChartType = 'line';
         break;
     }
 
     switch (this.pieChartType) {
-      case "doughnut":
-        this.pieChartType = "pie";
+      case 'doughnut':
+        this.pieChartType = 'pie';
         break;
-      case "pie":
-        this.pieChartType = "polarArea";
+      case 'pie':
+        this.pieChartType = 'polarArea';
         break;
-      case "polarArea":
-        this.pieChartType = "doughnut";
+      case 'polarArea':
+        this.pieChartType = 'doughnut';
         break;
       default:
-        this.pieChartType = "pie";
+        this.pieChartType = 'pie';
         break;
     }
   }
@@ -141,7 +143,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   public validDate(): boolean {
-    return this.analyticsForm.valid && !!(this.analyticsForm.value.from <= this.analyticsForm.value.to);
+    return this.analyticsForm.valid && (this.analyticsForm.value.from <= this.analyticsForm.value.to);
   }
 
 }

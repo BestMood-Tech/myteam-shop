@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { ProductResolve } from './product/product.resolve';
-import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
@@ -19,8 +18,7 @@ import { ChartsModule } from 'ng2-charts';
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        SharedModule.forRoot(),
-        ChartsModule
+        SharedModule.forRoot()
     ],
     providers: [CategoryResolve, ProductResolve],
     bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const faker = require('faker');
@@ -54,12 +54,12 @@ function getRandom (max) {
 }
 
 function getKeyType (key) {
-  let type = ["music", "game", "movie"];
+  let type = ['music', 'game', 'movie'];
   return type[key];
 }
 
 function getKeyPayment (key) {
-  let payment = ["PayPal", "CreditCard", "Cash", "WebMoney", "QIWI", "Bitcoin"];
+  let payment = ['PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'];
   return payment[key];
 }
 
