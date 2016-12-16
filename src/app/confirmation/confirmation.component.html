@@ -1,3 +1,23 @@
-<p>
-  confirmation works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Confirmation</h1>
+      <h4>Your order has been paid it will be formed within the next 14 days</h4>
+      <h4>Expected delivery time is two weeks: {{getDate()}}</h4>
+      <h4>Address delivery</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Street Address:</strong>{{addressOrder.streetAddress}}</p>
+          <p><strong>City:</strong>{{addressOrder.city}}</p>
+          <p><strong>Zip / Postal Code:</strong>{{addressOrder.zip}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Address Line 2:</strong>{{addressOrder.addressLine2}}</p>
+          <p><strong>State / Province / Region:</strong>{{addressOrder.state}}</p>
+          <p><strong>Country:</strong>{{addressOrder.country}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h4><a routerLink="/home">Back to home</a></h4>
+</div>

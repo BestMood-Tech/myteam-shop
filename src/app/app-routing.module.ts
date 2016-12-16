@@ -24,10 +24,11 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent },
   { path: 'category/:type/:id', component: ProductComponent, resolve: {product: ProductResolve} },
-  { path: 'confirmation', component: ConfirmationComponent },
+  { path: 'confirmation', component: ConfirmationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
-  { path: 'cart', component: CartComponent}
+  { path: 'cart', component: CartComponent},
+  { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="container">
+    <div class="col-md-12">
+      <form [formGroup]="analyticsForm" class="form-inline">
+        <button class="btn btn-success" (click)="update()">Update</button>
+        <button class="btn btn-success" (click)="toggle()">Toggle</button>
+        <div class="form-group" [ngClass]="analyticsForm.controls.from.errors? 'has-error': 'has-success'">
+          <label for="from">From</label>
+          <select class="form-control" id="from" formControlName="from">
+            <option *ngFor="let year of yearForm;" [value]="year">
+              {{year}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group" [ngClass]="analyticsForm.controls.to.errors? 'has-error': 'has-success'">
+          <label for="to">To</label>
+          <select class="form-control" id="to" formControlName="to">
+            <option *ngFor="let year of yearForm;" [value]="year">
+              {{year}}
+            </option>
+          </select>
+        </div>
+        <button class="btn btn-success"
+                [disabled]="!validDate()"
+                (click)="show()">Show</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf='isEmptyData()'>
+        <canvas baseChart
+                [datasets]="chartData"
+                [labels]="labelMonth"
+                [options]="ChartOptions"
+                [legend]="ChartLegend"
+                [chartType]="ChartType">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf='isEmptyData()'>
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
