@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
+      <app-filters (filtersUpdated)="filtersUpdated($event)"></app-filters>
       <div class="row">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search for..." [formControl]="term"/>

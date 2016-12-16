@@ -9,7 +9,10 @@ export class GamesService {
   private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
   private xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
 
+  private genres;
+
   constructor(private _http: Http) {
+    this.getAllGenres().subscribe(items => this.genres = items);
   }
 
   private getParams(): URLSearchParams {
@@ -57,6 +60,20 @@ export class GamesService {
     if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getGenreUrl = `${this.baseUrl}genres/${idString}`;
+    let params = this.getParams();
+    params.set('fields', 'name');
+
+    let options = new RequestOptions({
+      search: params,
+      headers: this.getHeaders()
+    });
+
+    return this._http.get(getGenreUrl, options)
+      .map(res => res.json());
+  }
+
+  getAllGenres() {
+    let getGenreUrl = `${this.baseUrl}genres/`;
     let params = this.getParams();
     params.set('fields', 'name');
 
@@ -149,5 +166,9 @@ export class GamesService {
     });
 
     return resultingData[0];
+  }
+
+  getLocalGenres() {
+    return this.genres;
   }
 }

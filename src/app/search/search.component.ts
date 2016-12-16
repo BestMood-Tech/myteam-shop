@@ -24,8 +24,9 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.term = new FormControl(this._route.snapshot.params['q']);
-    this._route.params
+    console.log(this._route.snapshot.queryParams);
+    this.term = new FormControl(this._route.snapshot.queryParams['q']);
+    this._route.queryParams
       .switchMap(({ q }) => {
         return Observable.forkJoin([
           this._musicService.search(q, { limit: '10' }),
@@ -48,8 +49,13 @@ export class SearchComponent implements OnInit {
       .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .subscribe(term => {
-        this._router.navigate(['/search', { q: term }])
+        this._router.navigate(['/search'], {queryParams: { q: term }});
       });
   };
+
+  filtersUpdated(filters) {
+    console.log(filters)
+    this._router.navigate(['/search'], {queryParams: { q: this.term.value, music: filters.music, game: filters.game }});
+  }
 }
 
