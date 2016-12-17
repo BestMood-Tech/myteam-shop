@@ -1,68 +1,130 @@
-import { Component, OnInit } from '@angular/core';
-import {GridOptions} from 'ag-grid/main';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { GridOptions } from 'ag-grid/main';
 import { AdminService } from '../admin.service';
+import {  NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
 
 @Component({
   selector: 'app-users',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  styleUrls: ['./orders.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
   public rowData: any[];
   private dataSource: any;
+  public classTheme: string = 'ag-dark';
+  public arrayTheme: string[] = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
 
   constructor(private adminService: AdminService) {
-    this.gridOptions = <GridOptions>{};
-    this.gridOptions.columnDefs = this.createColumnDefs();
-    this.gridOptions.enableServerSideSorting = true;
-    this.gridOptions.rowModelType = 'virtual';
-    this.gridOptions.paginationPageSize = 50;
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.createColumnDefs(),
+      rowModelType: 'virtual',
+      paginationPageSize: 50,
+      enableColResize: true,
+      enableServerSideSorting: true,
+      enableServerSideFilter: true,
+      rowHeight: 50,
+      rowSelection: 'multiple',
+      rowDeselection: true,
+      icons: {
+        columnGroupOpened: '<i class="glyphicon glyphicon-plus-sign"/>',
+        columnGroupClosed: '<i class="glyphicon glyphicon-minus-sign"/>'
+      },
+      showGrid: true
+  };
   }
 
   ngOnInit() {
     this.Update();
   }
 
+  /*************
+   *** Theme ***
+   ************/
+  public isTheme(key) {
+    let arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    return arrayClassTheme[key] === this.classTheme;
+  }
+
+  public setTheme(key) {
+    let arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    this.classTheme = arrayClassTheme[key];
+  }
+
+  /*************
+   ** Ag-grid **
+   ************/
   private createColumnDefs() {
     return [
       {
-        headerName: 'Number of goods',
-        field: 'numberGoods',
-        editable: true,
-        width: 150
+        headerName: '#', width: 30, checkboxSelection: true
       },
       {
-        headerName: 'Total',
-        field: 'total',
-        editable: true,
-        width: 100
+        headerName: 'Orders',
+        children: [
+          {
+            headerName: 'Number of goods',
+            field: 'numberGoods',
+            editable: true,
+            columnGroupShow: 'closed',
+            width: 150,
+            cellEditorFramework: NumericEditorComponent,
+          },
+          {
+            headerName: 'Total',
+            field: 'total',
+            editable: true,
+            width: 100,
+            cellClassRules: {
+              'rag-red': data => { return data.value <= 200; },
+              'rag-amber': data => { return data.value < 500 && data.value > 200; },
+              'rag-green': data => { return data.value >= 500; },
+            },
+            cellEditorFramework: NumericEditorComponent
+          }
+        ]
       },
       {
-        headerName: 'Promo Code',
-        field: 'promoCode',
-        editable: true,
-        width: 150
+        headerName: 'Profile',
+        children: [
+          {
+            headerName: 'Promo Code',
+            field: 'promoCode',
+            editable: true,
+            columnGroupShow: 'closed',
+            width: 150
+          },
+          {
+            headerName: 'Payment',
+            sort: 'desc',
+            field: 'payment',
+            editable: true,
+            width: 150,
+            cellEditor: 'select',
+            cellEditorParams: {
+              values: ['PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin']
+            }
+          },
+          {
+            headerName: 'Address',
+            field: 'address',
+            width: 300,
+            columnGroupShow: 'closed',
+            editable: true,
+            cellStyle: {
+              'white-space': 'normal'
+            }
+          },
+          {
+            headerName: 'Date',
+            field: 'date',
+            columnGroupShow: 'closed',
+            editable: true,
+            width: 200
+          }
+        ]
       },
-      {
-        headerName: 'Payment',
-        sort: 'desc',
-        field: 'payment',
-        editable: true,
-        width: 150
-      },
-      {
-        headerName: 'Address',
-        field: 'address',
-        width: 600,
-        editable: true
-      },
-      {
-        headerName: 'Date',
-        field: 'date',
-        editable: true,
-        width: 200
-      }
     ];
   }
 
@@ -87,8 +149,8 @@ export class OrdersComponent implements OnInit {
       this.dataSource = {
         rowCount: null,
         getRows: (params) => {
-          let rowDataAfterSorting = this.sortData(params.sortModel, this.rowData);
-          let rowsThisPage = rowDataAfterSorting.slice(params.startRow, params.endRow);
+          let rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
+          let rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
           let lastRow = -1;
           if (this.rowData.length <= params.endRow) {
             lastRow = this.rowData.length;
@@ -100,6 +162,10 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  public sortAndFilter(allOfTheData, sortModel, filterModel) {
+    return this.sortData(sortModel, this.filterData(filterModel, allOfTheData));
+  }
+
   private sortData(sortModel, data) {
     let sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
@@ -107,7 +173,7 @@ export class OrdersComponent implements OnInit {
     }
 
     let resultOfSort = data.slice();
-    resultOfSort.sort(function(a, b) {
+    resultOfSort.sort(function (a, b) {
       for (let k = 0; k < sortModel.length; k++) {
         let sortColModel = sortModel[k];
         let valueA = a[sortColModel.colId];
@@ -127,7 +193,71 @@ export class OrdersComponent implements OnInit {
     return resultOfSort;
 
   }
+
+  public filterData(filterModel, data) {
+    let filterPresent = filterModel && Object.keys(filterModel).length > 0;
+    if (!filterPresent) {
+      return data;
+    }
+    let resultOfFilter = [];
+    let fieldFilter = Object.keys(filterModel);
+    fieldFilter.forEach(field => {
+      data.forEach((item) => {
+        if (filterModel[field]) {
+          let filterTotal = filterModel[field].filter.toString();
+          if (filterModel[field].type === 'contains') {
+            if (item[field].toString().indexOf(filterTotal) === -1) return;
+          }
+          if (filterModel[field].type === 'equals') {
+            if (item[field].toString() !== filterTotal) return;
+          }
+          if (filterModel[field].type === 'notEquals') {
+            if (item[field].toString() === filterTotal) return;
+          }
+          if (filterModel[field].type === 'startsWith') {
+            if (item[field].toString().indexOf(filterTotal) !== 0) return;
+          }
+          let myReverse = function(str) {
+            return str.split('').reverse().join();
+          };
+          if (filterModel[field].type === 'endsWith') {
+            if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) return;
+          }
+        }
+        resultOfFilter.push(item);
+      });
+    });
+    return resultOfFilter;
+  }
+
   public saveTable() {
     console.log(this.gridOptions.rowData);
   }
+
+  public onQuickFilterChanged($event) {
+    this.gridOptions.api.setQuickFilter($event.target.value);
+  }
+
+  public clearPinned() {
+    this.gridOptions.columnApi.setColumnsPinned([
+      'numberGoods',
+      'total',
+      'date',
+      'promoCode',
+      'payment',
+      'address'
+    ], null);
+  }
+
+  public resetPinned() {
+    this.gridOptions.columnApi.setColumnsPinned([
+      'numberGoods',
+      'date'
+    ], 'right');
+  }
+
+  public pinTotal() {
+    this.gridOptions.columnApi.setColumnPinned('total', 'right');
+  }
+
 }

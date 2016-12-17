@@ -8,6 +8,7 @@ import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 import { AgGridModule } from 'ag-grid-ng2/main';
+import { NumericEditorComponent } from './numericEditorComponent/numeric-editor';
 
 @NgModule({
   imports: [
@@ -15,12 +16,15 @@ import { AgGridModule } from 'ag-grid-ng2/main';
     AdminRoutingModule,
     SharedModule,
     ChartsModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([
+      NumericEditorComponent
+    ])
   ],
   declarations: [
     OrdersComponent,
     UsersComponent,
     AnalyticsComponent,
+    NumericEditorComponent
   ],
   providers: [ AdminService ]
 })
