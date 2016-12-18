@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Rx';
 export class SearchComponent implements OnInit {
   public term: FormControl;
   products = [];
+  params = this._route.snapshot.queryParams
 
   constructor(private _musicService: MusicService,
               private _gamesService: GamesService,

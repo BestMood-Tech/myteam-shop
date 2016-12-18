@@ -1,29 +1,20 @@
 <form [formGroup]="filtersForm">
-  <!--<div>search for:-->
-    <!--<span><input type="checkbox" formControlName="music">music</span>-->
-    <!--<span><input type="checkbox" formControlName="movie">movies</span>-->
-    <!--<span><input type="checkbox" formControlName="game">games</span>-->
-  <!--</div>-->
   <div class="form-group">
-    <input type="date" formControlName="date">
+    <input type="date" formControlName="date" class="form-control">
   </div>
-  <!--music-->
   <fieldset *ngIf="filtersForm.value.music || !(categoryIsSelected)" formGroupName="musicGroup">
     <span>Artist: <input type="text" class="form-control" formControlName="artist"></span>
     <span>Search new <input type="checkbox" formControlName="new"></span>
     <span>Hipster search <input type="checkbox" formControlName="hipster"></span>
   </fieldset>
-  <!--movies-->
-  <!--<fieldset *ngIf="filtersForm.value.movie" formGroupName="movieGroup">-->
-
-  <!--</fieldset>-->
-  <!--games-->
-  <fieldset *ngIf="filtersForm.value.game || !(categoryIsSelected)" formGroupName="gameGroup">
-    <select formControlName="genres">
-      <option value="" disabled>Choose a state</option>
-      <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
-    </select>
-    <!--Developer: <input type="text" formControlName="developer">-->
+  <fieldset *ngIf="filtersForm.value.game || !(categoryIsSelected)" formGroupName="gameGroup" class="input-group">
+    <div class="row">
+      <div class="col-md-8">
+        <select formControlName="genres" class="form-control">
+        <option value="" disabled>Choose a genre</option>
+        <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
+      </select></div>
+      <button class="btn btn-success" (click)="applyFilters()">apply</button>
+    </div>
   </fieldset>
-  <button class="btn btn-primary" (click)="applyFilters()">apply</button>
 </form>

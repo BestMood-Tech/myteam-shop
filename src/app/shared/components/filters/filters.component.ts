@@ -25,24 +25,17 @@ export class FiltersComponent implements OnInit {
     });
 
     this.filtersForm = this.fb.group({
-      // movie: [false],
-      // game: [false],
-      // music: [false],
       date: this.filters.date || '',
       musicGroup: this.fb.group({
         artist: this.filters.artist || '',
         new: this.filters.new || [false],
         hipster: this.filters.hipster || [false]
       }),
-      // movieGroup: this.fb.group({}),
       gameGroup: this.fb.group({
         genres: this.filters.genres || '',
         developer: this.filters.developer || ''
       })
     });
-
-
-    // this.categoryIsSelected = this.filtersForm.value.music && this.filtersForm.value.game && this.filtersForm.value.movie;
   }
 
   applyFilters() {

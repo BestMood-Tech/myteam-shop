@@ -1,7 +1,11 @@
+<div class="col-md-2 fixed-filter">
+  <div class="thumbnail">
+    <app-filters (filtersUpdated)="filtersUpdated($event)" [filters] = "params"></app-filters>
+  </div>
+</div>
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <app-filters (filtersUpdated)="filtersUpdated($event)" [filters] = "_route.snapshot.queryParams"></app-filters>
       <div class="row">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search for..." [formControl]="term"/>
