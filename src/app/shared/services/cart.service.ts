@@ -23,7 +23,7 @@ export class Cart {
   public addToCart(product) {
     this.cart.push(product);
     this.updateCartLS(this.cart);
-    this.toastr.success('Product added to cart', 'Success!');
+    this.toastr.success(`Product ${product.name} added to cart`, 'Success!');
   }
 
   public getCart() {
@@ -31,9 +31,9 @@ export class Cart {
   }
 
   public deleteItem(key) {
+    this.toastr.success(`${this.cart[key].name} is removed cart`, 'Success!');
     this.cart.splice(key, 1);
     this.updateCartLS(this.cart);
-    this.toastr.success('Item is removed cart', 'Success!');
   }
 
   public get countCart() {
