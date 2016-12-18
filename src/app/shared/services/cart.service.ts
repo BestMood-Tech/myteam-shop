@@ -23,7 +23,7 @@ export class Cart {
   public addToCart(product) {
     this.cart.push(product);
     this.updateCartLS(this.cart);
-    this.toastr.success(`Product ${product.name} added to cart`, 'Success!');
+    this.toastr.success(`${product.name} added to cart`, 'Success!');
   }
 
   public getCart() {

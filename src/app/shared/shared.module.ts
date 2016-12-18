@@ -8,7 +8,6 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { HelperService } from './services/helper.service';
 import { ProductCardComponent } from './components/product-card.component';
 import { RouterModule } from '@angular/router';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
   imports: [
@@ -17,8 +16,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     ReactiveFormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
-    ToastModule
+    NgbModule.forRoot()
   ],
   exports: [
     CommonModule,
