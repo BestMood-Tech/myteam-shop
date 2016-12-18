@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { AdminService } from '../admin.service';
 import {  NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
@@ -6,8 +6,7 @@ import {  NumericEditorComponent } from '../numericEditorComponent/numeric-edito
 @Component({
   selector: 'app-users',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+  styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
