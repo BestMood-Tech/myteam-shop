@@ -7,18 +7,24 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
+import { AgGridModule } from 'ag-grid-ng2/main';
+import { NumericEditorComponent } from './numericEditorComponent/numeric-editor';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
-    ChartsModule
+    ChartsModule,
+    AgGridModule.withComponents([
+      NumericEditorComponent
+    ])
   ],
   declarations: [
     OrdersComponent,
     UsersComponent,
     AnalyticsComponent,
+    NumericEditorComponent
   ],
   providers: [ AdminService ]
 })

@@ -7,7 +7,7 @@ import { Auth } from '../services/auth.service';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss']
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
 
   @Input() product;
 
@@ -16,8 +16,11 @@ export class ProductCardComponent {
   constructor(private _cart: Cart, private _auth: Auth) {}
 
   ngOnInit() {
-    if(this._auth.user == null) this.productCurrency = "$";
-    else this.productCurrency = this._auth.user.currency;
+    if (this._auth.user == null) {
+      this.productCurrency = '$';
+    } else {
+      this.productCurrency = this._auth.user.currency;
+    }
   }
 
   addToCart(product) {

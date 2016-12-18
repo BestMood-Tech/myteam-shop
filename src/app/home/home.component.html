@@ -1,3 +1,36 @@
-<p>
-  main works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <h1>The most popular!</h1>
+        <h2>Game</h2>
+        <div class="col-md-12">
+          <div class="col-md-3 home-item thumbnail" *ngFor='let game of gameData'>
+            <img [src]=[game.cover] class="img-home">
+            <p>{{game.name}}</p>
+            <span>price {{productCurrency}}{{game.price | currency:productCurrency}}</span>
+            <button class="btn btn-success md-btn" (click)='addToCart(game)'>Cart</button>
+          </div>
+        </div>
+        <h2>Music</h2>
+        <div class="col-md-12">
+          <div class="col-md-3 home-item thumbnail" *ngFor='let music of musicData'>
+            <img [src]=[music.cover] class="img-home">
+            <p>{{music.name}}</p>
+            <span>price {{productCurrency}}{{music.price | currency:productCurrency}}</span>
+            <button class="btn btn-success md-btn" (click)='addToCart(music)'>Cart</button>
+          </div>
+        </div>
+        <h2>Movie</h2>
+        <div class="col-md-12">
+          <div class="col-md-3 home-item thumbnail" *ngFor='let movie of movieData'>
+            <img [src]=[movie.cover] class="img-home">
+            <p>{{movie.name}}</p>
+            <span>price {{productCurrency}}{{movie.price | currency:productCurrency}}</span>
+            <button class="btn btn-success md-btn" (click)='addToCart(movie)'>Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
