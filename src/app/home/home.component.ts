@@ -26,15 +26,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.musicService.latest().subscribe(res => {
       this.musicData = this.musicService.processData(res).slice(0, 12);
-      console.log(this.musicData);
     });
     this.gamesService.latest().subscribe(res => {
       this.gameData = this.gamesService.processData(res).slice(0, 12);
-      console.log(this.gameData);
     });
     this.movieService.recent().subscribe(res => {
       this.movieData = this.movieService.processData(res).slice(0, 12);
-      console.log(this.movieData);
     });
     if  (this.auth.user == null) {
       this.productCurrency = '$';

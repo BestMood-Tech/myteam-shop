@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class Cart {
   cart: any;
 
-  constructor() {
+  constructor(private toastr: ToastsManager) {
     try {
-      if (JSON.parse(localStorage.getItem('cart')))
+      if (JSON.parse(localStorage.getItem('cart'))) {
         this.cart = JSON.parse(localStorage.getItem('cart'));
-      else this.cart = [];
-    }
-    catch (e) {
+      } else {
+        this.cart = [];
+      }
+    } catch (e) {
       console.log(e);
+      this.toastr.error('Failed to get the goods', 'Success!');
     }
 
     this.updateCartLS(this.cart);
@@ -20,6 +23,7 @@ export class Cart {
   public addToCart(product) {
     this.cart.push(product);
     this.updateCartLS(this.cart);
+    this.toastr.success('Product added to cart', 'Success!');
   }
 
   public getCart() {
@@ -29,6 +33,7 @@ export class Cart {
   public deleteItem(key) {
     this.cart.splice(key, 1);
     this.updateCartLS(this.cart);
+    this.toastr.success('Item is removed cart', 'Success!');
   }
 
   public get countCart() {
@@ -46,6 +51,7 @@ export class Cart {
   clearCart() {
     this.cart = [];
     this.updateCartLS(this.cart);
+    this.toastr.success('Cart clear', 'Success!');
   }
 
 

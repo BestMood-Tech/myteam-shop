@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { ProductResolve } from './product/product.resolve';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { ProductResolve } from './product/product.resolve';
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        SharedModule.forRoot()
+        SharedModule.forRoot(),
+        ToastModule
     ],
     providers: [CategoryResolve, ProductResolve],
     bootstrap: [AppComponent]

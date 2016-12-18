@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { Cart } from '../shared/services/cart.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ export class CartComponent implements OnInit {
 
   orders: any;
   autorization: boolean;
-  cartCurrency = "$";
+  cartCurrency = '$';
 
   constructor(private cart: Cart, private auth: Auth, private router: Router) {
     this.orders = this.cart.getCart();
@@ -20,8 +20,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.auth.user) this.cartCurrency = this.auth.user.currency;
-
+    if (this.auth.user) this.cartCurrency = this.auth.user.currency;
     this.auth.onAuth.subscribe((value) => {
       this.autorization = value;
     });
@@ -41,13 +40,13 @@ export class CartComponent implements OnInit {
     return price.toFixed(2);
   }
 
-  disabledPay():boolean {
+  disabledPay(): boolean {
     return !!this.cart.countCart && this.autorization;
   }
 
 
   checkout() {
-    if(!this.disabledPay()) return;
+    if (!this.disabledPay()) return;
     this.router.navigate(['./checkout']);
   }
 
