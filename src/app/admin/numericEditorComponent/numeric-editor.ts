@@ -17,7 +17,7 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
   agInit(params: any): void {
     this.params = params;
     this.value = this.params.value;
-    this.cancelBeforeStart = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+    this.cancelBeforeStart = params.charPress && this.isCharNumeric(params.charPress);
   }
 
   getValue(): any {
@@ -52,7 +52,8 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
   private isKeyPressedNumeric(event): boolean {
     if (this.getCharCodeFromEvent(event) === 8) {
       let stringValue = this.value.toString(10);
-      if (stringValue.length === 1 ) { this.value = 0; } else {
+      if (stringValue.length === 1 ) { this.value = 0;
+      } else {
         this.value = parseInt(stringValue.slice(0, stringValue.length - 1), 10);
       }
     }

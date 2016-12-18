@@ -44,17 +44,18 @@ export class UsersComponent implements OnInit {
     ];
   }
   constructor(private adminService: AdminService) {
-    this.gridOptions = <GridOptions>{};
-    this.gridOptions.columnDefs = this.createColumnDefs();
-    this.gridOptions.enableServerSideSorting = true;
-    this.gridOptions.rowModelType = 'virtual';
-    this.gridOptions.paginationPageSize = 50;
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.createColumnDefs(),
+      enableServerSideSorting: true,
+      rowModelType: 'virtual',
+      paginationPageSize: 50
+    };
   }
 
   ngOnInit() {
-    this.Update();
+    this.update();
   }
-  public Update() {
+  public update() {
     this.rowData = [];
     this.adminService.getSelling().subscribe((res) => {
       res.forEach((item) => {

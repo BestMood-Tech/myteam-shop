@@ -7,7 +7,7 @@ import {  NumericEditorComponent } from '../numericEditorComponent/numeric-edito
   selector: 'app-users',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.Update();
+    this.update();
   }
 
   /*************
@@ -128,7 +128,7 @@ export class OrdersComponent implements OnInit {
     ];
   }
 
-  public Update() {
+  public update() {
     this.rowData = [];
     this.adminService.getSelling().subscribe((res) => {
       res.forEach((item) => {
@@ -205,23 +205,17 @@ export class OrdersComponent implements OnInit {
       data.forEach((item) => {
         if (filterModel[field]) {
           let filterTotal = filterModel[field].filter.toString();
-          if (filterModel[field].type === 'contains') {
-            if (item[field].toString().indexOf(filterTotal) === -1) return;
-          }
-          if (filterModel[field].type === 'equals') {
-            if (item[field].toString() !== filterTotal) return;
-          }
-          if (filterModel[field].type === 'notEquals') {
-            if (item[field].toString() === filterTotal) return;
-          }
-          if (filterModel[field].type === 'startsWith') {
-            if (item[field].toString().indexOf(filterTotal) !== 0) return;
-          }
-          let myReverse = function(str) {
-            return str.split('').reverse().join();
-          };
-          if (filterModel[field].type === 'endsWith') {
-            if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) return;
+          switch (filterModel[field].type) {
+            case 'contains': if (item[field].toString().indexOf(filterTotal) === -1) return; break;
+            case 'equals': if (item[field].toString() !== filterTotal) return; break;
+            case 'notEquals': if (item[field].toString() === filterTotal) return; break;
+            case 'startsWith': if (item[field].toString().indexOf(filterTotal) !== 0) return; break;
+            case 'endsWith': {
+              let myReverse = function(str) {
+                return str.split('').reverse().join();
+              };
+              if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) return;
+            } break;
           }
         }
         resultOfFilter.push(item);
