@@ -22,14 +22,13 @@ export class Auth {
       if (JSON.parse(localStorage.getItem('currentUser')))
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
       this.onAuth.emit(true);
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
 
     // Add callback for the Lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -82,14 +81,13 @@ export class Auth {
 
         this.user = new User(userLS);
         return;
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e);
       }
 
     }
 
-    if (currentUser.identities[0].provider == 'vkontakte') {
+    if (currentUser.identities[0].provider === 'vkontakte') {
       this.user = new User(
         {
           nickName: currentUser.nickname,
@@ -102,7 +100,7 @@ export class Auth {
       return;
     }
 
-    if (currentUser.identities[0].provider == 'github') {
+    if (currentUser.identities[0].provider === 'github') {
       this.user = new User(
         {
           nickName: currentUser.nickname,
