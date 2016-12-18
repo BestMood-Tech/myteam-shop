@@ -6,7 +6,7 @@ import { Address } from '../shared/address.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Router } from '@angular/router';
-import { setInterval } from 'timers';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-checkout',
@@ -16,14 +16,14 @@ import { setInterval } from 'timers';
 export class CheckoutComponent implements OnInit {
 
   public orders: any;
-  public checkOutCurrency = "$";
+  public checkOutCurrency = '$';
   public checkOutForm: FormGroup;
   public checkOutAddress: Address;
 
   public acitvePromoCode: boolean;
   public arrayAddressUser: any;
   public paymentSystem: string[] = [
-    "PayPal", "CreditCard", "Cash", "WebMoney", "QIWI", "Bitcoin"
+    'PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'
   ];
 
   public isRequesting: boolean;
@@ -32,6 +32,7 @@ export class CheckoutComponent implements OnInit {
               private auth: Auth,
               private formBulder: FormBuilder,
               private modalService: NgbModal,
+              private toastr: ToastsManager,
               private router: Router) {
   }
 
@@ -40,16 +41,15 @@ export class CheckoutComponent implements OnInit {
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
       this.orders = [];
     }
 
     this.checkOutForm = this.formBulder.group({
-      promoCode: "",
+      promoCode: '',
       address: [this.checkOutAddress, Validators.required],
-      payment: ["", Validators.required]
+      payment: ['', Validators.required]
     });
 
     this.acitvePromoCode = true;
@@ -70,14 +70,14 @@ export class CheckoutComponent implements OnInit {
     let discount = 1;
 
     switch (this.checkOutForm.value.promoCode) {
-      case "ANGULAR 2":
+      case 'ANGULAR 2':
         discount = 0.75;
         break;
       default:
         discount = 1;
     }
 
-    if (discount == 1) return;
+    if (discount === 1) return;
 
     this.orders.map((item) => item.price *= discount);
     this.acitvePromoCode = false;
@@ -116,6 +116,7 @@ export class CheckoutComponent implements OnInit {
       addressOrder: this.checkOutAddress,
       data: new Date()
     });
+    this.toastr.success('Orders added to profile', 'Success');
   }
 
   private myPay = function() {
@@ -126,6 +127,7 @@ export class CheckoutComponent implements OnInit {
   };
 
   pay() {
+    this.toastr.info('Order is processed');
     if (!this.checkPay()) return;
     this.isRequesting = true;
 

@@ -3,7 +3,7 @@ import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Address } from '../shared/address.model';
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-address',
@@ -12,7 +12,7 @@ import { Address } from '../shared/address.model';
 })
 export class AddressComponent implements OnInit {
 
-  constructor(private auth: Auth, private modalService: NgbModal) {
+  constructor(private auth: Auth, private modalService: NgbModal, private toastr: ToastsManager) {
   }
 
   ngOnInit() {
@@ -29,18 +29,27 @@ export class AddressComponent implements OnInit {
 
   delete(key) {
     this.auth.user.deleteAddress(key);
+    this.toastr.success('Address delete', 'Success');
   }
 
 
   private open(key?) {
 
     const modalRef = this.modalService.open(AddressFormComponent);
-    if (key == null) modalRef.componentInstance.address = new Address({});
-    else modalRef.componentInstance.address = this.auth.user.address[key];
+    if (key == null) {
+      modalRef.componentInstance.address = new Address({});
+    } else {
+      modalRef.componentInstance.address = this.auth.user.address[key];
+    }
     modalRef.result.then(
       (result) => {
-        if (key == null) this.auth.user.addAddress(new Address(result));
-        else this.auth.user.updateAddress(key, new Address(result));
+        if (key == null) {
+          this.auth.user.addAddress(new Address(result));
+          this.toastr.success('Address added to profile', 'Success');
+        } else {
+          this.auth.user.updateAddress(key, new Address(result));
+          this.toastr.success('Address update to profile', 'Success');
+        }
       },
       (reason) => null
     );

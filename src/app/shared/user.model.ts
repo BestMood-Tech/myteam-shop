@@ -1,5 +1,6 @@
 import { Address } from './address.model';
 import { Currency } from './currency.model';
+
 export class User {
 
   nickName: string;
@@ -15,8 +16,9 @@ export class User {
 
   constructor(obj) {
     for (let key of Object.keys(obj)) {
-      if (key != "address") this[key] = obj[key];
-      else {
+      if (key !== 'address') {
+        this[key] = obj[key];
+      } else {
         this[key] = obj[key].map(value => new Address(value));
       }
     }
@@ -38,7 +40,7 @@ export class User {
       phone: this.phone,
       email: this.email,
       currency: this.currency
-    }
+    };
   }
 
   get userAddress(): Address[] {

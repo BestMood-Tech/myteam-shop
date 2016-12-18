@@ -3,6 +3,7 @@ import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../shared/user.model';
 import { Currency } from '../shared/currency.model';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ export class ProfileComponent implements OnInit {
   private user: User;
   public profileCurrency: any;
 
-  constructor(private auth: Auth, private formBuilder: FormBuilder) {
+  constructor(private auth: Auth, private formBuilder: FormBuilder, private toastr: ToastsManager) {
     this.user = new User(this.auth.user.userProfile);
   }
 
@@ -41,10 +42,11 @@ export class ProfileComponent implements OnInit {
 
   public update() {
     this.auth.user.updateProfile(this.profileForm.value);
+    this.toastr.success('Profile update', 'Success');
   }
 
   public compareCurrency(cur) {
-    return cur == this.user.currency;
+    return cur === this.user.currency;
   }
 
 }
