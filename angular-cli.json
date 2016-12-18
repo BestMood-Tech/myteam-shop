@@ -19,7 +19,13 @@
       "mobile": false,
       "styles": [
         "styles.scss",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/ag-grid/dist/styles/ag-grid.css",
+        "../node_modules/ag-grid/dist/styles/theme-dark.css",
+        "../node_modules/ag-grid/dist/styles/theme-bootstrap.css",
+        "../node_modules/ag-grid/dist/styles/theme-blue.css",
+        "../node_modules/ag-grid/dist/styles/theme-fresh.css",
+        "../node_modules/ag-grid/dist/styles/theme-material.css"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.min.js",

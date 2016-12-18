@@ -34,7 +34,9 @@ function getSelling (req, res) {
       formProfile: {
         promoCode: faker.lorem.word(),
         address: getAddress(),
-        payment: getKeyPayment(getRandom(6))
+        payment: getKeyPayment(getRandom(5)),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName()
       },
       addressOrder: getAddress(),
       date: new Date(faker.date.between(from, to))
@@ -76,7 +78,7 @@ function getAddress () {
 
 function getOrders () {
   let orders = [];
-  let lastIndex = getRandom(10);
+  let lastIndex = 2 + getRandom(10);
 
   for (let i = 0; i < lastIndex; i++) {
     orders.push({
