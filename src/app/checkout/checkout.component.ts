@@ -6,7 +6,6 @@ import { Address } from '../shared/address.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Router } from '@angular/router';
-import { setInterval } from 'timers';
 
 @Component({
   selector: 'app-checkout',

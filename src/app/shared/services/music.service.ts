@@ -30,6 +30,8 @@ export class MusicService {
 
     if(filters) {
       for (let value of Object.keys(filters)) {
+        if (value === 'new') query += ' tag:new';
+        if (value === 'hipster') query += ' tag:hipster';
         if (value === 'limit') limit = filters[value];
         else query += ' ' + value + ':' + filters[value];
       }

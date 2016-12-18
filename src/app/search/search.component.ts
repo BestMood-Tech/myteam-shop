@@ -24,14 +24,23 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this._route.snapshot.queryParams);
     this.term = new FormControl(this._route.snapshot.queryParams['q']);
     this._route.queryParams
-      .switchMap(({ q }) => {
+      .switchMap( filters => {
+        let musicFilter = {limit: '10'};
+        let gameFilter = {limit: '10'};
+        if (filters['artist']) musicFilter['artist'] = filters['artist'];
+        if (filters['new']) musicFilter['new'] = filters['new'];
+        if (filters['hipster']) musicFilter['hipster'] = filters['hipster'];
+        if (filters['genres']) gameFilter['genres'] = filters['genres'];
+        if (filters['date']) {
+          musicFilter['year'] = filters['date'].split('-')[0];
+          gameFilter['dates'] = filters['date'];
+        }
         return Observable.forkJoin([
-          this._musicService.search(q, { limit: '10' }),
-          this._gamesService.search(q, { limit: '10' }),
-          this._movieService.search(q, { limit: '10' })
+          this._musicService.search(filters['q'], musicFilter),
+          this._gamesService.search(filters['q'], gameFilter),
+          this._movieService.search(filters['q'], { limit: '10' })
         ]);
       })
       .map(([music, games, movies]) => {
@@ -49,13 +58,18 @@ export class SearchComponent implements OnInit {
       .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .subscribe(term => {
-        this._router.navigate(['/search'], {queryParams: { q: term }});
+        let object = {};
+        for (let value of Object.keys(this._route.snapshot.queryParams)) {
+          object[value] = this._route.snapshot.queryParams[value];
+        }
+        object['q'] = term;
+        this._router.navigate(['/search'], {queryParams: object});
       });
   };
 
   filtersUpdated(filters) {
-    console.log(filters)
-    this._router.navigate(['/search'], {queryParams: { q: this.term.value, music: filters.music, game: filters.game }});
+    filters['q'] = this.term.value;
+    this._router.navigate(['/search'], {queryParams: filters});
   }
 }
 

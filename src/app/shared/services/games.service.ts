@@ -91,8 +91,9 @@ export class GamesService {
     let params = this.getParams();
     let limit;
     params.set(`search`, query);
-    if(filters) {
+    if (filters) {
       for (let value of Object.keys(filters)) {
+        if (value === 'dates') params.set(`filter[release_dates.date][eq]`, filters[value]);
         if (value === 'limit') limit = filters[value];
         else params.set(`filter[${value}][eq]`, filters[value]);
       }

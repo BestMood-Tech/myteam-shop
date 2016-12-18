@@ -1,36 +1,29 @@
 <form [formGroup]="filtersForm">
-  <div>search for:
-    <span><input type="checkbox" formControlName="music">music</span>
-    <span><input type="checkbox" formControlName="movie">movies</span>
-    <span><input type="checkbox" formControlName="game">games</span>
-  </div>
+  <!--<div>search for:-->
+    <!--<span><input type="checkbox" formControlName="music">music</span>-->
+    <!--<span><input type="checkbox" formControlName="movie">movies</span>-->
+    <!--<span><input type="checkbox" formControlName="game">games</span>-->
+  <!--</div>-->
   <div class="form-group">
-    <div class="input-group">
-      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker">
-      <div class="input-group-addon" (click)="d.toggle()">
-      </div>
-    </div>
+    <input type="date" formControlName="date">
   </div>
   <!--music-->
-  <fieldset *ngIf="filtersForm.value.music" formGroupName="musicGroup">
+  <fieldset *ngIf="filtersForm.value.music || !(categoryIsSelected)" formGroupName="musicGroup">
     <span>Artist: <input type="text" class="form-control" formControlName="artist"></span>
     <span>Search new <input type="checkbox" formControlName="new"></span>
     <span>Hipster search <input type="checkbox" formControlName="hipster"></span>
   </fieldset>
   <!--movies-->
-  <fieldset *ngIf="filtersForm.value.movie" formGroupName="movieGroup">
+  <!--<fieldset *ngIf="filtersForm.value.movie" formGroupName="movieGroup">-->
 
-  </fieldset>
+  <!--</fieldset>-->
   <!--games-->
-  <fieldset *ngIf="filtersForm.value.game" formGroupName="gameGroup">
+  <fieldset *ngIf="filtersForm.value.game || !(categoryIsSelected)" formGroupName="gameGroup">
     <select formControlName="genres">
       <option value="" disabled>Choose a state</option>
-      <option *ngFor="let item of genres" [ngValue]="item.name">{{item.name}}</option>
+      <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
     </select>
-    Developer: <input type="text" formControlName="developer">
-    <!--<select>-->
-      <!--<option *ngFor="let item of [1,2,3,4,5]">{{item}}</option>-->
-    <!--</select>-->
+    <!--Developer: <input type="text" formControlName="developer">-->
   </fieldset>
   <button class="btn btn-primary" (click)="applyFilters()">apply</button>
 </form>
