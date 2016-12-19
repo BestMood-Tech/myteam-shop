@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Rx';
 export class SearchComponent implements OnInit {
   public term: FormControl;
   products = [];
+  params = this._route.snapshot.queryParams;
 
   constructor(private _musicService: MusicService,
               private _gamesService: GamesService,
@@ -24,13 +25,29 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.term = new FormControl(this._route.snapshot.params['q']);
-    this._route.params
-      .switchMap(({ q }) => {
+    this.term = new FormControl(this._route.snapshot.queryParams['q']);
+    this._route.queryParams
+      .switchMap( filters => {
+        let musicFilter = {limit: '10'};
+        let gameFilter = {limit: '10'};
+        let movieFilter = { limit: '10'};
+        if (filters['artist']) musicFilter['artist'] = filters['artist'];
+        if (filters['new']) musicFilter['new'] = filters['new'];
+        if (filters['hipster']) musicFilter['hipster'] = filters['hipster'];
+        if (filters['genres']) gameFilter['genres'] = filters['genres'];
+        if (filters['dateFrom']) {
+          musicFilter['year'] = filters['dateFrom'].split('-')[0];
+          movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
+        }
+        if (filters['dateTo']) {
+          if (musicFilter['year'] !== '') musicFilter['year'] += '-';
+          musicFilter['year'] += filters['dateTo'].split('-')[0];
+          movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
+        }
         return Observable.forkJoin([
-          this._musicService.search(q, { limit: '10' }),
-          this._gamesService.search(q, { limit: '10' }),
-          this._movieService.search(q, { limit: '10' })
+          this._musicService.search(filters['q'], musicFilter),
+          this._gamesService.search(filters['q'], gameFilter),
+          this._movieService.search(filters['q'], movieFilter)
         ]);
       })
       .map(([music, games, movies]) => {
@@ -48,8 +65,18 @@ export class SearchComponent implements OnInit {
       .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .subscribe(term => {
-        this._router.navigate(['/search', { q: term }])
+        let object = {};
+        for (let value of Object.keys(this._route.snapshot.queryParams)) {
+          object[value] = this._route.snapshot.queryParams[value];
+        }
+        object['q'] = term;
+        this._router.navigate(['/search'], {queryParams: object});
       });
   };
+
+  filtersUpdated(filters) {
+    filters['q'] = this.term.value;
+    this._router.navigate(['/search'], {queryParams: filters});
+  }
 }
 

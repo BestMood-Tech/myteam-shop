@@ -24,8 +24,10 @@ export class AppComponent implements OnInit {
   }
 
   search() {
-    this.router.navigate(['/search',{q: this.searchTermForm.value.term}]);
-    this.searchTermForm.setValue({term: ''});
+    let searchTerm = this.searchTermForm.value.term;
+    if ( !searchTerm || !(searchTerm.length > 3)) return;
+    this.router.navigate(['/search'], {queryParams: { q: searchTerm }});
+    this.searchTermForm.reset();
   }
 
   count() {

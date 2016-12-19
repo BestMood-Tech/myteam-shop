@@ -39,7 +39,7 @@ export class MovieService {
     let params = this.getParams();
     params.set('query', query);
 
-    if(filters) {
+    if (filters) {
       for (let value of Object.keys(filters)) {
         params.set(value, filters[value]);
       }

@@ -8,7 +8,6 @@ export class GamesService {
 
   private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
   private xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
-
   constructor(private _http: Http) {
   }
 
@@ -69,15 +68,30 @@ export class GamesService {
       .map(res => res.json());
   }
 
+  getAllGenres() {
+    let getGenreUrl = `${this.baseUrl}genres/`;
+    let params = this.getParams();
+    params.set('fields', 'name');
+
+    let options = new RequestOptions({
+      search: params,
+      headers: this.getHeaders()
+    });
+
+    return this._http.get(getGenreUrl, options)
+      .map(res => res.json());
+  }
+
   search(query, filters?) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
     let limit;
     params.set(`search`, query);
-    if(filters) {
+    if (filters) {
       for (let value of Object.keys(filters)) {
-        if (value === 'limit') limit = filters[value];
-        else params.set(`filter[${value}][eq]`, filters[value]);
+        if (value === 'limit') {
+          limit = filters[value];
+        } else params.set(`filter[${value}][eq]`, filters[value]);
       }
     }
 
@@ -115,12 +129,11 @@ export class GamesService {
         price: Math.floor(game.popularity * 100) / 10
       };
 
-      if (game.cover) {
-        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
+      if (game.cover) {_tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) {_tempObject['description'] = game.summary;
+      } else _tempObject['description'] = `this game hasn't description yet.`;
 
       return _tempObject;
     });
@@ -141,8 +154,9 @@ export class GamesService {
         _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) {
+        _tempObject['description'] = game.summary;
+      } else _tempObject['description'] = `this game hasn't description yet.`;
 
 
       return _tempObject;
@@ -150,4 +164,5 @@ export class GamesService {
 
     return resultingData[0];
   }
+
 }
