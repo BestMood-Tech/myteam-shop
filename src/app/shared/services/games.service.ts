@@ -8,11 +8,7 @@ export class GamesService {
 
   private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
   private xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
-
-  private genres;
-
   constructor(private _http: Http) {
-    this.getAllGenres().subscribe(items => this.genres = items);
   }
 
   private getParams(): URLSearchParams {
@@ -133,12 +129,10 @@ export class GamesService {
         price: Math.floor(game.popularity * 100) / 10
       };
 
-      if (game.cover) {
-        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
+      if (game.cover) {_tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) {
-        _tempObject['description'] = game.summary;
+      if (game.summary) {_tempObject['description'] = game.summary;
       } else _tempObject['description'] = `this game hasn't description yet.`;
 
       return _tempObject;
@@ -171,7 +165,4 @@ export class GamesService {
     return resultingData[0];
   }
 
-  getLocalGenres() {
-    return this.genres;
-  }
 }

@@ -51,7 +51,7 @@ export class FiltersComponent implements OnInit {
     if (form.musicGroup.artist) filterObject['artist'] = form.musicGroup.artist;
     if (form.musicGroup.new) filterObject['new'] = form.musicGroup.new;
     if (form.musicGroup.hipster) filterObject['hipster'] = form.musicGroup.hipster;
-    if (form.gameGroup.genres) filterObject['genres'] = form.gameGroup.genres;
+    if (!!form.gameGroup.genres) filterObject['genres'] = form.gameGroup.genres;
     this.filtersUpdated.emit(filterObject);
   }
 }
