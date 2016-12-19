@@ -10,6 +10,7 @@ import { Auth } from '../services/auth.service';
 export class ProductCardComponent implements OnInit {
 
   @Input() product;
+  @Input() label;
 
   public productCurrency: any;
 

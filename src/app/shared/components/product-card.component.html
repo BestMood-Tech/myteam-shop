@@ -1,4 +1,5 @@
 <div class="thumbnail" *ngIf="product">
+  <span class="label label-success search-label" *ngIf="label">{{product.type}}</span>
   <img class ="thumb-image" [src]=[product.cover] alt="">
   <div class="caption">
     <h4 class = "product-name"><a [routerLink]="['/category',product.type,product.id]">{{product.name}}</a></h4>
