@@ -10,6 +10,7 @@ import { Auth } from '../services/auth.service';
 export class ProductCardComponent implements OnInit {
 
   @Input() product;
+  @Input() label;
 
   public productCurrency: any;
 
@@ -25,5 +26,14 @@ export class ProductCardComponent implements OnInit {
 
   addToCart(product) {
     this._cart.addToCart(product);
+  }
+
+  getLabel() {
+    switch (this.product.type) {
+      case 'game': return 'label-danger';
+      case 'music': return 'label-info';
+      case 'movie': return 'label-warning';
+      default: return 'label-succes';
+    }
   }
 }

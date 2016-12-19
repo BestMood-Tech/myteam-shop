@@ -91,8 +91,8 @@
             (click)='pay()'
             >Pay
     </button>
-    <h3 *ngIf="isRequesting">
-      <img src="../../assets/loader.gif" alt="" class="checkoutLoad"> Treatment
-    </h3>
+    <div *ngIf="isRequesting" class="loading">
+      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
+    </div>
   </div>
 </div>

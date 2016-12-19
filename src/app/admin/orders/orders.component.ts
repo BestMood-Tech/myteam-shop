@@ -57,7 +57,16 @@ export class OrdersComponent implements OnInit {
   private createColumnDefs() {
     return [
       {
-        headerName: '#', width: 30, checkboxSelection: true
+        headerName: '#',
+        width: 50,
+        checkboxSelection: true,
+        cellRenderer: (params) => {
+          if (params.data !== undefined) {
+            return '';
+          } else {
+            return '<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>';
+          }
+        }
       },
       {
         headerName: 'Orders',

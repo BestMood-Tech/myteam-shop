@@ -11,7 +11,7 @@
           <input type="text" class="form-control" placeholder="Search for..." [formControl]="term"/>
         </div>
         <div class="col-sm-4 col-lg-4 col-md-4" *ngFor="let product of products">
-          <app-product-card [product]='product'></app-product-card>
+          <app-product-card [product]='product' [label]="true"></app-product-card>
         </div>
       </div>
     </div>
