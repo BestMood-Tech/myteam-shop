@@ -3,32 +3,47 @@
     <div class="col-md-12">
       <div class="row">
         <h1>The most popular!</h1>
-        <h2>Game</h2>
-        <div class="col-md-12">
-          <div class="col-md-3 home-item thumbnail" *ngFor='let game of gameData'>
-            <img [src]=[game.cover] class="img-home">
-            <p>{{game.name}}</p>
-            <span>price {{productCurrency}}{{game.price | currency:productCurrency}}</span>
-            <button class="btn btn-success md-btn" (click)='addToCart(game)'>Cart</button>
+        <h2 class="home_h2">Game</h2>
+        <div *ngIf = "!!gameData" class="col-md-12">
+          <div class="col-md-3" *ngFor='let game of gameData'>
+            <div class="home-item thumbnail">
+              <img [src]=[game.cover] class="img-home">
+              <p>{{game.name}}</p>
+              <p>price {{productCurrency}}{{game.price | currency:productCurrency}}</p>
+              <button class="btn btn-success md-btn" (click)='addToCart(game)'>Add to cart</button>
+            </div>
           </div>
         </div>
-        <h2>Music</h2>
-        <div class="col-md-12">
-          <div class="col-md-3 home-item thumbnail" *ngFor='let music of musicData'>
-            <img [src]=[music.cover] class="img-home">
-            <p>{{music.name}}</p>
-            <span>price {{productCurrency}}{{music.price | currency:productCurrency}}</span>
-            <button class="btn btn-success md-btn" (click)='addToCart(music)'>Cart</button>
+        <div *ngIf="!gameData" class="loading">
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
+        </div>
+        <h2 class="home_h2">Music</h2>
+        <div *ngIf="!!musicData" class="col-md-12">
+          <div class="col-md-3" *ngFor='let music of musicData'>
+            <div class="home-item thumbnail">
+              <img [src]=[music.cover] class="img-home">
+              <p>{{music.name}}</p>
+              <p>price {{productCurrency}}{{music.price | currency:productCurrency}}</p>
+              <button class="btn btn-success md-btn" (click)='addToCart(music)'>Add to cart</button>
+            </div>
           </div>
         </div>
-        <h2>Movie</h2>
-        <div class="col-md-12">
-          <div class="col-md-3 home-item thumbnail" *ngFor='let movie of movieData'>
-            <img [src]=[movie.cover] class="img-home">
-            <p>{{movie.name}}</p>
-            <span>price {{productCurrency}}{{movie.price | currency:productCurrency}}</span>
-            <button class="btn btn-success md-btn" (click)='addToCart(movie)'>Cart</button>
+        <div *ngIf="!musicData" class="loading">
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
+        </div>
+        <h2 class="home_h2">Movie</h2>
+        <div *ngIf="!!movieData" class="col-md-12">
+          <div class="col-md-3" *ngFor='let movie of movieData'>
+            <div class="home-item thumbnail">
+              <img [src]=[movie.cover] class="img-home">
+              <p>{{movie.name}}</p>
+              <p>price {{productCurrency}}{{movie.price | currency:productCurrency}}</p>
+              <button class="btn btn-success md-btn" (click)='addToCart(movie)'>Add to cart</button>
+            </div>
           </div>
+        </div>
+        <div *ngIf="!movieData" class="loading">
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
         </div>
       </div>
     </div>

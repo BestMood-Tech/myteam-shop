@@ -19,7 +19,14 @@ export class UsersComponent implements OnInit {
         headerName: 'Name',
         field: 'name',
         editable: true,
-        width: 150
+        width: 150,
+        cellRenderer: (params) => {
+          if (params.data !== undefined) {
+            return params.data.name;
+          } else {
+            return '<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>';
+          }
+        }
       },
       {
         headerName: 'Total',
