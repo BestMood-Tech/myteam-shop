@@ -93,9 +93,9 @@ export class GamesService {
     params.set(`search`, query);
     if (filters) {
       for (let value of Object.keys(filters)) {
-        if (value === 'dates') params.set(`filter[release_dates.date][eq]`, filters[value]);
-        if (value === 'limit') limit = filters[value];
-        else params.set(`filter[${value}][eq]`, filters[value]);
+        if (value === 'limit') {
+          limit = filters[value];
+        } else params.set(`filter[${value}][eq]`, filters[value]);
       }
     }
 
@@ -137,8 +137,9 @@ export class GamesService {
         _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) {
+        _tempObject['description'] = game.summary;
+      } else _tempObject['description'] = `this game hasn't description yet.`;
 
       return _tempObject;
     });
@@ -159,8 +160,9 @@ export class GamesService {
         _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
       } else _tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) {
+        _tempObject['description'] = game.summary;
+      } else _tempObject['description'] = `this game hasn't description yet.`;
 
 
       return _tempObject;

@@ -2,29 +2,39 @@
   <div class="thumbnail">
     <form [formGroup]="filtersForm">
       <div class="form-group">
-        <label for="date">Date</label>
-        <input type="date" id="date" formControlName="date" class="form-control">
+        <label for="dateFrom">Date from</label>
+        <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="dateTo">Date to</label>
+        <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
       </div>
       <fieldset *ngIf="filtersForm.value.music || !(categoryIsSelected)" formGroupName="musicGroup">
-        <div class="form-group">
-          <label for="artist">Artist</label>
-          <input type="text" class="form-control" formControlName="artist" id="artist">
-        </div>
-        <div class="form-group">
-          <label for="new">Search new</label>
-          <input type="checkbox" formControlName="new" id="new">
-        </div>
-        <div class="form-group">
-          <label for="hipster">Hipster search</label>
-          <input type="checkbox" formControlName="hipster" id="hipster">
+        <div class="thumbnail music-filter">
+          <label>For music</label>
+          <div class="form-group">
+            <label for="artist">Artist</label>
+            <input type="text" class="form-control" formControlName="artist" id="artist">
+          </div>
+          <div class="form-group">
+            <label for="new">Search new</label>
+            <input type="checkbox" formControlName="new" id="new">
+          </div>
+          <div class="form-group">
+            <label for="hipster">Hipster search</label>
+            <input type="checkbox" formControlName="hipster" id="hipster">
+          </div>
         </div>
       </fieldset>
       <fieldset *ngIf="filtersForm.value.game || !(categoryIsSelected)" formGroupName="gameGroup" class="input-group">
-        <div class="form-group">
-          <select formControlName="genres" class="form-control">
-            <option value="" disabled>Choose a genre</option>
-            <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
-          </select>
+        <div class="thumbnail game-filter">
+          <label>For game</label>
+          <div class="form-group">
+            <select formControlName="genres" class="form-control">
+              <option value="" disabled>Choose a genre</option>
+              <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
         </div>
       </fieldset>
       <button class="btn btn-success btn-block filter-apply-button" (click)="applyFilters()">apply</button>

@@ -25,7 +25,8 @@ export class FiltersComponent implements OnInit {
     });
 
     this.filtersForm = this.fb.group({
-      date: this.filters.date || '',
+      dateFrom: this.filters.dateFrom || '',
+      dateTo: this.filters.dateTo || '',
       musicGroup: this.fb.group({
         artist: this.filters.artist || '',
         new: this.filters.new || [false],
@@ -45,7 +46,8 @@ export class FiltersComponent implements OnInit {
     if (form.music) filterObject['music'] = form.music;
     if (form.movie) filterObject['movie'] = form.movie;
     if (form.game) filterObject['game'] = form.game;
-    if (form.date) filterObject['date'] = form.date;
+    if (form.dateFrom) filterObject['dateFrom'] = form.dateFrom;
+    if (form.dateTo) filterObject['dateTo'] = form.dateTo;
     if (form.musicGroup.artist) filterObject['artist'] = form.musicGroup.artist;
     if (form.musicGroup.new) filterObject['new'] = form.musicGroup.new;
     if (form.musicGroup.hipster) filterObject['hipster'] = form.musicGroup.hipster;
