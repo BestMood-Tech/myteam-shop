@@ -1,0 +1,11 @@
+:host/deep/ {
+  .fixed-filter {
+    position: fixed;
+    top: 10%;
+    left: 10px;
+    z-index: 100;
+  }
+  .filter-apply-button {
+    margin-top: 5px;
+  }
+}
