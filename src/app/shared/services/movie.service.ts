@@ -53,6 +53,9 @@ export class MovieService {
       .get(searchURL, options)
       .map(res => res.json());
   }
+  myTestMethod() {
+
+  }
 
   recent() {
     let latestURL = `${this.baseURL}movie/now_playing`;
