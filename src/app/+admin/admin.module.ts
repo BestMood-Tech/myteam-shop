@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { OrdersComponent } from './orders/orders.component';
@@ -9,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 import { AgGridModule } from 'ag-grid-ng2/main';
 import { NumericEditorComponent } from './numericEditorComponent/numeric-editor';
-import {NgModule} from "@angular/core/src/metadata/ng_module";
+import { NgModule } from "@angular/core";
 
 @NgModule({
   imports: [
@@ -29,4 +28,4 @@ import {NgModule} from "@angular/core/src/metadata/ng_module";
   ],
   providers: [ AdminService ]
 })
-export class AdminModule { }
+export class AdminModule {}

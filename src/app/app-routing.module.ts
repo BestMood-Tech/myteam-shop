@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent},
-  { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'}
+  { path: 'admin', loadChildren: './+admin/admin.module#AdminModule'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

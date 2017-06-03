@@ -57,7 +57,7 @@ export class MusicService {
         id: album.id,
         type: 'music',
         name: album.name,
-        cover: album.images[1].url,
+        cover: album.images[1]['url'],
         description: album.artists[0].name,
         price: 10
       };
@@ -69,7 +69,7 @@ export class MusicService {
       id: album.id,
       type: 'music',
       name: album.name,
-      cover: album.images[0].url,
+      cover: album.images[0]['url'],
       description: album.artists,
       genres: album.genres,
       tracks: album.tracks,
