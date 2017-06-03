@@ -20,7 +20,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
         HttpModule,
         AppRoutingModule,
         SharedModule.forRoot(),
-        ToastModule
+        ToastModule.forRoot()
     ],
     providers: [CategoryResolve, ProductResolve],
     bootstrap: [AppComponent]

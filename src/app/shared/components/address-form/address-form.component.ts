@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Input } from '@angular/core/src/metadata/directives';
 import { HelperService } from '../../services/helper.service';
 import { Address } from '../../address.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Input } from "@angular/core";
+import { OnInit } from "@angular/core";
+
 
 @Component({
   selector: 'app-address-form',
