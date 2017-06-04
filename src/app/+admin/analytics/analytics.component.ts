@@ -25,9 +25,9 @@ export class AnalyticsComponent implements OnInit {
     responsive: true
   };
 
-  public ChartLegend: boolean = true;
-  public ChartType: string = 'bar';
-  public pieChartType: string = 'pie';
+  public ChartLegend = true;
+  public ChartType = 'bar';
+  public pieChartType = 'pie';
 
   public analyticsForm: FormGroup;
   public yearForm: number[] = [2014, 2015, 2016];
@@ -55,11 +55,11 @@ export class AnalyticsComponent implements OnInit {
     this.adminService.getSelling(fromYear, toYear).subscribe((res) => {
 
       res.forEach((item) => {
-        let date = new Date(item.date);
+        const date = new Date(item.date);
 
         if (this.isYear(date.getFullYear()) === -1) {
 
-          let obj = { data: this.initData(), label: date.getFullYear() };
+          const obj = { data: this.initData(), label: date.getFullYear() };
           obj.data[date.getMonth()] += item.total;
 
           this.chartData.push(obj);
@@ -91,7 +91,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   private initData() {
-    let data = [];
+    const data = [];
 
     for (let i = 0; i < this.labelMonth.length; i++) {
       data.push(0);
@@ -137,7 +137,9 @@ export class AnalyticsComponent implements OnInit {
   }
 
   public show() {
-    if (!this.validDate()) return;
+    if (!this.validDate()) {
+      return;
+    }
 
     this.update(this.analyticsForm.value.from, this.analyticsForm.value.to);
   }

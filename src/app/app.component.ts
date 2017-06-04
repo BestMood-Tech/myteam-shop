@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   search() {
-    this.router.navigate(['/search',{q: this.searchTermForm.value.term}]);
+    this.router.navigate(['/search', {q: this.searchTermForm.value.term}]);
     this.searchTermForm.setValue({term: ''});
   }
 
