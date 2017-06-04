@@ -6,7 +6,7 @@ import { Auth } from './auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private auth: Auth) {}
 
-  canActivate() {
+  public canActivate() {
     return !!this.auth.authenticated();
   }
 }

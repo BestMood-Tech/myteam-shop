@@ -17,7 +17,7 @@ import {Routes, RouterModule} from "@angular/router";
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
-  { path: 'category/music', component: CategoryComponent, resolve: { category: CategoryResolve } },
+  // { path: 'category/music', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'category/games', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'category/movies', component: CategoryComponent, resolve: { category: CategoryResolve } },
   { path: 'search', component: SearchComponent },

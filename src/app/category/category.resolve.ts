@@ -11,7 +11,7 @@ export class CategoryResolve implements Resolve<any> {
   constructor ( private _musicService: MusicService,
                 private _movieService: MovieService,
                 private _gamesService: GamesService) {}
-  resolve(route: ActivatedRouteSnapshot) {
+  public resolve(route: ActivatedRouteSnapshot) {
     if (route.url[1].path === 'music') { return this._musicService.latest(); }
     if (route.url[1].path === 'movies') { return this._movieService.recent(); }
     return this._gamesService.latest();

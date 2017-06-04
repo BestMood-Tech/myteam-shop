@@ -9,14 +9,14 @@ import { Auth } from '../services/auth.service';
 })
 export class ProductCardComponent implements OnInit {
 
-  @Input() product;
-  @Input() label;
+  @Input() public product;
+  @Input() public label;
 
   public productCurrency: any;
 
   constructor(private _cart: Cart, private _auth: Auth) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this._auth.user == null) {
       this.productCurrency = '$';
     } else {
@@ -24,11 +24,11 @@ export class ProductCardComponent implements OnInit {
     }
   }
 
-  addToCart(product) {
+  public addToCart(product) {
     this._cart.addToCart(product);
   }
 
-  getLabel() {
+  public getLabel() {
     switch (this.product.type) {
       case 'game': return 'label-danger';
       case 'music': return 'label-info';

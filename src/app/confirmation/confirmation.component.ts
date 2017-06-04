@@ -17,14 +17,14 @@ export class ConfirmationComponent implements OnInit {
   constructor(private auth: Auth, private toastr: ToastsManager) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.order = this.auth.user.orders[this.auth.user.orders.length - 1];
     this.addressOrder = new Address(this.order.addressOrder);
     this.orderDate.setDate(new Date(this.order.data).getDate() + 14);
     this.toastr.success('Your order has been successfully processed', 'Success!');
   }
 
-  getDate() {
+  public getDate() {
     return `${this.orderDate.getDate()}/${this.orderDate.getMonth()}/${this.orderDate.getFullYear()}`;
   }
 

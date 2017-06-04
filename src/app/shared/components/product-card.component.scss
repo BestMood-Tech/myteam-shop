@@ -1,6 +1,12 @@
 .thumb-image {
   height: 200px !important;
+
+  @media (max-width: 768px) {
+    height: auto !important;
+    max-height: 200px;
+  }
 }
+
 p {
   overflow: hidden;
   height: 40px !important;

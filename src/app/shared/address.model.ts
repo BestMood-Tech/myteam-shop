@@ -16,7 +16,7 @@ export class Address {
     return `City: ${this.city}, streetAddress: ${this.streetAddress}, addressLine2: ${this.addressLine2}`;
   }
 
-  toJson() {
+  public toJson() {
     return JSON.stringify(this)
   }
 }

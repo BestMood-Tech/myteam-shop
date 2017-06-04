@@ -8,7 +8,7 @@ export class MovieService {
   private language = 'en-US';
   private baseURL = 'http://api.themoviedb.org/3/';
 
-  constructor(private _http: Http) {
+  constructor(private http: Http) {
   }
 
   private getParams(): URLSearchParams {
@@ -18,7 +18,7 @@ export class MovieService {
     return params;
   }
 
-  getItem(id) {
+  public getItem(id) {
 
     let getItemURL = `${this.baseURL}movie/${id}`;
 
@@ -28,12 +28,12 @@ export class MovieService {
       search: params
     });
 
-    return this._http
+    return this.http
       .get(getItemURL, options)
       .map(res => res.json());
   }
 
-  search(query, filters?) {
+  public search(query, filters?) {
     let searchURL = `${this.baseURL}search/movie`;
 
     let params = this.getParams();
@@ -49,12 +49,12 @@ export class MovieService {
       search: params
     });
 
-    return this._http
+    return this.http
       .get(searchURL, options)
       .map(res => res.json());
   }
 
-  recent() {
+  public recent() {
     let latestURL = `${this.baseURL}movie/now_playing`;
 
     let params = this.getParams();
@@ -64,12 +64,12 @@ export class MovieService {
       search: params
     });
 
-    return this._http
+    return this.http
       .get(latestURL, options)
       .map(res => res.json());
   }
 
-  processData(data) {
+  public processData(data) {
     let results = data.results;
     return results.map(function(movie){
       return {
@@ -83,7 +83,7 @@ export class MovieService {
     });
   }
 
-  processItem(movie) {
+  public processItem(movie) {
     return {
       id: movie.id,
       type: 'movie',

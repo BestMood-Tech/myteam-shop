@@ -13,6 +13,19 @@ export class UsersComponent implements OnInit {
   public rowData: any[];
   private dataSource: any;
 
+  constructor(private adminService: AdminService) {
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.createColumnDefs(),
+      enableServerSideSorting: true,
+      rowModelType: 'virtual',
+      paginationPageSize: 50
+    };
+  }
+
+  public ngOnInit() {
+    this.update();
+  }
+
   private createColumnDefs() {
     return [
       {
@@ -50,18 +63,7 @@ export class UsersComponent implements OnInit {
       }
     ];
   }
-  constructor(private adminService: AdminService) {
-    this.gridOptions = <GridOptions>{
-      columnDefs: this.createColumnDefs(),
-      enableServerSideSorting: true,
-      rowModelType: 'virtual',
-      paginationPageSize: 50
-    };
-  }
 
-  ngOnInit() {
-    this.update();
-  }
   public update() {
     this.rowData = [];
     this.adminService.getSelling().subscribe((res) => {
@@ -121,8 +123,8 @@ export class UsersComponent implements OnInit {
     return resultOfSort;
 
   }
+
   public saveTable() {
     console.log(this.gridOptions.rowData);
   }
-
 }

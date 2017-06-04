@@ -36,18 +36,16 @@ export class AnalyticsComponent implements OnInit {
   constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.update();
 
     this.analyticsForm = this.formBuilder.group({
       from: ['', Validators.required],
       to: ['', [Validators.required]]
     });
-
-
   }
 
-  update(fromYear?, toYear?) {
+  public update(fromYear?, toYear?) {
     this.chartData = [];
     this.pieChartData = [];
     this.pieChartLabels = [];
@@ -78,26 +76,6 @@ export class AnalyticsComponent implements OnInit {
 
     });
 
-  }
-
-  private isYear(year): number {
-    let key = -1;
-    this.chartData.forEach((item, index) => {
-      if (item.label === year) {
-        key = index;
-      }
-    });
-    return key;
-  }
-
-  private initData() {
-    const data = [];
-
-    for (let i = 0; i < this.labelMonth.length; i++) {
-      data.push(0);
-    }
-
-    return data;
   }
 
   public isEmptyData() {
@@ -148,4 +126,23 @@ export class AnalyticsComponent implements OnInit {
     return this.analyticsForm.valid && (this.analyticsForm.value.from <= this.analyticsForm.value.to);
   }
 
+  private isYear(year): number {
+    let key = -1;
+    this.chartData.forEach((item, index) => {
+      if (item.label === year) {
+        key = index;
+      }
+    });
+    return key;
+  }
+
+  private initData() {
+    const data = [];
+
+    for (let i = 0; i < this.labelMonth.length; i++) {
+      data.push(0);
+    }
+
+    return data;
+  }
 }

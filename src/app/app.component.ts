@@ -12,7 +12,9 @@ import { AuthGuard } from './shared/services/authGuard.service';
 })
 
 export class AppComponent implements OnInit {
-  searchTermForm: FormGroup;
+  public searchTermForm: FormGroup;
+  public navbarCollapsed: boolean;
+
   constructor(private router: Router,
               private cart: Cart,
               private auth: Auth,

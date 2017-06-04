@@ -9,7 +9,7 @@ export class GamesService {
   private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
   private xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
 
-  constructor(private _http: Http) {
+  constructor(private http: Http) {
   }
 
   private getParams(): URLSearchParams {
@@ -25,7 +25,7 @@ export class GamesService {
     return headers;
   }
 
-  getItem(id) {
+  public getItem(id) {
     let getItemUrl = `${this.baseUrl}games/${id}`;
 
     let options = new RequestOptions({
@@ -33,11 +33,10 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this._http.get(getItemUrl, options)
-      .map(res => res.json());
+    return this.http.get(getItemUrl, options).map(res => res.json());
   }
 
-  getDevelopers(ids) {
+  public getDevelopers(ids) {
     if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getDeveloperUrl = `${this.baseUrl}companies/${idString}`;
@@ -49,11 +48,10 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this._http.get(getDeveloperUrl, options)
-      .map(res => res.json());
+    return this.http.get(getDeveloperUrl, options).map(res => res.json());
   }
 
-  getGenres(ids) {
+  public getGenres(ids) {
     if (!ids) return Observable.from(['']);
     let idString = ids.join();
     let getGenreUrl = `${this.baseUrl}genres/${idString}`;
@@ -65,11 +63,10 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this._http.get(getGenreUrl, options)
-      .map(res => res.json());
+    return this.http.get(getGenreUrl, options).map(res => res.json());
   }
 
-  search(query, filters?) {
+  public search(query, filters?) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
     let limit;
@@ -88,11 +85,10 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this._http.get(getItemUrl, options)
-      .map(res => res.json());
+    return this.http.get(getItemUrl, options).map(res => res.json());
   }
 
-  latest() {
+  public latest() {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
     params.set('order', 'release_dates.date:desc');
@@ -102,13 +98,12 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this._http.get(getItemUrl, options)
-      .map(res => res.json());
+    return this.http.get(getItemUrl, options).map(res => res.json());
   }
 
-  processData(data) {
+  public processData(data) {
     return data.map(function(game){
-      let _tempObject = {
+      let tempObject = {
         id: game.id,
         type: 'game',
         name: game.name,
@@ -116,19 +111,19 @@ export class GamesService {
       };
 
       if (game.cover) {
-        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
-      } else _tempObject['cover'] = 'http://placehold.it/320x150';
+        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
+      } else tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) tempObject['description'] = game.summary;
+      else tempObject['description'] = "this game hasn't description yet.";
 
-      return _tempObject;
+      return tempObject;
     });
   }
 
-  processItem(data) {
+  public processItem(data) {
     let resultingData = data.map(function(game){
-      let _tempObject = {
+      let tempObject = {
         id: game.id,
         type: 'game',
         name: game.name,
@@ -138,14 +133,13 @@ export class GamesService {
         price: Math.floor(game.popularity * 100) / 10
       };
       if (game.cover) {
-        _tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
-      } else _tempObject['cover'] = 'http://placehold.it/320x150';
+        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
+      } else tempObject['cover'] = 'http://placehold.it/320x150';
 
-      if (game.summary) _tempObject['description'] = game.summary;
-      else _tempObject['description'] = "this game hasn't description yet.";
+      if (game.summary) tempObject['description'] = game.summary;
+      else tempObject['description'] = "this game hasn't description yet.";
 
-
-      return _tempObject;
+      return tempObject;
     });
 
     return resultingData[0];

@@ -3,7 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class Cart {
-  cart: any;
+  public cart: any;
 
   constructor(private toastr: ToastsManager) {
     try {
@@ -48,16 +48,15 @@ export class Cart {
     return price.toFixed(2);
   }
 
-  clearCart() {
+  public clearCart() {
     this.cart = [];
     this.updateCartLS(this.cart);
     this.toastr.success('Cart clear', 'Success!');
   }
 
 
-  updateCartLS(basket) {
+  public updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
-
 
 }

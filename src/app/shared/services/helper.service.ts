@@ -5,10 +5,10 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HelperService {
 
-  constructor(private _http: Http){ }
+  constructor(private http: Http){ }
 
   public getCountry(){
-      return this._http
+      return this.http
         .get("https://restcountries.eu/rest/v1/all")
         .map(res => res.json());
   }

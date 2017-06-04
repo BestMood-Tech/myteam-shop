@@ -31,10 +31,10 @@ export class OrdersComponent implements OnInit {
         columnGroupClosed: '<i class="glyphicon glyphicon-minus-sign"/>'
       },
       showGrid: true
-  };
+    };
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.update();
   }
 

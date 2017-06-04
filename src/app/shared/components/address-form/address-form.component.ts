@@ -22,7 +22,7 @@ export class AddressFormComponent implements OnInit {
               private helper: HelperService,
               private formBulder: FormBuilder) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.copyAddress = new Address(this.address);
 
     this.helper.getCountry().subscribe(res => {
@@ -39,12 +39,12 @@ export class AddressFormComponent implements OnInit {
     });
   }
 
-  save() {
+  public save() {
     if(!this.addressForm.valid) return;
     this.activeModal.close(this.addressForm.value);
   }
 
-  compareCountry(data): boolean {
+  public compareCountry(data): boolean {
     return this.copyAddress.country == data;
   }
 

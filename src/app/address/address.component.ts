@@ -10,31 +10,26 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss']
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent {
 
   constructor(private auth: Auth, private modalService: NgbModal, private toastr: ToastsManager) {
   }
 
-  ngOnInit() {
-
-  }
-
-  update(key) {
+  public update(key) {
     this.open(key);
   }
 
-  add() {
+  public add() {
     this.open();
   }
 
-  delete(key) {
+  public delete(key) {
     this.auth.user.deleteAddress(key);
     this.toastr.success('Address delete', 'Success');
   }
 
 
   private open(key?) {
-
     const modalRef = this.modalService.open(AddressFormComponent);
     if (key == null) {
       modalRef.componentInstance.address = new Address({});
@@ -54,6 +49,5 @@ export class AddressComponent implements OnInit {
       (reason) => null
     );
   }
-
 
 }

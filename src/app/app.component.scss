@@ -1,3 +1,23 @@
 .dropdown {
   cursor: pointer;
 }
+
+.auth-group {
+  @media (max-width: 768px) {
+    width: 30%;
+    display: inline-block;
+    margin-left: 15px;
+  }
+
+  @media (max-width: 500px) {
+    width: 60%;
+    display: inline-block;
+    margin: 0px;
+  }
+}
+
+.auth-form {
+  @media (max-width: 500px) {
+    margin: 15px 0px;
+  }
+}

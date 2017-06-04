@@ -11,28 +11,24 @@ import { Cart } from '../shared/services/cart.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-
-  products;
-
+  public products;
   private currentService;
 
   constructor ( private route: ActivatedRoute,
-              private _musicService: MusicService,
-              private  _movieService: MovieService,
-              private _gamesService: GamesService,
-              private _cart: Cart) {
+              private movieService: MovieService,
+              private gamesService: GamesService,
+              private cart: Cart) {
     switch (this.route.snapshot.url[1].path) {
-      case 'music': this.currentService = this._musicService; break;
-      case 'movies': this.currentService = this._movieService; break;
-      default: this.currentService = this._gamesService; break;
+      case 'movies': this.currentService = this.movieService; break;
+      default: this.currentService = this.gamesService; break;
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.products = this.currentService.processData(this.route.snapshot.data['category']);
   }
 
-  addToCart(product) {
-    this._cart.addToCart(product);
+  public addToCart(product) {
+    this.cart.addToCart(product);
   }
 }
