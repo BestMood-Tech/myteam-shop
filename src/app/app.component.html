@@ -12,7 +12,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse" [ngbCollapse]="navbarCollapsed">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/category/music">Music</a></li>
+        <!--<li><a routerLink="/category/music">Music</a></li>-->
         <li><a routerLink="/category/games">Games</a></li>
         <li><a routerLink="/category/movies">Movie</a></li>
         <li *ngIf="authGuard.canActivate()" class="dropdown pull-right d-inline-block" ngbDropdown>
@@ -35,11 +35,11 @@
           </ul>
         </li>
         <li>
-          <form class="navbar-form auth-form" (submit)="search()" [formGroup]="searchTermForm">
-            <div class="form-group auth-group">
+          <form class="navbar-form auth-form" [formGroup]="searchTermForm">
+            <div class="form-group auth-group" (submit)="search()">
               <input type="text" placeholder="Search..." class="form-control" formControlName="term">
             </div>
-            <button type="submit" class="btn btn-success">Search</button>
+            <button type="submit" class="btn btn-success" (click)="search()">Search</button>
             <button class="btn btn-success btn-margin" routerLink="/cart">
               Cart  <span *ngIf="count()" class="badge">{{count()}}</span>
             </button>
