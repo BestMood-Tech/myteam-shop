@@ -14,18 +14,18 @@ export class ProductCardComponent implements OnInit {
 
   public productCurrency: any;
 
-  constructor(private _cart: Cart, private _auth: Auth) {}
+  constructor(private cart: Cart, private auth: Auth) {}
 
   public ngOnInit() {
-    if (this._auth.user == null) {
+    if (this.auth.user == null) {
       this.productCurrency = '$';
     } else {
-      this.productCurrency = this._auth.user.currency;
+      this.productCurrency = this.auth.user.currency;
     }
   }
 
   public addToCart(product) {
-    this._cart.addToCart(product);
+    this.cart.addToCart(product);
   }
 
   public getLabel() {

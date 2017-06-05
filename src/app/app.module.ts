@@ -8,6 +8,7 @@ import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { ProductResolve } from './product/product.resolve';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         HttpModule,
         AppRoutingModule,

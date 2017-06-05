@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
@@ -55,8 +55,9 @@ export class Cart {
   }
 
 
-  public updateCartLS(basket) {
+  updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
+
 
 }
