@@ -13,7 +13,8 @@ import { Observable } from 'rxjs/Rx';
 })
 export class SearchComponent implements OnInit {
   public term: FormControl;
-  products = [];
+  public products = [];
+  public params = this.route.snapshot.queryParams;
 
   constructor(private gamesService: GamesService,
               private movieService: MovieService,
@@ -21,19 +22,17 @@ export class SearchComponent implements OnInit {
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.term = new FormControl(this.route.snapshot.params['q']);
     this.route.params
       .switchMap(({ q }) => {
         return Observable.forkJoin([
-          // this._musicService.search(q, { limit: '10' }),
           this.gamesService.search(q, { limit: '10' }),
           this.movieService.search(q, { limit: '10' })
         ]);
       })
       .map(([games, movies]) => {
         return [].concat(
-          // this._musicService.processData(music),
           this.gamesService.processData(games),
           this.movieService.processData(movies));
       })
@@ -49,5 +48,10 @@ export class SearchComponent implements OnInit {
         this.router.navigate(['/search', { q: term }])
       });
   };
+
+  public filtersUpdated(filters) {
+    filters['q'] = this.term.value;
+    this.router.navigate(['/search'], {queryParams: filters});
+  }
 }
 

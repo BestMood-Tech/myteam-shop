@@ -8,6 +8,7 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { HelperService } from './services/helper.service';
 import { ProductCardComponent } from './components/product-card.component';
 import { RouterModule } from '@angular/router';
+import { FiltersComponent } from './components/filter/filters.component';
 
 @NgModule({
   imports: [
@@ -25,9 +26,10 @@ import { RouterModule } from '@angular/router';
     CurrencyPipe,
     NgbModule,
     AddressFormComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    FiltersComponent
   ],
-  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent],
+  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent, FiltersComponent  ],
   entryComponents: [AddressFormComponent]
 })
 
