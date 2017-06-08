@@ -3,6 +3,7 @@ import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
+import { BooksService } from '../shared/services/books.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,11 @@ import { Auth } from '../shared/services/auth.service';
 export class HomeComponent implements OnInit {
   public gameData: any;
   public movieData: any;
+  public bookData: any;
   public productCurrency: any;
   constructor(private movieService: MovieService,
               private gamesService: GamesService,
+              private booksService: BooksService,
               private cart: Cart,
               private auth: Auth) {}
 
@@ -24,6 +27,9 @@ export class HomeComponent implements OnInit {
     });
     this.movieService.recent().subscribe(res => {
       this.movieData = this.movieService.processData(res).slice(0, 12);
+    });
+    this.booksService.getStories().subscribe((res) => {
+      this.bookData = this.booksService.processData(res);
     });
     if  (this.auth.user == null) {
       this.productCurrency = '$';

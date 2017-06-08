@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe } from './pipes/currency.pipe';
-import { MusicService, GamesService, MovieService, Auth, Cart, AuthGuard } from './services';
+import { BooksService, GamesService, MovieService, Auth, Cart, AuthGuard } from './services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { HelperService } from './services/helper.service';
@@ -38,7 +38,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        MusicService,
+        BooksService,
         GamesService,
         MovieService,
         Auth,
