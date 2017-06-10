@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class FiltersComponent implements OnInit {
   public genres: any;
   public filtersForm: FormGroup;
+  public display: boolean = true;
   @Input() public filters: any;
   @Output() public filtersUpdated: EventEmitter<any> = new EventEmitter();
 
@@ -42,5 +43,9 @@ export class FiltersComponent implements OnInit {
     if (form.checkBooks) filterObject['checkBooks'] = form.checkBooks;
     if (!!form.gameGroup.genres) filterObject['genres'] = form.gameGroup.genres;
     this.filtersUpdated.emit(filterObject);
+  }
+
+  public inverseDisplay() {
+    this.display = !this.display;
   }
 }

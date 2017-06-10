@@ -1,5 +1,9 @@
 <div class="col-md-2 fixed-filter">
-  <div class="thumbnail">
+  <button class="btn btn-success" *ngIf="!display" (click)="inverseDisplay()">
+    <i class="glyphicon glyphicon-filter"></i>
+  </button>
+  <div class="thumbnail" *ngIf="display">
+    <i class="glyphicon glyphicon-collapse-up" (click)="inverseDisplay()"></i>
     <form [formGroup]="filtersForm">
       <div class="form-group">
         <label for="dateFrom">Date from</label>
