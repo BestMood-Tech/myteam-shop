@@ -6,26 +6,32 @@ import 'rxjs/add/operator/map';
 export class BooksService {
   private baseUrl = 'https://api.wattpad.com/v4/';
   private apiKey = 'tEIdSUrwgw7TWjk5ymOxk4JIbUlxIXMEVkI5IJwu65t9';
+  private options: RequestOptions;
 
   constructor(private http: Http) {
+    this.options = new RequestOptions({
+      headers: this.getHeaders(),
+      params: this.getParams()
+    });
   }
 
   public getStories() {
-    let options = new RequestOptions({
-      headers: this.getHeaders(),
-      params: this.getParams()
-    });
-    return this.http.get(`${this.baseUrl}stories`, options).map((res) => res.json());
+    return this.http.get(`${this.baseUrl}stories`, this.options).map((res) => res.json());
   }
 
   public getItem(id) {
-    let options = new RequestOptions({
-      headers: this.getHeaders(),
-      params: this.getParams()
-    });
-    return this.http.get(`${this.baseUrl}stories`, options).map((res) => {
+    return this.http.get(`${this.baseUrl}stories`, this.options).map((res) => {
       return res.json().stories.filter((item) => item.id === parseInt(id, 10))
     });
+  }
+
+  public search(query) {
+    return this.http.get(`${this.baseUrl}stories`, this.options)
+      .map((res) => res.json())
+      .map((res) => {
+        res.stories = res.stories.filter((item) => item.title.indexOf(query) !== -1);
+        return res;
+      });
   }
 
   public processData(data) {

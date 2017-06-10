@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Observable } from 'rxjs/Rx';
+import { BooksService } from '../shared/services/books.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private gamesService: GamesService,
               private movieService: MovieService,
+              private bookService: BooksService,
               private router: Router,
               private route: ActivatedRoute) {
   }
@@ -27,12 +29,14 @@ export class SearchComponent implements OnInit {
     this.route.params
       .switchMap(({ q }) => {
         return Observable.forkJoin([
+          this.bookService.search(q),
           this.gamesService.search(q, { limit: '10' }),
           this.movieService.search(q, { limit: '10' })
         ]);
       })
-      .map(([games, movies]) => {
+      .map(([books, games, movies]) => {
         return [].concat(
+          this.bookService.processData(books),
           this.gamesService.processData(games),
           this.movieService.processData(movies));
       })

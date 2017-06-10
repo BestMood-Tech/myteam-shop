@@ -31,7 +31,7 @@ export class ProductCardComponent implements OnInit {
   public getLabel() {
     switch (this.product.type) {
       case 'game': return 'label-danger';
-      case 'music': return 'label-info';
+      case 'books': return 'label-info';
       case 'movie': return 'label-warning';
       default: return 'label-succes';
     }
