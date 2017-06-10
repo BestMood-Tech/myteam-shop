@@ -151,4 +151,5 @@ export class GamesService {
 
     return resultingData[0];
   }
+
 }
