@@ -1,17 +1,25 @@
 <div class="col-md-2 fixed-filter">
   <div class="thumbnail">
     <form [formGroup]="filtersForm">
-      <fieldset *ngIf="filtersForm.value.game || !(categoryIsSelected)" formGroupName="gameGroup" class="input-group">
-        <div class="thumbnail game-filter">
-          <label>For game</label>
-          <div class="form-group">
-            <select formControlName="genres" class="form-control">
-              <option value="">Choose a genre</option>
-              <option *ngFor="let item of genres" [value]="item.id">{{item.name}}</option>
-            </select>
-          </div>
-        </div>
-      </fieldset>
+      <div class="form-group">
+        <label for="dateFrom">Date from</label>
+        <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="dateTo">Date to</label>
+        <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="Movie">
+          Movie<input type="checkbox" id="Movie" formControlName="checkMovies" class="form-control">
+        </label>
+        <label for="Books">
+          Books<input type="checkbox" id="Books" formControlName="checkBooks" class="form-control">
+        </label>
+        <label for="Games">
+          Games<input type="checkbox" id="Games" formControlName="checkGames" class="form-control">
+        </label>
+      </div>
       <button class="btn btn-success btn-block filter-apply-button" (click)="applyFilters()">Apply</button>
     </form>
   </div>

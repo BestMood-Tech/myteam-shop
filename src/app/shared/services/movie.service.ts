@@ -71,7 +71,7 @@ export class MovieService {
 
   public processData(data) {
     let results = data.results;
-    return results.map(function(movie){
+    return results.map((movie) => {
       return {
         id: movie.id,
         type: 'movie',

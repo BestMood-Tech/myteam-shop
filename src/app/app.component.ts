@@ -25,16 +25,24 @@ export class AppComponent implements OnInit {
               private toastr: ToastsManager) {
     this.toastr.setRootViewContainerRef(this.viewContainer);
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.searchTermForm = this.fb.group({term: ''});
   }
 
-  search() {
-    this.router.navigate(['/search', {q: this.searchTermForm.value.term}]);
+  public search() {
+    let searchTerm = this.searchTermForm.value.term;
+    if ( !searchTerm || !(searchTerm.length > 3)) return;
+    let searchObj = {
+      q: searchTerm,
+      checkMovies: true,
+      checkBooks: true,
+      checkGames: true
+    };
+    this.router.navigate(['/search'], { queryParams: searchObj});
     this.searchTermForm.setValue({term: ''});
   }
 
-  count() {
+  public count() {
     return this.cart.countCart;
   }
 

@@ -66,6 +66,13 @@ export class GamesService {
     return this.http.get(getGenreUrl, options).map(res => res.json());
   }
 
+  public getAllGenres() {
+    let options = new RequestOptions({
+      headers: this.getHeaders()
+    });
+    return this.http.get(`${this.baseUrl}genres/`, options).map(res => res.json());
+  }
+
   public search(query, filters?) {
     let getItemUrl = `${this.baseUrl}games/`;
     let params = this.getParams();
@@ -102,7 +109,7 @@ export class GamesService {
   }
 
   public processData(data) {
-    return data.map(function(game){
+    return data.map((game) => {
       let tempObject = {
         id: game.id,
         type: 'game',

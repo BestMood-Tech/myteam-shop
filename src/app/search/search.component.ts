@@ -25,16 +25,31 @@ export class SearchComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.term = new FormControl(this.route.snapshot.params['q']);
-    this.route.params
-      .switchMap(({ q }) => {
+    let objState = {
+      checkMovies: true,
+      checkBooks: true,
+      checkGames: true
+    };
+
+    this.term = new FormControl(this.route.snapshot.queryParams['q']);
+    this.route.queryParams
+      .switchMap((filters) => {
+        let gameFilter = {limit: '10'};
+        let movieFilter = { limit: '10'};
+        if (filters['genres']) gameFilter['genres'] = filters['genres'];
+        if (filters['dateFrom']) movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
+        if (filters['dateTo']) movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
+        Object.keys(objState).forEach((nameField) => objState[nameField] = filters[nameField]);
         return Observable.forkJoin([
-          this.bookService.search(q),
-          this.gamesService.search(q, { limit: '10' }),
-          this.movieService.search(q, { limit: '10' })
+          this.bookService.search(filters['q']),
+          this.gamesService.search(filters['q'], gameFilter),
+          this.movieService.search(filters['q'], movieFilter)
         ]);
       })
       .map(([books, games, movies]) => {
+        if (!objState.checkBooks) books.stories = [];
+        if (!objState.checkMovies) movies.results = [];
+        if (!objState.checkGames) games = [];
         return [].concat(
           this.bookService.processData(books),
           this.gamesService.processData(games),
@@ -46,14 +61,20 @@ export class SearchComponent implements OnInit {
 
     this.term.valueChanges
       .debounceTime(500)
-      .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .subscribe(term => {
-        this.router.navigate(['/search', { q: term }])
+        let object = {};
+        for (let value of Object.keys(this.route.snapshot.queryParams)) {
+          object[value] = this.route.snapshot.queryParams[value];
+        }
+        object['q'] = term;
+        this.router.navigate(['/search'], {queryParams: object});
       });
+
   };
 
   public filtersUpdated(filters) {
+    console.log(filters);
     filters['q'] = this.term.value;
     this.router.navigate(['/search'], {queryParams: filters});
   }
