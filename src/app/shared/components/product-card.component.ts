@@ -9,29 +9,29 @@ import { Auth } from '../services/auth.service';
 })
 export class ProductCardComponent implements OnInit {
 
-  @Input() product;
-  @Input() label;
+  @Input() public product;
+  @Input() public label;
 
   public productCurrency: any;
 
-  constructor(private _cart: Cart, private _auth: Auth) {}
+  constructor(private cart: Cart, private auth: Auth) {}
 
-  ngOnInit() {
-    if (this._auth.user == null) {
+  public ngOnInit() {
+    if (this.auth.user == null) {
       this.productCurrency = '$';
     } else {
-      this.productCurrency = this._auth.user.currency;
+      this.productCurrency = this.auth.user.currency;
     }
   }
 
-  addToCart(product) {
-    this._cart.addToCart(product);
+  public addToCart(product) {
+    this.cart.addToCart(product);
   }
 
-  getLabel() {
+  public getLabel() {
     switch (this.product.type) {
       case 'game': return 'label-danger';
-      case 'music': return 'label-info';
+      case 'books': return 'label-info';
       case 'movie': return 'label-warning';
       default: return 'label-succes';
     }

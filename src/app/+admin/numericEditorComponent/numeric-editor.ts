@@ -14,29 +14,31 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
   @ViewChild('input', {read: ViewContainerRef}) public input;
 
 
-  agInit(params: any): void {
+  public agInit(params: any): void {
     this.params = params;
     this.value = this.params.value;
     this.cancelBeforeStart = params.charPress && this.isCharNumeric(params.charPress);
   }
 
-  getValue(): any {
+  public getValue(): any {
     return this.value;
   }
 
-  isCancelBeforeStart(): boolean {
+  public isCancelBeforeStart(): boolean {
     return this.cancelBeforeStart;
   }
-  isCancelAfterEnd(): boolean {
+
+  public isCancelAfterEnd(): boolean {
     return this.value > 1000000;
   };
 
-  onKeyDown(event): void {
+  public onKeyDown(event): void {
     if (!this.isKeyPressedNumeric(event)) {
       if (event.preventDefault) event.preventDefault();
     }
   }
-  ngAfterViewInit() {
+
+  public ngAfterViewInit() {
     this.input.element.nativeElement.focus();
   }
 

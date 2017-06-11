@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Input } from '@angular/core/src/metadata/directives';
 import { HelperService } from '../../services/helper.service';
 import { Address } from '../../address.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Input } from "@angular/core";
+import { OnInit } from "@angular/core";
+
 
 @Component({
   selector: 'app-address-form',
@@ -21,7 +22,7 @@ export class AddressFormComponent implements OnInit {
               private helper: HelperService,
               private formBulder: FormBuilder) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.copyAddress = new Address(this.address);
 
     this.helper.getCountry().subscribe(res => {
@@ -38,12 +39,12 @@ export class AddressFormComponent implements OnInit {
     });
   }
 
-  save() {
+  public save() {
     if(!this.addressForm.valid) return;
     this.activeModal.close(this.addressForm.value);
   }
 
-  compareCountry(data): boolean {
+  public compareCountry(data): boolean {
     return this.copyAddress.country == data;
   }
 

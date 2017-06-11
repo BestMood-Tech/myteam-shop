@@ -5,7 +5,7 @@
         <h1>The most popular!</h1>
         <h2 class="home_h2">Game</h2>
         <div *ngIf = "!!gameData" class="col-md-12">
-          <div class="col-md-3" *ngFor='let game of gameData'>
+          <div class="col-md-3 col-sm-6 col-xs-12" *ngFor='let game of gameData'>
             <div class="home-item thumbnail">
               <img [src]=[game.cover] class="img-home">
               <p>{{game.name}}</p>
@@ -17,18 +17,18 @@
         <div *ngIf="!gameData" class="loading">
           <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
         </div>
-        <h2 class="home_h2">Music</h2>
-        <div *ngIf="!!musicData" class="col-md-12">
-          <div class="col-md-3" *ngFor='let music of musicData'>
+        <h2 class="home_h2">Books</h2>
+        <div *ngIf="!!bookData" class="col-md-12">
+          <div class="col-md-3" *ngFor='let book of bookData'>
             <div class="home-item thumbnail">
-              <img [src]=[music.cover] class="img-home">
-              <p>{{music.name}}</p>
-              <p>price {{productCurrency}}{{music.price | currency:productCurrency}}</p>
-              <button class="btn btn-success md-btn" (click)='addToCart(music)'>Add to cart</button>
+              <img [src]=[book.cover] class="img-home">
+              <p>{{book.name}}</p>
+              <p>price {{productCurrency}}{{book.price | currency:productCurrency}}</p>
+              <button class="btn btn-success md-btn" (click)='addToCart(book)'>Add to cart</button>
             </div>
           </div>
         </div>
-        <div *ngIf="!musicData" class="loading">
+        <div *ngIf="!bookData" class="loading">
           <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
         </div>
         <h2 class="home_h2">Movie</h2>

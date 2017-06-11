@@ -19,8 +19,7 @@ export class CheckoutComponent implements OnInit {
   public checkOutCurrency = '$';
   public checkOutForm: FormGroup;
   public checkOutAddress: Address;
-
-  public acitvePromoCode: boolean;
+  public activePromoCode: boolean;
   public arrayAddressUser: any;
   public paymentSystem: string[] = [
     'PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'
@@ -36,13 +35,12 @@ export class CheckoutComponent implements OnInit {
               private router: Router) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.auth.user) this.checkOutCurrency = this.auth.user.currency;
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
     } catch (e) {
-      console.log(e);
       this.orders = [];
     }
 
@@ -52,11 +50,11 @@ export class CheckoutComponent implements OnInit {
       payment: ['', Validators.required]
     });
 
-    this.acitvePromoCode = true;
+    this.activePromoCode = true;
     this.arrayAddressUser = this.auth.user.address;
   }
 
-  getTotal() {
+  public getTotal() {
     let price = 0.0;
     this.orders.forEach((item) => {
       price += item.price;
@@ -64,8 +62,8 @@ export class CheckoutComponent implements OnInit {
     return price.toFixed(2);
   }
 
-  checkPromoCode() {
-    if (!this.checkOutForm.value.promoCode.length && this.acitvePromoCode) return;
+  public checkPromoCode() {
+    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) return;
 
     let discount = 1;
 
@@ -80,14 +78,14 @@ export class CheckoutComponent implements OnInit {
     if (discount === 1) return;
 
     this.orders.map((item) => item.price *= discount);
-    this.acitvePromoCode = false;
+    this.activePromoCode = false;
   }
 
-  onChangeAddress(key) {
+  public onChangeAddress(key) {
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
   }
 
-  newAddress() {
+  public newAddress() {
     const modalRef = this.modalService.open(AddressFormComponent);
     modalRef.componentInstance.address = new Address({});
     modalRef.result.then(
@@ -99,16 +97,16 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  differentAddress() {
+  public differentAddress() {
     this.checkOutAddress = null;
     this.checkOutForm.controls['address'].reset();
   }
 
-  checkPay(): boolean {
+  public checkPay(): boolean {
     return this.checkOutForm.valid && this.checkOutAddress != null;
   }
 
-  saveOrders() {
+  public saveOrders() {
     this.auth.user.addOrders({
       orders: this.orders,
       total: this.getTotal(),
@@ -119,14 +117,7 @@ export class CheckoutComponent implements OnInit {
     this.toastr.success('Orders added to profile', 'Success');
   }
 
-  private myPay = function() {
-    this.cart.clearCart();
-    this.isRequesting = false;
-    this.saveOrders();
-    this.router.navigate(['./confirmation']);
-  };
-
-  pay() {
+  public pay() {
     this.toastr.info('Order is processed');
     if (!this.checkPay()) return;
     this.isRequesting = true;
@@ -136,5 +127,11 @@ export class CheckoutComponent implements OnInit {
     }, 5000);
   }
 
+  private myPay = function() {
+    this.cart.clearCart();
+    this.isRequesting = false;
+    this.saveOrders();
+    this.router.navigate(['./confirmation']);
+  };
 
 }

@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
-import { MusicService } from '../shared/services/music.service';
 import { Observable } from 'rxjs/Rx';
+import { BooksService } from '../shared/services/books.service';
 
 
 @Component({
@@ -14,47 +14,46 @@ import { Observable } from 'rxjs/Rx';
 })
 export class SearchComponent implements OnInit {
   public term: FormControl;
-  products = [];
-  params = this._route.snapshot.queryParams;
+  public products = [];
+  public params = this.route.snapshot.queryParams;
 
-  constructor(private _musicService: MusicService,
-              private _gamesService: GamesService,
-              private _movieService: MovieService,
-              private _router: Router,
-              private _route: ActivatedRoute) {
+  constructor(private gamesService: GamesService,
+              private movieService: MovieService,
+              private bookService: BooksService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
-    this.term = new FormControl(this._route.snapshot.queryParams['q']);
-    this._route.queryParams
-      .switchMap( filters => {
-        let musicFilter = {limit: '10'};
+  public ngOnInit() {
+    let objState = {
+      checkMovies: true,
+      checkBooks: true,
+      checkGames: true
+    };
+
+    this.term = new FormControl(this.route.snapshot.queryParams['q']);
+    this.route.queryParams
+      .switchMap((filters) => {
         let gameFilter = {limit: '10'};
         let movieFilter = { limit: '10'};
-        if (filters['artist']) musicFilter['artist'] = filters['artist'];
-        if (filters['new']) musicFilter['new'] = filters['new'];
-        if (filters['hipster']) musicFilter['hipster'] = filters['hipster'];
         if (filters['genres']) gameFilter['genres'] = filters['genres'];
-        if (filters['dateFrom']) {
-          musicFilter['year'] = filters['dateFrom'].split('-')[0];
-          movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
-        }
-        if (filters['dateTo']) {
-          if (musicFilter['year'] !== '') musicFilter['year'] += '-';
-          musicFilter['year'] += filters['dateTo'].split('-')[0];
-          movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
-        }
+        if (filters['dateFrom']) movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
+        if (filters['dateTo']) movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
+        Object.keys(objState).forEach((nameField) => objState[nameField] = filters[nameField]);
         return Observable.forkJoin([
-          this._musicService.search(filters['q'], musicFilter),
-          this._gamesService.search(filters['q'], gameFilter),
-          this._movieService.search(filters['q'], movieFilter)
+          this.bookService.search(filters['q']),
+          this.gamesService.search(filters['q'], gameFilter),
+          this.movieService.search(filters['q'], movieFilter)
         ]);
       })
-      .map(([music, games, movies]) => {
+      .map(([books, games, movies]) => {
+        if (!objState.checkBooks) books.stories = [];
+        if (!objState.checkMovies) movies.results = [];
+        if (!objState.checkGames) games = [];
         return [].concat(
-          this._musicService.processData(music),
-          this._gamesService.processData(games),
-          this._movieService.processData(movies));
+          this.bookService.processData(books),
+          this.gamesService.processData(games),
+          this.movieService.processData(movies));
       })
       .subscribe(items => {
         this.products = items;
@@ -62,21 +61,22 @@ export class SearchComponent implements OnInit {
 
     this.term.valueChanges
       .debounceTime(500)
-      .filter(item => item && item.length > 3)
       .distinctUntilChanged()
       .subscribe(term => {
         let object = {};
-        for (let value of Object.keys(this._route.snapshot.queryParams)) {
-          object[value] = this._route.snapshot.queryParams[value];
+        for (let value of Object.keys(this.route.snapshot.queryParams)) {
+          object[value] = this.route.snapshot.queryParams[value];
         }
         object['q'] = term;
-        this._router.navigate(['/search'], {queryParams: object});
+        this.router.navigate(['/search'], {queryParams: object});
       });
+
   };
 
-  filtersUpdated(filters) {
+  public filtersUpdated(filters) {
+    console.log(filters);
     filters['q'] = this.term.value;
-    this._router.navigate(['/search'], {queryParams: filters});
+    this.router.navigate(['/search'], {queryParams: filters});
   }
 }
 

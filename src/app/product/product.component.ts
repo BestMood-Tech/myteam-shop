@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MusicService } from '../shared/services/music.service';
+import { BooksService } from '../shared/services/books.service';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
@@ -19,15 +19,15 @@ export class ProductComponent implements OnInit {
   public productCurrency: any;
 
   constructor ( private route: ActivatedRoute,
-                private _musicService: MusicService,
-                private _movieService: MovieService,
-                private _gamesService: GamesService,
-                private _cart: Cart,
-                private _auth: Auth) {
+                private booksService: BooksService,
+                private movieService: MovieService,
+                private gamesService: GamesService,
+                private cart: Cart,
+                private auth: Auth) {
     switch (this.route.snapshot.url[1].path) {
-      case 'music': this.currentService = this._musicService; break;
-      case 'movie': this.currentService = this._movieService; break;
-      default: this.currentService = this._gamesService; break;
+      case 'books': this.currentService = this.booksService; break;
+      case 'movie': this.currentService = this.movieService; break;
+      default: this.currentService = this.gamesService; break;
     }
   }
 
@@ -42,11 +42,11 @@ export class ProductComponent implements OnInit {
         .subscribe(res => this.product.developers = res);
     }
 
-    if(this._auth.user == null) this.productCurrency = "$";
-    else this.productCurrency = this._auth.user.currency;
+    if(this.auth.user == null) this.productCurrency = "$";
+    else this.productCurrency = this.auth.user.currency;
   }
 
   addToCart(product) {
-    this._cart.addToCart(product);
+    this.cart.addToCart(product);
   }
 }

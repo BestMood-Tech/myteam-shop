@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "version": "1.0.0-beta.19-3",
     "name": "myteam-shop"
@@ -32,8 +33,8 @@
         "../node_modules/chart.js/dist/Chart.min.js",
         "../node_modules/chart.js/dist/Chart.bundle.min.js"
       ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }

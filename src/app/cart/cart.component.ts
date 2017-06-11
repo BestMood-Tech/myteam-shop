@@ -11,28 +11,28 @@ import { Router } from '@angular/router';
 export class CartComponent implements OnInit {
 
   orders: any;
-  autorization: boolean;
+  authorization: boolean;
   cartCurrency = '$';
 
   constructor(private cart: Cart, private auth: Auth, private router: Router) {
     this.orders = this.cart.getCart();
-    this.autorization = this.auth.authenticated();
+    this.authorization = this.auth.authenticated();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.auth.user) this.cartCurrency = this.auth.user.currency;
     this.auth.onAuth.subscribe((value) => {
-      this.autorization = value;
+      this.authorization = value;
     });
   }
 
 
-  deleteProduct(key) {
+  public deleteProduct(key) {
     this.cart.deleteItem(key);
     this.orders = this.cart.getCart();
   }
 
-  getTotalPrice() {
+  public getTotalPrice() {
     let price = 0.0;
     this.orders.forEach((item) => {
       price += item.price;
@@ -40,12 +40,11 @@ export class CartComponent implements OnInit {
     return price.toFixed(2);
   }
 
-  disabledPay(): boolean {
-    return !!this.cart.countCart && this.autorization;
+  public disabledPay(): boolean {
+    return !!this.cart.countCart && this.authorization;
   }
 
-
-  checkout() {
+  public checkout() {
     if (!this.disabledPay()) return;
     this.router.navigate(['./checkout']);
   }
