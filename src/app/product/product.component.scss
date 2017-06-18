@@ -9,8 +9,8 @@
 
     & .price {
       position: absolute;
-      top: 20px;
-      left: -12px;
+      top: 45px;
+      left: -15px;
       padding: 8px;
       background: #457aff;
       color: #ffffff;
@@ -23,32 +23,54 @@
 
     & .to-cart {
       position: absolute;
-      right: -12px;
+      right: -15px;
       bottom: 25px;
       background: #1e1e1e;
       color: #e6e6e6;
-      & a {
+      & .buy {
+        position: relative;
         text-decoration: none;
         color: #e6e6e6;
         cursor: pointer;
+        font-size: 18px;
+        padding: 10px 0 10px 15px;
+        font-weight: 600;
         transition: all .15s linear;
-        & span{
-          padding: 10px;
-        }
-        &:hover .glyphicon{
+        top: -3px;
+        box-shadow: 2px 2px 12px -2px #999;
+        &:hover .glyphicon {
           background: #1f4bba;
         }
         & .glyphicon {
+          position: relative;
+          right: 0;
+          top: 3px;
           font-size: 18px;
+          padding: 11px;
           background: #457aff;
+          margin-left: 8px;
         }
+      }
+    }
+
+    & .product-type {
+      position: absolute;
+      top: 15px;
+      right: -15px;
+      & span {
+        padding: 8px;
+        letter-spacing: 1px;
+        color: #1d1d1d;
+        text-decoration: none;
+        background: #fff;
+        box-shadow: 2px 2px 12px -2px #999;
       }
     }
 
     & .to-back {
       position: absolute;
-      top: 25px;
-      right: -12px;
+      top: 55px;
+      right: -15px;
       & a {
         padding: 8px;
         letter-spacing: 1px;

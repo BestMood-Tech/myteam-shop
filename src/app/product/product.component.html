@@ -51,6 +51,9 @@
               <a [routerLink]="'/category/'+product.type+'s'"><span class="glyphicon glyphicon-remove">
               </span>Back to all</a>
             </div>
+            <div class="product-type">
+              <span>{{product.type}}</span>
+            </div>
             <div class="price">
               <span>{{productCurrency}}{{product.price | currency:productCurrency}}</span>
             </div>
