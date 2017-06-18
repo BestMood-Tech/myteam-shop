@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
-import { Address } from '../shared/address.model';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {Component, OnInit} from '@angular/core';
+import {Auth} from '../shared/services/auth.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AddressFormComponent} from '../shared/components/address-form/address-form.component';
+import {Address} from '../shared/address.model';
+import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-address',
@@ -12,7 +12,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AddressComponent {
 
-  constructor(private auth: Auth, private modalService: NgbModal, private toastr: ToastsManager) {
+  constructor(public auth: Auth,
+              private modalService: NgbModal,
+              private toastr: ToastsManager) {
   }
 
   public update(key) {

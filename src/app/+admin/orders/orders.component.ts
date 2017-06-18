@@ -11,7 +11,7 @@ import {  NumericEditorComponent } from '../numericEditorComponent/numeric-edito
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
   public rowData: any[];
-  private dataSource: any;
+  public dataSource: any;
   public classTheme: string = 'ag-dark';
   public arrayTheme: string[] = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
 

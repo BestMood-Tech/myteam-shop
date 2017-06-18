@@ -4,6 +4,7 @@ import { BooksService } from '../shared/services/books.service';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
+import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-category',
@@ -27,6 +28,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public ngOnInit() {
+    dragscroll.reset();
     this.products = this.currentService.processData(this.route.snapshot.data['category']);
   }
 

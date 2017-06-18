@@ -11,7 +11,7 @@ export class UsersComponent implements OnInit {
 
   public gridOptions: GridOptions;
   public rowData: any[];
-  private dataSource: any;
+  public dataSource: any;
 
   constructor(private adminService: AdminService) {
     this.gridOptions = <GridOptions>{

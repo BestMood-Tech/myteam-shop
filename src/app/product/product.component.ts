@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BooksService } from '../shared/services/books.service';
-import { MovieService } from '../shared/services/movie.service';
-import { GamesService } from '../shared/services/games.service';
-import { Cart } from '../shared/services/cart.service';
-import { Auth } from '../shared/services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {BooksService} from '../shared/services/books.service';
+import {MovieService} from '../shared/services/movie.service';
+import {GamesService} from '../shared/services/games.service';
+import {Cart} from '../shared/services/cart.service';
+import {Auth} from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -18,21 +18,28 @@ export class ProductComponent implements OnInit {
   product;
   public productCurrency: any;
 
-  constructor ( private route: ActivatedRoute,
-                private booksService: BooksService,
-                private movieService: MovieService,
-                private gamesService: GamesService,
-                private cart: Cart,
-                private auth: Auth) {
+  constructor(private route: ActivatedRoute,
+              private booksService: BooksService,
+              private movieService: MovieService,
+              private gamesService: GamesService,
+              private cart: Cart,
+              private auth: Auth) {
     switch (this.route.snapshot.url[1].path) {
-      case 'books': this.currentService = this.booksService; break;
-      case 'movie': this.currentService = this.movieService; break;
-      default: this.currentService = this.gamesService; break;
+      case 'books':
+        this.currentService = this.booksService;
+        break;
+      case 'movie':
+        this.currentService = this.movieService;
+        break;
+      default:
+        this.currentService = this.gamesService;
+        break;
     }
   }
 
   ngOnInit() {
     this.product = this.currentService.processItem(this.route.snapshot.data['product']);
+
 
     if (this.route.snapshot.url[1].path === 'game') {
       this.currentService.getGenres(this.product.genres)
@@ -42,8 +49,9 @@ export class ProductComponent implements OnInit {
         .subscribe(res => this.product.developers = res);
     }
 
-    if(this.auth.user == null) this.productCurrency = "$";
+    if (this.auth.user == null) this.productCurrency = "$";
     else this.productCurrency = this.auth.user.currency;
+    console.log(this.product);
   }
 
   addToCart(product) {

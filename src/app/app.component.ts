@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Auth } from './shared/services/auth.service';
-import { Cart } from './shared/services/cart.service';
-import { AuthGuard } from './shared/services/authGuard.service';
-import { ToastsManager } from 'ng2-toastr';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Router} from '@angular/router';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Auth} from './shared/services/auth.service';
+import {Cart} from './shared/services/cart.service';
+import {AuthGuard} from './shared/services/authGuard.service';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -18,27 +18,28 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,
               private cart: Cart,
-              private auth: Auth,
+              public auth: Auth,
               private fb: FormBuilder,
               public authGuard: AuthGuard,
               private viewContainer: ViewContainerRef,
               private toastr: ToastsManager) {
     this.toastr.setRootViewContainerRef(this.viewContainer);
   }
+
   public ngOnInit() {
     this.searchTermForm = this.fb.group({term: ''});
   }
 
   public search() {
     let searchTerm = this.searchTermForm.value.term;
-    if ( !searchTerm || !(searchTerm.length > 3)) return;
+    if (!searchTerm || !(searchTerm.length > 3)) return;
     let searchObj = {
       q: searchTerm,
       checkMovies: true,
       checkBooks: true,
       checkGames: true
     };
-    this.router.navigate(['/search'], { queryParams: searchObj});
+    this.router.navigate(['/search'], {queryParams: searchObj});
     this.searchTermForm.setValue({term: ''});
   }
 

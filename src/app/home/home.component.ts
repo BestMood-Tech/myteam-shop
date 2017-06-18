@@ -23,13 +23,14 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     this.gamesService.latest().subscribe(res => {
-      this.gameData = this.gamesService.processData(res).slice(0, 12);
+      this.gameData = this.gamesService.processData(res)[0];
+      console.log(this.gameData);
     });
     this.movieService.recent().subscribe(res => {
-      this.movieData = this.movieService.processData(res).slice(0, 12);
+      this.movieData = this.movieService.processData(res)[0];
     });
     this.booksService.getStories().subscribe((res) => {
-      this.bookData = this.booksService.processData(res);
+      this.bookData = this.booksService.processData(res)[0];
     });
     if  (this.auth.user == null) {
       this.productCurrency = '$';

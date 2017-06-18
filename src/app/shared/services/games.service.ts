@@ -118,7 +118,7 @@ export class GamesService {
       };
 
       if (game.cover) {
-        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_logo_med/${game.cover.cloudinary_id}.jpg`;
+        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.png`;
       } else tempObject['cover'] = 'http://placehold.it/320x150';
 
       if (game.summary) tempObject['description'] = game.summary;

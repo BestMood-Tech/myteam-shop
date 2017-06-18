@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { URLSearchParams, Http, RequestOptions } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {URLSearchParams, Http, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -76,7 +76,7 @@ export class MovieService {
         id: movie.id,
         type: 'movie',
         name: movie.title,
-        cover: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
         description: movie.overview,
         price: movie.vote_average * 20 / 10
       };
@@ -88,7 +88,7 @@ export class MovieService {
       id: movie.id,
       type: 'movie',
       name: movie.title,
-      cover: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
       description: movie.overview,
       genres: movie.genres,
       production_companies: movie.production_companies,

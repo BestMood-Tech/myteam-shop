@@ -1,28 +1,99 @@
-.thumb-image {
-  height: 200px !important;
+.product-card {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 0 20px;
+  width: 200px;
 
-  @media (max-width: 768px) {
-    height: auto !important;
-    max-height: 200px;
+  & .name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 6vw;
+    & h4 {
+      margin: 0;
+      & a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        transition: all .1s linear;
+        &:hover {
+          color: #337ab7;
+        }
+      }
+    }
   }
-}
 
-p {
-  overflow: hidden;
-  height: 40px !important;
-}
-.product-name {
-  overflow: hidden;
-  height: 50px !important;
-}
-.ratings {
-  padding: 10px;
-}
-.search-label {
- position: absolute;
-  top: 5px;
-  left: 20px;
-}
-.thumbnail {
-  position: relative;
+  & .poster {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 20vw;
+    max-height: 500px;
+    img {
+      width: 190px;
+      object-fit: cover;
+    }
+
+    & .product-price {
+      position: absolute;
+      top: 25px;
+      left: -15px;
+      padding: 8px;
+      background: #457aff;
+      color: #ffffff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1px;
+    }
+  }
+
+  & .description {
+    color: #777;
+    text-align: justify;
+    &::before {
+      content: "";
+      float: left;
+      width: 5px;
+      height: 12vw;
+    }
+    & p {
+      overflow: hidden;
+      height: 12vw;
+    }
+  }
+
+  .description > *:first-child {
+    float: right;
+    width: 100%;
+    margin-left: -5px;
+  }
+
+  & .price {
+    margin-top: 10px;
+    margin-left: -10px;
+    & .to-cart {
+      padding: 7px 15px 7px 45px;
+      position: relative;
+      color: #f7f7f9;
+      background: #1d1d1d;
+      border: 0;
+      font-weight: 500;
+      font-size: 18px;
+      transition: all .2s ease;
+      &:hover {
+        background: #457aff;
+      }
+
+      & .glyphicon {
+        position: absolute;
+        top: 9px;
+        left: 8px;
+        font-size: 20px;
+      }
+    }
+  }
 }

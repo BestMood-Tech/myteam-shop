@@ -52,7 +52,7 @@ export class BooksService {
     let resultingData = data.map((book) => {
       let tempObject = {
         id: book.id,
-        type: 'books',
+        type: 'book',
         name: book.title,
         description: book.description,
         cover: book.cover,
