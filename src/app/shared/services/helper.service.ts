@@ -1,9 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HelperService {
+  public showFilters = new EventEmitter<boolean>();
+  public updateFilters = new EventEmitter<any>();
+  public searchTerm: string;
 
   constructor(private http: Http) {
   }

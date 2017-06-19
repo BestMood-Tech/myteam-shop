@@ -22,6 +22,14 @@
           <li><a [routerLink]="'/admin/analytics'">Analytics</a></li>
         </ul>
       </li>
+      <li class="dropdown dropdown-menu-left" ngbDropdown *ngIf="showFilters">
+        <a class="dropdown-toggle" id="dropdownMenuFiters" ngbDropdownToggle>
+          <span class="glyphicon glyphicon-filter"></span>Filters
+        </a>
+        <div class="dropdown-menu " aria-labelledby="dropdownMenuFilters">
+          <app-filters></app-filters>
+        </div>
+      </li>
     </ul>
     <ul class="nav login">
       <li *ngIf="!auth.authenticated()"><a (click)="auth.login()">
