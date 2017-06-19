@@ -79,7 +79,10 @@ export class MovieService {
         name: movie.title,
         cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
         description: movie.overview,
-        price: movie.vote_average * 20 / 10
+        vote: movie.vote_average,
+        voteCount: movie.vote_count,
+        price: movie.vote_average * 20 / 10,
+        year: movie.release_date.split('-')[0]
       };
     });
     return this.data;

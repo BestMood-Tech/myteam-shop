@@ -1,49 +1,79 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-5">
-      <h1 class="text">
-        <span class="text-welcome">Welcome</span> to <span class="text-demo">DEMO</span> project from <span
-        class="text-bmt">BMT</span>
-        team!
-      </h1>
-    </div>
-  </div>
-  <div class="row most-popular">
-    <div class="col-xs-8 col-md-8 col-lg-8">
-      <div *ngIf="!movieData" class="loading">
-        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
-      </div>
-      <div class="block-data movie-block" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
-        <div class="all-from-category"><span class="glyphicon glyphicon-facetime-video"></span>Most popular movie
-          <a [routerLink]="'/category/movies'">Show all</a>
+    <div class="col-sm-8">
+      <div class="row most-popular">
+        <div class="col-sm-8">
+          <div *ngIf="!movieData" class="loading">
+            <img class="spin" src="/assets/grid.svg" alt="Loading">
+          </div>
+          <div class="block-data movie-block" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
+            <div class="all-from-category">
+              <span class="popular">
+                <span class="glyphicon glyphicon-facetime-video"></span>
+                Most popular movie
+              </span>
+              <a class="show-all" [routerLink]="'/category/movies'">Show all</a>
+            </div>
+            <div class="footer">
+              <div class="name">
+                {{movieData.name}}
+                <!--<button>Trailer</button>-->
+              </div>
+              <div class="info">
+                <div class="ratio">
+                  <app-ratio [ratio]="movieData.vote"></app-ratio>
+                  <p class="description">Based on {{movieData.voteCount}} rates</p>
+                </div>
+                <div class="play-time">
+                  <p class="bold">176 min</p>
+                  <p class="description">Playtime</p>
+                </div>
+                <div class="year">
+                  <p class="bold">{{movieData.year}}</p>
+                  <p class="description">Year</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-xs-4 col-md-4 col-lg-4">
-      <div class="row">
-        <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="col-sm-4">
           <div *ngIf="!gameData" class="loading">
-            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
+            <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
           <div class="block-data game-block" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
-            <div class="all-from-category"><span class="glyphicon glyphicon-cloud"></span>Most popular game
-              <a [routerLink]="'/category/games'">Show all</a>
+            <div class="all-from-category">
+              <span class="popular">
+                <span class="glyphicon glyphicon-facetime-video"></span>
+                Most popular movie
+              </span>
+              <a class="show-all" [routerLink]="'/category/movies'">Show all</a>
+            </div>
+            <div class="footer">
+            </div>
+          </div>
+
+          <div *ngIf="!bookData" class="loading">
+            <img class="spin" src="/assets/grid.svg" alt="Loading">
+          </div>
+          <div class="block-data book-block" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
+            <div class="all-from-category">
+              <span class="popular">
+                <span class="glyphicon glyphicon-facetime-video"></span>
+                Most popular movie
+              </span>
+              <a class="show-all" [routerLink]="'/category/movies'">Show all</a>
+            </div>
+            <div class="footer">
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12 col-md-12 col-lg-12">
-          <div *ngIf="!bookData" class="loading">
-            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
-          </div>
-          <div class="block-data book-block" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
-            <div class="all-from-category"><span class="glyphicon glyphicon-book"></span>Most popular book
-            <a [routerLink]="'/category/books'">Show all</a>
-          </div>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="col-sm-4">
+      <h1 class="heading">
+        <span class="welcome">Welcome</span> to <span class="demo">DEMO</span> project <br> from <span
+        class="bmt">BMT</span> team!
+      </h1>
     </div>
   </div>
 </div>
