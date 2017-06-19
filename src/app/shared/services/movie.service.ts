@@ -99,7 +99,7 @@ export class MovieService {
       genres: movie.genres,
       production_companies: movie.production_companies,
       vote_average: movie.vote_average,
-      release_date: moment(movie.release_date).format('YYYY-MM-DD'),
+      release_date: moment(movie.release_date).format('YYYY'),
       price: movie.vote_average * 20 / 10
     };
   }

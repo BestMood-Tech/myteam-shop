@@ -156,7 +156,7 @@ export class GamesService {
         name: game.name,
         genres: game.genres,
         developers: game.developers,
-        release_date: moment(game.first_release_date).format('YYYY-MM-DD'),
+        release_date: moment(game.first_release_date).format('YYYY'),
         price: Math.floor(game.popularity * 100) / 10
       };
       if (game.cover) {

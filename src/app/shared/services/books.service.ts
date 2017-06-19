@@ -62,7 +62,7 @@ export class BooksService {
         name: book.title,
         description: book.description,
         cover: book.cover,
-        release_date: moment(book.createDate).format('YYYY-MM-DD'),
+        release_date: moment(book.createDate).format('YYYY'),
         price: Math.floor(Math.random() * 10 + 1)
       };
 
