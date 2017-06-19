@@ -5,14 +5,14 @@
   margin: 0 20px;
   width: 200px;
 
-  & .name {
+  .name {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 6vw;
-    & h4 {
+    h4 {
       margin: 0;
-      & a {
+      a {
         text-decoration: none;
         color: black;
         font-weight: bold;
@@ -24,7 +24,7 @@
     }
   }
 
-  & .poster {
+  .poster {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -36,7 +36,7 @@
       object-fit: cover;
     }
 
-    & .product-price {
+    .product-price {
       position: absolute;
       top: 25px;
       left: -15px;
@@ -51,7 +51,7 @@
     }
   }
 
-  & .description {
+  .description {
     color: #777;
     text-align: justify;
     &::before {
@@ -60,7 +60,7 @@
       width: 5px;
       height: 12vw;
     }
-    & p {
+    p {
       overflow: hidden;
       height: 12vw;
     }
@@ -72,10 +72,10 @@
     margin-left: -5px;
   }
 
-  & .price {
+  .price {
     margin-top: 10px;
     margin-left: -10px;
-    & .to-cart {
+    .to-cart {
       padding: 7px 15px 7px 45px;
       position: relative;
       color: #f7f7f9;
@@ -88,7 +88,7 @@
         background: #457aff;
       }
 
-      & .glyphicon {
+      .glyphicon {
         position: absolute;
         top: 9px;
         left: 8px;

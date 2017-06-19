@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
-import {URLSearchParams, Http, RequestOptions} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { URLSearchParams, Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import * as moment from 'moment';
 
 @Injectable()
 export class MovieService {
+  public data: any[];
   private key = '544ce33d881d9c8b4f234cc65fa42475';
   private language = 'en-US';
   private baseURL = 'http://api.themoviedb.org/3/';
@@ -12,7 +14,7 @@ export class MovieService {
   }
 
   private getParams(): URLSearchParams {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     params.set('api_key', this.key);
     params.set('language', this.language);
     return params;
@@ -20,11 +22,11 @@ export class MovieService {
 
   public getItem(id) {
 
-    let getItemURL = `${this.baseURL}movie/${id}`;
+    const getItemURL = `${this.baseURL}movie/${id}`;
 
-    let params = this.getParams();
+    const params = this.getParams();
 
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       search: params
     });
 
@@ -34,18 +36,18 @@ export class MovieService {
   }
 
   public search(query, filters?) {
-    let searchURL = `${this.baseURL}search/movie`;
+    const searchURL = `${this.baseURL}search/movie`;
 
-    let params = this.getParams();
+    const params = this.getParams();
     params.set('query', query);
 
     if (filters) {
-      for (let value of Object.keys(filters)) {
+      for (const value of Object.keys(filters)) {
         params.set(value, filters[value]);
       }
     }
 
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       search: params
     });
 
@@ -55,12 +57,12 @@ export class MovieService {
   }
 
   public recent() {
-    let latestURL = `${this.baseURL}movie/now_playing`;
+    const latestURL = `${this.baseURL}movie/now_playing`;
 
-    let params = this.getParams();
+    const params = this.getParams();
     params.set('page', '1');
 
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       search: params
     });
 
@@ -70,8 +72,7 @@ export class MovieService {
   }
 
   public processData(data) {
-    let results = data.results;
-    return results.map((movie) => {
+    this.data = data.results.map((movie) => {
       return {
         id: movie.id,
         type: 'movie',
@@ -81,6 +82,11 @@ export class MovieService {
         price: movie.vote_average * 20 / 10
       };
     });
+    return this.data;
+  }
+
+  public getRecommended(movie) {
+    return this.data.filter((item) => item.id !== movie.id);
   }
 
   public processItem(movie) {
@@ -93,7 +99,7 @@ export class MovieService {
       genres: movie.genres,
       production_companies: movie.production_companies,
       vote_average: movie.vote_average,
-      release_date: movie.release_date,
+      release_date: moment(movie.release_date).format('YYYY-MM-DD'),
       price: movie.vote_average * 20 / 10
     };
   }

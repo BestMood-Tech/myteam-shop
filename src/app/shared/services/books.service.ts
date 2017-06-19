@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, RequestOptions, Headers } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, URLSearchParams, RequestOptions, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import * as moment from 'moment';
 
 @Injectable()
 export class BooksService {
+  public data: any[];
   private baseUrl = 'https://api.wattpad.com/v4/';
   private apiKey = 'tEIdSUrwgw7TWjk5ymOxk4JIbUlxIXMEVkI5IJwu65t9';
   private options: RequestOptions;
@@ -21,7 +23,7 @@ export class BooksService {
 
   public getItem(id) {
     return this.http.get(`${this.baseUrl}stories`, this.options).map((res) => {
-      return res.json().stories.filter((item) => item.id === parseInt(id, 10))
+      return res.json().stories.filter((item) => item.id === parseInt(id, 10));
     });
   }
 
@@ -35,28 +37,32 @@ export class BooksService {
   }
 
   public processData(data) {
-    let results = data.stories;
-    return results.map((item) =>{
+    this.data = data.stories.map((item) => {
       return {
         id: item.id,
-        type: 'books',
+        type: 'book',
         name: item.title,
         cover: item.cover,
         description: item.description,
         price: Math.floor(Math.random() * 10 + 1)
       };
     });
+    return this.data;
+  }
+
+  public getRecommended(book) {
+    return this.data.filter((item) => item.id !== book.id);
   }
 
   public processItem(data) {
-    let resultingData = data.map((book) => {
-      let tempObject = {
+    const resultingData = data.map((book) => {
+      const tempObject = {
         id: book.id,
         type: 'book',
         name: book.title,
         description: book.description,
         cover: book.cover,
-        release_date: book.createDate,
+        release_date: moment(book.createDate).format('YYYY-MM-DD'),
         price: Math.floor(Math.random() * 10 + 1)
       };
 
@@ -67,7 +73,7 @@ export class BooksService {
   }
 
   private getHeaders(): Headers {
-    let headers = new Headers();
+    const headers = new Headers();
     headers.set('Authorization', `Basic ${this.apiKey}`);
     headers.set('Accept', 'application/json');
     headers.set('accept-language', 'en');
@@ -75,7 +81,7 @@ export class BooksService {
   }
 
   private getParams(): URLSearchParams {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     params.set('limit', '20');
     params.set('offset', '0');
     params.set('category', '3');

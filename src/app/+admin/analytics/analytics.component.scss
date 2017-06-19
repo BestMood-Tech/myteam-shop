@@ -1,22 +1,22 @@
 .container {
   padding: 0;
-  & .settings-graph {
+  .settings-graph {
     margin: 10px 0;
     display: flex;
     flex-direction: row;
-    & * {
+    * {
       margin: 0 10px;
     }
-    & .form-group {
+    .form-group {
       display: flex;
       flex-direction: row;
-      & label {
+      label {
         margin-top: 8px;
       }
     }
   }
-  & .graphics {
-    & .col-md-6 {
+  .graphics {
+    .col-md-6 {
       top: -5px;
     }
   }

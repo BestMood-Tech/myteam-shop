@@ -1,9 +1,9 @@
 .container {
   height: 100%;
-  & .grid-table {
+  .grid-table {
     height: 100%;
     padding-bottom: 75px;
-    & .col-md-12 {
+    .col-md-12 {
       height: 100%;
     }
   }
