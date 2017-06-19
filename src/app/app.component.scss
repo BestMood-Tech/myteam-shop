@@ -36,10 +36,10 @@
 
 .header {
   background-color: #f2f2f2;
-  & .search {
+  .search {
     margin-top: 7px;
     padding-bottom: 5px;
-    & .search-button {
+    .search-button {
       float: left;
       padding: 10px;
       margin-top: 1px;
@@ -48,10 +48,10 @@
       display: inline-block;
     }
 
-    & .search-field {
+    .search-field {
       position: relative;
       display: inline-block;
-      & .search-input {
+      .search-input {
         background-color: #f2f2f2;
         outline: none;
         width: 300px;
@@ -62,7 +62,7 @@
         }
       }
 
-      & .separator {
+      .separator {
         height: 2px;
         width: 297px;
         background: #68B3FF;
@@ -75,7 +75,7 @@
     }
   }
 
-  & .container {
+  .container {
     margin: 0;
     width: 100%;
   }
@@ -87,15 +87,15 @@
     display: flex;
     flex-direction: row;
 
-    & .open > a {
+    .open > a {
       background: #e2e2e2;
     }
 
-    & .user-cart {
+    .user-cart {
       display: block;
       margin: 5px 20px 0 0;
 
-      & a {
+      a {
         color: #333333;
         padding: 15px 10px;
         text-decoration: none;
@@ -105,19 +105,19 @@
           opacity: 1;
         }
 
-        & .badge {
+        .badge {
           background-color: #d9534f;
           position: absolute;
           right: -5px;
           z-index: 3;
         }
 
-        & .glyphicon {
+        .glyphicon {
           font-size: 28px;
         }
       }
 
-      & .separator {
+      .separator {
         height: 2px;
         width: 50px;
         margin-top: 3px;
@@ -129,17 +129,17 @@
         transition: all .15s linear;
       }
     }
-    & .user-profile {
+    .user-profile {
       display: block;
       margin-top: 5px;
 
-      & a {
+      a {
         padding: 18px;
         color: #555;
         text-decoration: none;
         transition: all .15s linear;
       }
-      & img {
+      img {
         height: 35px;
       }
 
@@ -160,10 +160,10 @@
           top: -8px;
           left: 85px;
         }
-        & li {
+        li {
           text-align: center;
           width: 185px;
-          & a {
+          a {
             padding: 8px 0;
             margin: 0;
           }
@@ -210,9 +210,9 @@
     top: 0;
     margin: 0;
     padding: 0;
-    & li {
+    li {
       width: 100%;
-      & a {
+      a {
         padding: 8px 0;
         margin: 0;
       }
@@ -223,30 +223,30 @@
     background: #e5a50d;
   }
 
-  & .nav > li {
+  .nav > li {
     width: 80px;
   }
-  & .nav li {
+  .nav li {
     text-align: center;
     outline: none;
-    & .glyphicon {
+    .glyphicon {
       font-size: 24px;
       padding: 10px 0;
     }
-    & a {
+    a {
       display: flex;
       flex-direction: column;
       color: #000;
       font-size: 12px;
     }
-    & a:hover, a:visited {
+    a:hover, a:visited {
       background: #e5a50d;
     }
   }
-  & .login {
+  .login {
     position: absolute;
     bottom: 0;
-    & a {
+    a {
       cursor: pointer;
     }
   }
