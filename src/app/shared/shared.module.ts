@@ -6,9 +6,10 @@ import { BooksService, GamesService, MovieService, Auth, Cart, AuthGuard } from 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { HelperService } from './services/helper.service';
-import { ProductCardComponent } from './components/product-card.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 import { RouterModule } from '@angular/router';
 import { FiltersComponent } from './components/filter/filters.component';
+import { RatioComponent } from './components/ratio/ratio.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { FiltersComponent } from './components/filter/filters.component';
     ReactiveFormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -27,10 +28,11 @@ import { FiltersComponent } from './components/filter/filters.component';
     NgbModule,
     AddressFormComponent,
     ProductCardComponent,
-    FiltersComponent
+    FiltersComponent,
+    RatioComponent,
   ],
-  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent, FiltersComponent  ],
-  entryComponents: [AddressFormComponent]
+  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent, FiltersComponent, RatioComponent],
+  entryComponents: [AddressFormComponent],
 })
 
 export class SharedModule {
@@ -44,8 +46,8 @@ export class SharedModule {
         Auth,
         AuthGuard,
         Cart,
-        HelperService
-      ]
+        HelperService,
+      ],
     };
   }
 }
