@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HelperService } from '../../services/helper.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -39,19 +39,32 @@ export class FiltersComponent implements OnInit {
   public applyFilters() {
     const form = this.filtersForm.value;
     const filterObject = {};
-    if (form.dateFrom) filterObject['dateFrom'] = form.dateFrom;
-    if (form.dateTo) filterObject['dateTo'] = form.dateTo;
-    if (form.movie) filterObject['movie'] = form.movie;
-    if (form.game) filterObject['game'] = form.game;
-    if (form.checkGames) filterObject['checkGames'] = form.checkGames;
-    if (form.checkMovies) filterObject['checkMovies'] = form.checkMovies;
-    if (form.checkBooks) filterObject['checkBooks'] = form.checkBooks;
-    if (!!form.gameGroup.genres) filterObject['genres'] = form.gameGroup.genres;
+    if (form.dateFrom) {
+      filterObject['dateFrom'] = form.dateFrom;
+    }
+    if (form.dateTo) {
+      filterObject['dateTo'] = form.dateTo;
+    }
+    if (form.movie) {
+      filterObject['movie'] = form.movie;
+    }
+    if (form.game) {
+      filterObject['game'] = form.game;
+    }
+    if (form.checkGames) {
+      filterObject['checkGames'] = form.checkGames;
+    }
+    if (form.checkMovies) {
+      filterObject['checkMovies'] = form.checkMovies;
+    }
+    if (form.checkBooks) {
+      filterObject['checkBooks'] = form.checkBooks;
+    }
+    if (!!form.gameGroup.genres) {
+      filterObject['genres'] = form.gameGroup.genres;
+    }
     this.helperService.updateFilters.emit(filterObject);
     // this.filtersUpdated.emit(filterObject);
   }
 
-  public inverseDisplay() {
-    this.display = !this.display;
-  }
 }

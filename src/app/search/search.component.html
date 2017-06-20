@@ -1,21 +1,7 @@
-<!--<div class="container">-->
-  <!--<div class="row">-->
-    <!--&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
-      <!--&lt;!&ndash;<app-filters (filtersUpdated)="filtersUpdated($event)" [filters] = "params"></app-filters>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<div class="col-md-12">-->
-      <!--<div class="row">-->
-        <!--<div class="col-md-12 input-search">-->
-          <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="Search for..." [formControl]="term"/>&ndash;&gt;-->
-        <!--</div>-->
-        <!--<div class="col-sm-4 col-lg-4 col-md-4 dragscroll" *ngFor="let product of products">-->
-          <!--<app-product-card [product]='product' [label]="true"></app-product-card>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
 <div class="container dragscroll">
+  <div *ngIf="!loading" class="loading">
+    <img class="spin" src="/assets/grid.svg" alt="Loading">
+  </div>
   <div class="box nochilddrag">
     <div *ngFor="let product of products">
       <app-product-card [product]='product'></app-product-card>

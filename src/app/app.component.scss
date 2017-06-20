@@ -206,17 +206,29 @@
     border-radius: 0;
     border: none;
     background: #ffffff;
-    left: 80px;
+    left: -200px;
     top: 0;
     margin: 0;
     padding: 0;
-    li {
-      width: 100%;
+    width: 200px;
+    height: 100vh;
+    transition: all .3s linear;
+    .admin-menu {
+      list-style: none;
+      padding: 0;
       a {
-        padding: 8px 0;
-        margin: 0;
+        padding: 15px;
+        font-size: 16px;
       }
     }
+  }
+
+  .open {
+    position: inherit;
+  }
+
+  .open .dropdown-menu {
+    left: 80px
   }
 
   .open > a {
@@ -235,6 +247,7 @@
     }
     a {
       display: flex;
+      text-decoration: none;
       flex-direction: column;
       color: #000;
       font-size: 12px;

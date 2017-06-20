@@ -5,7 +5,7 @@ import { Auth } from './shared/services/auth.service';
 import { Cart } from './shared/services/cart.service';
 import { AuthGuard } from './shared/services/authGuard.service';
 import { ToastsManager } from 'ng2-toastr';
-import { HelperService } from "./shared/services/helper.service";
+import { HelperService } from './shared/services/helper.service';
 
 @Component({
   selector: 'app-root',

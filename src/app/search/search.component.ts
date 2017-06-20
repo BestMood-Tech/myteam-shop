@@ -16,6 +16,7 @@ import dragscroll from 'dragscroll';
 export class SearchComponent implements OnInit, OnDestroy {
   // public term: FormControl;
   public products = [];
+  public loading = false;
   // public params = this.route.snapshot.queryParams;
 
   constructor(private gamesService: GamesService,
@@ -41,6 +42,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this.term = new FormControl(this.route.snapshot.queryParams['q']);
     this.route.queryParams
       .switchMap((filters) => {
+        this.loading = false;
+        this.products = [];
         const gameFilter = {limit: '10'};
         const movieFilter = {limit: '10'};
         if (filters['genres']) {
@@ -76,6 +79,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       })
       .subscribe(items => {
         this.products = items;
+        this.loading = true;
       });
 
     // this.term.valueChanges
