@@ -31,7 +31,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.helperService.showFilters.emit(true);
     this.helperService.updateFilters.subscribe((filters) => {
       filters['q'] = this.helperService.searchTerm;
-      this.router.navigate(['/search'], {queryParams: filters});
+      if (filters['q'] || (filters['q'].length > 3)) {
+        this.router.navigate(['/search'], {queryParams: filters});
+      }
     });
     const objState = {
       checkMovies: true,

@@ -202,6 +202,10 @@
   position: relative;
   background: #ffbc1c;
 
+  .open .dropdown-menu {
+    left: 80px;
+  }
+
   .dropdown-menu {
     border-radius: 0;
     border: none;
@@ -212,23 +216,22 @@
     padding: 0;
     width: 200px;
     height: 100vh;
-    transition: all .3s linear;
+    box-shadow: 6px 0 12px rgba(0,0,0,.175);
     .admin-menu {
       list-style: none;
       padding: 0;
       a {
-        padding: 15px;
+        padding: 10px;
         font-size: 16px;
+        &:hover{
+          background: #e2e2e2;
+        }
       }
     }
   }
 
   .open {
     position: inherit;
-  }
-
-  .open .dropdown-menu {
-    left: 80px
   }
 
   .open > a {
