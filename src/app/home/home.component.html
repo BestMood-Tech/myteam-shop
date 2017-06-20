@@ -21,8 +21,8 @@
               </div>
               <div class="info">
                 <div class="ratio">
-                  <app-ratio [ratio]="movieData.vote"></app-ratio>
-                  <p class="description">Based on {{movieData.voteCount}} rates</p>
+                  <app-ratio [product]="movieData"></app-ratio>
+                  <p class="description">Based on {{movieData.voteCount | myAround}} rates</p>
                 </div>
                 <div class="play-time">
                   <p class="bold">176 min</p>
@@ -49,6 +49,19 @@
               <a class="show-all" [routerLink]="'/category/games'">Show all</a>
             </div>
             <div class="footer">
+              <div class="name">
+                {{gameData.name}}
+              </div>
+              <div class="info">
+                <div class="votes">
+                  <app-ratio [product]="gameData"></app-ratio>
+                  <p class="description">{{gameData.voteCount | myAround}} Votes</p>
+                </div>
+                <div class="year">
+                  <p class="bold">{{gameData.year}}</p>
+                  <p class="description">Year</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -64,6 +77,24 @@
               <a class="show-all" [routerLink]="'/category/books'">Show all</a>
             </div>
             <div class="footer">
+              <div class="name">
+                {{bookData.name}}
+                <!--<button>Trailer</button>-->
+              </div>
+              <div class="info">
+                <div class="votes">
+                  <p class="bold">{{bookData.voteCount | myAround}}</p>
+                  <p class="description">Votes</p>
+                </div>
+                <div class="read-count">
+                  <p class="bold">{{bookData.readCount | myAround}}</p>
+                  <p class="description">Read</p>
+                </div>
+                <div class="year">
+                  <p class="bold">{{bookData.year}}</p>
+                  <p class="description">Year</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

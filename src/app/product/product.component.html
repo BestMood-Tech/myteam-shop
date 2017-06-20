@@ -1,65 +1,26 @@
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--<div class="panel panel-default">-->
-<!--<div class="panel-heading">-->
-<!--<h4 class="panel-title">{{product.name}}</h4>-->
-<!--</div>-->
-<!--<div class="panel-body">-->
-<!--<div class="col-md-4">-->
-<!--<img [src]=[product.cover] class="img-responsive img-thumbnail">-->
-<!--<button class="btn-lg btn-primary btn btn-block btn-product" (click)="addToCart(product)">Add to Cart</button>-->
-<!--</div>-->
-<!--<div class="col-md-8">-->
-<!--<ul class="list-group">-->
-<!--<li class="list-group-item" *ngIf="product.type=='game'">-->
-<!--Production Companies: <span *ngFor="let developer of product.developers;-->
-<!--let lastDeveloper=last">{{lastDeveloper?developer.name+'.':developer.name+', '}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item" *ngIf="product.type=='movie'">-->
-<!--Production Companies: <span *ngFor="let company of product.production_companies;-->
-<!--let lastCompany=last">{{lastCompany?company.name+'.':company.name+', '}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item" >-->
-<!--Genres: <span *ngFor="let genre of product.genres; let lastGenre=last">-->
-<!--{{lastGenre?genre.name+'.':genre.name+', '}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--Description: <span>{{product.description}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item" *ngIf="product.type=='movie'">-->
-<!--Average vote: <span>{{product.vote_average}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--Release date:<span> {{product.release_date}}</span>-->
-<!--</li>-->
-<!--<li class="list-group-item">-->
-<!--Price:<span>{{productCurrency}}{{product.price | currency:productCurrency}}</span>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
 <div class="container">
   <div class="row">
     <div class="col-xs-9 col-md-9 col-lg-9 product">
       <div class="row">
         <div class="col-xs-6 col-md-6 col-lg-6">
           <div class="poster" [style.background-image]="'url(' + product.cover + ')'">
-            <div class="product-type">
-              <div class="type">{{product.type}}</div>
-              <div class="vote" *ngIf="product.type==='movie'">{{product.vote_average}}</div>
-            </div>
-            <div class="to-back">
-              <a [routerLink]="'/category/'+product.type+'s'"><span class="glyphicon glyphicon-remove">
+            <div class="header-info">
+              <div class="product-type">
+                <div class="type">{{product.type}}</div>
+                <div class="vote" *ngIf="product.type==='movie'">{{product.vote_average}}</div>
+              </div>
+              <div class="to-back">
+                <a [routerLink]="'/category/'+product.type+'s'"><span class="glyphicon glyphicon-remove">
               </span>Back to all</a>
+              </div>
             </div>
-            <div class="to-cart">
-              <a class="buy" (click)="addToCart(product)">
-                Buy
-                <span class="price-product">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
-              </a>
+            <div class="footer-info">
+              <div class="to-cart">
+                <a class="buy" (click)="addToCart(product)">
+                  Buy
+                  <span class="price-product">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -69,30 +30,42 @@
               <div class="description-name">
                 {{product.name}}
               </div>
+            </div>
+            <div class="description-item extra-info" >
+              <app-ratio [product]="product" *ngIf="product.type!=='book'"></app-ratio>
+              <div class="votes" *ngIf="product.type==='book'">
+                <span class="bold">{{product.voteCount | myAround}}</span>
+                <span class="description">Votes</span>
+              </div>
+              <div class="read-count" *ngIf="product.type==='book'">
+                <span class="bold">{{product.readCount | myAround}}</span>
+                <span class="description">Read</span>
+              </div>
               <div class="description-release">
                 <span>{{product.release_date}}</span>
                 <span>year</span>
               </div>
             </div>
-            <div class="description-items" *ngIf="product.type!=='book'">
+
+            <div class="description-item" *ngIf="product.type!=='book'">
               <span class="title-description">Genres</span>
               <span class="item" *ngFor="let genre of product.genres; let lastGenre=last">
                 {{lastGenre?genre.name+'.':genre.name+', '}}
               </span>
             </div>
-            <div class="description-items" *ngIf="product.type==='movie'">
+            <div class="description-item" *ngIf="product.type==='movie'">
               <span class="title-description">Production companies</span>
               <span class="item" *ngFor="let company of product.production_companies; let lastCompany=last">
                 {{lastCompany?company.name+'.':company.name+', '}}
               </span>
             </div>
-            <div class="description-items" *ngIf="product.type==='game'">
+            <div class="description-item" *ngIf="product.type==='game'">
               <span class="title-description">Production companies</span>
               <span class="item" *ngFor="let developer of product.developers; let lastDeveloper=last">
                 {{lastDeveloper?developer.name+'.':developer.name+', '}}
               </span>
             </div>
-            <div class="description-items">
+            <div class="description-item">
               <p>
                 {{product.description}}
               </p>

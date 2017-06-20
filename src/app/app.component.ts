@@ -15,8 +15,13 @@ import { HelperService } from './shared/services/helper.service';
 
 export class AppComponent implements OnInit {
   public searchTermForm: FormGroup;
-  public navbarCollapsed: boolean;
   public showFilters: boolean;
+  public searchObj = {
+    q: '',
+    checkMovies: true,
+    checkBooks: true,
+    checkGames: true
+  };
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -38,6 +43,11 @@ export class AppComponent implements OnInit {
         this.searchTermForm.reset();
       }
     });
+    this.helperService.updateFilters.subscribe((filters) => {
+      this.searchObj.checkMovies = filters['checkMovies'];
+      this.searchObj.checkBooks = filters['checkBooks'];
+      this.searchObj.checkGames = filters['checkGames'];
+    });
   }
 
   public search() {
@@ -46,14 +56,8 @@ export class AppComponent implements OnInit {
       return;
     }
     this.helperService.searchTerm = searchTerm;
-    const searchObj = {
-      q: searchTerm,
-      checkMovies: true,
-      checkBooks: true,
-      checkGames: true
-    };
-    this.router.navigate(['/search'], {queryParams: searchObj});
-    // this.searchTermForm.setValue({term: ''});
+    this.searchObj.q = searchTerm;
+    this.router.navigate(['/search'], {queryParams: this.searchObj});
   }
 
   public count() {

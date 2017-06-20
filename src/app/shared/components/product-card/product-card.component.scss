@@ -1,3 +1,8 @@
+@import "../../../../variables";
+
+$height-poster: 20vw;
+$height-name: 6vw;
+
 .product-card {
   display: flex;
   flex-direction: column;
@@ -9,7 +14,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 6vw;
+    height: $height-name;
     h4 {
       margin: 0;
       a {
@@ -18,7 +23,7 @@
         font-weight: bold;
         transition: all .1s linear;
         &:hover {
-          color: #337ab7;
+          color: $color-blue;
         }
       }
     }
@@ -29,7 +34,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 20vw;
+    height: $height-poster;
     max-height: 500px;
     img {
       width: 190px;
@@ -41,7 +46,7 @@
       top: 25px;
       left: -15px;
       padding: 8px;
-      background: #457aff;
+      background: $color-blue;
       color: #ffffff;
       text-align: center;
       display: flex;
@@ -85,7 +90,7 @@
       font-size: 18px;
       transition: all .2s ease;
       &:hover {
-        background: #457aff;
+        background: $color-blue;
       }
 
       .glyphicon {

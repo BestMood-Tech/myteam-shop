@@ -103,7 +103,8 @@ export class MovieService {
       production_companies: movie.production_companies,
       vote_average: movie.vote_average,
       release_date: moment(movie.release_date).format('YYYY'),
-      price: movie.vote_average * 20 / 10
+      price: movie.vote_average * 20 / 10,
+      vote: movie.vote_average
     };
   }
 }

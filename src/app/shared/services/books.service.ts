@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Http, URLSearchParams, RequestOptions, Headers} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
 
@@ -44,7 +44,10 @@ export class BooksService {
         name: item.title,
         cover: item.cover,
         description: item.description,
-        price: Math.floor(Math.random() * 10 + 1)
+        price: Math.floor(Math.random() * 10 + 1),
+        voteCount: item.voteCount,
+        readCount: item.readCount,
+        year: moment(item.release_date).format('YYYY')
       };
     });
     return this.data;
@@ -56,17 +59,17 @@ export class BooksService {
 
   public processItem(data) {
     const resultingData = data.map((book) => {
-      const tempObject = {
+      return {
         id: book.id,
         type: 'book',
         name: book.title,
         description: book.description,
         cover: book.cover,
-        release_date: moment(book.createDate).format('YYYY'),
+        release_date: moment(book.release_date).format('YYYY'),
+        voteCount: book.voteCount,
+        readCount: book.readCount,
         price: Math.floor(Math.random() * 10 + 1)
       };
-
-      return tempObject;
     });
 
     return resultingData[0];

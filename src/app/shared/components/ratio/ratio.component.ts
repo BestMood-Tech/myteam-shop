@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ratio',
@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
       <li class="line" *ngFor="let item of rationAsAnArray"></li>
     </ul>
     <div class="rates">
-      {{ratio}} / 5
+      {{product.vote}} / 5
     </div>
 
   `,
@@ -32,18 +32,28 @@ import { Component, Input, OnInit } from '@angular/core';
       color: #ffc033;
     }
 
-  `],
+  `]
 })
-export class RatioComponent implements OnInit {
+export class RatioComponent implements OnInit, OnChanges {
 
-  @Input() public ratio: number;
+  @Input() public product: any;
   public rationAsAnArray: any[];
 
   constructor() {
   }
 
-  ngOnInit() {
-    this.ratio = this.ratio > 5 ? this.ratio / 2 : this.ratio;
-    this.rationAsAnArray = new Array(Math.floor(this.ratio));
+  public ngOnInit() {
+    this.culcRations();
+  }
+
+  public ngOnChanges(changes) {
+    if (changes.product && !changes.product.firstChange) {
+      this.culcRations();
+    }
+  }
+
+  private culcRations() {
+    this.product.vote = this.product.vote > 5 ? (this.product.vote / 2).toFixed(1) : this.product.vote;
+    this.rationAsAnArray = new Array(Math.floor(this.product.vote));
   }
 }

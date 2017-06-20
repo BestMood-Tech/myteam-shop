@@ -40,7 +40,6 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(() => {
       this.product = this.currentService.processItem(this.route.snapshot.data['product']);
-      console.log(this.product);
       if (!this.currentService.data || this.currentService.data.length === 0) {
         let getData;
         switch (this.product.type) {

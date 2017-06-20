@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .container {
   margin: 0 20px;
   height: 100%;
@@ -9,28 +11,91 @@
       position: relative;
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .header-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: relative;
+        top: 20px;
+        .product-type {
+          display: flex;
+          flex-direction: row;
+          position: relative;
+          left: -15px;
+          .type {
+            padding: 8px;
+            letter-spacing: 1px;
+            color: #1d1d1d;
+            background: #fff;
+            box-shadow: 2px 2px 12px -2px #555;
+          }
+          .vote {
+            color: #f7f7f9;
+            background: $color-blue;
+            font-size: 17px;
+            padding: 7px 8px 5px 8px;
+
+            .glyphicon {
+              color: #f7f7f9;
+              background: $color-blue;
+              position: relative;
+              top: 2px;
+              left: -2px;
+            }
+          }
+
+        }
+
+        .to-back {
+          position: relative;
+          right: -15px;
+          margin-top: 8px;
+          a {
+            padding: 10px;
+            letter-spacing: 1px;
+            color: #1d1d1d;
+            text-decoration: none;
+            background: #fff;
+            box-shadow: 2px 2px 12px -2px #555;
+            transition: all .1s linear;
+            &:hover {
+              color: #f7f7f9;
+              background: $color-blue;
+            }
+          }
+          .glyphicon {
+            font-size: 12px;
+            margin-right: 5px;
+          }
+        }
+      }
 
       .to-cart {
-        position: absolute;
-        right: -15px;
+        position: relative;
         bottom: 25px;
         color: #e6e6e6;
+        display: flex;
+        justify-content: flex-end;
         .buy {
           position: relative;
           text-decoration: none;
           color: #f7f7f9;
           cursor: pointer;
           font-size: 18px;
-          padding: 10px 0 10px 15px;
+          padding: 8px 0 7px 15px;
           font-weight: 600;
 
-          top: -3px;
+          right: -15px;
           background: #1e1e1e;
           box-shadow: 2px 2px 12px -2px #000;
           &:hover {
             background: #000;
             & .price-product {
-              background: #1f4bba;
+              background: $color-blue;
             }
           }
 
@@ -39,86 +104,37 @@
             position: relative;
             font-size: 18px;
             padding: 10px;
-            background: #457aff;
+            background: $color-blue;
             margin-left: 8px;
           }
         }
       }
-
-      .product-type {
-        position: absolute;
-        top: 25px;
-        left: -15px;
-        display: flex;
-        flex-direction: row;
-        .type {
-          padding: 8px;
-          letter-spacing: 1px;
-          color: #1d1d1d;
-          background: #fff;
-          box-shadow: 2px 2px 12px -2px #555;
-        }
-        .vote {
-          color: #f7f7f9;
-          background: #457aff;
-          font-size: 17px;
-          padding: 7px 8px 5px 8px;
-
-          .glyphicon {
-            color: #f7f7f9;
-            background: #457aff;
-            position: relative;
-            top: 2px;
-            left: -2px;
-          }
-        }
-
-      }
-
-      .to-back {
-        position: absolute;
-        top: 35px;
-        right: -15px;
-        a {
-          padding: 10px;
-          letter-spacing: 1px;
-          color: #1d1d1d;
-          text-decoration: none;
-          background: #fff;
-          box-shadow: 2px 2px 12px -2px #555;
-          transition: all .1s linear;
-          &:hover {
-            color: #f7f7f9;
-            background: #457aff;
-          }
-        }
-        .glyphicon {
-          font-size: 12px;
-          margin-right: 5px;
-        }
-      }
     }
     .description-product {
-      .description-title {
+      .description-name {
+        color: #222;
+        font-size: 36px;
+        font-weight: 600;
+      }
+      .extra-info {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        .description-name {
-          color: #222;
-          font-size: 36px;
-          font-weight: 600;
+        app-ratio {
+          margin-right: 10px;
         }
-        .description-release {
+        .description-release, .votes, .read-count {
           display: flex;
           flex-direction: column;
-          font-weight: 600;
-          letter-spacing: 1px;
-          color: #666;
+          padding: 5px;
+          margin-right: 10px;
+          text-align: center;
+          span:first-child {
+            font-weight: 600;
+          }
         }
       }
-
-      .description-items {
-        margin: 15px 0;
+      .description-item {
+        margin-bottom: 15px;
         text-align: justify;
         .title-description {
           color: #1d1d1d;
@@ -161,7 +177,7 @@
           position: absolute;
           padding: 5px;
           color: #f7f7f9;
-          background: #457aff;
+          background: $color-blue;
         }
         .to-cart {
           position: absolute;
@@ -179,7 +195,7 @@
             transition: all .1s linear;
             &:hover {
               color: #f7f7f9;
-              background: #457aff;
+              background: $color-blue;
             }
           }
         }
@@ -192,7 +208,7 @@
           text-decoration: none;
           transition: all .1s linear;
           &:hover {
-            color: #457aff;
+            color: $color-blue;
           }
         }
       }

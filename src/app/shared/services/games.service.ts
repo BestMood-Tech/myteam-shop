@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
 
@@ -124,7 +124,10 @@ export class GamesService {
         id: game.id,
         type: 'game',
         name: game.name,
-        price: Math.floor(game.popularity * 100) / 10
+        price: Math.floor(game.popularity * 100) / 10,
+        year: moment(game.first_release_date).format('YYYY'),
+        vote: game.popularity,
+        voteCount: game.collection
       };
 
       if (game.cover) {
@@ -149,7 +152,7 @@ export class GamesService {
   }
 
   public processItem(data) {
-    const resultingData = data.map(function (game) {
+    const resultingData = data.map((game) => {
       const tempObject = {
         id: game.id,
         type: 'game',
@@ -157,7 +160,8 @@ export class GamesService {
         genres: game.genres,
         developers: game.developers,
         release_date: moment(game.first_release_date).format('YYYY'),
-        price: Math.floor(game.popularity * 100) / 10
+        price: Math.floor(game.popularity * 100) / 10,
+        vote: game.popularity
       };
       if (game.cover) {
         tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;

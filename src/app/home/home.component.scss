@@ -38,12 +38,12 @@ $container-top-shift: $top-bar-height + $container-margin;
 
 .popular {
   font-family: $font-roboto;
-  padding: 8px;
+  padding: 8px 5px;
   background: #1e1e1e;
   color: #e6e6e6;
   .glyphicon {
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 5px;
     top: 4px;
     margin-top: -3px;
     color: #aaa;
@@ -55,7 +55,7 @@ $container-top-shift: $top-bar-height + $container-margin;
   line-height: 36px;
   background: #457aff;
   text-decoration: none;
-  padding: 0 10px;
+  padding: 0 8px;
   color: #e6e6e6;
   transition: all .15s linear;
   cursor: pointer;
@@ -80,14 +80,16 @@ $container-top-shift: $top-bar-height + $container-margin;
 
 .game-block, .book-block {
   height: calc((100vh - #{$container-top-shift}) / 2 - 2.5px);
-}
-
-.book-block {
   margin-top: 5px;
+  .footer {
+    .name {
+      font-size: 24px;
+    }
+  }
 }
 
 .footer {
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.45);
   padding: 10px;
   .info {
     display: flex;
@@ -100,6 +102,7 @@ $container-top-shift: $top-bar-height + $container-margin;
     font: 500 40px $font-helvetica;
     letter-spacing: 1px;
     color: white;
+    margin-bottom: 10px;
   }
   .description {
     font: 200 16px $font-roboto;

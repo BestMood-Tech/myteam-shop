@@ -1,3 +1,5 @@
+@import "../../_variables.scss";
+
 .not-found {
   position: relative;
   top: 25vh;
@@ -8,13 +10,13 @@
     text-align: center;
     color: black;
     h1, h2 {
-      font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: $font-helvetica;
+      letter-spacing: 1px;
     }
   }
 }
 
 .container {
-  margin: 0;
   overflow-y: hidden;
   padding: 15px;
   width: 100%;

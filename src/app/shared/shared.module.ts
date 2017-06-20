@@ -10,6 +10,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { RouterModule } from '@angular/router';
 import { FiltersComponent } from './components/filter/filters.component';
 import { RatioComponent } from './components/ratio/ratio.component';
+import { MyAroundPipe } from './pipes/around.pipe';
 
 @NgModule({
   imports: [
@@ -25,13 +26,14 @@ import { RatioComponent } from './components/ratio/ratio.component';
     FormsModule,
     ReactiveFormsModule,
     CurrencyPipe,
+    MyAroundPipe,
     NgbModule,
     AddressFormComponent,
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
   ],
-  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent, FiltersComponent, RatioComponent],
+  declarations: [CurrencyPipe, MyAroundPipe, AddressFormComponent, ProductCardComponent, FiltersComponent, RatioComponent],
   entryComponents: [AddressFormComponent],
 })
 
