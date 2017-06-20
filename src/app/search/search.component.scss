@@ -1,3 +1,18 @@
+.not-found {
+  position: relative;
+  top: 25vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .message {
+    text-align: center;
+    color: black;
+    h1, h2 {
+      font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+  }
+}
+
 .container {
   margin: 0;
   overflow-y: hidden;
