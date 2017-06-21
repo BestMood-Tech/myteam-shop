@@ -14,7 +14,6 @@ export class FiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public display = true;
   public filters: any;
-  // @Output() public filtersUpdated: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder,
               private helperService: HelperService,
@@ -64,7 +63,6 @@ export class FiltersComponent implements OnInit {
       filterObject['genres'] = form.gameGroup.genres;
     }
     this.helperService.updateFilters.emit(filterObject);
-    // this.filtersUpdated.emit(filterObject);
   }
 
 }
