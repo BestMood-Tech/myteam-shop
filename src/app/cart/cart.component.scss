@@ -6,3 +6,79 @@
   max-height: 100px !important;
   overflow: hidden;
 }
+.container {
+  margin: 0;
+  overflow-y: hidden;
+  padding: 15px;
+  width: 100%;
+  height: 65%;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.total {
+  position: relative;
+  top: -25px;
+  background: white;
+  padding: 0 30px;
+  height: 35%;
+
+  .total-right {
+    flex-direction: column;
+    align-items: flex-end;
+    border-top: 3px solid black;
+
+    .btn-pay {
+      padding: 5px 30px;
+      background-color: #457aff;
+      border: 1px solid #457aff;
+      color: white;
+    }
+  }
+
+  .alert-danger {
+    border: 1px solid #d9534f;
+    background-color: lightcoral;
+    color: white;
+    border-radius: 4px;
+    padding: 10px;
+  }
+}
+
+.empty-cart {
+  height: 100%;
+
+  .empty-cart-center {
+    flex-direction: column;
+    align-items: center;
+
+    h3 {
+      color: #777777;
+    }
+
+    .empty-cart-blocks {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .empty-cart-block {
+        margin-right: 50px;
+        text-align: center;
+
+        .glyphicon {
+          padding: 20px 20px 20px 20px;
+          font-size: 200px;
+        }
+      }
+      .empty-cart-block:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

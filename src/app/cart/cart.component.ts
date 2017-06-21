@@ -27,8 +27,7 @@ export class CartComponent implements OnInit {
   }
 
 
-  public deleteProduct(key) {
-    this.cart.deleteItem(key);
+  public deleteProduct() {
     this.orders = this.cart.getCart();
   }
 
