@@ -31,15 +31,18 @@
   .total-right {
     flex-direction: column;
     align-items: flex-end;
-  }
 
-  .btn-pay {
-    padding: 5px 30px;
+    .btn-pay {
+      padding: 5px 30px;
+      background-color: #457aff;
+      border: 1px solid #457aff;
+      color: white;
+    }
   }
 
   .alert-danger {
-    border: 1px solid red;
-    background-color: #d9534f;
+    border: 1px solid #d9534f;
+    background-color: lightcoral;
     color: white;
     border-radius: 4px;
     padding: 10px;

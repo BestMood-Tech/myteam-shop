@@ -25,7 +25,7 @@
     <div class="box total-right">
       <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
       <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
-      <button class="btn btn-success btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Pay</button>
+      <button class="btn btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Checkout</button>
     </div>
   </div>
 </div>
