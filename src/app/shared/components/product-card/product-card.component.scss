@@ -49,6 +49,21 @@
       justify-content: center;
       border-radius: 1px;
     }
+
+    .product-delete {
+      position: absolute;
+      bottom: 25px;
+      right: -15px;
+      padding: 8px;
+      background: #d9534f;
+      color: #ffffff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1px;
+      border-width: 0;
+    }
   }
 
   .description {

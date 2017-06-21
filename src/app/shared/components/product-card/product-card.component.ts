@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Cart } from '../../services/cart.service';
 import { Auth } from '../../services/auth.service';
 
@@ -10,7 +10,9 @@ import { Auth } from '../../services/auth.service';
 export class ProductCardComponent implements OnInit {
 
   @Input() public product;
-  @Input() public label;
+  @Input() public isCart: boolean;
+  @Input() public key: number;
+  @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
 
   public productCurrency: any;
 
@@ -26,6 +28,11 @@ export class ProductCardComponent implements OnInit {
 
   public addToCart(product) {
     this.cart.addToCart(product);
+  }
+
+  public deleteProduct(key) {
+    this.cart.deleteItem(key);
+    this.deleteFromCart.emit();
   }
 
   public getLabel() {

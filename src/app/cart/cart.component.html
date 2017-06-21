@@ -1,6 +1,26 @@
 <div class="container">
-  <div class="col-md-12" *ngFor="let item of orders; let key = index; trackBy: trackByFn">
-    <div class="col-md-3 thumbnail">
+  <div class="box">
+    <div *ngFor="let item of orders; let key = index;trackBy:trackByFn">
+      <app-product-card [product]="item" [isCart]="true" [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
+  </div>
+  </div>
+</div>
+<div class="container total">
+  <div class="total-right box">
+    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
+    <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
+    <div>
+      <button class="btn btn-success btn-pay"
+            [disabled]="!disabledPay()"
+            (click)='checkout()'>
+        Pay
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="col-md-3 thumbnail">
       <img class ="thumb-image" [src]=[item.cover] alt="">
     </div>
     <div class="col-md-6">
@@ -13,15 +33,4 @@
       <button class="btn btn-danger" (click)='deleteProduct(key)'>
         delete
       </button>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
-    <p *ngIf="!authorization">For pay need autorization!!!</p>
-    <button class="btn btn-success"
-            [disabled]="!disabledPay()"
-            (click)='checkout()'>
-      Pay
-    </button>
-  </div>
-</div>
+    </div>-->

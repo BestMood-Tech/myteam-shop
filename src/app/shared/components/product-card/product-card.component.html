@@ -15,16 +15,17 @@
   <div class="poster">
     <img [src]=[product.cover] [alt]="product.name">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
+    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>
   </div>
   <div class="name">
     <h4><a [routerLink]="['/category',product.type,product.id]">{{product.name}}</a></h4>
   </div>
-  <div class="description">
+  <div class="description" *ngIf="!isCart">
     <p>
       {{product.description}}
     </p>
   </div>
-  <div class="price">
+  <div class="price" *ngIf="!isCart">
     <button class="to-cart" (click)='addToCart(product)'><span class="glyphicon glyphicon-shopping-cart"></span>Buy
     </button>
   </div>
