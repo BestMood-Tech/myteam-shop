@@ -24,21 +24,28 @@
 <!--</div>-->
 <!--<button type="submit" class="btn btn-success" (click)='add()'>Add address</button>-->
 <!--</div>-->
-<div class="container dragscroll">
+<div class="container">
   <div class="row">
-    <div class="col-md-3 address-item add-address">
-      <p>You can add new address!</p>
-      <a class="add" (click)="add()">New address</a>
+    <div class="col-md-3">
+      <div class="address-item add-address">
+        <p>You can add new address!</p>
+        <a class="add" (click)="add()">New address</a>
+      </div>
     </div>
-    <div class="col-md-3 address-item" *ngFor='let address of auth.user.address; let key = index;'>
-      <p>Street Address: {{address.streetAddress}}</p>
-      <p>City: {{address.city}}</p>
-      <p>Zip / Postal Code: {{address.zip}}</p>
-      <p>Address Line 2: {{address.addressLine2}}</p>
-      <p>State / Province / Region: {{address.state}}</p>
-      <p>Country: {{address.country}}</p>
+    <div class="col-md-3" *ngFor='let address of auth.user.address; let key = index;'>
+      <div class="address-item">
+        <p>Street Address: {{address.streetAddress}}</p>
+        <p>City: {{address.city}}</p>
+        <p>Zip / Postal Code: {{address.zip}}</p>
+        <p>Address Line 2: {{address.addressLine2}}</p>
+        <p>State / Province / Region: {{address.state}}</p>
+        <p>Country: {{address.country}}</p>
+      </div>
     </div>
   </div>
+</div>
+<div class="container">
+  <template ngbModalContainer></template>
 </div>
 
 

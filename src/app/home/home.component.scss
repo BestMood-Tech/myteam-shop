@@ -97,6 +97,11 @@ $container-top-shift: $top-bar-height + $container-margin;
     > div {
       margin-right: 30px;
     }
+    .votes, .read-count, .year, .play-time {
+      p {
+        text-align: center;
+      }
+    }
   }
   .name {
     font: 500 40px $font-helvetica;
