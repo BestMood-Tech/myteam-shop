@@ -1,7 +1,13 @@
 <div class="container">
-  <div class="row">
-    <h1>Check out</h1>
-    <hr>
+  <div class="box">
+    <h1>Checkout</h1>
+    <h5 [ngClass]="level === 'products' ? 'level': ''">Check products and enter promo code</h5>
+    <div class="border"></div>
+    <h5 [ngClass]="level === 'shipping' ? 'level': ''">Shipping</h5>
+    <div class="border"></div>
+    <h5 [ngClass]="level === 'payment ' ? 'level': ''">Payment method</h5>
+  </div>
+</div>
     <div class="col-md-12" *ngFor="let order of orders">
       <div class="row">
         <div class="col-md-9">
@@ -94,5 +100,4 @@
     <div *ngIf="isRequesting" class="loading">
       <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
     </div>
-  </div>
-</div>
+

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { Cart } from '../shared/services/cart.service';
 import { Router } from '@angular/router';
+import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,10 @@ export class CartComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.auth.user) this.cartCurrency = this.auth.user.currency;
+    dragscroll.reset();
+    if (this.auth.user) {
+      this.cartCurrency = this.auth.user.currency;
+    }
     this.auth.onAuth.subscribe((value) => {
       this.authorization = value;
     });
@@ -44,7 +48,9 @@ export class CartComponent implements OnInit {
   }
 
   public checkout() {
-    if (!this.disabledPay()) return;
+    if (!this.disabledPay()) {
+      return;
+    }
     this.router.navigate(['./checkout']);
   }
 

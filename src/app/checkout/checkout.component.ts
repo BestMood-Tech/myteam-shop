@@ -24,6 +24,7 @@ export class CheckoutComponent implements OnInit {
   public paymentSystem: string[] = [
     'PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'
   ];
+  public level = 'products';
 
   public isRequesting: boolean;
 

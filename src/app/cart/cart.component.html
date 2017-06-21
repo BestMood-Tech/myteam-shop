@@ -18,7 +18,9 @@
 <div *ngIf="orders && orders.length">
   <div class="container dragscroll">
     <div class="box nochilddrag">
-      <app-product-card *ngFor="let item of orders; let key = index;trackBy:trackByFn" [product]="item" [isCart]="true" [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
+      <div *ngFor="let item of orders; let key = index">
+        <app-product-card [product]="item" [isCart]="true" [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
+      </div>
     </div>
   </div>
   <div class="container total">
@@ -29,6 +31,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!--<div class="col-md-3 thumbnail">
