@@ -12,7 +12,7 @@
 <!--</div>-->
 
 <div class="product-card" *ngIf="product">
-  <div class="poster">
+  <div class="poster opacity-transform">
     <img [src]=[product.cover] [alt]="product.name">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
     <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>
