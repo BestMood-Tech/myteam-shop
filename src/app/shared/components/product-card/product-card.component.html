@@ -18,7 +18,7 @@
     <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>
   </div>
   <div class="name">
-    <h4><a [routerLink]="['/category',product.type,product.id]">{{product.name}}</a></h4>
+    <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>
   </div>
   <div class="description" *ngIf="!isCart">
     <p>

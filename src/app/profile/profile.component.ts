@@ -16,8 +16,11 @@ export class ProfileComponent implements OnInit {
   private user: User;
   public profileCurrency: any;
 
-  constructor(private auth: Auth, private formBuilder: FormBuilder, private toastr: ToastsManager) {
+  constructor(private auth: Auth,
+              private formBuilder: FormBuilder,
+              private toastr: ToastsManager) {
     this.user = new User(this.auth.user.userProfile);
+    console.log(this.user);
   }
 
   public ngOnInit() {
@@ -30,11 +33,10 @@ export class ProfileComponent implements OnInit {
       email: [
         this.user.email,
         [
-          Validators.required,
           Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
         ]
       ],
-      phone: [this.user.phone, Validators.required],
+      phone: [this.user.phone],
       currency: [this.user.currency, Validators.required]
     });
 

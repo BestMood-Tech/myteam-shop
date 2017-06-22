@@ -23,12 +23,12 @@ export class AppComponent implements OnInit {
     checkGames: true
   };
 
-  constructor(private router: Router,
+  constructor(public authGuard: AuthGuard,
+              public auth: Auth,
+              private router: Router,
               private route: ActivatedRoute,
               private cart: Cart,
-              public auth: Auth,
               private fb: FormBuilder,
-              public authGuard: AuthGuard,
               private viewContainer: ViewContainerRef,
               private toastr: ToastsManager,
               private helperService: HelperService) {

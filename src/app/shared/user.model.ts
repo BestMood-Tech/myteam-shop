@@ -39,7 +39,8 @@ export class User {
       lastName: this.lastName,
       phone: this.phone,
       email: this.email,
-      currency: this.currency
+      currency: this.currency,
+      picture: this.picture
     };
   }
 

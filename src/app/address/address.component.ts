@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Auth} from '../shared/services/auth.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AddressFormComponent} from '../shared/components/address-form/address-form.component';
-import {Address} from '../shared/address.model';
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import { Component, OnInit } from '@angular/core';
+import { Auth } from '../shared/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+import { Address } from '../shared/address.model';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-address',
@@ -11,6 +11,7 @@ import {ToastsManager} from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent {
+  public error = false;
 
   constructor(public auth: Auth,
               private modalService: NgbModal,
@@ -26,12 +27,18 @@ export class AddressComponent {
   }
 
   public delete(key) {
+    console.log(key);
     this.auth.user.deleteAddress(key);
     this.toastr.success('Address delete', 'Success');
   }
 
 
   private open(key?) {
+    if (this.auth.user.address.length === 7) {
+      this.error = true;
+      return;
+    }
+    this.error = false;
     const modalRef = this.modalService.open(AddressFormComponent);
     if (key == null) {
       modalRef.componentInstance.address = new Address({});

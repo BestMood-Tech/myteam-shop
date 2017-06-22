@@ -29,17 +29,22 @@
     <div class="col-md-3">
       <div class="address-item add-address">
         <p>You can add new address!</p>
-        <a class="add" (click)="add()">New address</a>
+        <a class="add" (click)="add()"><span class="glyphicon glyphicon-plus"></span>New address</a>
+        <p class="error" *ngIf="error">Added the maximum number of addresses</p>
       </div>
     </div>
     <div class="col-md-3" *ngFor='let address of auth.user.address; let key = index;'>
-      <div class="address-item">
-        <p>Street Address: {{address.streetAddress}}</p>
-        <p>City: {{address.city}}</p>
-        <p>Zip / Postal Code: {{address.zip}}</p>
-        <p>Address Line 2: {{address.addressLine2}}</p>
-        <p>State / Province / Region: {{address.state}}</p>
-        <p>Country: {{address.country}}</p>
+      <div class="address-item address">
+        <div class="edit">
+          <a (click)="update(key)"><span class="glyphicon glyphicon-pencil"></span></a>
+          <a (click)="delete(key)"><span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        <p><span>Street Address:</span>{{address.streetAddress}}</p>
+        <p><span>City:</span>{{address.city}}</p>
+        <p><span>Zip / Postal Code:</span>{{address.zip}}</p>
+        <p><span>Address Line 2:</span>{{address.addressLine2}}</p>
+        <p><span>State / Province / Region:</span>{{address.state}}</p>
+        <p><span>Country:</span>{{address.country}}</p>
       </div>
     </div>
   </div>

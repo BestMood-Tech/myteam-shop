@@ -88,6 +88,10 @@ $container-top-shift: $top-bar-height + $container-margin;
   }
 }
 
+.game-block .footer .info .votes p {
+  text-align: left;
+}
+
 .footer {
   background-color: rgba(0, 0, 0, 0.45);
   padding: 10px;
