@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-checkout',
@@ -34,6 +35,7 @@ export class CheckoutComponent implements OnInit {
               private modalService: NgbModal,
               private toastr: ToastsManager,
               private router: Router) {
+    dragscroll.reset();
   }
 
   public ngOnInit() {

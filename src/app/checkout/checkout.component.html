@@ -8,96 +8,143 @@
     <h5 [ngClass]="level === 'payment ' ? 'level': ''">Payment method</h5>
   </div>
 </div>
-    <div class="col-md-12" *ngFor="let order of orders">
-      <div class="row">
-        <div class="col-md-9">
-          <p>Name: {{order.name}}</p>
-        </div>
-        <div class="col-md-3">
-          <p>Price: {{checkOutCurrency}} {{order.price | currency: checkOutCurrency}}</p>
-        </div>
+
+<div class="container slides dragscroll" *ngIf="level === 'products'">
+  <div class="box slide left-transform">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>1. Check order details</h4>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let order of orders">
+            <td>{{order.name}}</td>
+            <td>{{checkOutCurrency}} {{order.price | number:'1.1-5' | currency: checkOutCurrency}}</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th>Payment amount</th>
+            <th>{{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</th>
+          </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
-    <div class="col-md-12">
-      <h3>Total: {{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</h3>
-      <div class="row">
-        <form [formGroup]="checkOutForm" role="form" class="col-md-6">
-          <div *ngIf="activePromoCode" class="form-group"
-               [ngClass]="checkOutForm.controls.promoCode.errors? 'has-error': 'has-success'">
-            <div class="row">
-              <div class="col-md-8">
-                <input type="text" class="form-control" formControlName="promoCode">
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)="checkPromoCode()">Promo code</button>
-              </div>
-            </div>
+    <div class="row">
+      <form [formGroup]="checkOutForm" role="form" class="col-md-4 promo-code">
+        <h4>2. Enter a promo code:</h4>
+        <div *ngIf="activePromoCode" class="form-group">
+          <div class="input-group">
+            <input type="text" placeholder="Promo code..." formControlName="promoCode" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" (click)="checkPromoCode()">Save</button>
+            </span>
           </div>
-
-          <div *ngIf='!acitvePromoCode' class="form-group">
-            <p class="bg-success promo-success">Promo code success</p>
+        </div>
+        <div *ngIf="!activePromoCode" class="form-group">
+          <p class="bg-success promo-success">Promo code success</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <!--    <div class="col-md-12" *ngFor="let order of orders">
+        <div class="row">
+          <div class="col-md-9">
+            <p>Name: {{order.name}}</p>
           </div>
-
-          <div class="form-group "
-               [ngClass]="checkOutForm.controls.address.errors? 'has-error': 'has-success'">
-            <div class="row" *ngIf="!checkOutAddress">
-              <div  class="col-md-8">
-                <select class="form-control" formControlName="address"
-                        #item (change)="onChangeAddress(item.value)">
-                  <option *ngFor="let itemAddress of arrayAddressUser;let key = index;" [value]="key">
-                    {{itemAddress.getAddress()}}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)='newAddress()'>New address</button>
-              </div>
-            </div>
+          <div class="col-md-3">
+            <p>Price: {{checkOutCurrency}} {{order.price | currency: checkOutCurrency}}</p>
           </div>
-
-          <div class="row" *ngIf="checkOutAddress">
-            <div class="col-md-12">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <h3>Total: {{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</h3>
+        <div class="row">
+          <form [formGroup]="checkOutForm" role="form" class="col-md-6">
+            <div *ngIf="activePromoCode" class="form-group"
+                 [ngClass]="checkOutForm.controls.promoCode.errors? 'has-error': 'has-success'">
               <div class="row">
-                <div class="col-md-6">
-                  <p><strong>Street Address:</strong>{{checkOutAddress.streetAddress}}</p>
-                  <p><strong>City:</strong>{{checkOutAddress.city}}</p>
-                  <p><strong>Zip / Postal Code:</strong>{{checkOutAddress.zip}}</p>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" formControlName="promoCode">
                 </div>
-                <div class="col-md-6">
-                  <p><strong>Address Line 2:</strong>{{checkOutAddress.addressLine2}}</p>
-                  <p><strong>State / Province / Region:</strong>{{checkOutAddress.state}}</p>
-                  <p><strong>Country:</strong>{{checkOutAddress.country}}</p>
+                <div class="col-md-4">
+                  <button class="btn btn-success" (click)="checkPromoCode()">Promo code</button>
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <button class="btn btn-success" (click)='differentAddress()'>different address</button>
-            </div>
-          </div>
 
-          <div class="form-group "
-               [ngClass]="checkOutForm.controls.payment.errors? 'has-error': 'has-success'">
-            <div class="row">
-              <div  class="col-md-8">
-                <h3>Payment system</h3>
-                <select class="form-control" formControlName="payment">
-                  <option *ngFor="let pS of paymentSystem;let key = index;" [value]="pS">
-                    {{pS}}
-                  </option>
-                </select>
+            <div *ngIf='!acitvePromoCode' class="form-group">
+              <p class="bg-success promo-success">Promo code success</p>
+            </div>
+
+            <div class="form-group "
+                 [ngClass]="checkOutForm.controls.address.errors? 'has-error': 'has-success'">
+              <div class="row" *ngIf="!checkOutAddress">
+                <div  class="col-md-8">
+                  <select class="form-control" formControlName="address"
+                          #item (change)="onChangeAddress(item.value)">
+                    <option *ngFor="let itemAddress of arrayAddressUser;let key = index;" [value]="key">
+                      {{itemAddress.getAddress()}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-success" (click)='newAddress()'>New address</button>
+                </div>
               </div>
             </div>
-          </div>
 
-        </form>
+            <div class="row" *ngIf="checkOutAddress">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p><strong>Street Address:</strong>{{checkOutAddress.streetAddress}}</p>
+                    <p><strong>City:</strong>{{checkOutAddress.city}}</p>
+                    <p><strong>Zip / Postal Code:</strong>{{checkOutAddress.zip}}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Address Line 2:</strong>{{checkOutAddress.addressLine2}}</p>
+                    <p><strong>State / Province / Region:</strong>{{checkOutAddress.state}}</p>
+                    <p><strong>Country:</strong>{{checkOutAddress.country}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-success" (click)='differentAddress()'>different address</button>
+              </div>
+            </div>
+
+            <div class="form-group "
+                 [ngClass]="checkOutForm.controls.payment.errors? 'has-error': 'has-success'">
+              <div class="row">
+                <div  class="col-md-8">
+                  <h3>Payment system</h3>
+                  <select class="form-control" formControlName="payment">
+                    <option *ngFor="let pS of paymentSystem;let key = index;" [value]="pS">
+                      {{pS}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
       </div>
-    </div>
-    <hr>
-    <button *ngIf="!isRequesting" class="btn btn-success" [disabled]="!checkPay()"
-            (click)='pay()'
-            >Pay
-    </button>
-    <div *ngIf="isRequesting" class="loading">
-      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
-    </div>
+      <hr>
+      <button *ngIf="!isRequesting" class="btn btn-success" [disabled]="!checkPay()"
+              (click)='pay()'
+              >Pay
+      </button>
+      <div *ngIf="isRequesting" class="loading">
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
+      </div>
 
+  -->
