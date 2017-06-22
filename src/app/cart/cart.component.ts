@@ -17,6 +17,7 @@ export class CartComponent implements OnInit {
 
   constructor(private cart: Cart, private auth: Auth, private router: Router) {
     this.orders = this.cart.getCart();
+    dragscroll.reset();
     this.authorization = this.auth.authenticated();
   }
 
