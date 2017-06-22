@@ -43,12 +43,14 @@ export class CheckoutComponent implements OnInit {
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
+      dragscroll.reset();
     } catch (e) {
       this.orders = [];
+      dragscroll.reset();
     }
 
     this.checkOutForm = this.formBulder.group({
-      promoCode: '',
+      promoCode: 'ANGULAR 2',
       address: [this.checkOutAddress, Validators.required],
       payment: ['', Validators.required]
     });
@@ -118,6 +120,28 @@ export class CheckoutComponent implements OnInit {
       data: new Date()
     });
     this.toastr.success('Orders added to profile', 'Success');
+  }
+
+  public changeLevel(isNext: boolean) {
+    if (isNext) {
+      if (this.level === 'products') {
+        this.level = 'shipping';
+        return;
+      }
+      if (this.level === 'shipping') {
+        this.level = 'payment';
+        return;
+      }
+    } else {
+      if (this.level === 'shipping') {
+        this.level = 'products';
+        return;
+      }
+      if (this.level === 'payment') {
+        this.level = 'shipping';
+        return;
+      }
+    }
   }
 
   public pay() {
