@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { FiltersComponent } from './components/filter/filters.component';
 import { RatioComponent } from './components/ratio/ratio.component';
 import { MyAroundPipe } from './pipes/around.pipe';
+import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
 
 @NgModule({
   imports: [
@@ -32,8 +33,17 @@ import { MyAroundPipe } from './pipes/around.pipe';
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
+    ProfileFieldComponent
   ],
-  declarations: [CurrencyPipe, MyAroundPipe, AddressFormComponent, ProductCardComponent, FiltersComponent, RatioComponent],
+  declarations: [
+    CurrencyPipe,
+    MyAroundPipe,
+    AddressFormComponent,
+    ProductCardComponent,
+    FiltersComponent,
+    RatioComponent,
+    ProfileFieldComponent
+  ],
   entryComponents: [AddressFormComponent],
 })
 

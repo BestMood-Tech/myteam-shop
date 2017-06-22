@@ -1,18 +1,5 @@
-<!--<div class="thumbnail" *ngIf="product">-->
-<!--<span class="label search-label" [ngClass]="getLabel()" *ngIf="label">{{product.type}}</span>-->
-<!--<img class="thumb-image" [src]=[product.cover] alt="">-->
-<!--<div class="caption">-->
-<!--<h4 class="product-name"><a [routerLink]="['/category',product.type,product.id]">{{product.name}}</a></h4>-->
-<!--<p>{{product.description}}</p>-->
-<!--</div>-->
-<!--<div class="ratings">-->
-<!--<h4 class="pull-right">{{productCurrency}}{{product.price | currency:productCurrency}}</h4>-->
-<!--<button class="btn btn-success md-btn nochilddrag" (click)='addToCart(product)'>Add to cart</button>-->
-<!--</div>-->
-<!--</div>-->
-
-<div class="product-card" *ngIf="product">
-  <div class="poster opacity-transform">
+<div class="product-card opacity-transform" *ngIf="product">
+  <div class="poster">
     <img [src]=[product.cover] [alt]="product.name">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
     <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>

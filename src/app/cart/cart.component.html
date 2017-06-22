@@ -18,18 +18,18 @@
     </div>
   </div>
 </div>
-<div *ngIf="orders && orders.length">
-  <div class="container dragscroll">
-    <div class="box nochilddrag">
-      <app-product-card *ngFor="let item of orders; let key = index" [product]="item" [isCart]="true"
-                        [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
-    </div>
-  </div>
-  <div class="container total">
-    <div class="box total-right">
-      <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
-      <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
-      <button class="btn btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Checkout</button>
-    </div>
+
+<div class="container dragscroll">
+  <div class="box nochilddrag" *ngIf="orders && orders.length">
+    <app-product-card *ngFor="let item of orders; let key = index" [product]="item" [isCart]="true"
+                      [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
   </div>
 </div>
+<div class="total">
+  <div class="total-right">
+    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
+    <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
+    <button class="btn btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Checkout</button>
+  </div>
+</div>
+

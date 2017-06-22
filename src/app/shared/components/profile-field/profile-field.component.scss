@@ -1,0 +1,30 @@
+.pad {
+  padding: 20px;
+  span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    min-width: 250px;
+    height: 36px;
+    background-color: #f2f2f2;
+  }
+}
+
+.value {
+  padding: 20px;
+  .field {
+    display: flex;
+    flex-direction: row;
+    input[type=text], input[type=submit] {
+      height: 36px;
+      padding: 5px;
+      outline: medium #e5a50d;
+      border: none;
+      background-color: #f2f2f2;
+    }
+    .form-field {
+      min-width: 250px;
+    }
+  }
+}

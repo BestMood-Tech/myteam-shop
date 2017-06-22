@@ -53,7 +53,7 @@ export class RatioComponent implements OnInit, OnChanges {
   }
 
   private culcRations() {
-    this.product.vote = this.product.vote > 5 ? (this.product.vote / 2).toFixed(1) : this.product.vote;
+    this.product.vote = this.product.vote > 5 ? (this.product.vote / 2).toFixed(1) : this.product.vote.toFixed(1);
     this.rationAsAnArray = new Array(Math.floor(this.product.vote));
   }
 }

@@ -1,0 +1,12 @@
+<div class="pad" *ngIf="!edit" (click)="editItem()">
+  <span>{{value}}</span>
+</div>
+<div class="value" *ngIf="edit">
+  <form (submit)="saveItem()" [formGroup]="formValue">
+    <div class="field">
+      <input class="form-field" id="value" type="text" formControlName="changedValue">
+      <input type="submit" value="Save" class="btn" [disabled]="!formValue.valid">
+    </div>
+  </form>
+</div>
+

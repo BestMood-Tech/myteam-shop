@@ -15,13 +15,15 @@ export class CartComponent implements OnInit {
   authorization: boolean;
   cartCurrency = '$';
 
-  constructor(private cart: Cart, private auth: Auth, private router: Router) {
-    this.orders = this.cart.getCart();
-    this.authorization = this.auth.authenticated();
+  constructor(private cart: Cart,
+              private auth: Auth,
+              private router: Router) {
   }
 
   public ngOnInit() {
     dragscroll.reset();
+    this.orders = this.cart.getCart();
+    this.authorization = this.auth.authenticated();
     if (this.auth.user) {
       this.cartCurrency = this.auth.user.currency;
     }

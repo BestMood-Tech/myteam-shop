@@ -1,17 +1,17 @@
-import {CategoryComponent} from './category/category.component';
-import {ProductComponent} from './product/product.component';
-import {SearchComponent} from './search/search.component';
-import {CheckoutComponent} from './checkout/checkout.component';
-import {ConfirmationComponent} from './confirmation/confirmation.component';
-import {HomeComponent} from './home/home.component';
-import {CartComponent} from './cart/cart.component';
-import {ProfileComponent} from './profile/profile.component';
-import {AddressComponent} from './address/address.component';
-import {AuthGuard} from './shared/services/authGuard.service';
-import {CategoryResolve} from './category/category.resolve';
-import {ProductResolve} from './product/product.resolve';
-import {NgModule} from "@angular/core";
-import {Routes, RouterModule} from "@angular/router";
+import { CategoryComponent } from './category/category.component';
+import { ProductComponent } from './product/product.component';
+import { SearchComponent } from './search/search.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { HomeComponent } from './home/home.component';
+import { CartComponent } from './cart/cart.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AddressComponent } from './address/address.component';
+import { AuthGuard } from './shared/services/authGuard.service';
+import { CategoryResolve } from './category/category.resolve';
+import { ProductResolve } from './product/product.resolve';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
