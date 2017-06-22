@@ -1,11 +1,7 @@
 .thumb-image {
-  height: 200px !important;
+  height: 200px;
 }
 
-.description-cart {
-  max-height: 100px !important;
-  overflow: hidden;
-}
 .container {
   margin: 0;
   overflow-y: hidden;
@@ -72,7 +68,7 @@
         text-align: center;
 
         .glyphicon {
-          padding: 20px 20px 20px 20px;
+          padding: 20px;
           font-size: 200px;
         }
       }
