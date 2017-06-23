@@ -30,13 +30,13 @@ export class AddressComponent {
   }
 
   public delete(key) {
-    console.log(key);
     this.auth.user.deleteAddress(key);
     this.toastr.success('Address delete', 'Success');
   }
 
 
   private open(key?) {
+    console.log(this.auth.user);
     if (this.auth.user.address.length === 7) {
       this.error = true;
       return;

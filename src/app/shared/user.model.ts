@@ -10,12 +10,14 @@ export class User {
   firstName: string;
   lastName: string;
   phone: string;
+  mobile: string;
+  country: string;
   address: Address[];
   orders = [];
   currency: string = Currency.getCurrency().dollar[1];
 
   constructor(obj) {
-    for (let key of Object.keys(obj)) {
+    for (const key of Object.keys(obj)) {
       if (key !== 'address') {
         this[key] = obj[key];
       } else {
@@ -23,7 +25,9 @@ export class User {
       }
     }
 
-    if (this.address == null) this.address = [];
+    if (this.address === null) {
+      this.address = [];
+    }
 
     this.updateLSUser(this.nickName, this.toJson());
   }
@@ -38,7 +42,9 @@ export class User {
       firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
+      mobile: this.mobile,
       email: this.email,
+      country: this.country,
       currency: this.currency,
       picture: this.picture
     };
@@ -53,22 +59,28 @@ export class User {
   }
 
   public updateProfile(profile) {
-    if (!profile) return;
+    if (!profile) {
+      return;
+    }
 
-    for (let key of Object.keys(profile)) {
+    for (const key of Object.keys(profile)) {
       this[key] = profile[key];
     }
     this.updateLSUser(this.nickName, this.toJson());
   }
 
   public updateAddress(key, address) {
-    if (!address) return;
+    if (!address) {
+      return;
+    }
     this.address[key] = address;
     this.updateLSUser(this.nickName, this.toJson());
   }
 
   public addAddress(address: Address) {
-    if (!address) return;
+    if (!address) {
+      return;
+    }
     this.address.push(address);
     this.updateLSUser(this.nickName, this.toJson());
   }

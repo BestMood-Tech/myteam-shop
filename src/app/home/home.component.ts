@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     this.gamesService.latest().subscribe(res => {
       this.gameData = this.gamesService.processData(res)[0];
-      console.log(this.gameData);
     });
     this.movieService.recent().subscribe(res => {
       this.movieData = this.movieService.processData(res)[0];
