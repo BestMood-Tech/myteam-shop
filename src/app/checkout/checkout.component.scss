@@ -88,18 +88,55 @@ h4 {
 
 
 .payment-blocks {
-  margin-top: 50px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 
   .payment-block {
-    margin-right: 50px;
+    margin-right: 25px;
     text-align: center;
-    width: 150px;
+    width: 250px;
+    background: #f7f7f7;
+
+    &:hover {
+      background: #f7f7f7 * 0.95;
+    }
 
     .thumb-image {
+      padding: 20px;
       height: 100px;
+    }
+  }
+  .chosen-payment {
+    background: lightblue * 1.05 !important;
+    &:hover {
+      background: lightblue !important;
+    }
+  }
+}
+
+.pay {
+  background: white;
+  padding: 0 30px;
+  height: 35%;
+
+  .pay-right {
+    flex-direction: column;
+    align-items: flex-end;
+    border-top: 3px solid black;
+
+    .btn-pay {
+      margin-top: 20px;
+      padding: 5px 30px;
+      background-color: #457aff;
+      border: 1px solid #457aff;
+      color: white;
+    }
+
+    .loading {
+      margin-top: 20px;
+      font-size: 20px;
     }
   }
 }

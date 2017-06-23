@@ -26,6 +26,7 @@ export class CheckoutComponent implements OnInit {
     'PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'
   ];
   public level = 'products';
+  public direction = 'next';
 
   public isRequesting: boolean;
 
@@ -49,14 +50,15 @@ export class CheckoutComponent implements OnInit {
       dragscroll.reset();
     }
 
+    this.activePromoCode = true;
+    this.arrayAddressUser = this.auth.user.address;
+    this.checkOutAddress = new Address(this.arrayAddressUser[0]);
+
     this.checkOutForm = this.formBulder.group({
       promoCode: 'ANGULAR 2',
       address: [this.checkOutAddress, Validators.required],
-      payment: ['', Validators.required]
+      payment: ['PayPal', Validators.required]
     });
-
-    this.activePromoCode = true;
-    this.arrayAddressUser = this.auth.user.address;
   }
 
   public getTotal() {
@@ -125,6 +127,7 @@ export class CheckoutComponent implements OnInit {
   public changeLevel(isNext: boolean) {
     if (isNext) {
       dragscroll.reset();
+      this.direction = 'next';
       if (this.level === 'products') {
         this.level = 'shipping';
         return;
@@ -134,6 +137,8 @@ export class CheckoutComponent implements OnInit {
         return;
       }
     } else {
+      dragscroll.reset();
+      this.direction = 'prev';
       if (this.level === 'shipping') {
         this.level = 'products';
         return;
@@ -143,6 +148,10 @@ export class CheckoutComponent implements OnInit {
         return;
       }
     }
+  }
+
+  public changePayment(method: string) {
+    this.checkOutForm.value.payment = method;
   }
 
   public pay() {
