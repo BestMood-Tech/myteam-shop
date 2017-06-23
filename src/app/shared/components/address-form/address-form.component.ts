@@ -2,8 +2,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HelperService } from '../../services/helper.service';
 import { Address } from '../../address.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, Input } from "@angular/core";
-import { OnInit } from "@angular/core";
+import { Component, Input } from '@angular/core';
+import { OnInit } from '@angular/core';
 
 
 @Component({
@@ -14,13 +14,14 @@ import { OnInit } from "@angular/core";
 export class AddressFormComponent implements OnInit {
   @Input() address;
 
-  public nameCountry:any;
+  public nameCountry: any;
   public addressForm: FormGroup;
   public copyAddress: Address;
 
   constructor(public activeModal: NgbActiveModal,
               private helper: HelperService,
-              private formBulder: FormBuilder) {}
+              private formBulder: FormBuilder) {
+  }
 
   public ngOnInit() {
     this.copyAddress = new Address(this.address);
@@ -40,12 +41,14 @@ export class AddressFormComponent implements OnInit {
   }
 
   public save() {
-    if(!this.addressForm.valid) return;
+    if (!this.addressForm.valid) {
+      return;
+    }
     this.activeModal.close(this.addressForm.value);
   }
 
   public compareCountry(data): boolean {
-    return this.copyAddress.country == data;
+    return this.copyAddress.country === data;
   }
 
 

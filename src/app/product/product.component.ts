@@ -59,7 +59,6 @@ export class ProductComponent implements OnInit {
       } else {
         this.recommended = this.currentService.getRecommended(this.product);
       }
-
       if (this.route.snapshot.url[1].path === 'game') {
         this.currentService.getGenres(this.product.genres)
           .subscribe(res => this.product.genres = res);
