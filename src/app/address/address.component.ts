@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
@@ -8,7 +8,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  styleUrls: ['./address.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddressComponent {
   @Input() public isCart: boolean;
@@ -36,13 +37,12 @@ export class AddressComponent {
 
 
   private open(key?) {
-    console.log(this.auth.user);
     if (this.auth.user.address.length === 7) {
       this.error = true;
       return;
     }
     this.error = false;
-    const modalRef = this.modalService.open(AddressFormComponent);
+    const modalRef = this.modalService.open(AddressFormComponent, { windowClass: 'modal-add-address' });
     if (key == null) {
       modalRef.componentInstance.address = new Address({});
     } else {
@@ -64,7 +64,6 @@ export class AddressComponent {
 
   public chooseAddress(key: number) {
     if (this.isCart) {
-      console.log('click');
       this.chosenAddress.emit(key);
       this.addressKey = key;
     }

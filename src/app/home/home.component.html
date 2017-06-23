@@ -1,4 +1,4 @@
-<div class="container slides">
+<div class="container">
   <div class="row">
     <div class="col-sm-8">
       <div class="row most-popular">
@@ -6,7 +6,7 @@
           <div *ngIf="!movieData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <div class="block-data movie-block slide left-transform" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
+          <div class="block-data movie-block left-transform" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-facetime-video"></span>
@@ -40,7 +40,7 @@
           <div *ngIf="!gameData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <div class="block-data game-block slide left-transform" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
+          <div class="block-data game-block left-transform" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-cloud"></span>
@@ -68,7 +68,7 @@
           <div *ngIf="!bookData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <div class="block-data book-block slide left-transform" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
+          <div class="block-data book-block left-transform" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-book"></span>
