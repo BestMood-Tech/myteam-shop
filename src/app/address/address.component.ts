@@ -8,8 +8,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./address.component.scss']
 })
 export class AddressComponent {
   @Input() public isCart: boolean;
