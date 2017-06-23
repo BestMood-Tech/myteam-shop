@@ -56,7 +56,6 @@ h4 {
   margin-top: 0;
 
   .slide {
-    position: relative;
     height: 100%;
     margin: 0 20px 0 20px;
     width: 100%;
@@ -74,10 +73,9 @@ h4 {
   top: 50%;
   padding: 5px;
   opacity: 0.5;
-}
-
-.btn-nav:hover {
-  opacity: 1;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .btn-nav-prev {
@@ -86,4 +84,22 @@ h4 {
 
 .btn-nav-next {
   right: 5px;
+}
+
+
+.payment-blocks {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .payment-block {
+    margin-right: 50px;
+    text-align: center;
+    width: 150px;
+
+    .thumb-image {
+      height: 100px;
+    }
+  }
 }

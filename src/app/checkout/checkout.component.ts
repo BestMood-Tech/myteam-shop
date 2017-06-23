@@ -124,6 +124,7 @@ export class CheckoutComponent implements OnInit {
 
   public changeLevel(isNext: boolean) {
     if (isNext) {
+      dragscroll.reset();
       if (this.level === 'products') {
         this.level = 'shipping';
         return;

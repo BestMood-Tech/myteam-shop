@@ -24,7 +24,7 @@
 <!--</div>-->
 <!--<button type="submit" class="btn btn-success" (click)='add()'>Add address</button>-->
 <!--</div>-->
-<div class="container">
+<div class="container" [ngClass]="isCart ? 'cart-container' : ''">
   <div class="row">
     <div class="col-md-3">
       <div class="address-item add-address">
@@ -34,8 +34,10 @@
       </div>
     </div>
     <div class="col-md-3" *ngFor='let address of auth.user.address; let key = index;'>
-      <div class="address-item address">
-        <div class="edit">
+      <div class="address-item address"
+           [ngClass]="[isCart && key === addressKey ? 'chosen-address' : '',
+           isCart && key !== addressKey ? 'cart-address' : '']"  (click)="chooseAddress(key)">
+        <div class="edit" *ngIf="!isCart">
           <a (click)="update(key)"><span class="glyphicon glyphicon-pencil"></span></a>
           <a (click)="delete(key)"><span class="glyphicon glyphicon-remove"></span></a>
         </div>

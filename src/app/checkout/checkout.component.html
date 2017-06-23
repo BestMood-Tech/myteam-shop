@@ -1,7 +1,9 @@
 <button class="btn btn-nav btn-nav-next" *ngIf="level === 'shipping' || level === 'products'"
-        (click)="changeLevel(true)"> > </button>
+        (click)="changeLevel(true)"> >
+</button>
 <button class="btn btn-nav btn-nav-prev" *ngIf="level === 'shipping' || level === 'payment'"
-        (click)="changeLevel(false)"> < </button>
+        (click)="changeLevel(false)"> <
+</button>
 
 <div class="container checkout-header">
   <div class="box">
@@ -15,7 +17,7 @@
 </div>
 
 <div class="container slides dragscroll">
-  <div class="box">
+  <div class="box nochilddrag">
     <div class="slide left-transform" *ngIf="level === 'products'">
       <h4>1. Check order details</h4>
       <table class="table">
@@ -56,40 +58,22 @@
 
     <div class="slide left-transform" *ngIf="level === 'shipping'">
       <h4>3. Choose address for shipping</h4>
-      <app-address></app-address>
+      <app-address [isCart]="true" (chosenAddress)="onChangeAddress($event)"></app-address>
     </div>
-  </div>
-</div>
-<!--    <div class="col-md-12" *ngFor="let order of orders">
-      <div class="row">
-        <div class="col-md-9">
-          <p>Name: {{order.name}}</p>
-        </div>
-        <div class="col-md-3">
-          <p>Price: {{checkOutCurrency}} {{order.price | currency: checkOutCurrency}}</p>
+
+    <div class="slide left-transform" *ngIf="level === 'payment'">
+      <div class="payment-blocks">
+        <h4>3. Choose payment method</h4>
+        <div *ngFor="let method of paymentSystem" class="thumbnail payment-block">
+          <img [src]="'../../assets/' + method + '.png'" class="thumb-image">
+          <h2>{{method}}</h2>
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <h3>Total: {{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</h3>
-      <div class="row">
-        <form [formGroup]="checkOutForm" role="form" class="col-md-6">
-          <div *ngIf="activePromoCode" class="form-group"
-               [ngClass]="checkOutForm.controls.promoCode.errors? 'has-error': 'has-success'">
-            <div class="row">
-              <div class="col-md-8">
-                <input type="text" class="form-control" formControlName="promoCode">
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)="checkPromoCode()">Promo code</button>
-              </div>
-            </div>
-          </div>
 
-          <div *ngIf='!acitvePromoCode' class="form-group">
-            <p class="bg-success promo-success">Promo code success</p>
-          </div>
-
+  </div>
+</div>
+<!--
           <div class="form-group "
                [ngClass]="checkOutForm.controls.address.errors? 'has-error': 'has-success'">
             <div class="row" *ngIf="!checkOutAddress">

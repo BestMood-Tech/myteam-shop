@@ -94,3 +94,17 @@
     }
   }
 }
+
+.cart-container {
+  padding: 0 0 50px 0;
+}
+.chosen-address {
+  background: lightblue * 1.05 !important;
+
+  &:hover {
+    background: lightblue !important;
+  }
+}
+.cart-address:hover {
+  background: #f7f7f7 * 0.95 !important;
+}

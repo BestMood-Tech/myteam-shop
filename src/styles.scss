@@ -129,6 +129,7 @@ ag-grid-ng2 {
   -webkit-animation-duration: 0.5s;
   animation-timing-function: linear;
   -webkit-animation-timing-function: linear;
+  position: relative;
 }
 @keyframes my-left-transform{
   0%{left: 100%;opacity:0}

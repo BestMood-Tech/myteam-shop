@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
@@ -11,6 +11,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent {
+  @Input() public isCart: boolean;
+  @Output() public chosenAddress = new EventEmitter<number>();
+  public addressKey = 0;
   public error = false;
 
   constructor(public auth: Auth,
@@ -57,6 +60,14 @@ export class AddressComponent {
       },
       (reason) => null
     );
+  }
+
+  public chooseAddress(key: number) {
+    if (this.isCart) {
+      console.log('click');
+      this.chosenAddress.emit(key);
+      this.addressKey = key;
+    }
   }
 
 }
