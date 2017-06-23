@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class ProfileFieldComponent implements OnInit {
   @Input() public value: string;
+  @Input() public type: string;
+  @Input() public selected: any[];
   @Output() public save = new EventEmitter<string>();
   public edit = false;
   public formValue: FormGroup;
@@ -20,6 +22,10 @@ export class ProfileFieldComponent implements OnInit {
     this.formValue = this.fb.group({
       changedValue: [this.value, Validators.required]
     });
+    if (this.type === 'select') {
+      console.log(this.selected);
+    }
+
   }
 
   public editItem() {

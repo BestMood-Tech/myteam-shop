@@ -5,25 +5,28 @@
     <div class="extra-info">
       <p>{{user.fullName}}</p>
       <p><span class="glyphicon glyphicon-map-marker">{{user.country}}</span></p>
-      <p>{{user.currency}}</p>
+      <div class="item-info">
+        <span>{{user.currency}}</span>
+        <profile-field [selected]="profileCurrency" [type]="'select'" (save)="update('currency', $event)"></profile-field>
+      </div>
     </div>
   </div>
   <div class="body-info slide left-transform">
     <div class="item-info">
       <span>First name:</span>
-      <profile-field [value]="user.firstName" (save)="update('firstName', $event)"></profile-field>
+      <profile-field [value]="user.firstName" [type]="'text'" (save)="update('firstName', $event)"></profile-field>
     </div>
     <div class="item-info">
       <span>Last name:</span>
-      <profile-field [value]="user.lastName" (save)="update('lastName', $event)"></profile-field>
+      <profile-field [value]="user.lastName" [type]="'text'" (save)="update('lastName', $event)"></profile-field>
     </div>
     <div class="item-info">
       <span>Phone:</span>
-      <profile-field [value]="user.phone" (save)="update('phone', $event)"></profile-field>
+      <profile-field [value]="user.phone" [type]="'text'" (save)="update('phone', $event)"></profile-field>
     </div>
     <div class="item-info">
       <span>Mobile:</span>
-      <profile-field [value]="user.mobile" (save)="update('mobile', $event)"></profile-field>
+      <profile-field [value]="user.mobile" [type]="'text'" (save)="update('mobile', $event)"></profile-field>
     </div>
   </div>
 </div>

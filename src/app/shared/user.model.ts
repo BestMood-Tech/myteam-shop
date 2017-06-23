@@ -14,7 +14,7 @@ export class User {
   country: string;
   address: Address[];
   orders = [];
-  currency: string = Currency.getCurrency().dollar[1];
+  currency: string = Currency.getCurrency()[0].value;
 
   constructor(obj) {
     for (const key of Object.keys(obj)) {
@@ -25,7 +25,7 @@ export class User {
       }
     }
 
-    if (this.address === null) {
+    if (!this.address) {
       this.address = [];
     }
 

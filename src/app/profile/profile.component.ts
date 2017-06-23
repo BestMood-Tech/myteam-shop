@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.profileCurrency = Currency.getCurrencyArray();
+    this.profileCurrency = Currency.getCurrency();
 
     // this.profileForm = this.formBuilder.group({
     //   nickName: [this.user.nickName],

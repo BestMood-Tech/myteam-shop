@@ -9,6 +9,19 @@
     flex-direction: row;
     justify-content: flex-start;
     position: relative;
+
+    .item-info {
+      display: flex;
+      flex-direction: row;
+      vertical-align: middle;
+      span {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 110px;
+      }
+    }
+
     .picture {
       height: 100px;
       width: 100px;
