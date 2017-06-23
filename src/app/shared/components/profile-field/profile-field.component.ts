@@ -20,11 +20,10 @@ export class ProfileFieldComponent implements OnInit {
 
   public ngOnInit() {
     this.formValue = this.fb.group({
-      changedValue: [this.value, Validators.required]
+      changedValue: [this.value, this.type !== 'email' ? Validators.required :
+        Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
+      ]
     });
-    if (this.type === 'select') {
-      console.log(this.selected);
-    }
 
   }
 

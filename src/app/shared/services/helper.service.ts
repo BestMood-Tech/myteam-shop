@@ -14,7 +14,11 @@ export class HelperService {
   public getCountry() {
     return this.http
       .get(`https://restcountries.eu/rest/v1/all`)
-      .map(res => res.json());
+      .map((res) => {
+        return res.json().map((item) => {
+          return { value: item.name, name: item.name };
+        });
+      });
   }
 
 }

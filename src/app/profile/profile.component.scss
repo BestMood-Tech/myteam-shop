@@ -8,26 +8,29 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    position: relative;
-
+    .extra-info > p {
+      font-size: 22px;
+    }
     .item-info {
       display: flex;
       flex-direction: row;
-      vertical-align: middle;
-      span {
+      .field-name {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-width: 110px;
+        min-width: 80px;
+        font-weight: 600;
+        font-family: $font-helvetica;
+        letter-spacing: 1px;
       }
     }
 
     .picture {
-      height: 100px;
-      width: 100px;
+      height: 180px;
+      width: 180px;
       background-size: cover;
       background-position: center;
-      margin-right: 10px;
+      margin-right: 15px;
     }
     p {
       font-size: 18px;
@@ -36,17 +39,18 @@
     }
   }
   .body-info {
-    position: relative;
     .item-info {
       display: flex;
       flex-direction: row;
-      vertical-align: middle;
-      span {
+      .field-name {
         padding: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-width: 110px;
+        min-width: 125px;
+        font-weight: 600;
+        font-family: $font-helvetica;
+        letter-spacing: 1px;
       }
     }
   }

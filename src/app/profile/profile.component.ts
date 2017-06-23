@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../shared/user.model';
 import { Currency } from '../shared/currency.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { HelperService } from "../shared/services/helper.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,17 +16,21 @@ export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
   public user: User;
   public profileCurrency: any;
+  public nameCountry: any;
 
   constructor(private auth: Auth,
               private formBuilder: FormBuilder,
-              private toastr: ToastsManager) {
+              private toastr: ToastsManager,
+              private helperService: HelperService) {
     this.user = new User(this.auth.user.userProfile);
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   public ngOnInit() {
     this.profileCurrency = Currency.getCurrency();
-
+    this.helperService.getCountry().subscribe((res) => {
+      this.nameCountry = res;
+    });
     // this.profileForm = this.formBuilder.group({
     //   nickName: [this.user.nickName],
     //   firstName: [this.user.firstName, Validators.required],

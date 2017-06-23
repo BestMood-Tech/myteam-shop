@@ -1,31 +1,5 @@
-<!--<div class="container">-->
-<!--<h1>Address</h1>-->
-<!--<div class="col-md-12 address-border" *ngFor='let address of auth.user.address; let key = index;'>-->
-<!--<div class="col-md-9">-->
-<!--<div class="row">-->
-<!--<div class="col-md-6">-->
-<!--<p><strong>Street Address:</strong>{{address.streetAddress}}</p>-->
-<!--<p><strong>City:</strong>{{address.city}}</p>-->
-<!--<p><strong>Zip / Postal Code:</strong>{{address.zip}}</p>-->
-<!--</div>-->
-<!--<div class="col-md-6">-->
-<!--<p><strong>Address Line 2:</strong>{{address.addressLine2}}</p>-->
-<!--<p><strong>State / Province / Region:</strong>{{address.state}}</p>-->
-<!--<p><strong>Country:</strong>{{address.country}}</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="col-md-3 pull-right">-->
-<!--<div class="btn-group btn-group-vertical">-->
-<!--<button class="btn btn-success" type="button" (click)='update(key)'>Update</button>-->
-<!--<button class="btn btn-danger" type="button" (click)='delete(key)'>Delete</button>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<button type="submit" class="btn btn-success" (click)='add()'>Add address</button>-->
-<!--</div>-->
-<div class="container" [ngClass]="isCart ? 'cart-container' : ''">
-  <div class="row">
+<div class="container sliders" [ngClass]="isCart ? 'cart-container' : ''">
+  <div class="row slide left-transform">
     <div class="col-md-3">
       <div class="address-item add-address">
         <p>You can add new address!</p>
@@ -36,7 +10,7 @@
     <div class="col-md-3" *ngFor='let address of auth.user.address; let key = index;'>
       <div class="address-item address"
            [ngClass]="[isCart && key === addressKey ? 'chosen-address' : '',
-           isCart && key !== addressKey ? 'cart-address' : '']"  (click)="chooseAddress(key)">
+           isCart && key !== addressKey ? 'cart-address' : '']" (click)="chooseAddress(key)">
         <div class="edit" *ngIf="!isCart">
           <a (click)="update(key)"><span class="glyphicon glyphicon-pencil"></span></a>
           <a (click)="delete(key)"><span class="glyphicon glyphicon-remove"></span></a>
