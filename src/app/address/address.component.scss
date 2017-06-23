@@ -103,8 +103,10 @@
 
   &:hover {
     background: lightblue !important;
+    cursor: pointer;
   }
 }
 .cart-address:hover {
   background: #f7f7f7 * 0.95 !important;
+  cursor: pointer;
 }

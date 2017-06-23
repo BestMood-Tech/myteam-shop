@@ -52,7 +52,9 @@ export class CheckoutComponent implements OnInit {
 
     this.activePromoCode = true;
     this.arrayAddressUser = this.auth.user.address;
-    this.checkOutAddress = new Address(this.arrayAddressUser[0]);
+    if (this.arrayAddressUser && this.arrayAddressUser.length) {
+      this.checkOutAddress = new Address(this.arrayAddressUser[0]);
+    }
 
     this.checkOutForm = this.formBulder.group({
       promoCode: 'ANGULAR 2',
