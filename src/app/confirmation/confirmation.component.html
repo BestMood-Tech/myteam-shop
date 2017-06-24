@@ -1,29 +1,27 @@
 <div class="container dragscroll">
-  <div class="box">
-    <div class="col-md-12">
-      <h1>Confirmation</h1>
-      <h4>Your order has been paid. It will be formed within the next 14 days.</h4>
-      <div class="box-container">
-        <img src="../../assets/box.png" class="box-img">
-        <div class="text">
-          <div class="border-text">
-            <strong>HANDLE WITH CARE:</strong>
-          </div>
-          <br>
-          <i>Order For Very Special Customer Inside!</i>
+  <div class="flex-container confirmation">
+    <h1>Thank you for your order!</h1>
+    <h3>Your order has been paid. It will be formed within the next 14 days.</h3>
+    <div class="box">
+      <img src="../../assets/box.png" class="box-img">
+      <div class="text">
+        <div class="border-text">
+          <strong>HANDLE WITH CARE:</strong>
         </div>
-        <div class="shipping">
-          <p><strong>Ship to:</strong></p>
-          <p>{{orderUser}}</p>
-          <p>{{addressOrder.streetAddress}}</p>
-          <p>{{addressOrder.addressLine2}}</p>
-          <p>{{addressOrder.city}}, {{addressOrder.state}}</p>
-          <p>{{addressOrder.country}}, {{addressOrder.zip}}</p>
-          <p><strong>Expected delivery date:</strong></p>
-          <p>{{getDate()}}</p>
-        </div>
-        <img src="../../assets/stamp.png" class="stamp">
+        <br>
+        <i>Order For Very Special Customer Inside!</i>
       </div>
+      <div class="shipping">
+        <p><strong>Ship to:</strong></p>
+        <p>{{orderUser}}</p>
+        <p>{{addressOrder.streetAddress}}</p>
+        <p>{{addressOrder.addressLine2}}</p>
+        <p>{{addressOrder.city}}, {{addressOrder.state}}</p>
+        <p>{{addressOrder.country}}, {{addressOrder.zip}}</p>
+        <p><strong>Expected delivery date:</strong></p>
+        <p>{{getDate()}}</p>
+      </div>
+      <img src="../../assets/stamp.png" class="stamp">
     </div>
   </div>
 </div>
