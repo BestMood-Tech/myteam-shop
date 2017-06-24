@@ -46,7 +46,8 @@
         <h4>2. Enter a promo code:</h4>
         <div *ngIf="activePromoCode" class="form-group">
           <div class="input-group">
-            <input type="text" placeholder="Promo code..." formControlName="promoCode" class="form-control">
+            <input #input type="text" placeholder="Promo code..." formControlName="promoCode" class="form-control"
+                   (mousedown)="input.focus()">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" (click)="checkPromoCode()">Save</button>
             </span>
