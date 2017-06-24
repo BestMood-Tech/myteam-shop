@@ -14,11 +14,13 @@ export class ConfirmationComponent implements OnInit {
   public order: any;
   public addressOrder: any;
   public orderDate: Date = new Date();
+  public orderUser: string;
 
   constructor(private auth: Auth, private toastr: ToastsManager) {
   }
 
   public ngOnInit() {
+    this.orderUser = this.auth.user.lastName + ' ' + this.auth.user.firstName;
     this.order = this.auth.user.orders[this.auth.user.orders.length - 1];
     this.addressOrder = new Address(this.order.addressOrder);
     this.orderDate.setDate(new Date(this.order.data).getDate() + 14);
