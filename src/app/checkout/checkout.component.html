@@ -1,12 +1,12 @@
-<button class="btn btn-nav btn-nav-next" *ngIf="level === 'shipping' || level === 'products'"
+<div class="btn btn-nav btn-nav-next" *ngIf="level === 'shipping' || level === 'products'"
         (click)="changeLevel(true)"> <span class="glyphicon glyphicon-chevron-right"></span>
-</button>
-<button class="btn btn-nav btn-nav-prev" *ngIf="level === 'shipping' || level === 'payment'"
+</div>
+<div class="btn btn-nav btn-nav-prev" *ngIf="level === 'shipping' || level === 'payment'"
         (click)="changeLevel(false)"> <span class="glyphicon glyphicon-chevron-left"></span>
-</button>
+</div>
 
 <div class="container checkout-header">
-  <div class="box">
+  <div class="flex-container">
     <h1>Checkout</h1>
     <h5 [ngClass]="level === 'products' ? 'level': ''">Check products and enter promo code</h5>
     <div class="border"></div>
@@ -17,7 +17,8 @@
 </div>
 
 <div class="container slides dragscroll">
-  <div class="box nochilddrag">
+  <div class="flex-container nochilddrag">
+
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
          *ngIf="level === 'products'">
       <h4>1. Check order details</h4>
@@ -52,7 +53,7 @@
           </div>
         </div>
         <div *ngIf="!activePromoCode" class="form-group">
-          <p class="bg-success promo-success">Promo code success</p>
+          <p class="promo-success">Promo code success</p>
         </div>
       </form>
     </div>
@@ -74,7 +75,7 @@
         </div>
       </div>
       <div class="container pay">
-        <div class="box pay-right">
+        <div class="flex-container pay-right">
           <button *ngIf="!isRequesting" class="btn btn-pay" [disabled]="!checkPay()" (click)='pay()'>Pay</button>
           <div *ngIf="isRequesting" class="loading">
             <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
