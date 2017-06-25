@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit {
     this.gridOptions = <GridOptions>{
       columnDefs: this.createColumnDefs(),
       enableServerSideSorting: true,
-      rowModelType: 'virtual',
+      rowModelType: 'infinite',
       paginationPageSize: 50
     };
   }

@@ -18,7 +18,7 @@ export class OrdersComponent implements OnInit {
   constructor(private adminService: AdminService) {
     this.gridOptions = <GridOptions>{
       columnDefs: this.createColumnDefs(),
-      rowModelType: 'virtual',
+      rowModelType: 'infinite',
       paginationPageSize: 50,
       enableColResize: true,
       enableServerSideSorting: true,

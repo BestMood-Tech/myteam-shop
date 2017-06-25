@@ -23,7 +23,7 @@ import { CustomOption } from './customOptionsToasts';
     HttpModule,
     AppRoutingModule,
     SharedModule.forRoot(),
-    ToastModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [
     CategoryResolve,

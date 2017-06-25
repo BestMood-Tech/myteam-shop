@@ -6,9 +6,9 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from 'ag-grid-angular/main';
 import { NumericEditorComponent } from './numericEditorComponent/numeric-editor';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -26,6 +26,7 @@ import { NgModule } from '@angular/core';
     AnalyticsComponent,
     NumericEditorComponent
   ],
-  providers: [ AdminService ]
+  providers: [ AdminService ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AdminModule {}
