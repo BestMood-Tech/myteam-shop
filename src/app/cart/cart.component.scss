@@ -49,6 +49,11 @@
 
 .products {
   height: 65%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .total {
