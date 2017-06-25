@@ -1,31 +1,28 @@
-<div *ngIf="orders && !orders.length" class="container empty-cart">
-  <div class="box empty-cart-center">
+<div *ngIf="orders && !orders.length" class="container">
+  <div class="flex-container empty-cart">
     <h1>Your cart is empty</h1>
     <h3>Feel free to start browsing around</h3>
     <div class="empty-cart-blocks">
       <div class="empty-cart-block thumbnail opacity-transform">
-        <div class="glyphicon glyphicon-film thumb-image"></div>
-        <h3>Movies</h3>
+        <div class="glyphicon glyphicon-film thumb-image"></div> <h3>Movies</h3>
       </div>
       <div class="empty-cart-block thumbnail opacity-transform">
-        <div class="glyphicon glyphicon-tower thumb-image"></div>
-        <h3>Games</h3>
+        <div class="glyphicon glyphicon-tower thumb-image"></div> <h3>Games</h3>
       </div>
       <div class="empty-cart-block thumbnail opacity-transform">
-        <div class="glyphicon glyphicon-book thumb-image"></div>
-        <h3>Books</h3>
+        <div class="glyphicon glyphicon-book thumb-image"></div> <h3>Books</h3>
       </div>
     </div>
   </div>
 </div>
-<div class="container dragscroll">
-  <div class="box nochilddrag" *ngIf="orders && orders.length">
+<div class="container products dragscroll">
+  <div class="flex-container nochilddrag" *ngIf="orders && orders.length">
     <app-product-card *ngFor="let item of orders; let key = index" [product]="item" [isCart]="true"
                       [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
   </div>
 </div>
 <div *ngIf="orders && orders.length" class="container total">
-  <div class="box total-right">
+  <div class="flex-container total-right">
     <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
     <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
     <button class="btn btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Checkout</button>

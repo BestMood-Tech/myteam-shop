@@ -1,5 +1,5 @@
 <div class="container" [ngClass]="isCart ? 'cart-container' : ''">
-  <div class="row left-transform">
+  <div class="row" [ngClass]="!isCart ? 'left-transform' : ''">
     <div class="col-md-3">
       <div class="address-item add-address">
         <p>You can add new address!</p>
@@ -25,8 +25,6 @@
     </div>
   </div>
 </div>
-<div class="container">
-  <template ngbModalContainer></template>
-</div>
+
 
 
