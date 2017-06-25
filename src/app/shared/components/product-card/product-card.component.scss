@@ -48,6 +48,22 @@ $height-name: 6vw;
       padding: 8px;
       background: $color-blue;
       color: #ffffff;
+      box-shadow: 2px 2px 12px -2px #555;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1px;
+    }
+
+    .product-count {
+      position: absolute;
+      top: 25px;
+      right: -15px;
+      padding: 8px;
+      background: white;
+      color: black;
+      box-shadow: 2px 2px 12px -2px #555;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -62,6 +78,7 @@ $height-name: 6vw;
       padding: 8px;
       background: #d9534f;
       color: #ffffff;
+      box-shadow: 2px 2px 12px -2px #555;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -73,23 +90,7 @@ $height-name: 6vw;
 
   .description {
     color: #777;
-    text-align: justify;
-    &::before {
-      content: "";
-      float: left;
-      width: 5px;
-      height: 12vw;
-    }
-    p {
-      overflow: hidden;
-      height: 12vw;
-    }
-  }
-
-  .description > *:first-child {
-    float: right;
-    width: 100%;
-    margin-left: -5px;
+    height: 25vh;
   }
 
   .price {
@@ -114,6 +115,19 @@ $height-name: 6vw;
         left: 8px;
         font-size: 20px;
       }
+    }
+  }
+}
+
+.truncate-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: -o-ellipsis-lastline;
+  @for $i from 1 through 10 {
+    &.line-#{$i} {
+      -webkit-line-clamp: $i;
+      height: 1.4em * $i;
     }
   }
 }

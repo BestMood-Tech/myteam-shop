@@ -55,7 +55,7 @@ $container-top-shift: $top-bar-height + $container-margin;
   line-height: 36px;
   background: #457aff;
   text-decoration: none;
-  padding: 0 8px;
+  padding: 0 5px;
   color: #e6e6e6;
   transition: all .15s linear;
   cursor: pointer;
@@ -81,9 +81,10 @@ $container-top-shift: $top-bar-height + $container-margin;
 .game-block, .book-block {
   height: calc((100vh - #{$container-top-shift}) / 2 - 2.5px);
   margin-top: 5px;
+  padding: 15px 15px;
   .footer {
     .name {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 }
@@ -110,7 +111,6 @@ $container-top-shift: $top-bar-height + $container-margin;
   .name {
     font: 500 40px $font-helvetica;
     letter-spacing: 1px;
-    color: white;
     margin-bottom: 10px;
   }
   .description {
@@ -120,6 +120,15 @@ $container-top-shift: $top-bar-height + $container-margin;
   .bold {
     color: white;
     font: 600 16px $font-helvetica;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  transition: all .1s linear;
+  &:hover {
+    cursor: pointer;
   }
 }
 

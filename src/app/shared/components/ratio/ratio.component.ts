@@ -4,7 +4,8 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@a
   selector: 'app-ratio',
   template: `
     <ul class="list-unstyled lines">
-      <li class="line" *ngFor="let item of rationAsAnArray"></li>
+      <li class="line" *ngFor="let item of rationAsAnArray">
+      </li><li class="line empty" *ngFor="let item of emptyRatio"></li>
     </ul>
     <div class="rates">
       {{product.vote}} / 5
@@ -26,6 +27,10 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@a
     .line:not(:last-child) {
       margin-right: 3px;
     }
+    
+    .empty {
+        background: #f7f7f7;
+    }
 
     .rates {
       font-size: 16px;
@@ -38,6 +43,7 @@ export class RatioComponent implements OnInit, OnChanges {
 
   @Input() public product: any;
   public rationAsAnArray: any[];
+  public emptyRatio: any[] = [];
 
   constructor() {
   }
@@ -55,5 +61,9 @@ export class RatioComponent implements OnInit, OnChanges {
   private culcRations() {
     this.product.vote = this.product.vote > 5 ? (this.product.vote / 2).toFixed(1) : this.product.vote.toFixed(1);
     this.rationAsAnArray = new Array(Math.floor(this.product.vote));
+    if (this.rationAsAnArray && this.rationAsAnArray.length < 5) {
+      this.emptyRatio.length = 5 - this.rationAsAnArray.length;
+      console.log(this.rationAsAnArray, this.emptyRatio);
+    }
   }
 }

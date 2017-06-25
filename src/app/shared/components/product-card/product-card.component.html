@@ -1,13 +1,15 @@
 <div class="product-card opacity-transform" *ngIf="product">
   <div class="poster">
-    <img [src]=[product.cover] [alt]="product.name">
+    <img [src]=[productCover] [alt]="product.name"
+         (error)="imgError()">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
-    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>
+    <span *ngIf="isCart && product.count > 1" class="product-count">x{{product.count}}</span>
+    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(product)">Delete</button>
   </div>
   <div class="name">
     <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>
   </div>
-  <div class="description" *ngIf="!isCart">
+  <div class="truncate-text line-9" *ngIf="!isCart">
     <p>
       {{product.description}}
     </p>

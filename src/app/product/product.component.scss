@@ -160,6 +160,12 @@
     height: 100%;
     overflow: hidden;
     padding-bottom: 55px;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
     h4 {
       text-align: center;
       letter-spacing: 1px;

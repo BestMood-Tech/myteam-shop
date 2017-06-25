@@ -11,10 +11,10 @@ export class ProductCardComponent implements OnInit {
 
   @Input() public product;
   @Input() public isCart: boolean;
-  @Input() public key: number;
   @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
 
   public productCurrency: any;
+  public productCover: string;
 
   constructor(private cart: Cart, private auth: Auth) {}
 
@@ -24,15 +24,16 @@ export class ProductCardComponent implements OnInit {
     } else {
       this.productCurrency = this.auth.user.currency;
     }
+
+    this.productCover = this.product.cover;
   }
 
   public addToCart(product) {
     this.cart.addToCart(product);
   }
 
-  public deleteProduct(key) {
-    this.cart.deleteItem(key);
-    this.deleteFromCart.emit();
+  public deleteProduct(product) {
+    this.deleteFromCart.emit(product);
   }
 
   public getLabel() {
@@ -42,5 +43,8 @@ export class ProductCardComponent implements OnInit {
       case 'movie': return 'label-warning';
       default: return 'label-succes';
     }
+  }
+  public imgError() {
+    this.productCover = `../../assets/${this.product.type}.png`;
   }
 }

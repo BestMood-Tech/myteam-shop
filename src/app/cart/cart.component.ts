@@ -32,14 +32,15 @@ export class CartComponent implements OnInit {
   }
 
 
-  public deleteProduct() {
+  public deleteProduct(product) {
+    this.cart.deleteItem(product);
     this.orders = this.cart.getCart();
   }
 
   public getTotalPrice() {
     let price = 0.0;
     this.orders.forEach((item) => {
-      price += item.price;
+      price += item.price * item.count;
     });
     return price.toFixed(2);
   }

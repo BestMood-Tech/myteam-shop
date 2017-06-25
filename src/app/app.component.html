@@ -33,6 +33,26 @@
         </div>
       </li>
     </ul>
+    <ul class="nav">
+      <li>
+        <span class="powered-with">Powered with:</span>
+      </li>
+      <li>
+        <a href="https://www.themoviedb.org/" target="_blank">
+          <img class="img-powered-with" src=".././assets/moviedb.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://www.mashape.com/" target="_blank">
+          <img class="img-powered-with" src=".././assets/gamedb.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://www.wattpad.com" target="_blank">
+          <img class="img-powered-with img-book" src=".././assets/bookdb.png">
+        </a>
+      </li>
+    </ul>
     <ul class="nav login">
       <li *ngIf="!auth.authenticated()"><a (click)="auth.login()">
         <span class="glyphicon glyphicon-log-in"></span>Log In</a>

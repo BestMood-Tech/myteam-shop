@@ -6,6 +6,7 @@
           <div *ngIf="!movieData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
+          <a [routerLink]="['/category', movieData.type, movieData.id]">
           <div class="block-data movie-block left-transform" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
@@ -16,7 +17,7 @@
             </div>
             <div class="footer">
               <div class="name">
-                {{movieData.name}}
+                <a [routerLink]="['/category', movieData.type, movieData.id]">{{movieData.name}}</a>
                 <!--<button>Trailer</button>-->
               </div>
               <div class="info">
@@ -35,22 +36,24 @@
               </div>
             </div>
           </div>
+          </a>
         </div>
         <div class="col-sm-4">
           <div *ngIf="!gameData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
+          <a [routerLink]="['/category', gameData.type, gameData.id]">
           <div class="block-data game-block left-transform" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-cloud"></span>
-                Most popular movie
+                Most popular game
               </span>
               <a class="show-all" [routerLink]="'/category/games'">Show all</a>
             </div>
             <div class="footer">
               <div class="name">
-                {{gameData.name}}
+                <a [routerLink]="['/category', gameData.type, gameData.id]">{{gameData.name}}</a>
               </div>
               <div class="info">
                 <div class="votes">
@@ -64,21 +67,23 @@
               </div>
             </div>
           </div>
+          </a>
 
           <div *ngIf="!bookData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
+          <a [routerLink]="['/category', bookData.type, bookData.id]">
           <div class="block-data book-block left-transform" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-book"></span>
-                Most popular movie
+                Most popular book
               </span>
               <a class="show-all" [routerLink]="'/category/books'">Show all</a>
             </div>
             <div class="footer">
               <div class="name">
-                {{bookData.name}}
+                <a [routerLink]="['/category', bookData.type, bookData.id]">{{bookData.name}}</a>
                 <!--<button>Trailer</button>-->
               </div>
               <div class="info">
@@ -97,6 +102,7 @@
               </div>
             </div>
           </div>
+          </a>
         </div>
       </div>
     </div>
