@@ -90,23 +90,7 @@ $height-name: 6vw;
 
   .description {
     color: #777;
-    text-align: justify;
-    &::before {
-      content: "";
-      float: left;
-      width: 5px;
-      height: 12vw;
-    }
-    p {
-      overflow: hidden;
-      height: 12vw;
-    }
-  }
-
-  .description > *:first-child {
-    float: right;
-    width: 100%;
-    margin-left: -5px;
+    height: 25vh;
   }
 
   .price {
@@ -131,6 +115,19 @@ $height-name: 6vw;
         left: 8px;
         font-size: 20px;
       }
+    }
+  }
+}
+
+.truncate-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: -o-ellipsis-lastline;
+  @for $i from 1 through 10 {
+    &.line-#{$i} {
+      -webkit-line-clamp: $i;
+      height: 1.4em * $i;
     }
   }
 }
