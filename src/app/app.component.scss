@@ -245,15 +245,15 @@
     text-align: center;
     outline: none;
     .glyphicon {
-      font-size: 24px;
-      padding: 10px 0;
+      font-size: 22px;
+      padding: 8px 0;
     }
     a {
       display: flex;
       text-decoration: none;
       flex-direction: column;
       color: #000;
-      font-size: 12px;
+      font-size: 11px;
     }
     a:hover, a:visited {
       background: #e5a50d;
@@ -278,6 +278,17 @@
   flex-direction: column;
   color: #000;
   font-size: 12px;
-  padding: 10px 15px;
+  padding: 5px 15px;
+}
+
+.img-powered-with {
+  height: 25px;
+  width: 25px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.img-book {
+  width: 50px;
 }
 
