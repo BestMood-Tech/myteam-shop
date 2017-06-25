@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/main';
 import { AdminService } from '../admin.service';
-import {  NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
+import { NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +12,7 @@ export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
   public rowData: any[];
   public dataSource: any;
-  public classTheme: string = 'ag-dark';
+  public classTheme = 'ag-dark';
   public arrayTheme: string[] = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
 
   constructor(private adminService: AdminService) {
@@ -42,12 +42,12 @@ export class OrdersComponent implements OnInit {
    *** Theme ***
    ************/
   public isTheme(key) {
-    let arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     return arrayClassTheme[key] === this.classTheme;
   }
 
   public setTheme(key) {
-    let arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     this.classTheme = arrayClassTheme[key];
   }
 
@@ -85,9 +85,15 @@ export class OrdersComponent implements OnInit {
             editable: true,
             width: 100,
             cellClassRules: {
-              'rag-red': data => { return data.value <= 200; },
-              'rag-amber': data => { return data.value < 500 && data.value > 200; },
-              'rag-green': data => { return data.value >= 500; },
+              'rag-red': data => {
+                return data.value <= 200;
+              },
+              'rag-amber': data => {
+                return data.value < 500 && data.value > 200;
+              },
+              'rag-green': data => {
+                return data.value >= 500;
+              },
             },
             cellEditorFramework: NumericEditorComponent
           }
@@ -157,8 +163,8 @@ export class OrdersComponent implements OnInit {
       this.dataSource = {
         rowCount: null,
         getRows: (params) => {
-          let rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
-          let rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
+          const rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
+          const rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
           let lastRow = -1;
           if (this.rowData.length <= params.endRow) {
             lastRow = this.rowData.length;
@@ -175,21 +181,21 @@ export class OrdersComponent implements OnInit {
   }
 
   private sortData(sortModel, data) {
-    let sortPresent = sortModel && sortModel.length > 0;
+    const sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
       return data;
     }
 
-    let resultOfSort = data.slice();
+    const resultOfSort = data.slice();
     resultOfSort.sort(function (a, b) {
       for (let k = 0; k < sortModel.length; k++) {
-        let sortColModel = sortModel[k];
-        let valueA = a[sortColModel.colId];
-        let valueB = b[sortColModel.colId];
+        const sortColModel = sortModel[k];
+        const valueA = a[sortColModel.colId];
+        const valueB = b[sortColModel.colId];
         if (valueA === valueB) {
           continue;
         }
-        let sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
+        const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
         if (valueA > valueB) {
           return sortDirection;
         } else {
@@ -203,27 +209,46 @@ export class OrdersComponent implements OnInit {
   }
 
   public filterData(filterModel, data) {
-    let filterPresent = filterModel && Object.keys(filterModel).length > 0;
+    const filterPresent = filterModel && Object.keys(filterModel).length > 0;
     if (!filterPresent) {
       return data;
     }
-    let resultOfFilter = [];
-    let fieldFilter = Object.keys(filterModel);
+    const resultOfFilter = [];
+    const fieldFilter = Object.keys(filterModel);
     fieldFilter.forEach(field => {
       data.forEach((item) => {
         if (filterModel[field]) {
-          let filterTotal = filterModel[field].filter.toString();
+          const filterTotal = filterModel[field].filter.toString();
           switch (filterModel[field].type) {
-            case 'contains': if (item[field].toString().indexOf(filterTotal) === -1) return; break;
-            case 'equals': if (item[field].toString() !== filterTotal) return; break;
-            case 'notEquals': if (item[field].toString() === filterTotal) return; break;
-            case 'startsWith': if (item[field].toString().indexOf(filterTotal) !== 0) return; break;
+            case 'contains':
+              if (item[field].toString().indexOf(filterTotal) === -1) {
+                return;
+              }
+              break;
+            case 'equals':
+              if (item[field].toString() !== filterTotal) {
+                return;
+              }
+              break;
+            case 'notEquals':
+              if (item[field].toString() === filterTotal) {
+                return;
+              }
+              break;
+            case 'startsWith':
+              if (item[field].toString().indexOf(filterTotal) !== 0) {
+                return;
+              }
+              break;
             case 'endsWith': {
-              let myReverse = function(str) {
+              const myReverse = function (str) {
                 return str.split('').reverse().join();
               };
-              if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) return;
-            } break;
+              if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) {
+                return;
+              }
+            }
+              break;
           }
         }
         resultOfFilter.push(item);

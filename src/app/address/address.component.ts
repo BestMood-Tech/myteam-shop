@@ -41,7 +41,7 @@ export class AddressComponent {
       return;
     }
     this.error = false;
-    const modalRef = this.modalService.open(AddressFormComponent, { windowClass: 'modal-add-address' });
+    const modalRef = this.modalService.open(AddressFormComponent, {windowClass: 'modal-add-address'});
     if (key == null) {
       modalRef.componentInstance.address = new Address({});
     } else {
