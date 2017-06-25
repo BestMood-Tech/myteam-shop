@@ -11,7 +11,6 @@ export class ProductCardComponent implements OnInit {
 
   @Input() public product;
   @Input() public isCart: boolean;
-  @Input() public key: number;
   @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
 
   public productCurrency: any;
@@ -30,9 +29,8 @@ export class ProductCardComponent implements OnInit {
     this.cart.addToCart(product);
   }
 
-  public deleteProduct(key) {
-    this.cart.deleteItem(key);
-    this.deleteFromCart.emit();
+  public deleteProduct(product) {
+    this.deleteFromCart.emit(product);
   }
 
   public getLabel() {

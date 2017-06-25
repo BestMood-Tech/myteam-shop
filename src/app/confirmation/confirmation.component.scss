@@ -1,49 +1,50 @@
 .box {
   position: relative;
+}
 
-  .box-img {
-    width: 550px;
-    display: block;
-    margin: -30px auto 0 auto;
-  }
+.box-img {
+  width: 550px;
+  display: block;
+  margin: -30px auto 0 auto;
+}
 
-  .text {
-    color: black;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: rotate(-16deg);
-    text-align: center;
-    font-size: 12px;
-    .border-text {
-      display: inline-block;
-      border: 2px solid black;
-      padding: 10px;
-      margin-bottom: 5px;
-    }
-  }
+.text {
+  color: black;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: rotate(-16deg);
+  text-align: center;
+  font-size: 12px;
+}
 
-  .shipping {
-    position: absolute;
-    top: 45%;
-    left: 13%;
-    font-size: 11px;
-    border: 2px solid black;
-    padding: 10px;
-    border-radius: 4px;
-    color: black;
-    p {
-      margin-bottom: 2px;
-    }
-  }
+.border-text {
+  display: inline-block;
+  border: 2px solid black;
+  padding: 10px;
+  margin-bottom: 5px;
+}
 
-  .stamp {
-    width: 90px;
-    position: absolute;
-    top: 62%;
-    left: 40%;
-    transform: rotate(-18deg);
+.shipping {
+  position: absolute;
+  top: 45%;
+  left: 13%;
+  font-size: 11px;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 4px;
+  color: black;
+  p {
+    margin-bottom: 2px;
   }
+}
+
+.stamp {
+  width: 90px;
+  position: absolute;
+  top: 62%;
+  left: 40%;
+  transform: rotate(-18deg);
 }
 
 .container {

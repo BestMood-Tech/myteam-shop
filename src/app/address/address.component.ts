@@ -12,8 +12,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AddressComponent {
   @Input() public isCart: boolean;
+  @Input() public addressKey: number;
   @Output() public chosenAddress = new EventEmitter<number>();
-  public addressKey = 0;
   public error = false;
 
   constructor(public auth: Auth,
@@ -51,6 +51,7 @@ export class AddressComponent {
       (result) => {
         if (key == null) {
           this.auth.user.addAddress(new Address(result));
+          this.chooseAddress(this.auth.user.address.length - 1);
           this.toastr.success('Address added to profile', 'Success');
         } else {
           this.auth.user.updateAddress(key, new Address(result));

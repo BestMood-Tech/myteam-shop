@@ -21,7 +21,13 @@ export class Cart {
   }
 
   public addToCart(product) {
-    this.cart.push(product);
+    const findProduct = this.cart.find((item) => item.id === product.id && item.type === product.type);
+    if (findProduct) {
+      findProduct.count += 1;
+    } else {
+      product.count = 1;
+      this.cart.push(product);
+    }
     this.updateCartLS(this.cart);
     this.toastr.success(`${product.name} added to cart`, 'Success!');
   }
@@ -30,14 +36,21 @@ export class Cart {
     return this.cart;
   }
 
-  public deleteItem(key) {
-    this.toastr.success(`${this.cart[key].name} is removed cart`, 'Success!');
-    this.cart.splice(key, 1);
+  public deleteItem(product) {
+    this.toastr.success(`${product.name} is removed cart`, 'Success!');
+    const findProduct = this.cart.find((item) => item.id === product.id && item.type === product.type);
+    if (findProduct.count > 1) {
+      findProduct.count -= 1;
+    } else {
+      this.cart.splice(this.cart.indexOf(findProduct), 1);
+    }
     this.updateCartLS(this.cart);
   }
 
   public get countCart() {
-    return this.cart.length;
+    let count = 0;
+    this.cart.forEach((item) => count += item.count);
+    return count;
   }
 
   public get Total() {

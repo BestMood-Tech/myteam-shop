@@ -2,7 +2,8 @@
   <div class="poster">
     <img [src]=[product.cover] [alt]="product.name">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
-    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(key)">Delete</button>
+    <span *ngIf="isCart && product.count > 1" class="product-count">x{{product.count}}</span>
+    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(product)">Delete</button>
   </div>
   <div class="name">
     <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>

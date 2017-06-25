@@ -17,8 +17,10 @@
 </div>
 <div class="container products dragscroll">
   <div class="flex-container nochilddrag" *ngIf="orders && orders.length">
-    <app-product-card *ngFor="let item of orders; let key = index" [product]="item" [isCart]="true"
-                      [key]="key" (deleteFromCart)="deleteProduct()"></app-product-card>
+    <div *ngFor="let item of orders">
+    <app-product-card [product]="item" [isCart]="true"
+                      (deleteFromCart)="deleteProduct($event)"></app-product-card>
+    </div>
   </div>
 </div>
 <div *ngIf="orders && orders.length" class="container total">

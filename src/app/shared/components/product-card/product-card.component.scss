@@ -48,6 +48,22 @@ $height-name: 6vw;
       padding: 8px;
       background: $color-blue;
       color: #ffffff;
+      box-shadow: 2px 2px 12px -2px #555;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1px;
+    }
+
+    .product-count {
+      position: absolute;
+      top: 25px;
+      right: -15px;
+      padding: 8px;
+      background: white;
+      color: black;
+      box-shadow: 2px 2px 12px -2px #555;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -62,6 +78,7 @@ $height-name: 6vw;
       padding: 8px;
       background: #d9534f;
       color: #ffffff;
+      box-shadow: 2px 2px 12px -2px #555;
       text-align: center;
       display: flex;
       flex-direction: column;

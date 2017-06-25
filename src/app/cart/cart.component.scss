@@ -20,30 +20,31 @@
   h3 {
     color: #777777;
   }
+}
 
-  .empty-cart-blocks {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+.empty-cart-blocks {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
 
-    .empty-cart-block {
-      margin-right: 50px;
-      text-align: center;
+.empty-cart-block {
+  margin-right: 50px;
+  text-align: center;
+}
 
-      .thumb-image {
-        height: 200px;
-      }
+.thumb-image {
+  height: 200px;
+}
 
-      .glyphicon {
-        padding: 20px;
-        font-size: 200px;
-      }
-    }
-    .empty-cart-block:last-child {
-      margin-right: 0;
-    }
-  }
+.glyphicon {
+  padding: 20px;
+  font-size: 200px;
+}
+
+.empty-cart-block:last-child {
+  margin-right: 0;
 }
 
 .products {
@@ -56,26 +57,26 @@
   background: white;
   padding: 0 30px;
   height: 35%;
+}
 
-  .total-right {
-    flex-direction: column;
-    align-items: flex-end;
-    border-top: 3px solid black;
+.total-right {
+  flex-direction: column;
+  align-items: flex-end;
+  border-top: 3px solid black;
+}
 
-    .alert-danger {
-      border: 1px solid #d9534f;
-      background-color: lightcoral;
-      color: white;
-      border-radius: 4px;
-      padding: 10px;
-    }
+.alert-danger {
+  border: 1px solid #d9534f;
+  background-color: lightcoral;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+}
 
-    .btn-pay {
-      padding: 5px 30px;
-      background-color: #457aff;
-      border: 1px solid #457aff;
-      color: white;
-    }
-  }
+.btn-pay {
+  padding: 5px 30px;
+  background-color: #457aff;
+  border: 1px solid #457aff;
+  color: white;
 }
 
