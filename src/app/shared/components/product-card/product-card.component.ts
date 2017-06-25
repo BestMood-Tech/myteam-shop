@@ -14,6 +14,7 @@ export class ProductCardComponent implements OnInit {
   @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
 
   public productCurrency: any;
+  public productCover: string;
 
   constructor(private cart: Cart, private auth: Auth) {}
 
@@ -23,6 +24,8 @@ export class ProductCardComponent implements OnInit {
     } else {
       this.productCurrency = this.auth.user.currency;
     }
+
+    this.productCover = this.product.cover;
   }
 
   public addToCart(product) {
@@ -40,5 +43,8 @@ export class ProductCardComponent implements OnInit {
       case 'movie': return 'label-warning';
       default: return 'label-succes';
     }
+  }
+  public imgError() {
+    this.productCover = `../../assets/${this.product.type}.png`;
   }
 }

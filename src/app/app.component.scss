@@ -272,3 +272,12 @@
   border: 0 transparent;
 }
 
+.powered-with {
+  display: flex;
+  text-decoration: none;
+  flex-direction: column;
+  color: #000;
+  font-size: 12px;
+  padding: 10px 15px;
+}
+

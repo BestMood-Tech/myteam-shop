@@ -33,6 +33,11 @@
         </div>
       </li>
     </ul>
+    <!--<ul class="nav">
+      <li>
+        <span class="powered-with">Powered with:</span>
+      </li>
+    </ul>-->
     <ul class="nav login">
       <li *ngIf="!auth.authenticated()"><a (click)="auth.login()">
         <span class="glyphicon glyphicon-log-in"></span>Log In</a>
