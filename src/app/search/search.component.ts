@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
@@ -14,10 +13,9 @@ import dragscroll from 'dragscroll';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-  // public term: FormControl;
   public products = [];
   public loading = false;
-  // public params = this.route.snapshot.queryParams;
+  public emptySearch = false;
 
   constructor(private gamesService: GamesService,
               private movieService: MovieService,
@@ -29,21 +27,39 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.helperService.showFilters.emit(true);
+
     this.helperService.updateFilters.subscribe((filters) => {
       filters['q'] = this.helperService.searchTerm;
       if (filters['q'] || (filters['q'].length > 3)) {
         this.router.navigate(['/search'], {queryParams: filters});
       }
     });
+
+    this.route.queryParams.subscribe(() => this.searchProduct());
+
+    dragscroll.reset();
+  };
+
+  public ngOnDestroy() {
+    this.helperService.showFilters.emit(false);
+  }
+
+  private searchProduct() {
     const objState = {
       checkMovies: true,
       checkBooks: true,
       checkGames: true
     };
 
-    // this.term = new FormControl(this.route.snapshot.queryParams['q']);
+    if (!this.route.snapshot.queryParams.hasOwnProperty('q') || this.route.snapshot.queryParams['q'] === '') {
+      this.emptySearch = true;
+      this.loading = true;
+      return;
+    }
+
     this.route.queryParams
       .switchMap((filters) => {
+        this.emptySearch = false;
         this.loading = false;
         this.products = [];
         const gameFilter = {limit: '10'};
@@ -83,28 +99,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.products = items;
         this.loading = true;
       });
-
-    // this.term.valueChanges
-    //   .debounceTime(500)
-    //   .distinctUntilChanged()
-    //   .subscribe(term => {
-    //     const object = {};
-    //     for (const value of Object.keys(this.route.snapshot.queryParams)) {
-    //       object[value] = this.route.snapshot.queryParams[value];
-    //     }
-    //     object['q'] = term;
-    //     this.router.navigate(['/search'], {queryParams: object});
-    //   });
-    dragscroll.reset();
-  };
-
-  public ngOnDestroy() {
-    this.helperService.showFilters.emit(false);
   }
 
-  // public filtersUpdated(filters) {
-  //   filters['q'] = this.term.value;
-  //   this.router.navigate(['/search'], {queryParams: filters});
-  // }
 }
 

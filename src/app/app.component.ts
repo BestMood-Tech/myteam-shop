@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
     this.searchTermForm = this.fb.group({term: ''});
     this.helperService.showFilters.subscribe((data) => {
-      this.showFilters = data;
+      setTimeout(() => this.showFilters = data);
       if (!data) {
         this.searchTermForm.reset();
       }

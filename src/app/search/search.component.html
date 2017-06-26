@@ -1,7 +1,13 @@
-<div *ngIf="products.length===0 && loading" class="not-found">
+<div *ngIf="products.length === 0 && loading && !emptySearch" class="error">
   <div class="message">
     <h1>Oops!</h1>
     <h2>Products not found</h2>
+  </div>
+</div>
+<div class="error" *ngIf="emptySearch">
+  <div class="message">
+    <h1>Oops!</h1>
+    <h2>Search input is empty</h2>
   </div>
 </div>
 <div class="container dragscroll">
