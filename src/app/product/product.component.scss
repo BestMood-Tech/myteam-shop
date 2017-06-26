@@ -88,6 +88,7 @@
             color: #f7f7f9;
             cursor: pointer;
             text-decoration: none;
+            transition: all .1s linear;
             &:hover {
               background: #000;
             }
@@ -114,7 +115,7 @@
             &:hover {
               background: #000;
               & .price-product {
-                background: $color-blue;
+                background: #204cbc;
               }
             }
 
@@ -223,6 +224,24 @@
             &:hover {
               color: #f7f7f9;
               background: $color-blue;
+            }
+          }
+        }
+        .trailer-recommend {
+          display: flex;
+          left: -15px;
+          bottom: 14px;
+          position: absolute;
+          a {
+            padding: 5px 5px;
+            background: #1e1e1e;
+            font-size: 16px;
+            color: #f7f7f9;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .1s linear;
+            &:hover {
+              background: #000;
             }
           }
         }

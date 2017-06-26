@@ -16,7 +16,7 @@
             </div>
             <div class="footer-info">
               <div class="trailer" *ngIf="product.type==='movie'">
-                <a (click)="showTrailer()">
+                <a (click)="showTrailer(this.product.id)">
                   <span class="glyphicon glyphicon-play"></span>
                   Trailer
                 </a>
@@ -87,6 +87,14 @@
         <div class="poster" [style.background-image]="'url(' + recommend.cover + ')'">
           <div class="price">{{productCurrency}} {{recommend.price | currency:productCurrency}}</div>
           <div class="to-cart"><a (click)="addToCart(recommend)">Buy</a></div>
+          <div class="trailer-recommend">
+            <a (click)="showTrailer(recommend.id)">
+              <span class="glyphicon glyphicon-play"></span>
+              Trailer
+            </a></div>
+        </div>
+        <div class="ratio">
+          <app-ratio [product]="recommend" *ngIf="recommend.type!=='book'"></app-ratio>
         </div>
         <div class="title">
           <a [routerLink]="['/category', recommend.type, recommend.id]">{{recommend.name}}</a>

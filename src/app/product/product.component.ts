@@ -61,6 +61,7 @@ export class ProductComponent implements OnInit {
       } else {
         this.recommended = this.currentService.getRecommended(this.product);
       }
+      console.log(this.recommended);
       if (this.route.snapshot.url[1].path === 'game') {
         this.currentService.getGenres(this.product.genres)
           .subscribe(res => this.product.genres = res);
@@ -81,9 +82,9 @@ export class ProductComponent implements OnInit {
     this.cart.addToCart(product);
   }
 
-  public showTrailer() {
+  public showTrailer(id) {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
-    modalRef.componentInstance.idMovie = this.product.id;
+    modalRef.componentInstance.idMovie = id;
     modalRef.result.then(
       (result) => null,
       (reason) => null
