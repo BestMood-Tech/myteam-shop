@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     checkBooks: true,
     checkGames: true
   };
+  public changedCount = false;
 
   constructor(public authGuard: AuthGuard,
               public auth: Auth,
@@ -47,6 +48,12 @@ export class AppComponent implements OnInit {
       this.searchObj.checkMovies = filters['checkMovies'];
       this.searchObj.checkBooks = filters['checkBooks'];
       this.searchObj.checkGames = filters['checkGames'];
+    });
+
+    this.cart.changedCount.subscribe(() => {
+      this.changedCount = true;
+
+      setTimeout(() => this.changedCount = false, 1000);
     });
   }
 

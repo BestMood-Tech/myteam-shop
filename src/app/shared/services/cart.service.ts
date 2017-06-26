@@ -1,9 +1,10 @@
-import {Injectable, ViewContainerRef} from '@angular/core';
+import { EventEmitter, Injectable, ViewContainerRef } from '@angular/core';
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class Cart {
   public cart: any;
+  public changedCount = new EventEmitter<any>();
 
   constructor(private toastr: ToastsManager) {
     try {
@@ -28,6 +29,7 @@ export class Cart {
       product.count = 1;
       this.cart.push(product);
     }
+    this.changedCount.emit();
     this.updateCartLS(this.cart);
     this.toastr.success(`${product.name} added to cart`, 'Success!');
   }
