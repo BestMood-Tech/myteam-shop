@@ -5,7 +5,6 @@ import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
-import dragscroll from 'dragscroll';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
 
@@ -74,7 +73,6 @@ export class ProductComponent implements OnInit {
       } else {
         this.productCurrency = this.auth.user.currency;
       }
-      dragscroll.reset();
     });
 
   }

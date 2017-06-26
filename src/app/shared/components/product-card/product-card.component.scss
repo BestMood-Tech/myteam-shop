@@ -15,6 +15,7 @@ $height-name: 6vw;
     flex-direction: column;
     justify-content: center;
     height: $height-name;
+    white-space: normal;
     h4 {
       margin: 0;
       a {
@@ -90,7 +91,7 @@ $height-name: 6vw;
 
   .description {
     color: #777;
-    height: 25vh;
+    white-space: normal;
   }
 
   .price {

@@ -1,6 +1,6 @@
-<div class="container dragscroll">
+<div class="container" drag-scroll [scrollbar-hidden]="true">
   <div class="box nochilddrag">
-    <div *ngFor="let product of products">
+    <div *ngFor="let product of products" class=" left-transform">
       <app-product-card [product]='product'></app-product-card>
     </div>
   </div>

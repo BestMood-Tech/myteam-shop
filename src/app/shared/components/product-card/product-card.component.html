@@ -1,4 +1,4 @@
-<div class="product-card opacity-transform" *ngIf="product">
+<div [@buyAnimations]="state" #card class="product-card" *ngIf="product">
   <div class="poster">
     <img [src]=[productCover] [alt]="product.name"
          (error)="imgError()">
@@ -9,7 +9,7 @@
   <div class="name">
     <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>
   </div>
-  <div class="truncate-text line-9" *ngIf="!isCart">
+  <div class="description truncate-text line-9" *ngIf="!isCart">
     <p>
       {{product.description}}
     </p>

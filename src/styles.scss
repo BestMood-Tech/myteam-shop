@@ -201,11 +201,18 @@ ag-grid-angular {
   }
 }
 
+
+$elements: 8;
+@for $i from 0 through $elements {
+  .left-transform:nth-child(#{$i}) {
+    animation-duration: (#{$i * 0.25s});
+    -webkit-animation-duration: (#{$i * 0.25s});
+  }
+}
+
 .left-transform {
   animation-name: my-left-transform;
   -webkit-animation-name: my-left-transform;
-  animation-duration: 0.25s;
-  -webkit-animation-duration: 0.25s;
   animation-timing-function: linear;
   -webkit-animation-timing-function: linear;
   position: relative;
@@ -293,7 +300,7 @@ ag-grid-angular {
     opacity: 1
   }
   100% {
-    left: 2%;
+    left: 1%;
     opacity: 1
   }
 }
@@ -380,7 +387,7 @@ ag-grid-angular {
     opacity: 1
   }
   100% {
-    left: 2%;
+    left: 1%;
     opacity: 1
   }
 }

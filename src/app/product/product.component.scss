@@ -6,6 +6,8 @@
   width: 100%;
   .product {
     padding-top: 10px;
+    z-index: 2;
+    background: white;
     .poster {
       height: 44vw;
       position: relative;
@@ -227,6 +229,7 @@
       }
       .title {
         margin-top: 5px;
+        white-space: normal;
         a {
           color: #1d1d1d;
           font-size: 17px;
@@ -241,3 +244,4 @@
   }
 
 }
+

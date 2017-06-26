@@ -5,7 +5,6 @@ import { GamesService } from '../shared/services/games.service';
 import { BooksService } from '../shared/services/books.service';
 import { Observable } from 'rxjs/Rx';
 import { HelperService } from '../shared/services/helper.service';
-import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-search',
@@ -36,8 +35,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe(() => this.searchProduct());
-
-    dragscroll.reset();
   };
 
   public ngOnDestroy() {

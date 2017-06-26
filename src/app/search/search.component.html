@@ -10,11 +10,11 @@
     <h2>Search input is empty</h2>
   </div>
 </div>
-<div class="container dragscroll">
+<div class="container" drag-scroll [scrollbar-hidden]="true">
   <div *ngIf="!loading" class="loading">
     <img class="spin" src="/assets/grid.svg" alt="Loading">
   </div>
-  <div *ngIf="products.length!==0 && loading" class="box nochilddrag">
+  <div *ngIf="products.length!==0 && loading" class="box">
     <div *ngFor="let product of products">
       <app-product-card [product]='product'></app-product-card>
     </div>
