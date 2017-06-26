@@ -6,7 +6,7 @@
           <div class="poster" [style.background-image]="'url(' + product.cover + ')'">
             <div class="header-info">
               <div class="product-type">
-                <div class="type">{{product.type}}</div>
+                <div class="type">{{product.type | capitalize}}</div>
                 <div class="vote" *ngIf="product.type==='movie'">{{product.vote_average}}</div>
               </div>
               <div class="to-back">

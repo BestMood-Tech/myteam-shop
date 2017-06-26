@@ -13,6 +13,7 @@ import { RatioComponent } from './components/ratio/ratio.component';
 import { MyAroundPipe } from './pipes/around.pipe';
 import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
 import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { VideoModalWindowComponent } from './components/video-modal-window/video
     ReactiveFormsModule,
     CurrencyPipe,
     MyAroundPipe,
+    CapitalizePipe,
     NgbModule,
     AddressFormComponent,
     ProductCardComponent,
@@ -40,6 +42,7 @@ import { VideoModalWindowComponent } from './components/video-modal-window/video
   declarations: [
     CurrencyPipe,
     MyAroundPipe,
+    CapitalizePipe,
     AddressFormComponent,
     ProductCardComponent,
     FiltersComponent,
