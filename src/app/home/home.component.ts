@@ -4,6 +4,8 @@ import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
 import { BooksService } from '../shared/services/books.service';
+import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +17,14 @@ export class HomeComponent implements OnInit {
   public movieData: any;
   public bookData: any;
   public productCurrency: any;
+
   constructor(private movieService: MovieService,
               private gamesService: GamesService,
               private booksService: BooksService,
               private cart: Cart,
-              private auth: Auth) {}
+              private auth: Auth,
+              private modalService: NgbModal) {
+  }
 
   public ngOnInit() {
     this.gamesService.latest().subscribe(res => {
@@ -31,7 +36,7 @@ export class HomeComponent implements OnInit {
     this.booksService.getStories().subscribe((res) => {
       this.bookData = this.booksService.processData(res)[0];
     });
-    if  (this.auth.user == null) {
+    if (this.auth.user == null) {
       this.productCurrency = '$';
     } else {
       this.productCurrency = this.auth.user.currency;
@@ -40,6 +45,12 @@ export class HomeComponent implements OnInit {
 
   public addToCart(product) {
     this.cart.addToCart(product);
+  }
+
+  public showTrailer(id) {
+    const modalRef = this.modalService.open(VideoModalWindowComponent);
+    modalRef.componentInstance.idMovie = id;
+    modalRef.result.then();
   }
 
 }

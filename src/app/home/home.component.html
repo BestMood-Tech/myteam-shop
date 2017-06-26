@@ -7,101 +7,107 @@
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
           <a *ngIf="movieData" [routerLink]="['/category', movieData.type, movieData.id]">
-          <div class="block-data movie-block left-transform" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
-            <div class="all-from-category">
+            <div class="block-data movie-block left-transform" *ngIf="movieData"
+                 [style.background-image]="'url(' + movieData.cover + ')'">
+              <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-facetime-video"></span>
                 Most popular movie
               </span>
-              <a class="show-all" [routerLink]="'/category/movies'">Show all</a>
-            </div>
-            <div class="footer">
-              <div class="name">
-                <a [routerLink]="['/category', movieData.type, movieData.id]">{{movieData.name}}</a>
-                <!--<button>Trailer</button>-->
+                <a class="show-all" [routerLink]="'/category/movies'">Show all</a>
               </div>
-              <div class="info">
-                <div class="ratio">
-                  <app-ratio [product]="movieData"></app-ratio>
-                  <p class="description">Based on {{movieData.voteCount | myAround}} rates</p>
+              <div class="footer">
+                <div class="name">
+                  <a [routerLink]="['/category', movieData.type, movieData.id]">{{movieData.name}}</a>
+                  <a class="trailer" (click)="showTrailer(movieData.id)">
+                    <span class="glyphicon glyphicon-play"></span>
+                    Trailer
+                  </a>
                 </div>
-                <div class="play-time">
-                  <p class="bold">176 min</p>
-                  <p class="description">Playtime</p>
-                </div>
-                <div class="year">
-                  <p class="bold">{{movieData.year}}</p>
-                  <p class="description">Year</p>
+                <div class="info">
+                  <div class="ratio">
+                    <app-ratio [product]="movieData"></app-ratio>
+                    <p class="description">Based on {{movieData.voteCount | myAround}} rates</p>
+                  </div>
+                  <div class="play-time">
+                    <p class="bold">176 min</p>
+                    <p class="description">Playtime</p>
+                  </div>
+                  <div class="year">
+                    <p class="bold">{{movieData.year}}</p>
+                    <p class="description">Year</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </a>
         </div>
         <div class="col-sm-4">
           <div *ngIf="!gameData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <a *ngIf="gameData"  [routerLink]="['/category', gameData.type, gameData.id]">
-          <div class="block-data game-block left-transform" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
-            <div class="all-from-category">
+          <a *ngIf="gameData" [routerLink]="['/category', gameData.type, gameData.id]">
+            <div class="block-data game-block left-transform" *ngIf="gameData"
+                 [style.background-image]="'url(' + gameData.cover + ')'">
+              <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-cloud"></span>
                 Most popular game
               </span>
-              <a class="show-all" [routerLink]="'/category/games'">Show all</a>
-            </div>
-            <div class="footer">
-              <div class="name">
-                <a [routerLink]="['/category', gameData.type, gameData.id]">{{gameData.name}}</a>
+                <a class="show-all" [routerLink]="'/category/games'">Show all</a>
               </div>
-              <div class="info">
-                <div class="votes">
-                  <app-ratio [product]="gameData"></app-ratio>
-                  <p class="description">{{gameData.voteCount | myAround}} Votes</p>
+              <div class="footer">
+                <div class="name">
+                  <a [routerLink]="['/category', gameData.type, gameData.id]">{{gameData.name}}</a>
                 </div>
-                <div class="year">
-                  <p class="bold">{{gameData.year}}</p>
-                  <p class="description">Year</p>
+                <div class="info">
+                  <div class="votes">
+                    <app-ratio [product]="gameData"></app-ratio>
+                    <p class="description">{{gameData.voteCount | myAround}} Votes</p>
+                  </div>
+                  <div class="year">
+                    <p class="bold">{{gameData.year}}</p>
+                    <p class="description">Year</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </a>
 
           <div *ngIf="!bookData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
           <a *ngIf="bookData" [routerLink]="['/category', bookData.type, bookData.id]">
-          <div class="block-data book-block left-transform" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
-            <div class="all-from-category">
+            <div class="block-data book-block left-transform" *ngIf="bookData"
+                 [style.background-image]="'url(' + bookData.cover + ')'">
+              <div class="all-from-category">
               <span class="popular">
                 <span class="glyphicon glyphicon-book"></span>
                 Most popular book
               </span>
-              <a class="show-all" [routerLink]="'/category/books'">Show all</a>
-            </div>
-            <div class="footer">
-              <div class="name">
-                <a [routerLink]="['/category', bookData.type, bookData.id]">{{bookData.name}}</a>
-                <!--<button>Trailer</button>-->
+                <a class="show-all" [routerLink]="'/category/books'">Show all</a>
               </div>
-              <div class="info">
-                <div class="votes">
-                  <p class="bold">{{bookData.voteCount | myAround}}</p>
-                  <p class="description">Votes</p>
+              <div class="footer">
+                <div class="name">
+                  <a [routerLink]="['/category', bookData.type, bookData.id]">{{bookData.name}}</a>
+                  <!--<button>Trailer</button>-->
                 </div>
-                <div class="read-count">
-                  <p class="bold">{{bookData.readCount | myAround}}</p>
-                  <p class="description">Read</p>
-                </div>
-                <div class="year">
-                  <p class="bold">{{bookData.year}}</p>
-                  <p class="description">Year</p>
+                <div class="info">
+                  <div class="votes">
+                    <p class="bold">{{bookData.voteCount | myAround}}</p>
+                    <p class="description">Votes</p>
+                  </div>
+                  <div class="read-count">
+                    <p class="bold">{{bookData.readCount | myAround}}</p>
+                    <p class="description">Read</p>
+                  </div>
+                  <div class="year">
+                    <p class="bold">{{bookData.year}}</p>
+                    <p class="description">Year</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </a>
         </div>
       </div>

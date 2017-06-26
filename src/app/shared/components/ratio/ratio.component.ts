@@ -15,11 +15,14 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
   `,
   styles: [`
     .lines {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       margin-bottom: 0;
+      margin-top: 10px;
     }
 
     .line {
-      display: inline-block;
       height: 4px;
       width: 25px;
       background: #ffc033;
@@ -50,7 +53,6 @@ export class RatioComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    console.log(this.product);
     this.culcRations();
   }
 
