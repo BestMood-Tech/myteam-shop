@@ -5,6 +5,8 @@ import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
 
 @Component({
   selector: 'app-product',
@@ -22,7 +24,8 @@ export class ProductComponent implements OnInit {
               private movieService: MovieService,
               private gamesService: GamesService,
               private cart: Cart,
-              private auth: Auth) {
+              private auth: Auth,
+              private modalService: NgbModal) {
     switch (this.route.snapshot.url[1].path) {
       case 'book':
         this.currentService = this.booksService;
@@ -36,7 +39,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.route.params.subscribe(() => {
       this.product = this.currentService.processItem(this.route.snapshot.data['product']);
       if (!this.currentService.data || this.currentService.data.length === 0) {
@@ -65,7 +68,6 @@ export class ProductComponent implements OnInit {
         this.currentService.getDevelopers(this.product.developers)
           .subscribe(res => this.product.developers = res);
       }
-
       if (this.auth.user == null) {
         this.productCurrency = '$';
       } else {
@@ -75,7 +77,16 @@ export class ProductComponent implements OnInit {
 
   }
 
-  addToCart(product) {
+  public addToCart(product) {
     this.cart.addToCart(product);
+  }
+
+  public showTrailer() {
+    const modalRef = this.modalService.open(VideoModalWindowComponent);
+    modalRef.componentInstance.idMovie = this.product.id;
+    modalRef.result.then(
+      (result) => null,
+      (reason) => null
+    );
   }
 }
