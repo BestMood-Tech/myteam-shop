@@ -15,7 +15,7 @@
     <img class="spin" src="/assets/grid.svg" alt="Loading">
   </div>
   <div *ngIf="products.length!==0 && loading" class="box">
-    <div *ngFor="let product of products">
+    <div *ngFor="let product of products" class="left-transform">
       <app-product-card [product]='product'></app-product-card>
     </div>
   </div>
