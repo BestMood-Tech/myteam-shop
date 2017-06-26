@@ -15,6 +15,12 @@
               </div>
             </div>
             <div class="footer-info">
+              <div class="trailer" *ngIf="product.type==='movie'">
+                <a (click)="showTrailer()">
+                  <span class="glyphicon glyphicon-play"></span>
+                  Trailer
+                </a>
+              </div>
               <div class="to-cart">
                 <a class="buy" (click)="addToCart(product)">
                   Buy
@@ -31,7 +37,7 @@
                 {{product.name}}
               </div>
             </div>
-            <div class="description-item extra-info" >
+            <div class="description-item extra-info">
               <app-ratio [product]="product" *ngIf="product.type!=='book'"></app-ratio>
               <div class="votes" *ngIf="product.type==='book'">
                 <span class="bold">{{product.voteCount | myAround}}</span>

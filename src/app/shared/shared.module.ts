@@ -12,6 +12,7 @@ import { FiltersComponent } from './components/filter/filters.component';
 import { RatioComponent } from './components/ratio/ratio.component';
 import { MyAroundPipe } from './pipes/around.pipe';
 import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
+import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { ProfileFieldComponent } from './components/profile-field/profile-field.
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
-    ProfileFieldComponent
+    ProfileFieldComponent,
+    VideoModalWindowComponent
   ],
   declarations: [
     CurrencyPipe,
@@ -42,9 +44,13 @@ import { ProfileFieldComponent } from './components/profile-field/profile-field.
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
-    ProfileFieldComponent
+    ProfileFieldComponent,
+    VideoModalWindowComponent
   ],
-  entryComponents: [AddressFormComponent],
+  entryComponents: [
+    AddressFormComponent,
+    VideoModalWindowComponent
+  ],
 })
 
 export class SharedModule {

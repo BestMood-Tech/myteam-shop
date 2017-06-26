@@ -88,6 +88,24 @@ export class MovieService {
     return this.data;
   }
 
+  public getVideos(id) {
+    const getItemURL = `${this.baseURL}movie/${id}/videos`;
+
+    const params = this.getParams();
+
+    const options = new RequestOptions({
+      search: params
+    });
+
+    return this.http
+      .get(getItemURL, options)
+      .map(res => res.json().results)
+      .map((data) => {
+        return data.filter((item) => item.site === 'YouTube' && item.type === 'Trailer' &&
+        item.name.indexOf('Trailer') !== -1 && item.name.indexOf('Official') !== -1)[0];
+      });
+  }
+
   public getRecommended(movie) {
     return this.data.filter((item) => item.id !== movie.id);
   }

@@ -73,42 +73,61 @@
           }
         }
       }
-
-      .to-cart {
-        position: relative;
-        bottom: 25px;
-        color: #e6e6e6;
-        display: flex;
-        justify-content: flex-end;
-        .buy {
-          position: relative;
-          text-decoration: none;
-          color: #f7f7f9;
-          cursor: pointer;
-          font-size: 18px;
-          padding: 8px 0 7px 15px;
-          font-weight: 600;
-
-          right: -15px;
-          background: #1e1e1e;
-          box-shadow: 2px 2px 12px -2px #000;
-          &:hover {
-            background: #000;
-            & .price-product {
-              background: $color-blue;
+      .footer-info {
+        .trailer {
+          display: flex;
+          left: -15px;
+          bottom: 25px;
+          position: absolute;
+          a {
+            padding: 8px;
+            background: #1e1e1e;
+            font-size: 18px;
+            color: #f7f7f9;
+            cursor: pointer;
+            text-decoration: none;
+            &:hover {
+              background: #000;
             }
           }
+        }
 
-          .price-product {
-            transition: all .15s linear;
+        .to-cart {
+          position: absolute;
+          color: #e6e6e6;
+          display: flex;
+          justify-content: flex-end;
+          right: -15px;
+          bottom: 25px;
+          .buy {
             position: relative;
+            text-decoration: none;
+            color: #f7f7f9;
+            cursor: pointer;
             font-size: 18px;
-            padding: 10px;
-            background: $color-blue;
-            margin-left: 8px;
+            padding: 8px 0 7px 15px;
+            font-weight: 600;
+            background: #1e1e1e;
+            box-shadow: 2px 2px 12px -2px #000;
+            &:hover {
+              background: #000;
+              & .price-product {
+                background: $color-blue;
+              }
+            }
+
+            .price-product {
+              transition: all .15s linear;
+              position: relative;
+              font-size: 18px;
+              padding: 10px;
+              background: $color-blue;
+              margin-left: 8px;
+            }
           }
         }
       }
+
     }
     .description-product {
       .description-name {
