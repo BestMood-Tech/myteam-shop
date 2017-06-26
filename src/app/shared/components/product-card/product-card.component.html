@@ -1,4 +1,4 @@
-<div [@buyAnimations]="state" #card class="product-card" *ngIf="product">
+<div #card class="product-card" *ngIf="product">
   <div class="poster">
     <img [src]=[productCover] [alt]="product.name"
          (error)="imgError()">
