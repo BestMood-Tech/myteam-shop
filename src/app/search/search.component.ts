@@ -53,30 +53,28 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.loading = true;
       return;
     }
+    const filters = this.route.snapshot.queryParams;
+    this.emptySearch = false;
+    this.loading = false;
+    this.products = [];
+    const gameFilter = {limit: '10'};
+    const movieFilter = {limit: '10'};
+    if (filters['genres']) {
+      gameFilter['genres'] = filters['genres'];
+    }
+    if (filters['dateFrom']) {
+      movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
+    }
+    if (filters['dateTo']) {
+      movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
+    }
+    Object.keys(objState).forEach((nameField) => objState[nameField] = filters[nameField]);
 
-    this.route.queryParams
-      .switchMap((filters) => {
-        this.emptySearch = false;
-        this.loading = false;
-        this.products = [];
-        const gameFilter = {limit: '10'};
-        const movieFilter = {limit: '10'};
-        if (filters['genres']) {
-          gameFilter['genres'] = filters['genres'];
-        }
-        if (filters['dateFrom']) {
-          movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
-        }
-        if (filters['dateTo']) {
-          movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
-        }
-        Object.keys(objState).forEach((nameField) => objState[nameField] = filters[nameField]);
-        return Observable.forkJoin([
-          this.bookService.search(filters['q']),
-          this.gamesService.search(filters['q'], gameFilter),
-          this.movieService.search(filters['q'], movieFilter)
-        ]);
-      })
+    Observable.forkJoin([
+      this.bookService.search(filters['q']),
+      this.gamesService.search(filters['q'], gameFilter),
+      this.movieService.search(filters['q'], movieFilter)
+    ])
       .map(([books, games, movies]) => {
         if (!objState.checkBooks) {
           books.stories = [];

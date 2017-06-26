@@ -59,9 +59,6 @@ export class FiltersComponent implements OnInit {
     if (form.checkBooks) {
       filterObject['checkBooks'] = form.checkBooks;
     }
-    if (!!form.gameGroup.genres) {
-      filterObject['genres'] = form.gameGroup.genres;
-    }
     this.helperService.updateFilters.emit(filterObject);
   }
 
