@@ -6,7 +6,7 @@
           <div *ngIf="!movieData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <a [routerLink]="['/category', movieData.type, movieData.id]">
+          <a *ngIf="movieData" [routerLink]="['/category', movieData.type, movieData.id]">
           <div class="block-data movie-block left-transform" *ngIf="movieData" [style.background-image]="'url(' + movieData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
@@ -42,7 +42,7 @@
           <div *ngIf="!gameData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <a [routerLink]="['/category', gameData.type, gameData.id]">
+          <a *ngIf="gameData" [routerLink]="['/category', gameData.type, gameData.id]">
           <div class="block-data game-block left-transform" *ngIf="gameData" [style.background-image]="'url(' + gameData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
@@ -72,7 +72,7 @@
           <div *ngIf="!bookData" class="loading">
             <img class="spin" src="/assets/grid.svg" alt="Loading">
           </div>
-          <a [routerLink]="['/category', bookData.type, bookData.id]">
+          <a *ngIf="bookData" [routerLink]="['/category', bookData.type, bookData.id]">
           <div class="block-data book-block left-transform" *ngIf="bookData" [style.background-image]="'url(' + bookData.cover + ')'">
             <div class="all-from-category">
               <span class="popular">
