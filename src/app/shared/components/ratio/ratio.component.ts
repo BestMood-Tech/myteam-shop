@@ -63,7 +63,6 @@ export class RatioComponent implements OnInit, OnChanges {
     this.rationAsAnArray = new Array(Math.floor(this.product.vote));
     if (this.rationAsAnArray && this.rationAsAnArray.length < 5) {
       this.emptyRatio.length = 5 - this.rationAsAnArray.length;
-      console.log(this.rationAsAnArray, this.emptyRatio);
     }
   }
 }
