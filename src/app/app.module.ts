@@ -9,7 +9,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { ProductResolve } from './product/product.resolve';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CustomOption } from './custopOptionsToasts';
+import { CustomOption } from './customOptionsToasts';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { CustomOption } from './custopOptionsToasts';
     HttpModule,
     AppRoutingModule,
     SharedModule.forRoot(),
-    ToastModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [
     CategoryResolve,

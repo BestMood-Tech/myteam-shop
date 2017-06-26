@@ -1,6 +1,6 @@
-import {Component, ViewContainerRef, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 
-import {AgEditorComponent} from 'ag-grid-ng2/main';
+import { AgEditorComponent } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-numeric-cell',
@@ -9,7 +9,7 @@ import {AgEditorComponent} from 'ag-grid-ng2/main';
 export class NumericEditorComponent implements AgEditorComponent, AfterViewInit {
   private params: any;
   public value: number;
-  private cancelBeforeStart: boolean = false;
+  private cancelBeforeStart = false;
 
   @ViewChild('input', {read: ViewContainerRef}) public input;
 
@@ -34,7 +34,9 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
 
   public onKeyDown(event): void {
     if (!this.isKeyPressedNumeric(event)) {
-      if (event.preventDefault) event.preventDefault();
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
     }
   }
 
@@ -53,15 +55,15 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
 
   private isKeyPressedNumeric(event): boolean {
     if (this.getCharCodeFromEvent(event) === 8) {
-      let stringValue = this.value.toString(10);
-      if (stringValue.length === 1 ) {
+      const stringValue = this.value.toString(10);
+      if (stringValue.length === 1) {
         this.value = 0;
       } else {
         this.value = parseInt(stringValue.slice(0, stringValue.length - 1), 10);
       }
     }
-    let charCode = this.getCharCodeFromEvent(event);
-    let charStr = String.fromCharCode(charCode);
+    const charCode = this.getCharCodeFromEvent(event);
+    const charStr = String.fromCharCode(charCode);
     return this.isCharNumeric(charStr);
   }
 }

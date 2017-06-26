@@ -88,7 +88,7 @@
                   </a>
                   <span class="separator"> </span>
                 </li>
-                <li class="user-profile dropdown" *ngIf="(auth.authenticated() && auth.user)" ngbDropdown>
+                <li class="user-profile dropdown" ngbDropdown *ngIf="(auth.authenticated() && auth.user)">
 
                   <a class="dropdown-toggle" id="dropdownMenuProfile" ngbDropdownToggle>
                     <span>{{auth.user.nickName}}</span>
