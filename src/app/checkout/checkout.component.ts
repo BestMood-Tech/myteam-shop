@@ -6,7 +6,6 @@ import { Address } from '../shared/address.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-checkout',
@@ -36,7 +35,6 @@ export class CheckoutComponent implements OnInit {
               private modalService: NgbModal,
               private toastr: ToastsManager,
               private router: Router) {
-    dragscroll.reset();
   }
 
   public ngOnInit() {
@@ -46,10 +44,8 @@ export class CheckoutComponent implements OnInit {
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
-      dragscroll.reset();
     } catch (e) {
       this.orders = [];
-      dragscroll.reset();
     }
 
     this.activePromoCode = true;
@@ -139,7 +135,6 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     if (isNext) {
-      dragscroll.reset();
       this.direction = 'next';
       if (this.level === 'products') {
         this.level = 'shipping';
@@ -150,7 +145,6 @@ export class CheckoutComponent implements OnInit {
         return;
       }
     } else {
-      dragscroll.reset();
       this.direction = 'prev';
       if (this.level === 'shipping') {
         this.level = 'products';

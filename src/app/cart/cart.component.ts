@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { Cart } from '../shared/services/cart.service';
 import { Router } from '@angular/router';
-import dragscroll from 'dragscroll';
 
 @Component({
   selector: 'app-cart',
@@ -17,12 +16,10 @@ export class CartComponent implements OnInit {
 
   constructor(private cart: Cart, private auth: Auth, private router: Router) {
     this.orders = this.cart.getCart();
-    dragscroll.reset();
     this.authorization = this.auth.authenticated();
   }
 
   public ngOnInit() {
-    dragscroll.reset();
     if (this.auth.user) {
       this.cartCurrency = this.auth.user.currency;
     }

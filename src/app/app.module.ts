@@ -10,6 +10,7 @@ import { ProductResolve } from './product/product.resolve';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomOption } from './customOptionsToasts';
+import { DragScrollModule } from 'angular2-drag-scroll';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CustomOption } from './customOptionsToasts';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    DragScrollModule,
     SharedModule.forRoot(),
     ToastModule.forRoot()
   ],
