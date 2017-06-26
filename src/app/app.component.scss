@@ -260,8 +260,8 @@
     }
   }
 
-  .nav li:first-of-type a {
-    height: 54px;
+  .nav > li:first-of-type > a {
+    min-height: 54px;
   }
 
   .login {
