@@ -17,7 +17,7 @@
 </div>
 <div class="container products" drag-scroll [scrollbar-hidden]="true">
   <div class="flex-container" *ngIf="orders && orders.length">
-    <div *ngFor="let item of orders">
+    <div *ngFor="let item of orders" class="left-transform">
     <app-product-card [product]="item" [isCart]="true"
                       (deleteFromCart)="deleteProduct($event)"></app-product-card>
     </div>
