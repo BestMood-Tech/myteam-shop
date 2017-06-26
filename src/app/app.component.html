@@ -16,7 +16,7 @@
         <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
           <span class="glyphicon glyphicon-list-alt"></span>Admin panel
         </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin">
           <ul class="admin-menu">
             <li><a [routerLink]="'/admin/orders'"><span class="glyphicon glyphicon-paperclip"></span>Orders</a></li>
             <li><a [routerLink]="'/admin/users'"><span class="glyphicon glyphicon-user"></span>Users</a></li>
@@ -28,7 +28,8 @@
         <a class="dropdown-toggle" id="dropdownMenuFiters" ngbDropdownToggle>
           <span class="glyphicon glyphicon-filter"></span>Filters
         </a>
-        <div class="dropdown-menu " aria-labelledby="dropdownMenuFilters" (click)="$event.stopPropagation()">
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuFilters"
+             (click)="$event.stopPropagation();">
           <app-filters></app-filters>
         </div>
       </li>
