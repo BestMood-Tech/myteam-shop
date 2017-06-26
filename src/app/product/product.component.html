@@ -87,16 +87,14 @@
         <div class="poster" [style.background-image]="'url(' + recommend.cover + ')'">
           <div class="price">{{productCurrency}} {{recommend.price | currency:productCurrency}}</div>
           <div class="to-cart"><a (click)="addToCart(recommend)">Buy</a></div>
-          <div class="trailer-recommend">
+          <div class="trailer-recommend" *ngIf="recommend.type === 'movie'">
             <a (click)="showTrailer(recommend.id)">
               <span class="glyphicon glyphicon-play"></span>
               Trailer
             </a>
           </div>
         </div>
-        <div class="ratio">
-          <app-ratio [product]="recommend" *ngIf="recommend.type!=='book'"></app-ratio>
-        </div>
+        <app-ratio [product]="recommend" *ngIf="recommend.type!=='book'"></app-ratio>
         <div class="title">
           <a [routerLink]="['/category', recommend.type, recommend.id]">{{recommend.name}}</a>
         </div>
