@@ -4,8 +4,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
   selector: 'app-ratio',
   template: `
     <ul class="list-unstyled lines">
-      <li class="line" *ngFor="let item of rationAsAnArray">
-      </li>
+      <li class="line" *ngFor="let item of rationAsAnArray"></li>
       <li class="line empty" *ngFor="let item of emptyRatio"></li>
     </ul>
     <div class="rates">
@@ -66,7 +65,7 @@ export class RatioComponent implements OnInit, OnChanges {
     this.product.vote = parseFloat(this.product.vote) > 5 ? (parseFloat(this.product.vote) / 2).toFixed(1) :
       parseFloat(this.product.vote).toFixed(1);
     this.rationAsAnArray = new Array(Math.floor(this.product.vote));
-    if (this.rationAsAnArray && this.rationAsAnArray.length < 5) {
+    if (this.rationAsAnArray && this.rationAsAnArray.length <= 5) {
       this.emptyRatio.length = 5 - this.rationAsAnArray.length;
     }
   }

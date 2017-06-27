@@ -88,6 +88,26 @@ export class MovieService {
     return this.data;
   }
 
+  public getCredits(id) {
+    const getItemURL = `${this.baseURL}movie/${id}/credits`;
+
+    const params = this.getParams();
+
+    const options = new RequestOptions({
+      search: params
+    });
+
+    return this.http
+      .get(getItemURL, options)
+      .map(res => res.json().cast)
+      .map((casts) => casts.map((item) => {
+        return {
+          profile_path: 'https://image.tmdb.org/t/p/w138_and_h175_bestv2' + item.profile_path,
+          name: item.name
+        };
+      }));
+  }
+
   public getVideos(id) {
     const getItemURL = `${this.baseURL}movie/${id}/videos`;
 

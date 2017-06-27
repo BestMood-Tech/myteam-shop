@@ -31,17 +31,21 @@
           </div>
         </div>
         <div class="col-xs-6 col-md-6 col-lg-6">
-          <div class="description-product">
-            <div class="description-title">
+          <div class="row">
+            <div class="col-md-12 description-title">
               <div class="description-name">
                 {{product.name}}
+                <span *ngIf="product.type === 'game' && product.status !== ''"
+                      class="status-game">({{getStatusGame()}})</span>
               </div>
               <div class="description-release">
                 <span>{{product.release_date}}</span>
                 <span>year</span>
               </div>
             </div>
-            <div class="description-item extra-info">
+          </div>
+          <div class="row">
+            <div class="col-md-12 description-item extra-info">
               <app-ratio [product]="product" *ngIf="product.type!=='book'"></app-ratio>
               <div class="votes" *ngIf="product.type==='book'">
                 <span class="bold">{{product.voteCount | myAround}}</span>
@@ -64,40 +68,83 @@
                     <span class="title">Homepage</span>
                   </a>
                   <a *ngIf="website.category === 4" class="third-site" target="_blank" [href]="website.url"
-                     [style.background-image]="'url(../../assets/facebook.png)'">
+                     [style.background-image]="'url(../../assets/social/facebook.png)'">
                   </a>
                   <a *ngIf="website.category === 5" class="third-site" target="_blank" [href]="website.url"
-                     [style.background-image]="'url(../../assets/twitter.png)'">
+                     [style.background-image]="'url(../../assets/social/twitter.png)'">
                   </a>
                   <a *ngIf="website.category === 9" class="third-site" target="_blank" [href]="website.url"
-                     [style.background-image]="'url(../../assets/youtube.png)'">
+                     [style.background-image]="'url(../../assets/social/youtube.png)'">
                   </a>
                 </ng-template>
               </div>
             </div>
-
-            <div class="description-item" *ngIf="product.type!=='book'">
+          </div>
+          <!--description books and games-->
+          <div class="row" *ngIf="product.type !== 'movie'">
+            <div class="col-md-6 description-item" *ngIf="product.type==='game'">
               <span class="title-description">Genres</span>
               <span class="item" *ngFor="let genre of product.genres; let lastGenre=last">
                 {{lastGenre?genre.name+'.':genre.name+', '}}
               </span>
             </div>
-            <div class="description-item" *ngIf="product.type==='movie'">
-              <span class="title-description">Production companies</span>
-              <span class="item" *ngFor="let company of product.production_companies; let lastCompany=last">
-                {{lastCompany?company.name+'.':company.name+', '}}
-              </span>
+            <div class="col-md-6 description-item esrb" *ngIf="product.type==='game' && product.esrb !== ''">
+              <div [style.background-image]="'url(../../assets/esrb/rating_'+ product.esrb +'.png)'">
+              </div>
             </div>
-            <div class="description-item" *ngIf="product.type==='game'">
+          </div>
+          <div class="row" *ngIf="product.type==='game'">
+            <div class="col-md-12 description-item">
               <span class="title-description">Production companies</span>
               <span class="item" *ngFor="let developer of product.developers; let lastDeveloper=last">
                 {{lastDeveloper?developer.name+'.':developer.name+', '}}
               </span>
             </div>
-            <div class="description-item">
+          </div>
+          <div class="row" *ngIf="product.type !== 'movie'">
+            <div class="col-md-12 description-item">
               <p>
                 {{product.description}}
               </p>
+            </div>
+          </div>
+
+          <!--description movies-->
+          <div class="row" *ngIf="product.type === 'movie'">
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-12 description-item" *ngIf="product.type!=='book'">
+                  <span class="title-description">Genres</span>
+                  <span class="item" *ngFor="let genre of product.genres; let lastGenre=last">
+                {{lastGenre?genre.name+'.':genre.name+', '}}
+              </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 description-item">
+                  <span class="title-description">Production companies</span>
+                  <span class="item" *ngFor="let company of product.production_companies; let lastCompany=last">
+                {{lastCompany?company.name+'.':company.name+', '}}
+              </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 description-item">
+                  <p>
+                    {{product.description}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="cast">
+                <h4>Cast</h4>
+                <div class="actor" *ngFor="let cast of product.credits">
+                  <div class="img" [style.background-image]="'url('+cast.profile_path+')'">
+                  </div>
+                  <span>{{cast.name}}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

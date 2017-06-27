@@ -167,7 +167,9 @@ export class GamesService {
         price: Math.floor(game.popularity / 10),
         vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
         trailer: game.videos ? game.videos[0].video_id : '',
-        websites: game.websites
+        websites: game.websites,
+        esrb: game.esrb ? game.esrb.rating : '',
+        status: game.status || ''
       };
       if (game.cover) {
         tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg`;

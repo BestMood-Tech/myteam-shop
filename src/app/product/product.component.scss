@@ -132,88 +132,107 @@
       }
 
     }
-    .description-product {
-      .description-title {
+    .description-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .description-name {
+      color: #222;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 32px;
+      .status-game {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: #666;
+      }
+    }
+
+    .description-release {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      text-align: center;
+      span:first-child {
+        font-weight: 600;
+      }
+    }
+
+    .extra-info {
+      display: flex;
+      flex-direction: row;
+      margin-top: 5px;
+      justify-content: space-between;
+      app-ratio {
+        margin-right: 10px;
+      }
+
+      .references {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-      }
-      .description-name {
-        color: #222;
-        font-size: 36px;
-        font-weight: 600;
+        .glyphicon {
+          font-size: 22px;
+        }
+        > a {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          color: #457aff;
+          margin: 2px 5px 0 5px;
+        }
+        .title {
+          font-size: 11px;
+        }
+
+        .third-site {
+          background-size: 35px 35px;
+          width: 35px;
+          height: 35px;
+        }
       }
 
-      .description-release {
+      .votes, .read-count {
         display: flex;
         flex-direction: column;
-        padding: 5px;
+        margin-right: 15px;
         text-align: center;
         span:first-child {
           font-weight: 600;
         }
       }
+    }
 
-      .extra-info {
-        display: flex;
-        flex-direction: row;
-        margin-top: 5px;
-        app-ratio {
-          margin-right: 10px;
-        }
-
-        .references {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          .glyphicon {
-            font-size: 22px;
-          }
-          > a {
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            color: #457aff;
-            margin: 2px 5px 0 5px;
-          }
-          .title {
-            font-size: 11px;
-          }
-
-          .third-site {
-            background-size: 35px 35px;
-            width: 35px;
-            height: 35px;
-          }
-        }
-
-        .votes, .read-count {
-          display: flex;
-          flex-direction: column;
-          margin-right: 15px;
-          text-align: center;
-          span:first-child {
-            font-weight: 600;
-          }
-        }
+    .esrb {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      > div {
+        height: 45px;
+        width: 35px;
+        background-size: 35px 45px;
       }
-      .description-item {
-        margin-bottom: 15px;
-        text-align: justify;
-        .title-description {
-          color: #1d1d1d;
-          font-size: 18px;
-          display: block;
-        }
-        .item {
-          font-weight: 600;
-          color: #000;
-        }
-        p {
-          color: #555;
-        }
+    }
+
+    .description-item {
+      margin-bottom: 15px;
+      text-align: justify;
+      .title-description {
+        color: #1d1d1d;
+        font-size: 18px;
+        display: block;
+      }
+
+      .item {
+        font-weight: 600;
+        color: #000;
+      }
+      p {
+        color: #555;
       }
     }
   }
@@ -313,6 +332,24 @@
       }
     }
   }
-
 }
 
+.cast {
+  .actor {
+    margin: 8px 0;
+    display: flex;
+    flex-direction: row;
+  }
+  .img {
+    width: 70px;
+    height: 90px;
+    background-size: 70px 90px;
+  }
+  span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+    letter-spacing: 1px;
+  }
+}

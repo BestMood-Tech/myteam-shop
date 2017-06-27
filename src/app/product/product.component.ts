@@ -76,6 +76,11 @@ export class ProductComponent implements OnInit {
       } else {
         this.productCurrency = this.auth.user.currency;
       }
+
+      if (this.product.type === 'movie') {
+        this.currentService.getCredits(this.product.id)
+          .subscribe((data) => this.product['credits'] = data.slice(0, 4));
+      }
       console.log(this.product);
     });
 
@@ -93,5 +98,16 @@ export class ProductComponent implements OnInit {
 
   public imgError(product) {
     product.coverUrl = `../../assets/${product.type}.png`;
+  }
+
+  public getStatusGame() {
+    const status = [
+      {status: 0, value: 'Main game'},
+      {status: 1, value: 'DLC / Addon'},
+      {status: 2, value: 'Expansion'},
+      {status: 3, value: 'Bundle'},
+      {status: 4, value: 'Standalone expansion'}
+    ];
+    return status.find((item) => item.status === this.product.status).value
   }
 }
