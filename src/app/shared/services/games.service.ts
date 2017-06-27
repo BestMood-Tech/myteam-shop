@@ -126,7 +126,7 @@ export class GamesService {
         id: game.id,
         type: 'game',
         name: game.name,
-        price: Math.floor(game.popularity * 100) / 10,
+        price: Math.floor(game.popularity / 10),
         year: moment(game.first_release_date).format('YYYY'),
         vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
         voteCount: game.collection,
@@ -164,12 +164,13 @@ export class GamesService {
         genres: game.genres,
         developers: game.developers,
         release_date: moment(game.first_release_date).format('YYYY'),
-        price: Math.floor(game.popularity * 100) / 10,
+        price: Math.floor(game.popularity / 10),
         vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
-        trailer: game.videos ? game.videos[0].video_id : ''
+        trailer: game.videos ? game.videos[0].video_id : '',
+        websites: game.websites
       };
       if (game.cover) {
-        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;
+        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg`;
       } else {
         tempObject['cover'] = 'http://placehold.it/320x150';
       }

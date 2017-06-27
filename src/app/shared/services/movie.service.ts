@@ -111,6 +111,7 @@ export class MovieService {
   }
 
   public processItem(movie) {
+    console.log(movie);
     return {
       id: movie.id,
       type: 'movie',
@@ -122,7 +123,8 @@ export class MovieService {
       vote_average: movie.vote_average,
       release_date: moment(movie.release_date).format('YYYY'),
       price: movie.vote_average * 20 / 10,
-      vote: movie.vote_average
+      vote: movie.vote_average,
+      homepage: movie.homepage || ''
     };
   }
 }

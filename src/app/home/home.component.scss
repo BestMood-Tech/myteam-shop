@@ -104,7 +104,6 @@ $container-top-shift: $top-bar-height + $container-margin;
 
 .game-block, .book-block {
   height: calc((100vh - #{$container-top-shift}) / 2 - 2.5px);
-  margin-top: 5px;
   padding: 15px 15px;
   .footer {
     z-index: 5;
@@ -112,6 +111,10 @@ $container-top-shift: $top-bar-height + $container-margin;
       font-size: 20px;
     }
   }
+}
+
+.book-block {
+  margin-top: 5px;
 }
 
 .game-block .footer .info .votes p {

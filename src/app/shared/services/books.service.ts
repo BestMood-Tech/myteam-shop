@@ -47,7 +47,7 @@ export class BooksService {
         price: Math.floor(Math.random() * 10 + 1),
         voteCount: item.voteCount,
         readCount: item.readCount,
-        year: moment(item.release_date).format('YYYY')
+        year: moment(item.createDate).format('YYYY')
       };
     });
     return this.data;
@@ -58,6 +58,7 @@ export class BooksService {
   }
 
   public processItem(data) {
+    console.log(data);
     const resultingData = data.map((book) => {
       return {
         id: book.id,
@@ -65,10 +66,11 @@ export class BooksService {
         name: book.title,
         description: book.description,
         cover: book.cover,
-        release_date: moment(book.release_date).format('YYYY'),
+        release_date: moment(book.createDate).format('YYYY'),
         voteCount: book.voteCount,
         readCount: book.readCount,
-        price: Math.floor(Math.random() * 10 + 1)
+        price: Math.floor(Math.random() * 10 + 1),
+        homepage: book.url
       };
     });
 

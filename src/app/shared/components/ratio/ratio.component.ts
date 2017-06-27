@@ -19,7 +19,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 0;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     .line {
@@ -33,7 +33,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
     }
 
     .empty {
-      background: #f7f7f7;
+      background: #ffecc1;
     }
 
     .rates {
