@@ -42,6 +42,7 @@ export class ProductComponent implements OnInit {
   public ngOnInit() {
     this.route.params.subscribe(() => {
       this.product = this.currentService.processItem(this.route.snapshot.data['product']);
+      this.product.coverUrl = this.product.cover;
       if (!this.currentService.data || this.currentService.data.length === 0) {
         let getData;
         switch (this.product.type) {
@@ -57,11 +58,12 @@ export class ProductComponent implements OnInit {
         getData.subscribe((data) => {
           this.currentService.processData(data);
           this.recommended = this.currentService.getRecommended(this.product);
+          this.recommended.forEach((item) => item.coverUrl = item.cover);
         });
       } else {
         this.recommended = this.currentService.getRecommended(this.product);
+        this.recommended.forEach((item) => item.coverUrl = item.cover);
       }
-      console.log(this.recommended);
       if (this.route.snapshot.url[1].path === 'game') {
         this.currentService.getGenres(this.product.genres)
           .subscribe(res => this.product.genres = res);
@@ -86,5 +88,9 @@ export class ProductComponent implements OnInit {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
     modalRef.componentInstance.idMovie = id;
     modalRef.result.then();
+  }
+
+  public imgError(product) {
+    product.coverUrl = `../../assets/${product.type}.png`;
   }
 }

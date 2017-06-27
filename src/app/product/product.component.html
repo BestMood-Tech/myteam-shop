@@ -84,7 +84,8 @@
          drag-scroll [drag-scroll-x-disabled]="true">
       <h4>You might also like</h4>
       <div class="item" *ngFor="let recommend of recommended">
-        <div class="poster" [style.background-image]="'url(' + recommend.cover + ')'">
+        <div class="poster">
+          <img [src] = "recommend.coverUrl" (error)="imgError(recommend)">
           <div class="price">{{productCurrency}} {{recommend.price | currency:productCurrency}}</div>
           <div class="to-cart"><a (click)="addToCart(recommend)">Buy</a></div>
           <div class="trailer-recommend" *ngIf="recommend.type === 'movie'">

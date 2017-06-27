@@ -1,7 +1,6 @@
 <div #card class="product-card" *ngIf="product">
   <div class="poster">
-    <img [src]=[productCover] [alt]="product.name"
-         (error)="imgError()">
+    <img [src]=[productCover] [alt]="product.name" (error)="imgError()">
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
     <span *ngIf="isCart && product.count > 1" class="product-count">x{{product.count}}</span>
     <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(product)">Delete</button>
