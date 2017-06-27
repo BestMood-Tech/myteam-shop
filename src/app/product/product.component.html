@@ -14,8 +14,9 @@
               </div>
             </div>
             <div class="footer-info">
-              <div class="trailer" *ngIf="product.type==='movie'">
-                <a (click)="showTrailer(this.product.id)">
+              <div class="trailer"
+                   *ngIf="product.type ==='movie' || (product.type === 'game' && product.trailer !== '')">
+                <a (click)="showTrailer(product)">
                   <span class="glyphicon glyphicon-play"></span>
                   Trailer
                 </a>
@@ -84,11 +85,11 @@
       <h4>You might also like</h4>
       <div class="item" *ngFor="let recommend of recommended">
         <div class="poster">
-          <img [src] = "recommend.coverUrl" (error)="imgError(recommend)">
+          <img [src]="recommend.coverUrl" (error)="imgError(recommend)">
           <div class="price">{{productCurrency}} {{recommend.price | currency:productCurrency}}</div>
           <div class="to-cart"><a (click)="addToCart(recommend)">Buy</a></div>
-          <div class="trailer-recommend" *ngIf="recommend.type === 'movie'">
-            <a (click)="showTrailer(recommend.id)">
+          <div class="trailer-recommend" *ngIf="recommend.type ==='movie' || (recommend.type === 'game' && recommend.trailer !== '')">
+            <a (click)="showTrailer(recommend)">
               <span class="glyphicon glyphicon-play"></span>
               Trailer
             </a>

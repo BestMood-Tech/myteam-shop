@@ -109,8 +109,8 @@ export class GamesService {
   public latest() {
     const getItemUrl = `${this.baseUrl}games/`;
     const params = this.getParams();
-    params.set('order', 'release_dates.date:desc');
-    params.set('limit', '18');
+    params.set('order', 'popularity:desc');
+    params.set('limit', '20');
     const options = new RequestOptions({
       search: params,
       headers: this.getHeaders()
@@ -127,8 +127,9 @@ export class GamesService {
         name: game.name,
         price: Math.floor(game.popularity * 100) / 10,
         year: moment(game.first_release_date).format('YYYY'),
-        vote: game.popularity % 5,
-        voteCount: game.collection
+        vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
+        voteCount: game.collection,
+        trailer: game.videos ? game.videos[0].video_id : ''
       };
 
       if (game.cover) {
@@ -163,7 +164,8 @@ export class GamesService {
         developers: game.developers,
         release_date: moment(game.first_release_date).format('YYYY'),
         price: Math.floor(game.popularity * 100) / 10,
-        vote: game.popularity % 5
+        vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
+        trailer: game.videos ? game.videos[0].video_id : ''
       };
       if (game.cover) {
         tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;

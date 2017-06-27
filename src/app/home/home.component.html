@@ -20,7 +20,7 @@
             <div class="footer">
               <div class="name">
                 <a [routerLink]="['/category', movieData.type, movieData.id]">{{movieData.name}}</a>
-                <a class="trailer" (click)="showTrailer(movieData.id)">
+                <a class="trailer" (click)="showTrailer(movieData)">
                   <span class="glyphicon glyphicon-play"></span>
                   Trailer
                 </a>

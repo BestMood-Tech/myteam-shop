@@ -8,7 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['video.component.scss']
 })
 export class VideoModalWindowComponent implements OnInit {
-  @Input() public idMovie: string;
+  @Input() public product: any;
   public url = 'https://www.youtube.com/embed/';
   public safeUrl: SafeUrl;
 
@@ -18,10 +18,15 @@ export class VideoModalWindowComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.movieService.getVideos(this.idMovie)
-      .subscribe((trailer) => {
-        this.url = this.url + trailer.key;
-        this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-      });
+    if (this.product.type === 'movie') {
+      this.movieService.getVideos(this.product.id)
+        .subscribe((trailer) => {
+          this.url = this.url + trailer.key;
+          this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+        });
+    } else {
+      this.url = this.url + this.product.trailer;
+      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+    }
   }
 }

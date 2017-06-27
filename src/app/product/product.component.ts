@@ -76,6 +76,7 @@ export class ProductComponent implements OnInit {
       } else {
         this.productCurrency = this.auth.user.currency;
       }
+      console.log(this.product);
     });
 
   }
@@ -84,9 +85,9 @@ export class ProductComponent implements OnInit {
     this.cart.addToCart(product);
   }
 
-  public showTrailer(id) {
+  public showTrailer(item) {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
-    modalRef.componentInstance.idMovie = id;
+    modalRef.componentInstance.product = item;
     modalRef.result.then((resolve) => null, (error) => null);
   }
 
