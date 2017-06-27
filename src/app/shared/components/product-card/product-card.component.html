@@ -4,6 +4,7 @@
     <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
     <span *ngIf="isCart && product.count > 1" class="product-count">x{{product.count}}</span>
     <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(product)">Delete</button>
+    <span *ngIf="isSearch" class="product-type">{{product.type | capitalize}}</span>
   </div>
   <div class="name">
     <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>

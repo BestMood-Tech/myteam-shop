@@ -18,6 +18,7 @@ export class ProductCardComponent implements OnInit {
 
   @Input() public product;
   @Input() public isCart: boolean;
+  @Input() public isSearch: boolean;
   @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
 
   public productCurrency: any;

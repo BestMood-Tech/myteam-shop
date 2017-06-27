@@ -87,6 +87,22 @@ $height-name: 12vh;
       border-radius: 1px;
       border-width: 0;
     }
+
+    .product-type {
+      position: absolute;
+      bottom: 25px;
+      right: -15px;
+      padding: 8px;
+      background: white;
+      color: black;
+      box-shadow: 2px 2px 12px -2px #555;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1px;
+      border-width: 0;
+    }
   }
 
   .description {
