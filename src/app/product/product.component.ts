@@ -87,7 +87,7 @@ export class ProductComponent implements OnInit {
   public showTrailer(id) {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
     modalRef.componentInstance.idMovie = id;
-    modalRef.result.then();
+    modalRef.result.then((resolve) => null, (error) => null);
   }
 
   public imgError(product) {

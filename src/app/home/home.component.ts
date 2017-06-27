@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   public showTrailer(id) {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
     modalRef.componentInstance.idMovie = id;
-    modalRef.result.then();
+    modalRef.result.then((resolve) => null, (error) => null);
   }
 
 }

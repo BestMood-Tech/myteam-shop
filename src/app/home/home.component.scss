@@ -43,6 +43,7 @@ $container-top-shift: $top-bar-height + $container-margin;
 .all-from-category {
   display: flex;
   align-items: center;
+  z-index: 5;
 }
 
 .popular {
