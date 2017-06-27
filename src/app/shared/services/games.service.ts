@@ -69,7 +69,8 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this.http.get(getGenreUrl, options).map(res => res.json());
+    return this.http.get(getGenreUrl, options)
+      .map(res => res.json());
   }
 
   public getAllGenres() {
@@ -133,7 +134,7 @@ export class GamesService {
       };
 
       if (game.cover) {
-        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.png`;
+        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg`;
       } else {
         tempObject['cover'] = 'http://placehold.it/320x150';
       }

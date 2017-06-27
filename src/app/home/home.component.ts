@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
-import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
 import { BooksService } from '../shared/services/books.service';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
@@ -21,7 +20,6 @@ export class HomeComponent implements OnInit {
   constructor(private movieService: MovieService,
               private gamesService: GamesService,
               private booksService: BooksService,
-              private cart: Cart,
               private auth: Auth,
               private modalService: NgbModal) {
   }
@@ -41,10 +39,6 @@ export class HomeComponent implements OnInit {
     } else {
       this.productCurrency = this.auth.user.currency;
     }
-  }
-
-  public addToCart(product) {
-    this.cart.addToCart(product);
   }
 
   public showTrailer(item) {

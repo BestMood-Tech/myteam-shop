@@ -45,14 +45,6 @@ export class ProductCardComponent implements OnInit {
     this.deleteFromCart.emit(product);
   }
 
-  public getLabel() {
-    switch (this.product.type) {
-      case 'game': return 'label-danger';
-      case 'book': return 'label-info';
-      case 'movie': return 'label-warning';
-      default: return 'label-succes';
-    }
-  }
   public imgError() {
     this.productCover = `../../assets/${this.product.type}.png`;
   }
