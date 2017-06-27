@@ -34,7 +34,8 @@ export class GamesService {
       headers: this.getHeaders()
     });
 
-    return this.http.get(getItemUrl, options).map(res => res.json());
+    return this.http.get(getItemUrl, options)
+      .map(res => res.json());
   }
 
   public getDevelopers(ids) {
@@ -126,7 +127,7 @@ export class GamesService {
         name: game.name,
         price: Math.floor(game.popularity * 100) / 10,
         year: moment(game.first_release_date).format('YYYY'),
-        vote: game.popularity,
+        vote: game.popularity % 5,
         voteCount: game.collection
       };
 
@@ -152,6 +153,7 @@ export class GamesService {
   }
 
   public processItem(data) {
+    console.log(data);
     const resultingData = data.map((game) => {
       const tempObject = {
         id: game.id,
@@ -161,7 +163,7 @@ export class GamesService {
         developers: game.developers,
         release_date: moment(game.first_release_date).format('YYYY'),
         price: Math.floor(game.popularity * 100) / 10,
-        vote: game.popularity
+        vote: game.popularity % 5
       };
       if (game.cover) {
         tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/${game.cover.cloudinary_id}.jpg`;

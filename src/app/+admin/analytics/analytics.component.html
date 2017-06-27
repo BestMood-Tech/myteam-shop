@@ -7,7 +7,7 @@
       </button>
       <div class="form-group" [ngClass]="analyticsForm.controls.from.errors? 'has-error': 'has-success'">
         <label for="from">From</label>
-        <select class="form-control" id="from" formControlName="from">
+        <select id="from" formControlName="from">
           <option *ngFor="let year of yearForm;" [value]="year">
             {{year}}
           </option>
@@ -15,7 +15,7 @@
       </div>
       <div class="form-group" [ngClass]="analyticsForm.controls.to.errors? 'has-error': 'has-success'">
         <label for="to">To</label>
-        <select class="form-control" id="to" formControlName="to">
+        <select id="to" formControlName="to">
           <option *ngFor="let year of yearForm;" [value]="year">
             {{year}}
           </option>
