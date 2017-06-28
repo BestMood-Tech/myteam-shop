@@ -223,7 +223,7 @@
       a {
         padding: 10px;
         font-size: 16px;
-        &:hover {
+        &:not(.logo):hover {
           background: #e2e2e2;
         }
       }
@@ -255,7 +255,7 @@
       color: #000;
       font-size: 11px;
     }
-    a:hover, a:visited {
+    a:not(.logo):hover, a:not(.logo):visited {
       background: #e5a50d;
     }
   }
@@ -297,3 +297,14 @@
   width: 50px;
 }
 
+.logo {
+  background-image: url('/assets/BMT.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent !important;
+}
+
+.apis {
+  margin-top: 40px;
+}

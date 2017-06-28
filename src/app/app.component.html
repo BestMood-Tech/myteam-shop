@@ -2,7 +2,9 @@
 
   <aside class="left-sidebar">
     <ul class="nav">
-      <li><a [routerLink]="'/'">Media shop</a></li>
+      <li>
+        <a class="logo" [routerLink]="'/'"></a>
+      </li>
       <li><a [routerLink]="'/category/movies'" routerLinkActive="active-link">
         <span class="glyphicon glyphicon-film"></span>Movies</a>
       </li>
@@ -34,7 +36,7 @@
         </div>
       </li>
     </ul>
-    <ul class="nav">
+    <ul class="nav apis">
       <li>
         <span class="powered-with">Powered with:</span>
       </li>
