@@ -14,7 +14,7 @@ export class ProductResolve implements Resolve<any> {
   public resolve(route: ActivatedRouteSnapshot) {
     switch (route.params['type']) {
       case 'movie': return this.movieService.getItem(route.params['id']);
-      case 'books': return this.bookService.getItem(route.params['id']);
+      case 'book': return this.bookService.getItem(route.params['id']);
       default: return this.gamesService.getItem(route.params['id']);
     }
   }

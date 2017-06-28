@@ -1,30 +1,21 @@
-<div class="col-md-2 fixed-filter">
-  <button class="btn btn-success" *ngIf="!display" (click)="inverseDisplay()">
-    <i class="glyphicon glyphicon-filter"></i>
-  </button>
-  <div class="thumbnail" *ngIf="display">
-    <i class="glyphicon glyphicon-collapse-up" (click)="inverseDisplay()"></i>
-    <form [formGroup]="filtersForm">
-      <div class="form-group">
-        <label for="dateFrom">Date from</label>
-        <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="dateTo">Date to</label>
-        <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="Movie">
-          Movie<input type="checkbox" id="Movie" formControlName="checkMovies" class="form-control">
-        </label>
-        <label for="Books">
-          Books<input type="checkbox" id="Books" formControlName="checkBooks" class="form-control">
-        </label>
-        <label for="Games">
-          Games<input type="checkbox" id="Games" formControlName="checkGames" class="form-control">
-        </label>
-      </div>
-      <button class="btn btn-success btn-block filter-apply-button" (click)="applyFilters()">Apply</button>
-    </form>
-  </div>
+<div class="filter">
+  <form [formGroup]="filtersForm">
+    <div class="form-group">
+      <label for="dateFrom">Date from</label>
+      <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="dateTo">Date to</label>
+      <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
+    </div>
+    <div class="form-group toggle-items">
+      <input type="checkbox" id="Movie" formControlName="checkMovies" class="form-control">
+      <label for="Movie">Movie</label>
+      <input type="checkbox" id="Books" formControlName="checkBooks" class="form-control">
+      <label for="Books">Books</label>
+      <input type="checkbox" id="Games" formControlName="checkGames" class="form-control">
+      <label for="Games">Games</label>
+    </div>
+    <button class="btn btn-block filter-apply-button" (click)="applyFilters()">Apply</button>
+  </form>
 </div>

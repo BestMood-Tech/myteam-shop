@@ -20,22 +20,24 @@ export class CartComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.auth.user) this.cartCurrency = this.auth.user.currency;
+    if (this.auth.user) {
+      this.cartCurrency = this.auth.user.currency;
+    }
     this.auth.onAuth.subscribe((value) => {
       this.authorization = value;
     });
   }
 
 
-  public deleteProduct(key) {
-    this.cart.deleteItem(key);
+  public deleteProduct(product) {
+    this.cart.deleteItem(product);
     this.orders = this.cart.getCart();
   }
 
   public getTotalPrice() {
     let price = 0.0;
     this.orders.forEach((item) => {
-      price += item.price;
+      price += item.price * item.count;
     });
     return price.toFixed(2);
   }
@@ -45,7 +47,9 @@ export class CartComponent implements OnInit {
   }
 
   public checkout() {
-    if (!this.disabledPay()) return;
+    if (!this.disabledPay()) {
+      return;
+    }
     this.router.navigate(['./checkout']);
   }
 

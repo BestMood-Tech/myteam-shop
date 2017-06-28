@@ -1,0 +1,29 @@
+<div class="pad-text" *ngIf="!edit && (type === 'text' || type === 'email')" (click)="editItem()">
+  <span>{{value}}</span>
+</div>
+
+<div class="pad-select" *ngIf="!edit && type === 'select'" (click)="editItem()">
+  <span>{{value}}</span>
+</div>
+
+<div class="value-text" *ngIf="edit && (type==='text' || type==='email')">
+  <form (submit)="saveItem()" [formGroup]="formValue">
+    <div class="field">
+      <input *ngIf="type==='text'" class="form-field" type="text" formControlName="changedValue">
+      <input *ngIf="type==='email'" class="form-field" type="email" formControlName="changedValue">
+      <input type="submit" value="Save" class="submit-btn" [disabled]="!formValue.valid">
+    </div>
+  </form>
+</div>
+
+<div class="value-select" *ngIf="edit && type === 'select'">
+  <form (submit)="saveItem()" [formGroup]="formValue">
+    <div class="field">
+      <select formControlName="changedValue" class="form-field">
+        <option *ngFor="let item of selected" [value]="item.value">{{item.name}}</option>
+      </select>
+      <input type="submit" value="Save" class="submit-btn" [disabled]="!formValue.valid">
+    </div>
+  </form>
+</div>
+

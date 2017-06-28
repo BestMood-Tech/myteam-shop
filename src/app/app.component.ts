@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Auth } from './shared/services/auth.service';
 import { Cart } from './shared/services/cart.service';
 import { AuthGuard } from './shared/services/authGuard.service';
 import { ToastsManager } from 'ng2-toastr';
+import { HelperService } from './shared/services/helper.service';
 
 @Component({
   selector: 'app-root',
@@ -14,32 +15,56 @@ import { ToastsManager } from 'ng2-toastr';
 
 export class AppComponent implements OnInit {
   public searchTermForm: FormGroup;
-  public navbarCollapsed: boolean;
+  public showFilters: boolean;
+  public searchObj = {
+    q: '',
+    checkMovies: true,
+    checkBooks: true,
+    checkGames: true
+  };
+  public changedCount = false;
 
-  constructor(private router: Router,
+  constructor(public authGuard: AuthGuard,
+              public auth: Auth,
+              private router: Router,
+              private route: ActivatedRoute,
               private cart: Cart,
-              private auth: Auth,
               private fb: FormBuilder,
-              public authGuard: AuthGuard,
               private viewContainer: ViewContainerRef,
-              private toastr: ToastsManager) {
+              private toastr: ToastsManager,
+              private helperService: HelperService) {
     this.toastr.setRootViewContainerRef(this.viewContainer);
   }
+
   public ngOnInit() {
     this.searchTermForm = this.fb.group({term: ''});
+    this.helperService.showFilters.subscribe((data) => {
+      setTimeout(() => this.showFilters = data);
+      if (!data) {
+        this.searchTermForm.reset();
+      }
+    });
+    this.helperService.updateFilters.subscribe((filters) => {
+      this.searchObj.checkMovies = filters['checkMovies'];
+      this.searchObj.checkBooks = filters['checkBooks'];
+      this.searchObj.checkGames = filters['checkGames'];
+    });
+
+    this.cart.changedCount.subscribe(() => {
+      this.changedCount = true;
+
+      setTimeout(() => this.changedCount = false, 1000);
+    });
   }
 
   public search() {
-    let searchTerm = this.searchTermForm.value.term;
-    if ( !searchTerm || !(searchTerm.length > 3)) return;
-    let searchObj = {
-      q: searchTerm,
-      checkMovies: true,
-      checkBooks: true,
-      checkGames: true
-    };
-    this.router.navigate(['/search'], { queryParams: searchObj});
-    this.searchTermForm.setValue({term: ''});
+    const searchTerm = this.searchTermForm.value.term;
+    if (!searchTerm || !(searchTerm.length > 3)) {
+      return;
+    }
+    this.helperService.searchTerm = searchTerm;
+    this.searchObj.q = searchTerm;
+    this.router.navigate(['/search'], {queryParams: this.searchObj});
   }
 
   public count() {

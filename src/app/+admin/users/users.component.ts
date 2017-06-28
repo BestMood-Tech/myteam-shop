@@ -11,13 +11,13 @@ export class UsersComponent implements OnInit {
 
   public gridOptions: GridOptions;
   public rowData: any[];
-  private dataSource: any;
+  public dataSource: any;
 
   constructor(private adminService: AdminService) {
     this.gridOptions = <GridOptions>{
       columnDefs: this.createColumnDefs(),
       enableServerSideSorting: true,
-      rowModelType: 'virtual',
+      rowModelType: 'infinite',
       paginationPageSize: 50
     };
   }

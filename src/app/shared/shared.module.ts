@@ -6,9 +6,14 @@ import { BooksService, GamesService, MovieService, Auth, Cart, AuthGuard } from 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { HelperService } from './services/helper.service';
-import { ProductCardComponent } from './components/product-card.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 import { RouterModule } from '@angular/router';
 import { FiltersComponent } from './components/filter/filters.component';
+import { RatioComponent } from './components/ratio/ratio.component';
+import { MyAroundPipe } from './pipes/around.pipe';
+import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
+import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -17,20 +22,38 @@ import { FiltersComponent } from './components/filter/filters.component';
     ReactiveFormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CurrencyPipe,
+    MyAroundPipe,
+    CapitalizePipe,
     NgbModule,
     AddressFormComponent,
     ProductCardComponent,
-    FiltersComponent
+    FiltersComponent,
+    RatioComponent,
+    ProfileFieldComponent,
+    VideoModalWindowComponent
   ],
-  declarations: [CurrencyPipe, AddressFormComponent, ProductCardComponent, FiltersComponent  ],
-  entryComponents: [AddressFormComponent]
+  declarations: [
+    CurrencyPipe,
+    MyAroundPipe,
+    CapitalizePipe,
+    AddressFormComponent,
+    ProductCardComponent,
+    FiltersComponent,
+    RatioComponent,
+    ProfileFieldComponent,
+    VideoModalWindowComponent
+  ],
+  entryComponents: [
+    AddressFormComponent,
+    VideoModalWindowComponent
+  ],
 })
 
 export class SharedModule {
@@ -44,8 +67,8 @@ export class SharedModule {
         Auth,
         AuthGuard,
         Cart,
-        HelperService
-      ]
+        HelperService,
+      ],
     };
   }
 }

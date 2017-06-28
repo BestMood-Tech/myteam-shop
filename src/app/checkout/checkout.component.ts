@@ -4,7 +4,6 @@ import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../shared/address.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -19,11 +18,14 @@ export class CheckoutComponent implements OnInit {
   public checkOutCurrency = '$';
   public checkOutForm: FormGroup;
   public checkOutAddress: Address;
+  public checkOutAddressKey: number;
   public activePromoCode: boolean;
   public arrayAddressUser: any;
   public paymentSystem: string[] = [
     'PayPal', 'CreditCard', 'Cash', 'WebMoney', 'QIWI', 'Bitcoin'
   ];
+  public level = 'products';
+  public direction = 'next';
 
   public isRequesting: boolean;
 
@@ -36,7 +38,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.auth.user) this.checkOutCurrency = this.auth.user.currency;
+    if (this.auth.user) {
+      this.checkOutCurrency = this.auth.user.currency;
+    }
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
@@ -44,26 +48,30 @@ export class CheckoutComponent implements OnInit {
       this.orders = [];
     }
 
+    this.activePromoCode = true;
+    this.arrayAddressUser = this.auth.user.address;
+    if (this.arrayAddressUser && this.arrayAddressUser.length) {
+      this.checkOutAddress = new Address(this.arrayAddressUser[0]);
+      this.checkOutAddressKey = 0;
+    }
+
     this.checkOutForm = this.formBulder.group({
       promoCode: '',
       address: [this.checkOutAddress, Validators.required],
-      payment: ['', Validators.required]
+      payment: ['PayPal', Validators.required]
     });
-
-    this.activePromoCode = true;
-    this.arrayAddressUser = this.auth.user.address;
   }
 
   public getTotal() {
     let price = 0.0;
     this.orders.forEach((item) => {
-      price += item.price;
+      price += item.price * item.count;
     });
     return price.toFixed(2);
   }
 
   public checkPromoCode() {
-    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) return;
+    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) { return; }
 
     let discount = 1;
 
@@ -75,31 +83,17 @@ export class CheckoutComponent implements OnInit {
         discount = 1;
     }
 
-    if (discount === 1) return;
+    if (discount === 1) { return; }
 
     this.orders.map((item) => item.price *= discount);
     this.activePromoCode = false;
   }
 
   public onChangeAddress(key) {
+    this.arrayAddressUser = this.auth.user.address;
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
-  }
-
-  public newAddress() {
-    const modalRef = this.modalService.open(AddressFormComponent);
-    modalRef.componentInstance.address = new Address({});
-    modalRef.result.then(
-      (result) => {
-        this.checkOutAddress = new Address(result);
-        this.checkOutForm.controls['address'].setValue(new Address(result));
-      },
-      (reason) => null
-    );
-  }
-
-  public differentAddress() {
-    this.checkOutAddress = null;
-    this.checkOutForm.controls['address'].reset();
+    this.checkOutAddressKey = key;
+    this.checkOutForm.controls['address'].setValue(this.checkOutAddress);
   }
 
   public checkPay(): boolean {
@@ -117,9 +111,59 @@ export class CheckoutComponent implements OnInit {
     this.toastr.success('Orders added to profile', 'Success');
   }
 
+  public changeLevel(isNext: boolean, level?: string) {
+    if (level) {
+      if (level === this.level) { return; }
+      switch (level) {
+        case 'products':
+          this.direction = 'prev';
+          this.level = level;
+          break;
+        case 'payment':
+          this.direction = 'next';
+          this.level = level;
+          break;
+        case 'shipping':
+          if (this.level === 'products') {
+            this.direction = 'next';
+          } else {
+            this.direction = 'prev';
+          }
+          this.level = level;
+          break;
+      }
+      return;
+    }
+    if (isNext) {
+      this.direction = 'next';
+      if (this.level === 'products') {
+        this.level = 'shipping';
+        return;
+      }
+      if (this.level === 'shipping') {
+        this.level = 'payment';
+        return;
+      }
+    } else {
+      this.direction = 'prev';
+      if (this.level === 'shipping') {
+        this.level = 'products';
+        return;
+      }
+      if (this.level === 'payment') {
+        this.level = 'shipping';
+        return;
+      }
+    }
+  }
+
+  public changePayment(method: string) {
+    this.checkOutForm.controls['payment'].setValue(method);
+  }
+
   public pay() {
     this.toastr.info('Order is processed');
-    if (!this.checkPay()) return;
+    if (!this.checkPay()) { return; }
     this.isRequesting = true;
 
     setTimeout(() => {

@@ -1,11 +1,122 @@
-.address-border {
-  padding: 9px 14px;
-  margin-bottom: 14px;
-  background-color: #f7f7f9;
-  border: 1px solid #e1e1e8;
-  border-radius: 4px;
+.container {
+  padding: 20px;
+  margin: 0;
+  width: 100%;
+
+  .row {
+
+    .address-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      position: relative;
+      height: 41vh;
+      margin-bottom: 15px;
+      background: #f7f7f7;
+      border-radius: 1px;
+      &:hover .edit {
+        opacity: 1;
+      }
+
+      .edit {
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        opacity: 0;
+        transition: opacity 0.15s;
+        z-index: 999;
+        a {
+          padding: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: transform .1s;
+          &:hover {
+            transform: scale(1.1);
+          }
+          .glyphicon-remove {
+            color: #d9534f;
+          }
+        }
+      }
+    }
+
+    .address {
+      p {
+        padding: 12px;
+        margin: 0;
+        font-size: 18px;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #3c3c3c;
+        span {
+          position: absolute;
+          font-size: 12px;
+          color: #777;
+          letter-spacing: 1px;
+          top: -3px;
+          left: 0;
+        }
+      }
+    }
+
+    .add-address {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+
+      .error {
+        color: firebrick;
+      }
+
+      .add {
+        padding: 20px;
+        font-size: 20px;
+        color: #1d1d1d;
+        cursor: pointer;
+        text-decoration: none;
+        .glyphicon {
+          margin-right: 5px;
+          color: forestgreen;
+          position: relative;
+          top: 2px;
+          transition: transform 0.2s;
+        }
+        &:hover {
+          background: #efefef;
+        }
+        &:hover .glyphicon {
+          transform: scale(1.3);
+        }
+
+      }
+    }
+  }
 }
 
-.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 4px;
+.cart-container {
+  padding: 0 0 50px 0;
+}
+
+.chosen-address {
+  background: lightblue * 1.05 !important;
+
+  &:hover {
+    background: lightblue !important;
+    cursor: pointer;
+  }
+}
+
+.cart-address:hover {
+  background: #f7f7f7 * 0.95 !important;
+  cursor: pointer;
+}
+
+.modal-add-address .modal-content {
+  border-radius: 0;
 }

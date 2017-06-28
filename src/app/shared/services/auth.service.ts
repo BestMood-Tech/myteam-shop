@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 
 // Avoid name not found warnings
-declare let Auth0Lock: any;
+declare const Auth0Lock: any;
 
 @Injectable()
 export class Auth {
@@ -19,8 +19,9 @@ export class Auth {
   constructor(private router: Router) {
     // Set userProfile attribute of already saved profile
     try {
-      if (JSON.parse(localStorage.getItem('currentUser')))
+      if (JSON.parse(localStorage.getItem('currentUser'))) {
         this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
+      }
       this.onAuth.emit(true);
     } catch (e) {
       console.log(e);
@@ -59,7 +60,7 @@ export class Auth {
   public authenticated() {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
-    return tokenNotExpired();
+    return tokenNotExpired('id_token');
   };
 
 
@@ -73,11 +74,10 @@ export class Auth {
   };
 
   private saveProfile(currentUser) {
-
     if (window.localStorage.getItem(currentUser.nickname)) {
 
       try {
-        let userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
+        const userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
 
         this.user = new User(userLS);
         return;

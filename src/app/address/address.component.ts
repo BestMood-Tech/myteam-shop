@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
@@ -11,8 +11,14 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent {
+  @Input() public isCart: boolean;
+  @Input() public addressKey: number;
+  @Output() public chosenAddress = new EventEmitter<number>();
+  public error = false;
 
-  constructor(private auth: Auth, private modalService: NgbModal, private toastr: ToastsManager) {
+  constructor(public auth: Auth,
+              private modalService: NgbModal,
+              private toastr: ToastsManager) {
   }
 
   public update(key) {
@@ -30,7 +36,12 @@ export class AddressComponent {
 
 
   private open(key?) {
-    const modalRef = this.modalService.open(AddressFormComponent);
+    if (this.auth.user.address.length === 7) {
+      this.error = true;
+      return;
+    }
+    this.error = false;
+    const modalRef = this.modalService.open(AddressFormComponent, {windowClass: 'modal-add-address'});
     if (key == null) {
       modalRef.componentInstance.address = new Address({});
     } else {
@@ -40,6 +51,7 @@ export class AddressComponent {
       (result) => {
         if (key == null) {
           this.auth.user.addAddress(new Address(result));
+          this.chooseAddress(this.auth.user.address.length - 1);
           this.toastr.success('Address added to profile', 'Success');
         } else {
           this.auth.user.updateAddress(key, new Address(result));
@@ -48,6 +60,13 @@ export class AddressComponent {
       },
       (reason) => null
     );
+  }
+
+  public chooseAddress(key: number) {
+    if (this.isCart) {
+      this.chosenAddress.emit(key);
+      this.addressKey = key;
+    }
   }
 
 }

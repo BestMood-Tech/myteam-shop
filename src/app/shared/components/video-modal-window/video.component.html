@@ -1,0 +1,6 @@
+<div class="trailer" *ngIf="safeUrl">
+  <span class="glyphicon glyphicon-remove" (click)="activeModal.dismiss()"></span>
+  <iframe webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0"
+          [src]="safeUrl">
+  </iframe>
+</div>

@@ -1,0 +1,57 @@
+@import "../../_variables.scss";
+
+.container {
+  padding: 20px;
+  margin: 0;
+  width: 100%;
+  .header-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    .extra-info > p {
+      font-size: 22px;
+    }
+    .item-info {
+      display: flex;
+      flex-direction: row;
+      .field-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 80px;
+        font-weight: 600;
+        font-family: $font-helvetica;
+        letter-spacing: 1px;
+      }
+    }
+
+    .picture {
+      height: 180px;
+      width: 180px;
+      background-size: cover;
+      background-position: center;
+      margin-right: 15px;
+    }
+    p {
+      font-size: 18px;
+      font-family: $font-helvetica;
+      letter-spacing: 1px;
+    }
+  }
+  .body-info {
+    .item-info {
+      display: flex;
+      flex-direction: row;
+      .field-name {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 125px;
+        font-weight: 600;
+        font-family: $font-helvetica;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}

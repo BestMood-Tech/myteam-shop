@@ -1,58 +1,120 @@
-<div class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-              aria-expanded="false" aria-controls="navbar" (click)="navbarCollapsed = !navbarCollapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" routerLink="/home" (click)="navbarCollapsed = true">Media-Shop</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse" [ngbCollapse]="navbarCollapsed">
-      <ul class="nav navbar-nav">
-        <!--<li><a routerLink="/category/music">Music</a></li>-->
-        <li><a routerLink="/category/games">Games</a></li>
-        <li><a routerLink="/category/movies">Movie</a></li>
-        <li><a routerLink="/category/books">Books</a></li>
-        <li *ngIf="authGuard.canActivate()" class="dropdown pull-right d-inline-block" ngbDropdown>
-          <a class="dropdown-toggle" id="dropdownMenu" ngbDropdownToggle>
-            Dropdown <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <li><a routerLink="/profile">Profile</a></li>
-            <li><a routerLink="/address">Address</a></li>
+<div class="wrapper">
+
+  <aside class="left-sidebar">
+    <ul class="nav">
+      <li>
+        <a class="logo" [routerLink]="'/'"></a>
+      </li>
+      <li><a [routerLink]="'/category/movies'" routerLinkActive="active-link">
+        <span class="glyphicon glyphicon-film"></span>Movies</a>
+      </li>
+      <li><a [routerLink]="'/category/games'" routerLinkActive="active-link">
+        <span class="glyphicon glyphicon-tower"></span>Games</a>
+      </li>
+      <li><a [routerLink]="'/category/books'" routerLinkActive="active-link">
+        <span class="glyphicon glyphicon-book"></span>Books</a>
+      </li>
+      <li class="dropdown dropdown-menu-left" ngbDropdown>
+        <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
+          <span class="glyphicon glyphicon-list-alt"></span>Admin panel
+        </a>
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin">
+          <ul class="admin-menu">
+            <li><a [routerLink]="'/admin/orders'"><span class="glyphicon glyphicon-paperclip"></span>Orders</a></li>
+            <li><a [routerLink]="'/admin/users'"><span class="glyphicon glyphicon-user"></span>Users</a></li>
+            <li><a [routerLink]="'/admin/analytics'"><span class="glyphicon glyphicon-stats"></span>Analytics</a></li>
           </ul>
-        </li>
-        <li class="dropdown d-inline-block" ngbDropdown>
-          <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
-            Admin panel <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuAdmin">
-            <li><a routerLink="/admin/orders">Orders</a></li>
-            <li><a routerLink="/admin/users">Users</a></li>
-            <li><a routerLink="/admin/analytics">Analytics</a></li>
-          </ul>
-        </li>
-        <li>
-          <form class="navbar-form auth-form" [formGroup]="searchTermForm">
-            <div class="form-group auth-group" (submit)="search()">
-              <input type="text" placeholder="Search..." class="form-control" formControlName="term">
+        </div>
+      </li>
+      <li class="dropdown dropdown-menu-left" ngbDropdown *ngIf="showFilters">
+        <a class="dropdown-toggle" id="dropdownMenuFiters" ngbDropdownToggle>
+          <span class="glyphicon glyphicon-filter"></span>Filters
+        </a>
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuFilters"
+             (click)="$event.stopPropagation();">
+          <app-filters></app-filters>
+        </div>
+      </li>
+    </ul>
+    <ul class="nav apis">
+      <li>
+        <span class="powered-with">Powered with:</span>
+      </li>
+      <li>
+        <a href="https://www.themoviedb.org/" target="_blank">
+          <img class="img-powered-with" src=".././assets/moviedb.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://www.mashape.com/" target="_blank">
+          <img class="img-powered-with" src=".././assets/gamedb.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://www.wattpad.com" target="_blank">
+          <img class="img-powered-with img-book" src=".././assets/bookdb.png">
+        </a>
+      </li>
+    </ul>
+    <ul class="nav login">
+      <li *ngIf="!auth.authenticated()"><a (click)="auth.login()">
+        <span class="glyphicon glyphicon-log-in"></span>Log In</a>
+      </li>
+      <li *ngIf="auth.authenticated()"><a (click)="auth.logout()">
+        <span class="glyphicon glyphicon-log-out"></span>Log Out</a>
+      </li>
+    </ul>
+  </aside>
+
+  <div class="middle">
+
+    <div class="container-page">
+      <header class="header">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 col-xs-8 col-lg-8">
+              <form class="search" [formGroup]="searchTermForm">
+                <a class="search-button" (click)="search()"><span class="glyphicon glyphicon-search"></span></a>
+                <div class="search-field" (submit)="search()">
+                  <input type="search" class="search-input no-border" placeholder="Search movies, books..."
+                         formControlName="term" (keydown.enter)="search()">
+                  <span class="separator"> </span>
+                </div>
+              </form>
             </div>
-            <button type="submit" class="btn btn-success" (click)="search()">Search</button>
-            <button class="btn btn-success btn-margin" routerLink="/cart">
-              Cart  <span *ngIf="count()" class="badge">{{count()}}</span>
-            </button>
-            <button class="btn btn-success btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
-            <button class="btn btn-success btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
-          </form>
-        </li>
-      </ul>
+            <div class="col-md-offset-1 col-md-3 col-xs-offset-1 col-xs-3 col-lg-offset-1 col-lg-3">
+              <ul class="navbar-user">
+                <li class="user-cart">
+                  <a [routerLink]="'/cart'">
+                    <span *ngIf="count()" class="badge" [ngClass]="changedCount ? 'bounce' : ''">{{count()}}</span>
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                  </a>
+                  <span class="separator"> </span>
+                </li>
+                <li class="user-profile dropdown" ngbDropdown *ngIf="(auth.authenticated() && auth.user)">
+
+                  <a class="dropdown-toggle" id="dropdownMenuProfile" ngbDropdownToggle>
+                    <span>{{auth.user.nickName}}</span>
+                    <span class="caret"></span>
+                    <img class="img-circle" [src]="auth.user.picture">
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                    <li><a [routerLink]="'/profile'">Profile</a></li>
+                    <li><a [routerLink]="'/address'">Addresses</a></li>
+                  </ul>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+    <div class="container">
+      <template ngbModalContainer></template>
     </div>
   </div>
-</div>
-<router-outlet></router-outlet>
-<div class="container">
-  <ng-template ngbModalContainer></ng-template>
 </div>

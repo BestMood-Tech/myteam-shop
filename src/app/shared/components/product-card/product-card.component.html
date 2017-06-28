@@ -1,0 +1,21 @@
+<div #card class="product-card" *ngIf="product">
+  <div class="poster">
+    <img [src]=[productCover] [alt]="product.name" (error)="imgError()">
+    <span class="product-price">{{productCurrency}} {{product.price | currency:productCurrency}}</span>
+    <span *ngIf="isCart && product.count > 1" class="product-count">x{{product.count}}</span>
+    <button *ngIf="isCart" class="product-delete" (click)="deleteProduct(product)">Delete</button>
+    <span *ngIf="isSearch" class="product-type">{{product.type | capitalize}}</span>
+  </div>
+  <div class="name">
+    <h4><a [routerLink]="['/category', product.type, product.id]">{{product.name}}</a></h4>
+  </div>
+  <div class="description truncate-text line-9" *ngIf="!isCart">
+    <p>
+      {{product.description}}
+    </p>
+  </div>
+  <div class="price" *ngIf="!isCart">
+    <button class="to-cart" (click)='addToCart(product)'><span class="glyphicon glyphicon-shopping-cart"></span>Buy
+    </button>
+  </div>
+</div>

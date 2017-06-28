@@ -7,7 +7,7 @@ export class Address {
   state: string;
 
   constructor(obj) {
-    for (let key of Object.keys(obj)) {
+    for (const key of Object.keys(obj)) {
       this[key] = obj[key];
     }
   }
@@ -17,6 +17,6 @@ export class Address {
   }
 
   public toJson() {
-    return JSON.stringify(this)
+    return JSON.stringify(this);
   }
 }

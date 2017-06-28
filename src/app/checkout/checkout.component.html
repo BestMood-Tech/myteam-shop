@@ -1,98 +1,97 @@
-<div class="container">
-  <div class="row">
-    <h1>Check out</h1>
-    <hr>
-    <div class="col-md-12" *ngFor="let order of orders">
-      <div class="row">
-        <div class="col-md-9">
-          <p>Name: {{order.name}}</p>
+<div class="btn btn-nav btn-nav-next" *ngIf="level === 'shipping' || level === 'products'"
+     (click)="changeLevel(true)"><span class="glyphicon glyphicon-chevron-right"></span>
+</div>
+<div class="btn btn-nav btn-nav-prev" *ngIf="level === 'shipping' || level === 'payment'"
+     (click)="changeLevel(false)"><span class="glyphicon glyphicon-chevron-left"></span>
+</div>
+
+<div class="container checkout-header">
+  <div class="flex-container">
+    <h1>Checkout</h1>
+    <h5 [ngClass]="level === 'products' ? 'level': ''"
+        (click)="changeLevel(false, 'products')">Check products and enter promo code</h5>
+    <div class="border"></div>
+    <h5 [ngClass]="level === 'shipping' ? 'level': ''"
+        (click)="changeLevel(false, 'shipping')">Shipping</h5>
+    <div class="border"></div>
+    <h5 [ngClass]="level === 'payment' ? 'level': ''"
+        (click)="changeLevel(false, 'payment')">Payment method</h5>
+  </div>
+</div>
+
+<div class="container slides" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true">
+  <div class="flex-container">
+
+    <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
+         *ngIf="level === 'products'">
+      <h4>1. Check order details</h4>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Count</th>
+          <th>Price</th>
+          <th>Total price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{order.name}}</td>
+          <td>{{order.count}}</td>
+          <td>{{checkOutCurrency}} {{order.price | number:'1.1-5' | currency: checkOutCurrency}}</td>
+          <td>{{checkOutCurrency}} {{order.price * order.count | number:'1.1-5' | currency: checkOutCurrency}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <th colspan="3">Payment amount</th>
+          <th>{{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</th>
+        </tr>
+        </tfoot>
+      </table>
+      <form [formGroup]="checkOutForm" role="form" class="promo-code">
+        <h4>2. Enter a promo code:</h4>
+        <div *ngIf="activePromoCode" class="form-group">
+          <div class="input-group">
+            <input #input type="text" placeholder="Promo code..." formControlName="promoCode" class="form-control"
+                   (mousedown)="input.focus()">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" (click)="checkPromoCode()">Save</button>
+            </span>
+          </div>
         </div>
-        <div class="col-md-3">
-          <p>Price: {{checkOutCurrency}} {{order.price | currency: checkOutCurrency}}</p>
+        <div *ngIf="!activePromoCode" class="form-group">
+          <p class="promo-success">Promo code success</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
+         *ngIf="level === 'shipping'">
+      <h4>3. Choose address for shipping</h4>
+      <app-address [isCart]="true" [addressKey]="checkOutAddressKey"
+                   (chosenAddress)="onChangeAddress($event)"></app-address>
+    </div>
+
+    <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
+         *ngIf="level === 'payment'">
+      <h4>4. Choose payment method</h4>
+      <div class="payment-blocks">
+        <div *ngFor="let method of paymentSystem" class="thumbnail payment-block"
+             [ngClass]="method === checkOutForm.value.payment ? 'chosen-payment' : ''" (click)="changePayment(method)">
+          <img [src]="'../../assets/' + method + '.png'" class="thumb-image">
+          <h2>{{method}}</h2>
+        </div>
+      </div>
+      <div class="container pay">
+        <div class="flex-container pay-right">
+          <button *ngIf="!isRequesting" class="btn btn-pay" [disabled]="!checkPay()" (click)="pay()">Pay</button>
+          <div *ngIf="isRequesting" class="loading">
+            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <h3>Total: {{checkOutCurrency}} {{getTotal() | currency: checkOutCurrency}}</h3>
-      <div class="row">
-        <form [formGroup]="checkOutForm" role="form" class="col-md-6">
-          <div *ngIf="activePromoCode" class="form-group"
-               [ngClass]="checkOutForm.controls.promoCode.errors? 'has-error': 'has-success'">
-            <div class="row">
-              <div class="col-md-8">
-                <input type="text" class="form-control" formControlName="promoCode">
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)="checkPromoCode()">Promo code</button>
-              </div>
-            </div>
-          </div>
 
-          <div *ngIf='!acitvePromoCode' class="form-group">
-            <p class="bg-success promo-success">Promo code success</p>
-          </div>
-
-          <div class="form-group "
-               [ngClass]="checkOutForm.controls.address.errors? 'has-error': 'has-success'">
-            <div class="row" *ngIf="!checkOutAddress">
-              <div  class="col-md-8">
-                <select class="form-control" formControlName="address"
-                        #item (change)="onChangeAddress(item.value)">
-                  <option *ngFor="let itemAddress of arrayAddressUser;let key = index;" [value]="key">
-                    {{itemAddress.getAddress()}}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-success" (click)='newAddress()'>New address</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" *ngIf="checkOutAddress">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-6">
-                  <p><strong>Street Address:</strong>{{checkOutAddress.streetAddress}}</p>
-                  <p><strong>City:</strong>{{checkOutAddress.city}}</p>
-                  <p><strong>Zip / Postal Code:</strong>{{checkOutAddress.zip}}</p>
-                </div>
-                <div class="col-md-6">
-                  <p><strong>Address Line 2:</strong>{{checkOutAddress.addressLine2}}</p>
-                  <p><strong>State / Province / Region:</strong>{{checkOutAddress.state}}</p>
-                  <p><strong>Country:</strong>{{checkOutAddress.country}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <button class="btn btn-success" (click)='differentAddress()'>different address</button>
-            </div>
-          </div>
-
-          <div class="form-group "
-               [ngClass]="checkOutForm.controls.payment.errors? 'has-error': 'has-success'">
-            <div class="row">
-              <div  class="col-md-8">
-                <h3>Payment system</h3>
-                <select class="form-control" formControlName="payment">
-                  <option *ngFor="let pS of paymentSystem;let key = index;" [value]="pS">
-                    {{pS}}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-    <hr>
-    <button *ngIf="!isRequesting" class="btn btn-success" [disabled]="!checkPay()"
-            (click)='pay()'
-            >Pay
-    </button>
-    <div *ngIf="isRequesting" class="loading">
-      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading..
-    </div>
   </div>
 </div>

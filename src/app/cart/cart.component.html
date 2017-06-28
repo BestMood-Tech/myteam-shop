@@ -1,27 +1,33 @@
-<div class="container">
-  <div class="col-md-12" *ngFor="let item of orders; let key = index; trackBy: trackByFn">
-    <div class="col-md-3 thumbnail">
-      <img class ="thumb-image" [src]=[item.cover] alt="">
+<div *ngIf="orders && !orders.length" class="container">
+  <div class="flex-container empty-cart">
+    <h1>Your cart is empty</h1>
+    <h3>Feel free to start browsing around</h3>
+    <div class="empty-cart-blocks">
+      <div class="empty-cart-block thumbnail opacity-transform">
+        <div class="glyphicon glyphicon-film thumb-image"></div> <h3>Movies</h3>
+      </div>
+      <div class="empty-cart-block thumbnail opacity-transform">
+        <div class="glyphicon glyphicon-tower thumb-image"></div> <h3>Games</h3>
+      </div>
+      <div class="empty-cart-block thumbnail opacity-transform">
+        <div class="glyphicon glyphicon-book thumb-image"></div> <h3>Books</h3>
+      </div>
     </div>
-    <div class="col-md-6">
-      <h4>{{item.name}}</h4>
-      <p>Type: {{item.type}}</p>
-      <p class='description-cart'>Description: {{item.description}}</p>
-    </div>
-    <div class="col-md-3">
-      <h3>Price: {{cartCurrency}}{{item.price | currency:cartCurrency}}</h3>
-      <button class="btn btn-danger" (click)='deleteProduct(key)'>
-        delete
-      </button>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
-    <p *ngIf="!authorization">For pay need autorization!!!</p>
-    <button class="btn btn-success"
-            [disabled]="!disabledPay()"
-            (click)='checkout()'>
-      Pay
-    </button>
   </div>
 </div>
+<div class="container products" drag-scroll [scrollbar-hidden]="true">
+  <div class="flex-container" *ngIf="orders && orders.length">
+    <div *ngFor="let item of orders" class="left-transform">
+    <app-product-card [product]="item" [isCart]="true"
+                      (deleteFromCart)="deleteProduct($event)"></app-product-card>
+    </div>
+  </div>
+</div>
+<div *ngIf="orders && orders.length" class="container total">
+  <div class="flex-container total-right">
+    <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
+    <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>
+    <button class="btn btn-pay" [disabled]="!disabledPay()" (click)='checkout()'>Checkout</button>
+  </div>
+</div>
+
