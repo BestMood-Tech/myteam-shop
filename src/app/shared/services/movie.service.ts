@@ -102,7 +102,8 @@ export class MovieService {
       .map(res => res.json().cast)
       .map((casts) => casts.map((item) => {
         return {
-          profile_path: 'https://image.tmdb.org/t/p/w138_and_h175_bestv2' + item.profile_path,
+          profile_path: item.profile_path ? 'https://image.tmdb.org/t/p/w138_and_h175_bestv2' + item.profile_path :
+            'http://placehold.it/138x175',
           name: item.name
         };
       }));

@@ -140,7 +140,8 @@
               <div class="cast">
                 <h4>Cast</h4>
                 <div class="actor" *ngFor="let cast of product.credits">
-                  <div class="img" [style.background-image]="'url('+cast.profile_path+')'">
+                  <div class="img"
+                       [style.background-image]="'url('+cast.profile_path +')'">
                   </div>
                   <span>{{cast.name}}</span>
                 </div>

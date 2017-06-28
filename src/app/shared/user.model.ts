@@ -46,7 +46,8 @@ export class User {
       email: this.email,
       country: this.country,
       currency: this.currency,
-      picture: this.picture
+      picture: this.picture,
+      address: this.address
     };
   }
 
