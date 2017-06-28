@@ -132,7 +132,6 @@ export class MovieService {
   }
 
   public processItem(movie) {
-    console.log(movie);
     return {
       id: movie.id,
       type: 'movie',

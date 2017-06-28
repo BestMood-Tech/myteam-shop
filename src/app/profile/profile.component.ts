@@ -13,17 +13,14 @@ import { HelperService } from "../shared/services/helper.service";
 })
 export class ProfileComponent implements OnInit {
 
-  public profileForm: FormGroup;
   public user: User;
   public profileCurrency: any;
   public nameCountry: any;
 
   constructor(private auth: Auth,
-              private formBuilder: FormBuilder,
               private toastr: ToastsManager,
               private helperService: HelperService) {
     this.user = new User(this.auth.user.userProfile);
-    // console.log(this.user);
   }
 
   public ngOnInit() {
@@ -31,20 +28,6 @@ export class ProfileComponent implements OnInit {
     this.helperService.getCountry().subscribe((res) => {
       this.nameCountry = res;
     });
-    // this.profileForm = this.formBuilder.group({
-    //   nickName: [this.user.nickName],
-    //   firstName: [this.user.firstName, Validators.required],
-    //   lastName: [this.user.lastName, Validators.required],
-    //   email: [
-    //     this.user.email,
-    //     [
-    //       Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
-    //     ]
-    //   ],
-    //   phone: [this.user.phone],
-    //   currency: [this.user.currency, Validators.required]
-    // });
-
   }
 
   public update(field: string, value: string) {

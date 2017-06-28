@@ -3,8 +3,6 @@ import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../shared/address.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -32,9 +30,7 @@ export class CheckoutComponent implements OnInit {
   constructor(private cart: Cart,
               private auth: Auth,
               private formBulder: FormBuilder,
-              private modalService: NgbModal,
-              private toastr: ToastsManager,
-              private router: Router) {
+              private toastr: ToastsManager) {
   }
 
   public ngOnInit() {
@@ -106,7 +102,7 @@ export class CheckoutComponent implements OnInit {
       total: this.getTotal(),
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      data: new Date()
+      date: new Date()
     });
     this.toastr.success('Orders added to profile', 'Success');
   }

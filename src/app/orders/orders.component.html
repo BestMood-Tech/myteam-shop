@@ -1,0 +1,64 @@
+<div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Orders</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Count</th>
+          <th>Payment method</th>
+          <th>Total price</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <ng-template ngFor let-order [ngForOf]="orders">
+          <tr>
+            <td>{{order.date | date:'yy-MM-dd HH:MM'}}</td>
+            <td>{{culcCount(order)}}</td>
+            <td>{{order.formProfile.payment}}</td>
+            <td>{{checkOutCurrency}} {{order.total | currency: checkOutCurrency}}</td>
+            <td *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
+            <td *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
+          </tr>
+          <tr *ngIf="showOrder === order">
+            <td colspan=5>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="address">
+                    <ul>
+                      <li><span>Street address:</span>{{order.addressOrder.streetAddress}}</li>
+                      <li><span>City:</span>{{order.addressOrder.city}}</li>
+                      <li><span>Zip / Postal Code:</span>{{order.addressOrder.zip}}</li>
+                      <li><span>Address Line 2:</span>{{order.addressOrder.addressLine2}}</li>
+                      <li><span>State / Province / Region:</span>{{order.addressOrder.state}}</li>
+                      <li><span>Country:</span>{{order.addressOrder.country}}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="orders" drag-scroll [scrollbar-hidden]="true">
+                    <div class="order" *ngFor="let item of order.orders">
+                      <div class="poster" [style.background-image]="'url(' + item.cover + ')'">
+                        <div class="type"><span>{{item.type}}</span></div>
+                        <div class="price">
+                          {{checkOutCurrency}} {{item.price | currency: checkOutCurrency}}
+                        </div>
+                        <div class="count">x{{item.count}}</div>
+                      </div>
+                      <h5 class="name"><a [routerLink]="['/category', item.type, item.id]">{{item.name}}</a></h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

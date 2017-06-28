@@ -155,7 +155,6 @@ export class GamesService {
   }
 
   public processItem(data) {
-    console.log(data);
     const resultingData = data.map((game) => {
       const tempObject = {
         id: game.id,

@@ -12,6 +12,7 @@ import { CategoryResolve } from './category/category.resolve';
 import { ProductResolve } from './product/product.resolve';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { OrdersComponent } from './orders/orders.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'address', component: AddressComponent, canActivate: [AuthGuard]},
   {path: 'cart', component: CartComponent},
+  {path: 'orders', component: OrdersComponent},
   {path: 'admin', loadChildren: './+admin/admin.module#AdminModule'}
 ];
 @NgModule({
@@ -46,5 +48,6 @@ export const routingComponents = [
   ProductComponent,
   SearchComponent,
   ProfileComponent,
-  AddressComponent
+  AddressComponent,
+  OrdersComponent
 ];

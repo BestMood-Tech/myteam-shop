@@ -62,14 +62,14 @@ $container-top-shift: $top-bar-height + $container-margin;
 
 .show-all {
   display: inline-block;
-  line-height: 36px;
   background: #457aff;
   text-decoration: none;
-  padding: 0 5px;
+  padding: 8px 5px;
   color: #e6e6e6;
   z-index: 5;
   transition: all .15s linear;
   cursor: pointer;
+  text-align: center;
   &:hover {
     background: #1f4bba;
   }

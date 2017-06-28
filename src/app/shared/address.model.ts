@@ -11,12 +11,4 @@ export class Address {
       this[key] = obj[key];
     }
   }
-
-  public getAddress() {
-    return `City: ${this.city}, streetAddress: ${this.streetAddress}, addressLine2: ${this.addressLine2}`;
-  }
-
-  public toJson() {
-    return JSON.stringify(this);
-  }
 }

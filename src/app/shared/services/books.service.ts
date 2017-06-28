@@ -58,7 +58,6 @@ export class BooksService {
   }
 
   public processItem(data) {
-    console.log(data);
     const resultingData = data.map((book) => {
       return {
         id: book.id,

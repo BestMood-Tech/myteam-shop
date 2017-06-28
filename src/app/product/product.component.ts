@@ -81,7 +81,6 @@ export class ProductComponent implements OnInit {
         this.currentService.getCredits(this.product.id)
           .subscribe((data) => this.product['credits'] = data.slice(0, 4));
       }
-      console.log(this.product);
     });
 
   }
