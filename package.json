@@ -8,7 +8,8 @@
     "lint": "ng lint",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "serve:prod": "http-server -p 4200 -g -P http://localhost:3000 dist/ && nodemon src/server/server.js"
   },
   "private": true,
   "dependencies": {
