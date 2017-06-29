@@ -122,8 +122,7 @@ export class MovieService {
       .get(getItemURL, options)
       .map(res => res.json().results)
       .map((data) => {
-        return data.filter((item) => item.site === 'YouTube' && item.type === 'Trailer' &&
-        item.name.indexOf('Trailer') !== -1 && item.name.indexOf('Official') !== -1)[0];
+        return data.filter((item) => item.site === 'YouTube' && item.type === 'Trailer')[0];
       });
   }
 
