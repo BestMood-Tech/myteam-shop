@@ -1,9 +1,11 @@
 <div class="pad-text" *ngIf="!edit && (type === 'text' || type === 'email')" (click)="editItem()">
   <span>{{value}}</span>
+  <span class="edit">Edit</span>
 </div>
 
 <div class="pad-select" *ngIf="!edit && type === 'select'" (click)="editItem()">
   <span>{{value}}</span>
+  <span class="edit">Edit</span>
 </div>
 
 <div class="value-text" *ngIf="edit && (type==='text' || type==='email')">
@@ -11,6 +13,7 @@
     <div class="field">
       <input *ngIf="type==='text'" class="form-field" type="text" formControlName="changedValue">
       <input *ngIf="type==='email'" class="form-field" type="email" formControlName="changedValue">
+      <a class="btn-cancel" (click)="cancelEdit()">Cancel</a>
       <input type="submit" value="Save" class="submit-btn" [disabled]="!formValue.valid">
     </div>
   </form>

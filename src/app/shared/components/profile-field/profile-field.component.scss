@@ -1,20 +1,31 @@
 .pad-text, .pad-select {
+  background-color: #f2f2f2;
   margin: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   span {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 5px 10px;
     height: 36px;
-    background-color: #f2f2f2;
+  }
+  .edit {
+    color: #777;
+    cursor: pointer;
+    letter-spacing: 1.5px;
+    &:hover {
+      color: #1d1d1d;
+    }
   }
 }
 
-.pad-text span {
+.pad-text {
   min-width: 429px;
 }
 
-.pad-select span {
+.pad-select {
   min-width: 280px;
 }
 
@@ -23,12 +34,25 @@
   .field {
     display: flex;
     flex-direction: row;
+    position: relative;
     input[type=text], input[type=email], select {
       height: 36px;
       padding: 5px 9px;
       border: 1px solid #ccc;;
       background-color: #f2f2f2;
     }
+
+    .btn-cancel {
+      position: absolute;
+      right: 70px;
+      padding: 8px;
+      text-decoration: none;
+      color: #d9534f;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
     .submit-btn {
       margin-left: 20px;
       color: #f7f7f9;

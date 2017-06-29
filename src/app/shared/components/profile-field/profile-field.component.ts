@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'profile-field',
+  selector: 'app-profile-field',
   templateUrl: 'profile-field.component.html',
   styleUrls: ['profile-field.component.scss']
 })
@@ -34,5 +34,9 @@ export class ProfileFieldComponent implements OnInit {
   public saveItem() {
     this.edit = false;
     this.save.emit(this.formValue.controls['changedValue'].value);
+  }
+
+  public cancelEdit() {
+    this.edit = false;
   }
 }
