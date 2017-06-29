@@ -11,14 +11,23 @@ $container-top-shift: $top-bar-height + $container-margin;
 .heading {
   line-height: 2em;
   text-align: center;
+  text-shadow: 0 10px 5px rgba(0, 0, 0, 0.1),
+  5px 15px 5px rgba(0, 0, 0, 0.05),
+  -5px 15px 5px rgba(0, 0, 0, 0.05);
+  letter-spacing: 1px;
   .welcome {
     font-weight: bold;
+    font-size: 2em;
   }
   .demo {
     color: $color-green;
+    font-size: 1.5em;
+    font-weight: bold;
   }
   .bmt {
     color: $color-blue;
+    font-size: 1.5em;
+    font-weight: bold;
   }
 }
 

@@ -1,6 +1,6 @@
 <div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12 col-md-12 col-lg-12">
       <h2>Orders</h2>
       <table class="table">
         <thead>
@@ -20,13 +20,13 @@
             <td>{{culcCount(order)}}</td>
             <td>{{order.formProfile.payment}}</td>
             <td>{{checkOutCurrency}} {{order.total | currency: checkOutCurrency}}</td>
-            <td *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
-            <td *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
+            <td class="show-order" *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
+            <td class="show-order" *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
           </tr>
           <tr *ngIf="showOrder === order">
             <td colspan=5>
-              <div class="row">
-                <div class="col-md-2">
+              <div class="row left-transform">
+                <div class="col-sm-2 col-md-2 col-lg-2">
                   <div class="address">
                     <ul>
                       <li><span>Street address:</span>{{order.addressOrder.streetAddress}}</li>
@@ -38,7 +38,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="col-md-10">
+                <div class="col-sm-10 col-md-10 col-lg-10">
                   <div class="orders" drag-scroll [scrollbar-hidden]="true">
                     <div class="order" *ngFor="let item of order.orders">
                       <div class="poster" [style.background-image]="'url(' + item.cover + ')'">

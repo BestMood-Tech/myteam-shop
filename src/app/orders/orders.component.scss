@@ -91,3 +91,16 @@
     }
   }
 }
+
+.table {
+  th:not(:first-child), td:not(:first-child) {
+    text-align: center;
+  }
+
+  td > a {
+
+    text-decoration: none;
+    &:hover {
+    }
+  }
+}
