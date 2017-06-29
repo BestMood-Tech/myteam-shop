@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../shared/services/movie.service';
 import { GamesService } from '../shared/services/games.service';
 import { BooksService } from '../shared/services/books.service';
-import { Observable } from 'rxjs/Rx';
 import { HelperService } from '../shared/services/helper.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-search',

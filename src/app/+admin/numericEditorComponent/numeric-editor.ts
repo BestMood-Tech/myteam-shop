@@ -1,5 +1,4 @@
 import { Component, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
-
 import { AgEditorComponent } from 'ag-grid-angular';
 
 @Component({

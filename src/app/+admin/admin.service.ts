@@ -9,9 +9,9 @@ export class AdminService {
   }
 
   public getSelling(fromYear?, toYear?) {
-    let params = new URLSearchParams();
-    params.set("from", fromYear);
-    params.set("to", toYear);
+    const params = new URLSearchParams();
+    params.set('from', fromYear);
+    params.set('to', toYear);
 
     return this.http.get('/api/selling', new RequestOptions({search: params}))
       .map(res => res.json());

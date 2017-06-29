@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GridOptions } from 'ag-grid/main';
+import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
 import { AdminService } from '../admin.service';
 import { NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
 
@@ -151,7 +151,7 @@ export class OrdersComponent implements OnInit {
           total: item.total,
           promoCode: item.formProfile.promoCode,
           payment: item.formProfile.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress} 
+          address: JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}

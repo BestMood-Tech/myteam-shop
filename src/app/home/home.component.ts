@@ -4,7 +4,7 @@ import { GamesService } from '../shared/services/games.service';
 import { Auth } from '../shared/services/auth.service';
 import { BooksService } from '../shared/services/books.service';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 
 @Component({
   selector: 'app-home',

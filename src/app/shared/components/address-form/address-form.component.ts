@@ -1,4 +1,4 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { HelperService } from '../../services/helper.service';
 import { Address } from '../../address.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

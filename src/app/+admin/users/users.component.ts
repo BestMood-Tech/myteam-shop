@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GridOptions } from 'ag-grid';
+import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -83,8 +83,8 @@ export class UsersComponent implements OnInit {
       this.dataSource = {
         rowCount: null,
         getRows: (params) => {
-          let rowDataAfterSorting = this.sortData(params.sortModel, this.rowData);
-          let rowsThisPage = rowDataAfterSorting.slice(params.startRow, params.endRow);
+          const rowDataAfterSorting = this.sortData(params.sortModel, this.rowData);
+          const rowsThisPage = rowDataAfterSorting.slice(params.startRow, params.endRow);
           let lastRow = -1;
           if (this.rowData.length <= params.endRow) {
             lastRow = this.rowData.length;
@@ -97,21 +97,21 @@ export class UsersComponent implements OnInit {
   }
 
   private sortData(sortModel, data) {
-    let sortPresent = sortModel && sortModel.length > 0;
+    const sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
       return data;
     }
 
-    let resultOfSort = data.slice();
-    resultOfSort.sort(function(a, b) {
+    const resultOfSort = data.slice();
+    resultOfSort.sort(function (a, b) {
       for (let k = 0; k < sortModel.length; k++) {
-        let sortColModel = sortModel[k];
-        let valueA = a[sortColModel.colId];
-        let valueB = b[sortColModel.colId];
+        const sortColModel = sortModel[k];
+        const valueA = a[sortColModel.colId];
+        const valueB = b[sortColModel.colId];
         if (valueA === valueB) {
           continue;
         }
-        let sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
+        const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
         if (valueA > valueB) {
           return sortDirection;
         } else {

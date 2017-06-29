@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
