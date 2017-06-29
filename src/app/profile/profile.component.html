@@ -6,36 +6,36 @@
       <p>{{user.fullName}}</p>
       <div class="item-info">
         <span class="field-name">Location:</span>
-        <profile-field [selected]="nameCountry" [value]="user.country" [type]="'select'"
-                       (save)="update('country', $event)"></profile-field>
+        <app-profile-field [selected]="nameCountry" [value]="user.country" [type]="'select'"
+                       (save)="update('country', $event)"></app-profile-field>
       </div>
       <div class="item-info">
         <span class="field-name">Currency: </span>
-        <profile-field [selected]="profileCurrency" [value]="user.currency" [type]="'select'"
-                       (save)="update('currency', $event)"></profile-field>
+        <app-profile-field [selected]="profileCurrency" [value]="user.currency" [type]="'select'"
+                       (save)="update('currency', $event)"></app-profile-field>
       </div>
     </div>
   </div>
   <div class="row body-info left-transform">
     <div class="item-info">
       <span class="field-name">First name:</span>
-      <profile-field [value]="user.firstName" [type]="'text'" (save)="update('firstName', $event)"></profile-field>
+      <app-profile-field [value]="user.firstName" [type]="'text'" (save)="update('firstName', $event)"></app-profile-field>
     </div>
     <div class="item-info">
       <span class="field-name">Last name:</span>
-      <profile-field [value]="user.lastName" [type]="'text'" (save)="update('lastName', $event)"></profile-field>
+      <app-profile-field [value]="user.lastName" [type]="'text'" (save)="update('lastName', $event)"></app-profile-field>
     </div>
     <div class="item-info">
       <span class="field-name">E-mail:</span>
-      <profile-field [value]="user.email" [type]="'email'" (save)="update('email', $event)"></profile-field>
+      <app-profile-field [value]="user.email" [type]="'email'" (save)="update('email', $event)"></app-profile-field>
     </div>
     <div class="item-info">
       <span class="field-name">Phone:</span>
-      <profile-field [value]="user.phone" [type]="'text'" (save)="update('phone', $event)"></profile-field>
+      <app-profile-field [value]="user.phone" [type]="'text'" (save)="update('phone', $event)"></app-profile-field>
     </div>
     <div class="item-info">
       <span class="field-name">Mobile:</span>
-      <profile-field [value]="user.mobile" [type]="'text'" (save)="update('mobile', $event)"></profile-field>
+      <app-profile-field [value]="user.mobile" [type]="'text'" (save)="update('mobile', $event)"></app-profile-field>
     </div>
   </div>
 </div>
