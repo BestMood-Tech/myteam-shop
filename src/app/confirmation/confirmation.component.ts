@@ -15,7 +15,8 @@ export class ConfirmationComponent implements OnInit {
   public orderDate: Date = new Date();
   public orderUser: string;
 
-  constructor(private auth: Auth, private toastr: ToastsManager) {
+  constructor(private auth: Auth,
+              private toastr: ToastsManager) {
   }
 
   public ngOnInit() {

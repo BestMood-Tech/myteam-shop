@@ -4,6 +4,7 @@ import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -30,7 +31,8 @@ export class CheckoutComponent implements OnInit {
   constructor(private cart: Cart,
               private auth: Auth,
               private formBulder: FormBuilder,
-              private toastr: ToastsManager) {
+              private toastr: ToastsManager,
+              private router: Router) {
   }
 
   public ngOnInit() {
@@ -67,7 +69,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   public checkPromoCode() {
-    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) { return; }
+    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) {
+      return;
+    }
 
     let discount = 1;
 
@@ -79,7 +83,9 @@ export class CheckoutComponent implements OnInit {
         discount = 1;
     }
 
-    if (discount === 1) { return; }
+    if (discount === 1) {
+      return;
+    }
 
     this.orders.map((item) => item.price *= discount);
     this.activePromoCode = false;
@@ -109,7 +115,9 @@ export class CheckoutComponent implements OnInit {
 
   public changeLevel(isNext: boolean, level?: string) {
     if (level) {
-      if (level === this.level) { return; }
+      if (level === this.level) {
+        return;
+      }
       switch (level) {
         case 'products':
           this.direction = 'prev';
@@ -159,7 +167,9 @@ export class CheckoutComponent implements OnInit {
 
   public pay() {
     this.toastr.info('Order is processed');
-    if (!this.checkPay()) { return; }
+    if (!this.checkPay()) {
+      return;
+    }
     this.isRequesting = true;
 
     setTimeout(() => {
@@ -167,7 +177,7 @@ export class CheckoutComponent implements OnInit {
     }, 5000);
   }
 
-  private myPay = function() {
+  private myPay = function () {
     this.cart.clearCart();
     this.isRequesting = false;
     this.saveOrders();
