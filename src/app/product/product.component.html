@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-9 col-md-9 col-lg-9 product left-transform">
+    <div class="col-sm-9 col-md-9 col-lg-9 product left-transform">
       <div class="row">
-        <div class="col-xs-6 col-md-6 col-lg-6">
+        <div class="col-sm-6 col-md-6 col-lg-6">
           <div class="poster" [style.background-image]="'url(' + product.cover + ')'">
             <div class="header-info">
               <div class="product-type">
@@ -30,9 +30,9 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-6 col-md-6 col-lg-6">
+        <div class="col-sm-6 col-md-6 col-lg-6">
           <div class="row">
-            <div class="col-md-12 description-title">
+            <div class="col-md-12 col-sm-12 col-lg-12 description-title">
               <div class="description-name">
                 {{product.name}}
                 <span *ngIf="product.type === 'game' && product.status !== ''"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 description-item extra-info">
+            <div class="col-md-12 col-sm-12 col-lg-12 description-item extra-info">
               <app-ratio [product]="product" *ngIf="product.type!=='book'"></app-ratio>
               <div class="votes" *ngIf="product.type==='book'">
                 <span class="bold">{{product.voteCount | myAround}}</span>
@@ -82,19 +82,19 @@
           </div>
           <!--description books and games-->
           <div class="row" *ngIf="product.type !== 'movie'">
-            <div class="col-md-6 description-item" *ngIf="product.type==='game'">
+            <div class="col-md-6 col-sm-6 col-lg-6 description-item" *ngIf="product.type==='game'">
               <span class="title-description">Genres</span>
               <span class="item" *ngFor="let genre of product.genres; let lastGenre=last">
                 {{lastGenre?genre.name+'.':genre.name+', '}}
               </span>
             </div>
-            <div class="col-md-6 description-item esrb" *ngIf="product.type==='game' && product.esrb !== ''">
+            <div class="col-md-6 col-sm-6 col-lg-6 description-item esrb" *ngIf="product.type==='game' && product.esrb !== ''">
               <div [style.background-image]="'url(../../assets/esrb/rating_'+ product.esrb +'.png)'">
               </div>
             </div>
           </div>
           <div class="row" *ngIf="product.type==='game'">
-            <div class="col-md-12 description-item">
+            <div class="col-md-12 col-sm-12 col-lg-12 description-item">
               <span class="title-description">Production companies</span>
               <span class="item" *ngFor="let developer of product.developers; let lastDeveloper=last">
                 {{lastDeveloper?developer.name+'.':developer.name+', '}}
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="row" *ngIf="product.type !== 'movie'">
-            <div class="col-md-12 description-item">
+            <div class="col-md-12 col-sm-12 col-lg-12 description-item">
               <p>
                 {{product.description}}
               </p>
@@ -113,7 +113,7 @@
           <div class="row" *ngIf="product.type === 'movie'">
             <div class="col-md-7">
               <div class="row">
-                <div class="col-md-12 description-item" *ngIf="product.type!=='book'">
+                <div class="col-md-12 col-sm-12 col-lg-12 description-item" *ngIf="product.type!=='book'">
                   <span class="title-description">Genres</span>
                   <span class="item" *ngFor="let genre of product.genres; let lastGenre=last">
                 {{lastGenre?genre.name+'.':genre.name+', '}}
@@ -121,7 +121,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12 description-item">
+                <div class="col-md-12 col-sm-12 col-lg-12 description-item">
                   <span class="title-description">Production companies</span>
                   <span class="item" *ngFor="let company of product.production_companies; let lastCompany=last">
                 {{lastCompany?company.name+'.':company.name+', '}}
@@ -129,14 +129,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12 description-item">
+                <div class="col-md-12 col-sm-12 col-lg-12 description-item">
                   <p>
                     {{product.description}}
                   </p>
                 </div>
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 col-sm-5 col-lg-5">
               <div class="cast">
                 <h4>Cast</h4>
                 <div class="actor" *ngFor="let cast of product.credits">
@@ -151,7 +151,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-3 col-md-3 col-lg-3 recommended"
+    <div class="col-sm-3 col-md-3 col-lg-3 recommended"
          drag-scroll [drag-scroll-x-disabled]="true">
       <h4>You might also like</h4>
       <div class="item" *ngFor="let recommend of recommended">
