@@ -36,13 +36,12 @@ export class ConfirmationComponent implements OnInit {
 
   public getInvoice() {
     this.loading = true;
+    const newWindow = window.open('', '_blank');
     const invoice = this.auth.user.getInvoice(this.auth.user.orders[this.auth.user.orders.length - 1].id);
     this.cart.printInvoice(invoice).subscribe(url => {
       this.loading = false;
-      const link = document.createElement('a');
-      link.href = url;
-      link.target = '_blank';
-      link.click();
+      newWindow.location.href = url;
+      newWindow.focus();
     });
   }
 }

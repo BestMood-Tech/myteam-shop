@@ -33,11 +33,10 @@ export class OrdersComponent implements OnInit {
 
   public getInvoice(id) {
     const invoice = this.auth.user.getInvoice(id);
+    const newWindow = window.open('', '_blank');
     this.cart.printInvoice(invoice).subscribe(url => {
-      const link = document.createElement('a');
-      link.href = url;
-      link.target = '_blank';
-      link.click();
+      newWindow.location.href = url;
+      newWindow.focus();
     });
   }
 }
