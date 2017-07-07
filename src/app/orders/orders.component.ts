@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
+import { Cart } from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-orders',
   templateUrl: 'orders.component.html',
-  styleUrls: ['orders.component.scss']
+  styleUrls: ['orders.component.scss'],
 })
 
 export class OrdersComponent implements OnInit {
@@ -12,7 +13,7 @@ export class OrdersComponent implements OnInit {
   public showOrder: any;
   public checkOutCurrency;
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private cart: Cart) {
   }
 
   public ngOnInit() {
@@ -28,5 +29,15 @@ export class OrdersComponent implements OnInit {
 
   public show(order) {
     this.showOrder = order;
+  }
+
+  public getInvoice(id) {
+    const invoice = this.auth.user.getInvoice(id);
+    this.cart.printInvoice(invoice).subscribe(url => {
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.click();
+    });
   }
 }

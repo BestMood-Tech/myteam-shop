@@ -15,6 +15,7 @@ export class ConfirmationComponent implements OnInit {
   public addressOrder: any;
   public orderDate: Date = new Date();
   public orderUser: string;
+  public loading = false;
 
   constructor(private auth: Auth,
               private cart: Cart,
@@ -34,9 +35,14 @@ export class ConfirmationComponent implements OnInit {
   }
 
   public getInvoice() {
+    this.loading = true;
     const invoice = this.auth.user.getInvoice(this.auth.user.orders[this.auth.user.orders.length - 1].id);
-    this.cart.printInvoice(invoice).subscribe(data => {
-      console.log(data);
+    this.cart.printInvoice(invoice).subscribe(url => {
+      this.loading = false;
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.click();
     });
   }
 }

@@ -67,7 +67,17 @@
   align-items: center;
 
   h3 {
+    margin-top: 10px;
     color: #777777;
+  }
+}
+
+.invoice {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  &:hover {
+    opacity: 0.8;
   }
 }
 

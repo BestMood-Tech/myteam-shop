@@ -9,6 +9,7 @@
           <th>Count</th>
           <th>Payment method</th>
           <th>Total price</th>
+          <th>Download</th>
           <th></th>
         </tr>
         </thead>
@@ -20,6 +21,9 @@
             <td>{{culcCount(order)}}</td>
             <td>{{order.formProfile.payment}}</td>
             <td>{{checkOutCurrency}} {{order.total | currency: checkOutCurrency}}</td>
+            <td>
+              <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order.id)"></span>
+            </td>
             <td class="show-order" *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
             <td class="show-order" *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
           </tr>

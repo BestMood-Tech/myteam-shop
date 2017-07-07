@@ -77,8 +77,8 @@ export class Cart {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
 
-  public printInvoice(invoice: Invoice): Observable<Blob> {
+  public printInvoice(invoice: Invoice): Observable<any> {
     return this.http.post('https://k8lwrfoc58.execute-api.eu-central-1.amazonaws.com/dev/receipt', invoice)
-      .map(res => res.json());
+      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res['_body']}`);
   }
 }
