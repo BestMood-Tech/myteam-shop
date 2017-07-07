@@ -1,6 +1,7 @@
 <div class="container" drag-scroll [scrollbar-hidden]="true" [drag-scroll-x-disabled]="true">
   <div class="flex-container confirmation opacity-transform">
     <h1>Thank you for your order!</h1>
+    <p (click)="getInvoice()" class="clickable">Download Invoice</p>
     <h3>Your order has been paid. It will be formed within the next 14 days.</h3>
     <div class="box">
       <img src="../../assets/box.png" class="box-img">

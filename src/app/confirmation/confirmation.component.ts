@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Cart } from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+  styleUrls: ['./confirmation.component.scss'],
 })
 export class ConfirmationComponent implements OnInit {
 
@@ -16,6 +17,7 @@ export class ConfirmationComponent implements OnInit {
   public orderUser: string;
 
   constructor(private auth: Auth,
+              private cart: Cart,
               private toastr: ToastsManager) {
   }
 
@@ -31,4 +33,10 @@ export class ConfirmationComponent implements OnInit {
     return `${this.orderDate.getDate()}/${this.orderDate.getMonth()}/${this.orderDate.getFullYear()}`;
   }
 
+  public getInvoice() {
+    const invoice = this.auth.user.getInvoice(this.auth.user.orders[this.auth.user.orders.length - 1].id);
+    this.cart.printInvoice(invoice).subscribe(data => {
+      console.log(data);
+    });
+  }
 }

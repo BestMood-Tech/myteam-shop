@@ -46,6 +46,11 @@ export class CheckoutComponent implements OnInit {
       this.orders = [];
     }
 
+    this.orders = this.orders.map(item => {
+      item.total = +(item.price * item.count).toFixed(2);
+      return item;
+    });
+
     this.activePromoCode = true;
     this.arrayAddressUser = this.auth.user.address;
     if (this.arrayAddressUser && this.arrayAddressUser.length) {
@@ -60,12 +65,10 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  public getTotal() {
+  public getTotal(): number {
     let price = 0.0;
-    this.orders.forEach((item) => {
-      price += item.price * item.count;
-    });
-    return price.toFixed(2);
+    this.orders.forEach((item) => price += item.total);
+    return +price.toFixed(2);
   }
 
   public checkPromoCode() {
@@ -103,13 +106,20 @@ export class CheckoutComponent implements OnInit {
   }
 
   public saveOrders() {
-    this.auth.user.addOrders({
+    const total = this.getTotal();
+    const tax = +(total * 0.13).toFixed(2);
+    const grandTotal = +(total + tax).toFixed(2);
+    const order = {
       orders: this.orders,
-      total: this.getTotal(),
+      total,
+      tax,
+      currency: this.checkOutCurrency,
+      grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
       date: new Date()
-    });
+    };
+    this.auth.user.addOrders(order);
     this.toastr.success('Orders added to profile', 'Success');
   }
 

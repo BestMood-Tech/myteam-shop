@@ -1,12 +1,15 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Invoice } from '../user.model';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class Cart {
   public cart: any;
   public changedCount = new EventEmitter<any>();
 
-  constructor(private toastr: ToastsManager) {
+  constructor(private toastr: ToastsManager, private http: Http) {
     try {
       if (JSON.parse(localStorage.getItem('cart'))) {
         this.cart = JSON.parse(localStorage.getItem('cart'));
@@ -70,9 +73,12 @@ export class Cart {
   }
 
 
-  updateCartLS(basket) {
+  public updateCartLS(basket) {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
 
-
+  public printInvoice(invoice: Invoice): Observable<Blob> {
+    return this.http.post('https://k8lwrfoc58.execute-api.eu-central-1.amazonaws.com/dev/receipt', invoice)
+      .map(res => res.json());
+  }
 }
