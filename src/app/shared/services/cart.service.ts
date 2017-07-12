@@ -78,7 +78,7 @@ export class Cart {
   }
 
   public printInvoice(invoice: Invoice): Observable<any> {
-    return this.http.post('https://k8lwrfoc58.execute-api.eu-central-1.amazonaws.com/dev/receipt', invoice)
+    return this.http.post('https://t1qsal2v1e.execute-api.eu-central-1.amazonaws.com/dev/receipt', invoice)
       .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res['_body']}`);
   }
 }
