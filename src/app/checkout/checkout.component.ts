@@ -87,6 +87,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     if (discount === 1) {
+      this.checkOutForm.controls['promoCode'].setValue('null');
       return;
     }
 
@@ -109,6 +110,9 @@ export class CheckoutComponent implements OnInit {
     const total = this.getTotal();
     const tax = +(total * 0.13).toFixed(2);
     const grandTotal = +(total + tax).toFixed(2);
+    if (!this.checkOutForm.controls['promoCode'].value) {
+      this.checkOutForm.controls['promoCode'].setValue('null');
+    }
     const order = {
       orders: this.orders,
       total,
