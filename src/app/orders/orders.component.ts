@@ -17,8 +17,15 @@ export class OrdersComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.orders = this.auth.user.orders;
-    this.checkOutCurrency = this.auth.user.currency;
+    if (!this.auth.user) {
+      this.auth.onAuth.subscribe(() => {
+        this.orders = this.auth.user.orders;
+        this.checkOutCurrency = this.auth.user.currency;
+      });
+    } else {
+      this.orders = this.auth.user.orders;
+      this.checkOutCurrency = this.auth.user.currency;
+    }
   }
 
   public culcCount(order) {

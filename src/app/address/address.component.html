@@ -1,4 +1,7 @@
-<div class="container" [ngClass]="isCart ? 'cart-container' : ''">
+<div *ngIf="!addresses" class="loading">
+  <img class="spin" src="/assets/grid.svg" alt="Loading">
+</div>
+<div class="container" *ngIf="addresses" [ngClass]="isCart ? 'cart-container' : ''">
   <div class="row" [ngClass]="!isCart ? 'left-transform' : ''">
     <div class="col-md-3">
       <div class="address-item add-address">
@@ -7,7 +10,7 @@
         <p class="error" *ngIf="error">Added the maximum number of addresses</p>
       </div>
     </div>
-    <div class="col-md-3" *ngFor='let address of auth.user.address; let key = index;'>
+    <div class="col-md-3" *ngFor='let address of addresses; let key = index;'>
       <div class="address-item address"
            [ngClass]="[isCart && key === addressKey ? 'chosen-address' : '',
            isCart && key !== addressKey ? 'cart-address' : '']" (click)="chooseAddress(key)">

@@ -117,10 +117,15 @@ export class CheckoutComponent implements OnInit {
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date()
+      date: new Date().toISOString()
     };
     this.auth.user.addOrders(order);
-    this.toastr.success('Orders added to profile', 'Success');
+    this.auth.updateProfile('orders', this.auth.user.orders)
+      .subscribe((data) => {
+        if (data.statusCode !== 500) {
+          this.toastr.success('Orders added to profile', 'Success');
+        }
+      });
   }
 
   public changeLevel(isNext: boolean, level?: string) {

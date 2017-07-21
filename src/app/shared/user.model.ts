@@ -57,8 +57,6 @@ export class User {
     if (!this.address) {
       this.address = [];
     }
-
-    this.updateLSUser(this.nickName, this.toJson());
   }
 
   get fullName(): string {
@@ -81,26 +79,8 @@ export class User {
     };
   }
 
-  get userAddress(): Address[] {
-    return this.address;
-  }
-
-  get userOrders(): string[] {
-    return this.orders;
-  }
-
-  public updateProfile(profile) {
-    if (!profile) {
-      return;
-    }
-
-    for (const key of Object.keys(profile)) {
-      if (typeof profile[key] === 'string') {
-        profile[key] = profile[key].replace(/[\uD800-\uDFFF]./g, '');
-      }
-      this[key] = profile[key];
-    }
-    this.updateLSUser(this.nickName, this.toJson());
+  public updateProfile(field: string, value: string) {
+    this[field] = value;
   }
 
   public updateAddress(key, address) {
@@ -108,7 +88,6 @@ export class User {
       return;
     }
     this.address[key] = address;
-    this.updateLSUser(this.nickName, this.toJson());
   }
 
   public addAddress(address: Address) {
@@ -116,26 +95,15 @@ export class User {
       return;
     }
     this.address.push(address);
-    this.updateLSUser(this.nickName, this.toJson());
   }
 
   public addOrders(item) {
     item.id = this.uniqueID();
     this.orders.push(item);
-    this.updateAddress(this.nickName, this.toJson());
   }
 
   public deleteAddress(key) {
     this.address.splice(key, 1);
-    this.updateLSUser(this.nickName, this.toJson());
-  }
-
-  public toJson() {
-    return JSON.stringify(this);
-  }
-
-  public updateLSUser(nick, user) {
-    window.localStorage.setItem(nick, user);
   }
 
   public getInvoice(id): Invoice {

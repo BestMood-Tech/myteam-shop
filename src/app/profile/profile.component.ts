@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../shared/user.model';
-import { Currency } from '../shared/currency.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { HelperService } from "../shared/services/helper.service";
+import { Currency } from '../shared/currency.model';
+import { Auth, HelperService } from '../shared/services/';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -20,24 +18,25 @@ export class ProfileComponent implements OnInit {
   constructor(private auth: Auth,
               private toastr: ToastsManager,
               private helperService: HelperService) {
-    this.user = new User(this.auth.user.userProfile);
   }
 
   public ngOnInit() {
     this.profileCurrency = Currency.getCurrency();
-    this.helperService.getCountry().subscribe((res) => {
-      this.nameCountry = res;
-    });
+    this.helperService.getCountry()
+      .subscribe((res) => {
+        this.nameCountry = res;
+      });
+    if (!this.auth.user) {
+      this.auth.onAuth.subscribe(() => this.user = this.auth.user);
+    } else {
+      this.user = this.auth.user;
+    }
   }
 
   public update(field: string, value: string) {
-    this.user[field] = value;
-    this.auth.user.updateProfile(this.user);
-    this.toastr.success('Profile update', 'Success');
+    this.auth.updateProfile(field, value)
+      .subscribe(() => {
+        this.toastr.success('Profile update', 'Success');
+      });
   }
-
-  public compareCurrency(cur) {
-    return cur === this.user.currency;
-  }
-
 }

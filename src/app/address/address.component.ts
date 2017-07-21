@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
@@ -10,15 +10,24 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss']
 })
-export class AddressComponent {
+export class AddressComponent implements OnInit {
   @Input() public isCart: boolean;
   @Input() public addressKey: number;
   @Output() public chosenAddress = new EventEmitter<number>();
   public error = false;
+  public addresses: any;
 
   constructor(public auth: Auth,
               private modalService: NgbModal,
               private toastr: ToastsManager) {
+  }
+
+  public ngOnInit() {
+    if (!this.auth.user) {
+      this.auth.onAuth.subscribe(() => this.addresses = this.auth.user.address);
+    } else {
+      this.addresses = this.auth.user.address;
+    }
   }
 
   public update(key) {
@@ -31,7 +40,10 @@ export class AddressComponent {
 
   public delete(key) {
     this.auth.user.deleteAddress(key);
-    this.toastr.success('Address delete', 'Success');
+    this.auth.updateProfile('address', this.auth.user.address)
+      .subscribe((data) => {
+        this.toastr.success('Address delete', 'Success');
+      });
   }
 
 
@@ -49,13 +61,19 @@ export class AddressComponent {
     }
     modalRef.result.then(
       (result) => {
-        if (key == null) {
+        if (!key) {
           this.auth.user.addAddress(new Address(result));
           this.chooseAddress(this.auth.user.address.length - 1);
-          this.toastr.success('Address added to profile', 'Success');
+          this.auth.updateProfile('address', this.auth.user.address)
+            .subscribe((data) => {
+              this.toastr.success('Address added to profile', 'Success');
+            });
         } else {
           this.auth.user.updateAddress(key, new Address(result));
-          this.toastr.success('Address update to profile', 'Success');
+          this.auth.updateProfile('address', this.auth.user.address)
+            .subscribe((data) => {
+              this.toastr.success('Address update to profile', 'Success');
+            });
         }
       },
       (reason) => null
