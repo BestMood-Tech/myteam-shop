@@ -9,7 +9,7 @@ import { User } from '../user.model';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
-const PRIVATE_ENDPOINT = 'https://t67ogrqxs3.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
+const PRIVATE_ENDPOINT = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
 
 @Injectable()
 export class Auth {
