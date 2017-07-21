@@ -41,6 +41,7 @@ export class Auth {
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
+      console.log('auth');
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -51,8 +52,6 @@ export class Auth {
           this.onAuth.emit(false);
           return;
         }
-
-        // localStorage.setItem('currentUser', JSON.stringify(currentUser));
         this.saveProfile(currentUser);
         this.onAuth.emit(true);
       });
@@ -63,7 +62,6 @@ export class Auth {
   public login() {
     // Call the show method to display the widget.
     this.lock.show((err, currentUser, id_token) => {
-      // localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('id_token', id_token);
     });
   };
@@ -78,25 +76,12 @@ export class Auth {
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    // localStorage.removeItem('currentUser');
     this.user = undefined;
     this.onAuth.emit(false);
     this.router.navigate(['./home']);
   };
 
   private saveProfile(currentUser) {
-    // if (window.localStorage.getItem(currentUser.nickname)) {
-    //   try {
-    //     const userLS = JSON.parse(window.localStorage.getItem(currentUser.nickname));
-    //
-    //     this.user = new User(userLS);
-    //     return;
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    //
-    // }
-
     if (currentUser.identities[0].provider === 'vkontakte') {
       this.user = new User(
         {
@@ -107,7 +92,6 @@ export class Auth {
           lastName: currentUser.family_name,
         }
       );
-      // return;
     }
 
     if (currentUser.identities[0].provider === 'github') {
@@ -119,12 +103,14 @@ export class Auth {
           email: currentUser.email[0].email
         }
       );
-      // return;
     }
     this.createProfile(this.user)
-      .subscribe((data) => {
-        if (data.statusCode === 201) {
+      .subscribe((res) => {
+        if (res.statusCode === 201) {
           console.log('created user');
+        } else {
+          this.getProfile()
+            .subscribe((data) => this.user = new User(data));
         }
       });
   }
