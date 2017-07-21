@@ -30,7 +30,6 @@ export class Auth {
               return;
             }
             this.user = new User(data);
-            console.log('auth user=', this.user);
             this.onAuth.emit(true);
           });
       }
@@ -82,7 +81,6 @@ export class Auth {
 
   private saveProfile(currentUser) {
     let user: User;
-    console.log(currentUser);
     if (currentUser.identities[0].provider === 'vkontakte') {
       user = new User(
         {
@@ -110,7 +108,6 @@ export class Auth {
     this.createProfile(user)
       .subscribe((res) => {
         if (res.statusCode === 201) {
-          console.log('created user');
           this.user = user;
         } else {
           this.getProfile()

@@ -18,7 +18,10 @@ export class OrdersComponent implements OnInit {
 
   public ngOnInit() {
     if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => {
+      this.auth.onAuth.subscribe((data) => {
+        if (!data) {
+          return;
+        }
         this.orders = this.auth.user.orders;
         this.checkOutCurrency = this.auth.user.currency;
       });
