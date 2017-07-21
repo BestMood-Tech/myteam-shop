@@ -9,7 +9,7 @@ import { User } from '../user.model';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
-const PRIVATE_ENDPOINT = 'https://ptha6fpjy9.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
+const PRIVATE_ENDPOINT = 'https://t67ogrqxs3.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
 
 @Injectable()
 export class Auth {
@@ -41,7 +41,6 @@ export class Auth {
 
     // Add callback for the Lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
-      console.log('auth');
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
@@ -83,6 +82,7 @@ export class Auth {
 
   private saveProfile(currentUser) {
     let user: User;
+    console.log(currentUser);
     if (currentUser.identities[0].provider === 'vkontakte') {
       user = new User(
         {
@@ -101,7 +101,9 @@ export class Auth {
           nickName: currentUser.nickname,
           picture: currentUser.picture,
           currentUser: currentUser.identities[0].provider,
-          email: currentUser.email[0].email
+          email: currentUser.email[0].email,
+          firstName: currentUser.name.split(' ')[0],
+          lastName: currentUser.name.split(' ')[1],
         }
       );
     }
