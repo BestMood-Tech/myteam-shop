@@ -23,12 +23,8 @@ export class Auth {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
-        // this.saveProfile(JSON.parse(localStorage.getItem('currentUser')));
         this.getProfile()
           .subscribe((data) => {
-            if (data.message) {
-              return;
-            }
             this.user = new User(data);
             this.onAuth.emit(true);
           });
@@ -107,13 +103,12 @@ export class Auth {
     }
     this.createProfile(user)
       .subscribe((res) => {
-        if (res.statusCode === 201) {
           this.user = user;
-        } else {
+        },
+        (error) => {
           this.getProfile()
             .subscribe((data) => this.user = new User(data));
-        }
-      });
+        });
   }
 
   public createProfile(user: User) {
@@ -156,10 +151,7 @@ export class Auth {
       headers: myHeaders
     });
     return this.http.get(`${PRIVATE_ENDPOINT}/get`, options)
-      .map((res: any) => {
-        res = res.json();
-        return res.body;
-      });
+      .map((res: any) => res.json());
   }
 
 }
