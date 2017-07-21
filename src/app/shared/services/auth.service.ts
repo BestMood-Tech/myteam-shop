@@ -82,8 +82,9 @@ export class Auth {
   };
 
   private saveProfile(currentUser) {
+    let user: User;
     if (currentUser.identities[0].provider === 'vkontakte') {
-      this.user = new User(
+      user = new User(
         {
           nickName: currentUser.nickname,
           picture: currentUser.picture,
@@ -95,7 +96,7 @@ export class Auth {
     }
 
     if (currentUser.identities[0].provider === 'github') {
-      this.user = new User(
+      user = new User(
         {
           nickName: currentUser.nickname,
           picture: currentUser.picture,
@@ -104,10 +105,11 @@ export class Auth {
         }
       );
     }
-    this.createProfile(this.user)
+    this.createProfile(user)
       .subscribe((res) => {
         if (res.statusCode === 201) {
           console.log('created user');
+          this.user = user;
         } else {
           this.getProfile()
             .subscribe((data) => this.user = new User(data));
