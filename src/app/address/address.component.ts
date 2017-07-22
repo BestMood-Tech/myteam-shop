@@ -41,9 +41,10 @@ export class AddressComponent implements OnInit {
   public delete(key) {
     this.auth.user.deleteAddress(key);
     this.auth.updateProfile('address', this.auth.user.address)
-      .subscribe((data) => {
-        this.toastr.success('Address delete', 'Success');
-      });
+      .subscribe(
+        (data) => this.toastr.success('Address delete', 'Success'),
+        (error) => this.toastr.error(error, 'Error')
+      );
   }
 
 
@@ -61,20 +62,17 @@ export class AddressComponent implements OnInit {
     }
     modalRef.result.then(
       (result) => {
-        if (!key) {
+        if (key === undefined) {
           this.auth.user.addAddress(new Address(result));
           this.chooseAddress(this.auth.user.address.length - 1);
-          this.auth.updateProfile('address', this.auth.user.address)
-            .subscribe((data) => {
-              this.toastr.success('Address added to profile', 'Success');
-            });
         } else {
           this.auth.user.updateAddress(key, new Address(result));
-          this.auth.updateProfile('address', this.auth.user.address)
-            .subscribe((data) => {
-              this.toastr.success('Address update to profile', 'Success');
-            });
         }
+        this.auth.updateProfile('address', this.auth.user.address)
+          .subscribe(
+            (data) => this.toastr.success('Address update to profile', 'Success'),
+            (error) => this.toastr.error(error, 'Error')
+          );
       },
       (reason) => null
     );

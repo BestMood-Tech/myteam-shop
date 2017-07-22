@@ -36,7 +36,10 @@ export class ProfileComponent implements OnInit {
   public update(field: string, value: string) {
     this.auth.updateProfile(field, value)
       .subscribe(() => {
-        this.toastr.success('Profile update', 'Success');
-      });
+          this.toastr.success('Profile update', 'Success');
+        },
+        (error) => {
+          this.toastr.error(error, 'Error');
+        });
   }
 }
