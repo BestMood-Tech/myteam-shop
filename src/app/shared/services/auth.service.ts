@@ -103,12 +103,13 @@ export class Auth {
     }
     this.createProfile(user)
       .subscribe((res) => {
+        if (res.stasusCode === 201) {
           this.user = user;
-        },
-        (error) => {
+        } else {
           this.getProfile()
             .subscribe((data) => this.user = new User(data));
-        });
+        }
+      });
   }
 
   public createProfile(user: User) {
@@ -151,7 +152,7 @@ export class Auth {
       headers: myHeaders
     });
     return this.http.get(`${PRIVATE_ENDPOINT}/get`, options)
-      .map((res: any) => res.json());
+      .map((res: any) => res.json().body);
   }
 
 }
