@@ -3,6 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Currency } from '../shared/currency.model';
 import { Auth, HelperService } from '../shared/services/';
 import { User } from '../shared/user.model';
+import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,10 +15,13 @@ export class ProfileComponent implements OnInit {
   public user: User;
   public profileCurrency: any;
   public nameCountry: any;
+  public promocode: string;
+  public persent: number;
 
   constructor(private auth: Auth,
               private toastr: ToastsManager,
-              private helperService: HelperService) {
+              private helperService: HelperService,
+              private promocodeService: PromocodeService) {
   }
 
   public ngOnInit() {
@@ -31,6 +35,11 @@ export class ProfileComponent implements OnInit {
     } else {
       this.user = this.auth.user;
     }
+    this.promocodeService.get()
+      .subscribe((response) => {
+        this.promocode = response.promocode;
+        this.persent = response.persent;
+      })
   }
 
   public update(field: string, value: string) {

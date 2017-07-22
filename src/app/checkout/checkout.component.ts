@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
+import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,7 +33,8 @@ export class CheckoutComponent implements OnInit {
               private auth: Auth,
               private formBulder: FormBuilder,
               private toastr: ToastsManager,
-              private router: Router) {
+              private router: Router,
+              private promocodeService: PromocodeService) {
   }
 
   public ngOnInit() {
@@ -76,24 +78,19 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    let discount = 1;
-
-    switch (this.checkOutForm.value.promoCode) {
-      case 'ANGULAR 2':
-        discount = 0.75;
-        break;
-      default:
-        discount = 1;
+    this.promocodeService.check(this.checkOutForm.value.promoCode)
+      .subscribe(
+        (response) => {
+          this.orders.map((item) => item.price *= ((100 - response.persent) / 100));
+          this.toastr.success(`You have ${response.persent}% discount`, 'Success!');
+          this.activePromoCode = false;
+        },
+        (error) => {
+          this.checkOutForm.controls['promoCode'].setValue(null);
+          this.toastr.error(error.json().errorMessage, 'Error');
+        }
+      );
     }
-
-    if (discount === 1) {
-      this.checkOutForm.controls['promoCode'].setValue('null');
-      return;
-    }
-
-    this.orders.map((item) => item.price *= discount);
-    this.activePromoCode = false;
-  }
 
   public onChangeAddress(key) {
     this.arrayAddressUser = this.auth.user.address;

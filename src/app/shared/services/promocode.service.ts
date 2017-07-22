@@ -1,13 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers } from '@angular/http';
 
 @Injectable()
 export class PromocodeService {
   constructor(private http: Http) {
   }
 
-  public create(id: string, social: string, isNewUser?: boolean, orderCount?: number) {
+  public create(isNewUser?: boolean, orderCount?: number) {
     return this.http.put('https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/create',
-      { id, social, isNewUser, orderCount })
+      { isNewUser, orderCount }, this.getOptions())
+      .map((response) => response.json());
+  }
+
+  public get() {
+    return this.http.get(`https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/get`,
+      this.getOptions())
+      .map((response) => response.json());
+  }
+
+  public check(promocode: string) {
+    return this.http.put('https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/check',
+      { promocode }, this.getOptions())
+      .map((response) => response.json());
+  }
+
+  private getOptions() {
+    const token = localStorage.getItem('id_token');
+    if (!token) {
+      return;
+    }
+    const myHeaders = new Headers();
+    myHeaders.set('Authorization', `Bearer ${token}`);
+    return new RequestOptions({
+      headers: myHeaders
+    });
   }
 }

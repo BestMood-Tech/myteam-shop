@@ -18,6 +18,10 @@
                        (save)="update('currency', $event)"></app-profile-field>
       </div>
     </div>
+    <div class="promocode" *ngIf="persent">
+      <p>Promocode {{persent}}% discount:</p>
+      <p> {{promocode}} </p>
+    </div>
   </div>
   <div class="row body-info left-transform">
     <div class="item-info">

@@ -3,6 +3,7 @@ import { Auth } from '../shared/services/auth.service';
 import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Cart } from '../shared/services/cart.service';
+import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -19,7 +20,8 @@ export class ConfirmationComponent implements OnInit {
 
   constructor(private auth: Auth,
               private cart: Cart,
-              private toastr: ToastsManager) {
+              private toastr: ToastsManager,
+              private promocodeService: PromocodeService) {
   }
 
   public ngOnInit() {
@@ -38,7 +40,13 @@ export class ConfirmationComponent implements OnInit {
     this.addressOrder = new Address(this.order.addressOrder);
     this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
     this.toastr.success('Your order has been successfully processed', 'Success!');
-
+    if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+      this.promocodeService.create(false, this.auth.getOrderCount())
+        .subscribe((response) => {
+          this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+            `New promocode in your profile!`);
+        })
+    }
   }
 
   public getDate() {
