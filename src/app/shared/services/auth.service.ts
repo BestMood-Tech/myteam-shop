@@ -5,6 +5,8 @@ import { Http, RequestOptions, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
+import { PromocodeService } from './promocode.service';
+import { ToastsManager } from 'ng2-toastr';
 
 
 // Avoid name not found warnings
@@ -19,7 +21,9 @@ export class Auth {
   onAuth = new EventEmitter();
 
   constructor(private router: Router,
-              private http: Http) {
+              private http: Http,
+              private promocodeService: PromocodeService,
+              private toastr: ToastsManager) {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
@@ -104,6 +108,12 @@ export class Auth {
     this.createProfile(user)
       .subscribe((res) => {
           this.user = user;
+          this.promocodeService.create(res.id, res.social, true)
+            .subscribe((response) => {
+              const result = response.json();
+              this.toastr.info(`You have a promocode with ${result.persent}% discount!`,
+                `New promocode in your profile!`);
+            });
         },
         (error) => {
           this.getProfile()

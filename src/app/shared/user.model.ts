@@ -29,7 +29,8 @@ export interface Invoice {
   payment: string;
 }
 export class User {
-
+  id: string;
+  social: string;
   nickName: string;
   picture: string;
   email: string;

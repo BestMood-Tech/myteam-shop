@@ -38,6 +38,7 @@ export class ConfirmationComponent implements OnInit {
     this.addressOrder = new Address(this.order.addressOrder);
     this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
     this.toastr.success('Your order has been successfully processed', 'Success!');
+
   }
 
   public getDate() {
