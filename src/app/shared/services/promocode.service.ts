@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
 
+const baseUrl = 'https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/';
+
 @Injectable()
 export class PromocodeService {
   constructor(private http: Http) {
   }
 
-  public create(isNewUser?: boolean, orderCount?: number) {
-    return this.http.put('https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/create',
-      { isNewUser, orderCount }, this.getOptions())
+  public create(isNewUser: boolean, orderCount?: number) {
+    return this.http.put(`${baseUrl}create`,
+      { isNewUser, orderCount }, this.setOptions())
       .map((response) => response.json());
   }
 
   public get() {
-    return this.http.get(`https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/get`,
-      this.getOptions())
+    return this.http.get(`${baseUrl}get`,
+      this.setOptions())
       .map((response) => response.json());
   }
 
   public check(promocode: string) {
-    return this.http.put('https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/check',
-      { promocode }, this.getOptions())
+    return this.http.put(`${baseUrl}check`,
+      { promocode }, this.setOptions())
       .map((response) => response.json());
   }
 
-  private getOptions() {
+  private setOptions() {
     const token = localStorage.getItem('id_token');
     if (!token) {
       return;

@@ -122,17 +122,17 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    return this.http.post(`${PRIVATE_ENDPOINT}/create`, user, this.getOptions())
+    return this.http.post(`${PRIVATE_ENDPOINT}/create`, user, this.setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
-    return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, this.getOptions())
+    return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, this.setOptions())
       .map((res) => res.json());
   }
 
   public getProfile() {
-    return this.http.get(`${PRIVATE_ENDPOINT}/get`, this.getOptions())
+    return this.http.get(`${PRIVATE_ENDPOINT}/get`, this.setOptions())
       .map((res: any) => res.json());
   }
 
@@ -140,7 +140,7 @@ export class Auth {
     return this.user.orders.length;
   }
 
-  private getOptions() {
+  private setOptions() {
     const token = localStorage.getItem('id_token');
     if (!token) {
       return;
