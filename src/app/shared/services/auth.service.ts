@@ -162,7 +162,7 @@ export class Auth {
       headers: myHeaders
     });
     return this.http.get(`${PRIVATE_ENDPOINT}/get`, options)
-      .map((res: any) => res.json().body);
+      .map((res: any) => res.json());
   }
 
 }
