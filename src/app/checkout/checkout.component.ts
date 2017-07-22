@@ -36,8 +36,14 @@ export class CheckoutComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.auth.user) {
+    if (!this.auth.user) {
+      this.auth.onAuth.subscribe(() => {
+        this.checkOutCurrency = this.auth.user.currency;
+        this.arrayAddressUser = this.auth.user.address;
+      });
+    } else {
       this.checkOutCurrency = this.auth.user.currency;
+      this.arrayAddressUser = this.auth.user.address;
     }
 
     try {
@@ -52,7 +58,6 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.activePromoCode = true;
-    this.arrayAddressUser = this.auth.user.address;
     if (this.arrayAddressUser && this.arrayAddressUser.length) {
       this.checkOutAddress = new Address(this.arrayAddressUser[0]);
       this.checkOutAddressKey = 0;

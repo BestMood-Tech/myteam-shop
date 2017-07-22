@@ -70,8 +70,8 @@ export class Auth {
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    this.user = undefined;
     this.onAuth.emit(false);
+    this.user = undefined;
     this.router.navigate(['./home']);
   };
 
