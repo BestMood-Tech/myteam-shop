@@ -103,7 +103,7 @@ export class Auth {
     }
     this.createProfile(user)
       .subscribe((res) => {
-        if (res.stasusCode === 201) {
+        if (res.statusCode === 201) {
           this.user = user;
         } else {
           this.getProfile()
