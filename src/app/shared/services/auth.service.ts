@@ -113,46 +113,29 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    const token = localStorage.getItem('id_token');
-    if (!token) {
-      return;
-    }
-    const myHeaders = new Headers();
-    myHeaders.set('Authorization', `Bearer ${token}`);
-    const options = new RequestOptions({
-      headers: myHeaders
-    });
-    return this.http.post(`${PRIVATE_ENDPOINT}/create`, user, options)
+    return this.http.post(`${PRIVATE_ENDPOINT}/create`, user, this.setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
-    const token = localStorage.getItem('id_token');
-    if (!token) {
-      return;
-    }
-    this.user.updateProfile(field, value);
-    const myHeaders = new Headers();
-    myHeaders.set('Authorization', `Bearer ${token}`);
-    const options = new RequestOptions({
-      headers: myHeaders
-    });
-    return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, options)
+    return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, this.setOptions())
       .map((res) => res.json());
   }
 
   public getProfile() {
+    return this.http.get(`${PRIVATE_ENDPOINT}/get`, this.setOptions())
+      .map((res: any) => res.json());
+  }
+
+  private setOptions() {
     const token = localStorage.getItem('id_token');
     if (!token) {
       return;
     }
     const myHeaders = new Headers();
     myHeaders.set('Authorization', `Bearer ${token}`);
-    const options = new RequestOptions({
+    return new RequestOptions({
       headers: myHeaders
     });
-    return this.http.get(`${PRIVATE_ENDPOINT}/get`, options)
-      .map((res: any) => res.json());
   }
-
 }
