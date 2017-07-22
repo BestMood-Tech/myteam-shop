@@ -107,6 +107,7 @@ export class Auth {
     }
     this.createProfile(user)
       .subscribe((res) => {
+        if (res.stasusCode === 201) {
           this.user = user;
           this.promocodeService.create(res.id, res.social, true)
             .subscribe((response) => {
@@ -114,11 +115,11 @@ export class Auth {
               this.toastr.info(`You have a promocode with ${result.persent}% discount!`,
                 `New promocode in your profile!`);
             });
-        },
-        (error) => {
+        } else {
           this.getProfile()
             .subscribe((data) => this.user = new User(data));
-        });
+        }
+      });
   }
 
   public createProfile(user: User) {
@@ -161,7 +162,7 @@ export class Auth {
       headers: myHeaders
     });
     return this.http.get(`${PRIVATE_ENDPOINT}/get`, options)
-      .map((res: any) => res.json());
+      .map((res: any) => res.json().body);
   }
 
 }
