@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Auth } from './shared/services/auth.service';
-import { Cart } from './shared/services/cart.service';
-import { AuthGuard } from './shared/services/authGuard.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { HelperService } from './shared/services/helper.service';
+import { User } from './shared/user.model';
+import { Auth, AuthGuard, Cart, HelperService } from './shared/services';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +21,7 @@ export class AppComponent implements OnInit {
     checkGames: true
   };
   public changedCount = false;
+  public user: User;
 
   constructor(public authGuard: AuthGuard,
               public auth: Auth,
@@ -55,6 +54,8 @@ export class AppComponent implements OnInit {
 
       setTimeout(() => this.changedCount = false, 1000);
     });
+    this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.auth.getProfile();
   }
 
   public search() {
