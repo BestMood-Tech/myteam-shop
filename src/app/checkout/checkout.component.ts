@@ -99,7 +99,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   public onChangeAddress(key) {
-    // this.arrayAddressUser = this.auth.user.address;
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
     this.checkOutAddressKey = key;
     this.checkOutForm.controls['address'].setValue(this.checkOutAddress);

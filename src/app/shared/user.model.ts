@@ -28,6 +28,7 @@ export interface Invoice {
   currency: string;
   payment: string;
 }
+
 export class User {
   nickName: string;
   picture: string;
@@ -76,10 +77,6 @@ export class User {
       picture: this.picture,
       address: this.address,
     };
-  }
-
-  public updateProfile(field: string, value: string) {
-    this[field] = value;
   }
 
   public updateAddress(key, address) {
