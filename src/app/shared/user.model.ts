@@ -29,7 +29,6 @@ export interface Invoice {
   payment: string;
 }
 export class User {
-
   nickName: string;
   picture: string;
   email: string;
@@ -142,6 +141,4 @@ export class User {
       '-' + chr4() +
       '-' + chr4() + chr4() + chr4();
   }
-
-
 }

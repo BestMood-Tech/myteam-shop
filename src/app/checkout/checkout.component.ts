@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Cart } from '../shared/services/cart.service';
-import { Auth } from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Address } from '../shared/address.model';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Address } from '../shared/address.model';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-checkout',
@@ -27,6 +27,7 @@ export class CheckoutComponent implements OnInit {
   public direction = 'next';
 
   public isRequesting: boolean;
+  private user: User;
 
   constructor(private cart: Cart,
               private auth: Auth,
@@ -36,15 +37,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => {
-        this.checkOutCurrency = this.auth.user.currency;
-        this.arrayAddressUser = this.auth.user.address;
-      });
-    } else {
-      this.checkOutCurrency = this.auth.user.currency;
-      this.arrayAddressUser = this.auth.user.address;
-    }
+    this.auth.onAuth.subscribe((user: User) => {
+      this.user = user;
+      this.checkOutCurrency = user.currency;
+      this.arrayAddressUser = user.address;
+    });
+    this.auth.getProfile();
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
@@ -101,7 +99,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   public onChangeAddress(key) {
-    this.arrayAddressUser = this.auth.user.address;
+    // this.arrayAddressUser = this.auth.user.address;
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
     this.checkOutAddressKey = key;
     this.checkOutForm.controls['address'].setValue(this.checkOutAddress);
@@ -128,11 +126,10 @@ export class CheckoutComponent implements OnInit {
       addressOrder: this.checkOutAddress,
       date: new Date().toISOString()
     };
-    this.auth.user.addOrders(order);
-    this.auth.updateProfile('orders', this.auth.user.orders)
+    this.user.addOrders(order);
+    this.auth.updateProfile('orders', this.user.orders)
       .subscribe(
-        (data) => this.toastr.success('Orders added to profile', 'Success'),
-        (error) => this.toastr.error(error, 'Error'));
+        (data) => this.toastr.success('Orders added to profile', 'Success'));
   }
 
   public changeLevel(isNext: boolean, level?: string) {

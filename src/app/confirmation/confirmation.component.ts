@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Cart } from '../shared/services/cart.service';
+import { Address } from '../shared/address.model';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-confirmation',
@@ -16,6 +16,7 @@ export class ConfirmationComponent implements OnInit {
   public orderDate: Date = new Date();
   public orderUser: string;
   public loading = false;
+  private user: User;
 
   constructor(private auth: Auth,
               private cart: Cart,
@@ -23,21 +24,18 @@ export class ConfirmationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => {
-        this.init();
-      });
-    } else {
-      this.init();
-    }
-  }
-
-  public init() {
-    this.orderUser = this.auth.user.lastName + ' ' + this.auth.user.firstName;
-    this.order = this.auth.user.orders[this.auth.user.orders.length - 1];
-    this.addressOrder = new Address(this.order.addressOrder);
-    this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
-    this.toastr.success('Your order has been successfully processed', 'Success!');
+    this.auth.onAuth.subscribe((user: User) => {
+      this.user = user;
+      if (!user) {
+        return;
+      }
+      this.orderUser = user.lastName + ' ' + user.firstName;
+      this.order = user.orders[user.orders.length - 1];
+      this.addressOrder = new Address(this.order.addressOrder);
+      this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+      this.toastr.success('Your order has been successfully processed', 'Success!');
+    });
+    this.auth.getProfile();
   }
 
   public getDate() {
@@ -47,7 +45,7 @@ export class ConfirmationComponent implements OnInit {
   public getInvoice() {
     this.loading = true;
     const newWindow = window.open('', '_blank');
-    const invoice = this.auth.user.getInvoice(this.auth.user.orders[this.auth.user.orders.length - 1].id);
+    const invoice = this.user.getInvoice(this.user.orders[this.user.orders.length - 1].id);
     this.cart.printInvoice(invoice).subscribe(url => {
       this.loading = false;
       newWindow.location.href = url;

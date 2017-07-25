@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
-import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
-import { Address } from '../shared/address.model';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Address } from '../shared/address.model';
+import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+import { Auth } from '../shared/services';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-address',
@@ -16,6 +17,7 @@ export class AddressComponent implements OnInit {
   @Output() public chosenAddress = new EventEmitter<number>();
   public error = false;
   public addresses: any;
+  private user: User;
 
   constructor(public auth: Auth,
               private modalService: NgbModal,
@@ -23,11 +25,14 @@ export class AddressComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => this.addresses = this.auth.user.address);
-    } else {
-      this.addresses = this.auth.user.address;
-    }
+    this.auth.onAuth.subscribe((user: User) => {
+      if (!user) {
+        return;
+      }
+      this.user = user;
+      this.addresses = user.address;
+    });
+    this.auth.getProfile();
   }
 
   public update(key) {
@@ -39,8 +44,8 @@ export class AddressComponent implements OnInit {
   }
 
   public delete(key) {
-    this.auth.user.deleteAddress(key);
-    this.auth.updateProfile('address', this.auth.user.address)
+    this.user.deleteAddress(key);
+    this.auth.updateProfile('address', this.user.address)
       .subscribe(
         (data) => this.toastr.success('Address delete', 'Success'),
         (error) => this.toastr.error(error, 'Error')
@@ -49,7 +54,7 @@ export class AddressComponent implements OnInit {
 
 
   private open(key?) {
-    if (this.auth.user.address.length === 7) {
+    if (this.user.address.length === 7) {
       this.error = true;
       return;
     }
@@ -58,20 +63,24 @@ export class AddressComponent implements OnInit {
     if (key == null) {
       modalRef.componentInstance.address = new Address({});
     } else {
-      modalRef.componentInstance.address = this.auth.user.address[key];
+      modalRef.componentInstance.address = this.user.address[key];
     }
     modalRef.result.then(
       (result) => {
         if (key === undefined) {
-          this.auth.user.addAddress(new Address(result));
-          this.chooseAddress(this.auth.user.address.length - 1);
+          this.user.addAddress(new Address(result));
+          this.chooseAddress(this.user.address.length - 1);
         } else {
-          this.auth.user.updateAddress(key, new Address(result));
+          this.user.updateAddress(key, new Address(result));
         }
-        this.auth.updateProfile('address', this.auth.user.address)
+        console.log(this.user.address);
+        this.auth.updateProfile('address', this.user.address)
           .subscribe(
             (data) => this.toastr.success('Address update to profile', 'Success'),
-            (error) => this.toastr.error(error, 'Error')
+            (error) => {
+              console.log('error=', error);
+              this.toastr.error(error, 'Error');
+            }
           );
       },
       (reason) => null

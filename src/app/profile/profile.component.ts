@@ -26,21 +26,16 @@ export class ProfileComponent implements OnInit {
       .subscribe((res) => {
         this.nameCountry = res;
       });
-    if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => this.user = this.auth.user);
-    } else {
-      this.user = this.auth.user;
-    }
+    this.auth.onAuth.subscribe((user) => this.user = user);
+    this.auth.getProfile();
   }
 
   public update(field: string, value: string) {
     this.user.updateProfile(field, value);
     this.auth.updateProfile(field, value)
-      .subscribe(() => {
-          this.toastr.success('Profile update', 'Success');
-        },
-        (error) => {
-          this.toastr.error(error, 'Error');
-        });
+      .subscribe(
+        (data) => this.toastr.success('Profile update', 'Success'),
+        (error) => this.toastr.success(error)
+      );
   }
 }

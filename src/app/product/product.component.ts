@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BooksService } from '../shared/services/books.service';
-import { MovieService } from '../shared/services/movie.service';
-import { GamesService } from '../shared/services/games.service';
-import { Cart } from '../shared/services/cart.service';
-import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { User } from '../shared/user.model';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { Auth, BooksService, Cart, GamesService, MovieService } from '../shared/services';
 
 @Component({
   selector: 'app-product',
@@ -71,11 +68,14 @@ export class ProductComponent implements OnInit {
         this.currentService.getDevelopers(this.product.developers)
           .subscribe(res => this.product.developers = res);
       }
-      if (this.auth.user == null) {
-        this.productCurrency = '$';
-      } else {
-        this.productCurrency = this.auth.user.currency;
-      }
+      this.auth.onAuth.subscribe((user: User) => {
+        if (!user) {
+          this.productCurrency = '$';
+          return;
+        }
+        this.productCurrency = user.currency;
+      });
+      this.auth.getProfile();
 
       if (this.product.type === 'movie') {
         this.currentService.getCredits(this.product.id)

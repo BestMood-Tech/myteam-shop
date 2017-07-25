@@ -1,5 +1,3 @@
-// app/auth.service.ts
-
 import { EventEmitter, Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { Router } from '@angular/router';
@@ -14,20 +12,18 @@ const PRIVATE_ENDPOINT = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.
 @Injectable()
 export class Auth {
   // Configure Auth0
-  lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
-  user: User;
-  onAuth = new EventEmitter();
+  public lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
+  public onAuth: EventEmitter<User> = new EventEmitter();
+
+  private user: User;
+  private downloadingProfile: boolean;
 
   constructor(private router: Router,
               private http: Http) {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
-        this.getProfile()
-          .subscribe((data) => {
-            this.user = new User(data);
-            this.onAuth.emit(true);
-          });
+        this.getProfile();
       }
     } catch (e) {
       console.log(e);
@@ -43,11 +39,10 @@ export class Auth {
         if (error) {
           // Handle error
           console.log(error);
-          this.onAuth.emit(false);
+          this.onAuth.emit(null);
           return;
         }
         this.saveProfile(currentUser);
-        this.onAuth.emit(true);
       });
     });
   }
@@ -70,8 +65,8 @@ export class Auth {
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    this.onAuth.emit(false);
     this.user = null;
+    this.onAuth.emit(this.user);
     this.router.navigate(['./home']);
   };
 
@@ -101,13 +96,14 @@ export class Auth {
         }
       );
     }
+
     this.createProfile(user)
       .subscribe((res) => {
         if (res.statusCode === 201) {
           this.user = user;
+          this.onAuth.emit(this.user);
         } else {
-          this.getProfile()
-            .subscribe((data) => this.user = new User(data));
+          this.getProfile();
         }
       });
   }
@@ -118,13 +114,33 @@ export class Auth {
   }
 
   public updateProfile(field, value) {
+    this.user[field] = value;
     return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, this.setOptions())
-      .map((res) => res.json());
+      .map((res) => {
+        this.onAuth.emit(this.user);
+        return res.json();
+      });
   }
 
   public getProfile() {
-    return this.http.get(`${PRIVATE_ENDPOINT}/get`, this.setOptions())
-      .map((res: any) => res.json());
+    if (!localStorage.getItem('id_token') || this.downloadingProfile) {
+      return;
+    }
+    if (this.user && !this.downloadingProfile) {
+      this.onAuth.emit(this.user);
+      return;
+    }
+    this.downloadingProfile = true;
+    this.http.get(`${PRIVATE_ENDPOINT}/get`, this.setOptions())
+      .map((res) => {
+        this.user = new User(res.json());
+        this.downloadingProfile = false;
+        return this.user;
+      })
+      .subscribe(
+        (data) => this.onAuth.emit(this.user),
+        (error) => this.onAuth.emit(null)
+      );
   }
 
   private setOptions() {
