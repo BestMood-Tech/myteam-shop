@@ -1,23 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/address.model';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
 import { Auth } from '../shared/services';
 import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss']
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnDestroy {
   @Input() public isCart: boolean;
   @Input() public addressKey: number;
   @Output() public chosenAddress = new EventEmitter<number>();
   public error = false;
   public addresses: any;
   private user: User;
+  private subscriber: Subscription;
 
   constructor(public auth: Auth,
               private modalService: NgbModal,
@@ -25,7 +27,7 @@ export class AddressComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
       if (!user) {
         return;
       }
@@ -33,6 +35,10 @@ export class AddressComponent implements OnInit {
       this.addresses = user.address;
     });
     this.auth.getProfile();
+  }
+
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe()
   }
 
   public update(key) {
@@ -73,7 +79,6 @@ export class AddressComponent implements OnInit {
         } else {
           this.user.updateAddress(key, new Address(result));
         }
-        console.log(this.user.address);
         this.auth.updateProfile('address', this.user.address)
           .subscribe(
             (data) => this.toastr.success('Address update to profile', 'Success'),

@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Currency } from '../shared/currency.model';
 import { Auth, HelperService } from '../shared/services/';
 import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
   public profileCurrency: any;
   public nameCountry: any;
+  private subsriber: Subscription;
 
   constructor(private auth: Auth,
               private toastr: ToastsManager,
@@ -26,8 +28,12 @@ export class ProfileComponent implements OnInit {
       .subscribe((res) => {
         this.nameCountry = res;
       });
-    this.auth.onAuth.subscribe((user) => this.user = user);
+    this.subsriber = this.auth.onAuth.subscribe((user) => this.user = user);
     this.auth.getProfile();
+  }
+
+  public ngOnDestroy() {
+    this.subsriber.unsubscribe();
   }
 
   public update(field: string, value: string) {

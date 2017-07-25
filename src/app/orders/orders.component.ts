@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auth, Cart } from '../shared/services';
 import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-orders',
@@ -8,17 +9,22 @@ import { User } from '../shared/user.model';
   styleUrls: ['orders.component.scss'],
 })
 
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, OnDestroy {
   public showOrder: any;
   public user: User;
+  private subscriber: Subscription;
 
   constructor(private auth: Auth,
               private cart: Cart) {
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => this.user = user);
     this.auth.getProfile();
+  }
+
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe();
   }
 
   public culcCount(order) {

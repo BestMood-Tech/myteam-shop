@@ -82,7 +82,6 @@ export class ProductComponent implements OnInit {
           .subscribe((data) => this.product['credits'] = data.slice(0, 4));
       }
     });
-
   }
 
   public addToCart(product) {

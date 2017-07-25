@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/address.model';
 import { Auth, Cart } from '../shared/services';
 import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   public orders: any;
   public checkOutCurrency = '$';
@@ -28,6 +29,8 @@ export class CheckoutComponent implements OnInit {
 
   public isRequesting: boolean;
   private user: User;
+  private promoCode: string;
+  private subscriber: Subscription;
 
   constructor(private cart: Cart,
               private auth: Auth,
@@ -37,7 +40,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
       this.user = user;
       this.checkOutCurrency = user.currency;
       this.arrayAddressUser = user.address;
@@ -68,6 +71,10 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe();
+  }
+
   public getTotal(): number {
     let price = 0.0;
     this.orders.forEach((item) => price += item.total);
@@ -84,14 +91,11 @@ export class CheckoutComponent implements OnInit {
     switch (this.checkOutForm.value.promoCode) {
       case 'ANGULAR 2':
         discount = 0.75;
+        this.promoCode = 'ANGULAR 2';
         break;
       default:
+        this.promoCode = 'null';
         discount = 1;
-    }
-
-    if (discount === 1) {
-      this.checkOutForm.controls['promoCode'].setValue('null');
-      return;
     }
 
     this.orders.map((item) => item.price *= discount);
@@ -113,7 +117,7 @@ export class CheckoutComponent implements OnInit {
     const tax = +(total * 0.13).toFixed(2);
     const grandTotal = +(total + tax).toFixed(2);
     if (!this.checkOutForm.controls['promoCode'].value) {
-      this.checkOutForm.controls['promoCode'].setValue('null');
+      this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
     }
     const order = {
       orders: this.orders,
