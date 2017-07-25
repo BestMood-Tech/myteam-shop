@@ -1,4 +1,7 @@
-<div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true">
+<div *ngIf="!user" class="loading">
+  <img class="spin" src="/assets/grid.svg" alt="Loading">
+</div>
+<div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true" *ngIf="user">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <h2>Orders</h2>
@@ -15,12 +18,12 @@
         </thead>
         <tbody>
 
-        <ng-template ngFor let-order [ngForOf]="orders">
+        <ng-template ngFor let-order [ngForOf]="user.orders">
           <tr>
             <td>{{order.date | date:'yy-MM-dd HH:MM'}}</td>
             <td>{{culcCount(order)}}</td>
             <td>{{order.formProfile.payment}}</td>
-            <td>{{checkOutCurrency}} {{order.total | currency: checkOutCurrency}}</td>
+            <td>{{user.currency}} {{order.total | currency: user.currency}}</td>
             <td>
               <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order.id)"></span>
             </td>
@@ -28,7 +31,7 @@
             <td class="show-order" *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
           </tr>
           <tr *ngIf="showOrder === order">
-            <td colspan=5>
+            <td colspan="6">
               <div class="row left-transform">
                 <div class="col-sm-2 col-md-2 col-lg-2">
                   <div class="address">
@@ -48,7 +51,7 @@
                       <div class="poster" [style.background-image]="'url(' + item.cover + ')'">
                         <div class="type"><span>{{item.type}}</span></div>
                         <div class="price">
-                          {{checkOutCurrency}} {{item.price | currency: checkOutCurrency}}
+                          {{user.currency}} {{item.price | currency: user.currency}}
                         </div>
                         <div class="count">x{{item.count}}</div>
                       </div>

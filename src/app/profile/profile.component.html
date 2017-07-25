@@ -1,4 +1,7 @@
-<div class="container">
+<div *ngIf="!user" class="loading">
+  <img class="spin" src="/assets/grid.svg" alt="Loading">
+</div>
+<div class="container" *ngIf="user">
   <div class="row header-info left-transform">
     <div class="picture" [style.background-image]="'url(' + user.picture + ')'">
     </div>

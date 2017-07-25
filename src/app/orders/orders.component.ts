@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { Cart } from '../shared/services/cart.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-orders',
@@ -8,17 +9,22 @@ import { Cart } from '../shared/services/cart.service';
   styleUrls: ['orders.component.scss'],
 })
 
-export class OrdersComponent implements OnInit {
-  public orders: any;
+export class OrdersComponent implements OnInit, OnDestroy {
   public showOrder: any;
-  public checkOutCurrency;
+  public user: User;
+  private subscriber: Subscription;
 
-  constructor(private auth: Auth, private cart: Cart) {
+  constructor(private auth: Auth,
+              private cart: Cart) {
   }
 
   public ngOnInit() {
-    this.orders = this.auth.user.orders;
-    this.checkOutCurrency = this.auth.user.currency;
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.auth.getProfile();
+  }
+
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe();
   }
 
   public culcCount(order) {
@@ -32,7 +38,7 @@ export class OrdersComponent implements OnInit {
   }
 
   public getInvoice(id) {
-    const invoice = this.auth.user.getInvoice(id);
+    const invoice = this.user.getInvoice(id);
     const newWindow = window.open('', '_blank');
     this.cart.printInvoice(invoice).subscribe(url => {
       newWindow.location.href = url;

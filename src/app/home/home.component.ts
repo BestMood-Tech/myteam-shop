@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieService } from '../shared/services/movie.service';
-import { GamesService } from '../shared/services/games.service';
-import { Auth } from '../shared/services/auth.service';
-import { BooksService } from '../shared/services/books.service';
-import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { Auth, BooksService, GamesService, MovieService } from '../shared/services';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-home',
@@ -34,11 +32,13 @@ export class HomeComponent implements OnInit {
     this.booksService.getStories().subscribe((res) => {
       this.bookData = this.booksService.processData(res)[0];
     });
-    if (this.auth.user == null) {
-      this.productCurrency = '$';
-    } else {
-      this.productCurrency = this.auth.user.currency;
-    }
+    this.auth.onAuth.subscribe((user: User) => {
+      if (!user) {
+        return;
+      }
+      this.productCurrency = user.currency;
+    });
+    this.auth.getProfile();
   }
 
   public showTrailer(item) {
