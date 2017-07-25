@@ -7,7 +7,7 @@ import { User } from '../user.model';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
-const PRIVATE_ENDPOINT = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
+const urlProfile = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
 
 @Injectable()
 export class Auth {
@@ -46,7 +46,6 @@ export class Auth {
       });
     });
   }
-
 
   public login() {
     // Call the show method to display the widget.
@@ -109,13 +108,13 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    return this.http.post(`${PRIVATE_ENDPOINT}/create`, user, this.setOptions())
+    return this.http.post(`${urlProfile}/create`, user, this.setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.post(`${PRIVATE_ENDPOINT}/update`, {field, value}, this.setOptions())
+    return this.http.post(`${urlProfile}/update`, {field, value}, this.setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
@@ -131,7 +130,7 @@ export class Auth {
       return;
     }
     this.downloadingProfile = true;
-    this.http.get(`${PRIVATE_ENDPOINT}/get`, this.setOptions())
+    this.http.get(`${urlProfile}/get`, this.setOptions())
       .map((res) => {
         this.user = new User(res.json());
         this.downloadingProfile = false;
