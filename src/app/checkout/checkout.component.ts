@@ -97,9 +97,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.promoCode = 'null';
         discount = 1;
     }
+    if (discount === 1) {
+      this.checkOutForm.controls['promoCode'].reset();
+    } else {
+      this.activePromoCode = false;
+    }
 
     this.orders.map((item) => item.price *= discount);
-    this.activePromoCode = false;
   }
 
   public onChangeAddress(key) {
