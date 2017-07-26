@@ -96,7 +96,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.activePromoCode = false;
         },
         (error) => {
-          this.checkOutForm.controls['promoCode'].setValue(null);
+          this.checkOutForm.controls['promoCode'].reset();
           this.toastr.error(error.json().errorMessage, 'Error');
         }
       );
