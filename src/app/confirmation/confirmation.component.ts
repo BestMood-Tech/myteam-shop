@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { Address } from '../shared/address.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Address } from '../shared/address.model';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
+import { Subscribable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
+import { Subscription } from 'rxjs/Subscription';
 import { Cart } from '../shared/services/cart.service';
 import { PromocodeService } from '../shared/services/promocode.service';
 
@@ -10,13 +14,15 @@ import { PromocodeService } from '../shared/services/promocode.service';
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss'],
 })
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationComponent implements OnInit, OnDestroy {
 
   public order: any;
   public addressOrder: any;
   public orderDate: Date = new Date();
   public orderUser: string;
   public loading = false;
+  private user: User;
+  private subscriber: Subscription;
 
   constructor(private auth: Auth,
               private cart: Cart,
@@ -25,28 +31,29 @@ export class ConfirmationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.auth.user) {
-      this.auth.onAuth.subscribe(() => {
-        this.init();
-      });
-    } else {
-      this.init();
-    }
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+      if (!user || this.user) {
+        return;
+      }
+      this.user = user;
+      this.orderUser = user.lastName + ' ' + user.firstName;
+      this.order = user.orders[user.orders.length - 1];
+      this.addressOrder = new Address(this.order.addressOrder);
+      this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+      this.toastr.success('Your order has been successfully processed', 'Success!');
+      if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+        this.promocodeService.create(false, this.auth.getOrderCount())
+          .subscribe((response) => {
+            this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+              `New promocode in your profile!`);
+          })
+      }
+    });
+    this.auth.getProfile();
   }
 
-  public init() {
-    this.orderUser = this.auth.user.lastName + ' ' + this.auth.user.firstName;
-    this.order = this.auth.user.orders[this.auth.user.orders.length - 1];
-    this.addressOrder = new Address(this.order.addressOrder);
-    this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
-    this.toastr.success('Your order has been successfully processed', 'Success!');
-    if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
-      this.promocodeService.create(false, this.auth.getOrderCount())
-        .subscribe((response) => {
-          this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
-            `New promocode in your profile!`);
-        })
-    }
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe();
   }
 
   public getDate() {
@@ -56,7 +63,7 @@ export class ConfirmationComponent implements OnInit {
   public getInvoice() {
     this.loading = true;
     const newWindow = window.open('', '_blank');
-    const invoice = this.auth.user.getInvoice(this.auth.user.orders[this.auth.user.orders.length - 1].id);
+    const invoice = this.user.getInvoice(this.user.orders[this.user.orders.length - 1].id);
     this.cart.printInvoice(invoice).subscribe(url => {
       this.loading = false;
       newWindow.location.href = url;
