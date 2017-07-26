@@ -43,7 +43,7 @@
           <td>{{order.name}}</td>
           <td>{{order.count}}</td>
           <td>{{checkOutCurrency}} {{order.price | number:'1.1-5' | currency: checkOutCurrency}}</td>
-          <td>{{checkOutCurrency}} {{order.price * order.count | number:'1.1-5' | currency: checkOutCurrency}}</td>
+          <td>{{checkOutCurrency}} {{order.total | number:'1.1-5' | currency: checkOutCurrency}}</td>
         </tr>
         </tbody>
         <tfoot>

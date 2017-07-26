@@ -91,7 +91,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.promocodeService.check(this.checkOutForm.value.promoCode)
       .subscribe(
         (response) => {
-          this.orders.map((item) => item.price *= ((100 - response.persent) / 100));
+          this.orders.forEach((item) => {
+            item.price *= ((100 - response.persent) / 100);
+            item.total = +(item.price * item.count).toFixed(2);
+          });
           this.toastr.success(`You have ${response.persent}% discount`, 'Success!');
           this.activePromoCode = false;
         },
