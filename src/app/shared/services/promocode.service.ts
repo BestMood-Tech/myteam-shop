@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
-
-const baseUrl = 'https://m81j11ueq7.execute-api.eu-central-1.amazonaws.com/dev/promocode/';
+import { baseUrl } from '../shared.module';
 
 @Injectable()
 export class PromocodeService {
@@ -9,19 +8,19 @@ export class PromocodeService {
   }
 
   public create(isNewUser: boolean, orderCount?: number) {
-    return this.http.put(`${baseUrl}create`,
+    return this.http.put(`${baseUrl}promocode/create`,
       { isNewUser, orderCount }, this.setOptions())
       .map((response) => response.json());
   }
 
   public get() {
-    return this.http.get(`${baseUrl}get`,
+    return this.http.get(`${baseUrl}promocode/get`,
       this.setOptions())
       .map((response) => response.json());
   }
 
   public check(promocode: string) {
-    return this.http.put(`${baseUrl}check`,
+    return this.http.put(`${baseUrl}promocode/check`,
       { promocode }, this.setOptions())
       .map((response) => response.json());
   }

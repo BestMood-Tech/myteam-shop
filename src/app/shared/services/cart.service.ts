@@ -3,6 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Invoice } from '../user.model';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { baseUrl } from '../shared.module';
 
 @Injectable()
 export class Cart {
@@ -78,7 +79,7 @@ export class Cart {
   }
 
   public printInvoice(invoice: Invoice): Observable<any> {
-    return this.http.post('https://m0hm7u44vk.execute-api.eu-central-1.amazonaws.com/dev/receipt', invoice)
-      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res['_body']}`);
+    return this.http.post(`${baseUrl}receipt`, invoice)
+      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res.json().id}`);
   }
 }

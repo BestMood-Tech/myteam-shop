@@ -5,11 +5,11 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
 import { PromocodeService } from './promocode.service';
 import { ToastsManager } from 'ng2-toastr';
+import { baseUrl } from '../shared.module';
 
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
-const urlProfile = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
 
 @Injectable()
 export class Auth {
@@ -117,13 +117,13 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    return this.http.post(`${urlProfile}/create`, user, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/create`, user, this.setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.post(`${urlProfile}/update`, {field, value}, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/update`, {field, value}, this.setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
@@ -139,7 +139,7 @@ export class Auth {
       return;
     }
     this.downloadingProfile = true;
-    this.http.get(`${urlProfile}/get`, this.setOptions())
+    this.http.get(`${baseUrl}api/profile/get`, this.setOptions())
       .map((res) => {
         this.user = new User(res.json());
         this.downloadingProfile = false;

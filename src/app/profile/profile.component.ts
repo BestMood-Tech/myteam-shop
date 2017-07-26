@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public user: User;
   public profileCurrency: any;
   public nameCountry: any;
-  private subsriber: Subscription;
+  private subscriber: Subscription;
   public promocode: string;
   public persent: number;
 
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.nameCountry = res;
       });
-    this.subsriber = this.auth.onAuth.subscribe((user) => this.user = user);
+    this.subscriber = this.auth.onAuth.subscribe((user) => this.user = user);
     this.auth.getProfile();
 
     this.promocodeService.get()
@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.subsriber.unsubscribe();
+    this.subscriber.unsubscribe();
   }
 
   public update(field: string, value: string) {

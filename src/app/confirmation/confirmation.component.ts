@@ -3,10 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/address.model';
 import { Auth, Cart } from '../shared/services';
 import { User } from '../shared/user.model';
-import { Subscribable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
 import { Subscription } from 'rxjs/Subscription';
-import { Cart } from '../shared/services/cart.service';
 import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
