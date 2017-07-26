@@ -3,7 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Invoice } from '../user.model';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { baseUrl } from '../shared.module';
+import { baseUrl } from '../helper';
 
 @Injectable()
 export class Cart {

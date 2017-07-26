@@ -5,7 +5,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
 import { PromocodeService } from './promocode.service';
 import { ToastsManager } from 'ng2-toastr';
-import { baseUrl } from '../shared.module';
+import { baseUrl } from '../helper';
 
 
 // Avoid name not found warnings

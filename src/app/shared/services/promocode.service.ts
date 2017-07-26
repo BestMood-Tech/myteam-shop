@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
-import { baseUrl } from '../shared.module';
+import { baseUrl } from '../helper';
 
 @Injectable()
 export class PromocodeService {
