@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
       <li class="line" *ngFor="let item of rationAsAnArray"></li>
       <li class="line empty" *ngFor="let item of emptyRatio"></li>
     </ul>
-    <ul class="list-unstyled lines" *ngIf="!!isEdit">
+    <ul class="list-unstyled lines" *ngIf="isEdit">
       <li class="line edit" *ngFor="let item of editArray" [ngClass]="{empty: item > rate}" (click)="setRate(item)"></li>
     </ul>
     <div class="rates">
@@ -71,7 +71,7 @@ export class RatioComponent implements OnInit, OnChanges {
 
   private culcRations() {
     this.rate = parseFloat(this.rate) > 5 ? (parseFloat(this.rate) / 2).toFixed(1) : parseFloat(this.rate).toFixed(1);
-    this.rate = !!this.isEdit ? parseInt(this.rate, 10) : this.rate;
+    this.rate = this.isEdit ? parseInt(this.rate, 10) : this.rate;
     this.rationAsAnArray = new Array(Math.floor(this.rate));
     if (this.rationAsAnArray && this.rationAsAnArray.length <= 5) {
       this.emptyRatio.length = 5 - this.rationAsAnArray.length;
