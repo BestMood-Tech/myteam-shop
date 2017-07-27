@@ -4,7 +4,7 @@ import { Review } from '../review.model';
 
 @Injectable()
 export class ReviewsService {
-  private baseURL = 'https://6i9b6vqyf5.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+  private baseURL = 'https://cvoslanrki.execute-api.eu-central-1.amazonaws.com/dev/reviews';
   constructor(private http: Http) {
   }
 

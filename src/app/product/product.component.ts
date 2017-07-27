@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
   public recommended: any[];
   public view = 'info';
   public reviews: Review[] = [];
+  public user = null;
   private currentService;
 
   constructor(private route: ActivatedRoute,
@@ -82,6 +83,7 @@ export class ProductComponent implements OnInit {
           return;
         }
         this.productCurrency = user.currency;
+        this.user = user;
       });
       this.auth.getProfile();
 
@@ -92,10 +94,7 @@ export class ProductComponent implements OnInit {
     });
 
     this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
-      .subscribe((res) => {
-        this.reviews = res;
-        console.log(this.reviews);
-      })
+      .subscribe((res) => this.reviews = res)
 
   }
 
@@ -132,14 +131,18 @@ export class ProductComponent implements OnInit {
     const modalRef = this.modalService.open(ReviewFormComponent);
     modalRef.result.then(
       (resolve) => {
-        this.reviewsService.add(new Review({
+        const bufferReview = new Review({
           text: resolve.text,
           rate: resolve.rate,
-          username: this.auth.user.nickName,
+          username: this.user ? this.user.nickName : 'No name',
           productID: `${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`,
           createDate: new Date()
-        }))
-        .subscribe(() => this.toastr.success('Review added', 'Success'));
+        });
+        this.reviewsService.add(bufferReview)
+          .subscribe(() => {
+            this.reviews.unshift(bufferReview);
+            this.toastr.success('Review added', 'Success')
+          });
       },
       (error) => null
     );

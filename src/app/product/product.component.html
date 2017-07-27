@@ -166,7 +166,7 @@
                       {{review.username}}
                     </div>
                     <div class="col-md-4 date">
-                      {{review.createDate}}
+                      {{review.createDate | date:'longDate' }}
                     </div>
                     <div class="col-md-12 text">
                       {{review.text}}
@@ -175,6 +175,9 @@
                       <app-ratio [rate]="review.rate"></app-ratio>
                     </div>
                   </div>
+                </div>
+                <div *ngIf="!reviews.length">
+                  Not reviews
                 </div>
               </div>
             </div>
