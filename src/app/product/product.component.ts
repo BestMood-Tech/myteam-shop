@@ -7,6 +7,10 @@ import { Cart } from '../shared/services/cart.service';
 import { Auth } from '../shared/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { ReviewFormComponent } from '../shared/components/review-form/review-form.component';
+import { Review } from '../shared/review.model';
+import { ReviewsService } from '../shared/services/reviews.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-product',
@@ -17,6 +21,8 @@ export class ProductComponent implements OnInit {
   public product;
   public productCurrency: any;
   public recommended: any[];
+  public view = 'info';
+  public reviews: Review[] = [];
   private currentService;
 
   constructor(private route: ActivatedRoute,
@@ -25,7 +31,9 @@ export class ProductComponent implements OnInit {
               private gamesService: GamesService,
               private cart: Cart,
               private auth: Auth,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private reviewsService: ReviewsService,
+              private toastr: ToastsManager) {
     switch (this.route.snapshot.url[1].path) {
       case 'book':
         this.currentService = this.booksService;
@@ -83,6 +91,12 @@ export class ProductComponent implements OnInit {
       }
     });
 
+    this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
+      .subscribe((res) => {
+        this.reviews = res;
+        console.log(this.reviews);
+      })
+
   }
 
   public addToCart(product) {
@@ -108,5 +122,26 @@ export class ProductComponent implements OnInit {
       {status: 4, value: 'Standalone expansion'}
     ];
     return status.find((item) => item.status === this.product.status).value
+  }
+
+  public setView(type) {
+    this.view = type;
+  }
+
+  public newReview() {
+    const modalRef = this.modalService.open(ReviewFormComponent);
+    modalRef.result.then(
+      (resolve) => {
+        this.reviewsService.add(new Review({
+          text: resolve.text,
+          rate: resolve.rate,
+          username: this.auth.user.nickName,
+          productID: `${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`,
+          createDate: new Date()
+        }))
+        .subscribe(() => this.toastr.success('Review added', 'Success'));
+      },
+      (error) => null
+    );
   }
 }
