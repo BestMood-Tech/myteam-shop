@@ -44,6 +44,10 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
             this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
               `New promocode in your profile!`);
           })
+      } else {
+        if (this.order.formProfile.promoCode) {
+          this.promocodeService.remove().subscribe();
+        }
       }
     });
     this.auth.getProfile();
