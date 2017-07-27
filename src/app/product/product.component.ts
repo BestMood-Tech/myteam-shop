@@ -133,7 +133,7 @@ export class ProductComponent implements OnInit {
         const bufferReview = new Review({
           text: resolve.text,
           rate: resolve.rate,
-          username: this.user ? this.user.nickName : 'No name',
+          username: this.user ? `${this.user.firstName} ${this.user.lastName}` : 'No name',
           productID: `${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`,
           createDate: new Date()
         });
