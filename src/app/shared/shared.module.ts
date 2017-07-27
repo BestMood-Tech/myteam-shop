@@ -17,6 +17,7 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { ReviewFormComponent } from './components/review-form/review-form.component';
 import { RecaptchaModule } from 'ng2-recaptcha';
 import { ReviewsService } from './services/reviews.service';
+import { PromocodeService } from './services/promocode.service';
 
 @NgModule({
   imports: [
@@ -71,10 +72,11 @@ export class SharedModule {
         BooksService,
         GamesService,
         MovieService,
+        Cart,
         Auth,
         AuthGuard,
-        Cart,
         HelperService,
+        PromocodeService,
         ReviewsService
       ],
     };
