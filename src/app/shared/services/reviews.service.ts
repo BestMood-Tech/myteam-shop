@@ -4,7 +4,7 @@ import { Review } from '../review.model';
 
 @Injectable()
 export class ReviewsService {
-  private baseURL = 'https://cvoslanrki.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+  private baseURL = 'https://yas1newec8.execute-api.eu-central-1.amazonaws.com/dev/reviews';
   constructor(private http: Http) {
   }
 
@@ -13,6 +13,6 @@ export class ReviewsService {
   }
 
   public get(id) {
-    return this.http.get(`${this.baseURL}/${id}`).map((res) => res.json().data);
+    return this.http.get(`${this.baseURL}/${id}`).map((res) => res.json().body);
   }
 }

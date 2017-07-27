@@ -91,10 +91,9 @@ export class ProductComponent implements OnInit {
         this.currentService.getCredits(this.product.id)
           .subscribe((data) => this.product['credits'] = data.slice(0, 4));
       }
+      this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
+        .subscribe((res) => this.reviews = res)
     });
-
-    this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
-      .subscribe((res) => this.reviews = res)
 
   }
 
