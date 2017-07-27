@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/services/auth.service';
-import { Cart } from '../shared/services/cart.service';
 import { Router } from '@angular/router';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-cart',
@@ -10,22 +10,23 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
-  orders: any;
-  authorization: boolean;
-  cartCurrency = '$';
+  public orders: any;
+  public authorization: boolean;
+  public cartCurrency = '$';
 
-  constructor(private cart: Cart, private auth: Auth, private router: Router) {
+  constructor(private cart: Cart,
+              private auth: Auth,
+              private router: Router) {
     this.orders = this.cart.getCart();
     this.authorization = this.auth.authenticated();
   }
 
   public ngOnInit() {
-    if (this.auth.user) {
-      this.cartCurrency = this.auth.user.currency;
-    }
-    this.auth.onAuth.subscribe((value) => {
-      this.authorization = value;
+    this.auth.onAuth.subscribe((user: User) => {
+      this.cartCurrency = user.currency;
+      this.authorization = !!user;
     });
+    this.auth.getProfile();
   }
 
 

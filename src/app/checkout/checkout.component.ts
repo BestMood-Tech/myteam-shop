@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Cart } from '../shared/services/cart.service';
-import { Auth } from '../shared/services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Address } from '../shared/address.model';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Address } from '../shared/address.model';
+import { Auth, Cart } from '../shared/services';
+import { User } from '../shared/user.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
 
   public orders: any;
   public checkOutCurrency = '$';
@@ -27,6 +28,9 @@ export class CheckoutComponent implements OnInit {
   public direction = 'next';
 
   public isRequesting: boolean;
+  private user: User;
+  private promoCode: string;
+  private subscriber: Subscription;
 
   constructor(private cart: Cart,
               private auth: Auth,
@@ -36,9 +40,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.auth.user) {
-      this.checkOutCurrency = this.auth.user.currency;
-    }
+    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+      this.user = user;
+      this.checkOutCurrency = user.currency;
+      this.arrayAddressUser = user.address;
+    });
+    this.auth.getProfile();
 
     try {
       this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
@@ -52,7 +59,6 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.activePromoCode = true;
-    this.arrayAddressUser = this.auth.user.address;
     if (this.arrayAddressUser && this.arrayAddressUser.length) {
       this.checkOutAddress = new Address(this.arrayAddressUser[0]);
       this.checkOutAddressKey = 0;
@@ -63,6 +69,10 @@ export class CheckoutComponent implements OnInit {
       address: [this.checkOutAddress, Validators.required],
       payment: ['PayPal', Validators.required]
     });
+  }
+
+  public ngOnDestroy() {
+    this.subscriber.unsubscribe();
   }
 
   public getTotal(): number {
@@ -81,21 +91,22 @@ export class CheckoutComponent implements OnInit {
     switch (this.checkOutForm.value.promoCode) {
       case 'ANGULAR 2':
         discount = 0.75;
+        this.promoCode = 'ANGULAR 2';
         break;
       default:
+        this.promoCode = 'null';
         discount = 1;
     }
-
     if (discount === 1) {
-      return;
+      this.checkOutForm.controls['promoCode'].reset();
+    } else {
+      this.activePromoCode = false;
     }
 
     this.orders.map((item) => item.price *= discount);
-    this.activePromoCode = false;
   }
 
   public onChangeAddress(key) {
-    this.arrayAddressUser = this.auth.user.address;
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
     this.checkOutAddressKey = key;
     this.checkOutForm.controls['address'].setValue(this.checkOutAddress);
@@ -109,6 +120,9 @@ export class CheckoutComponent implements OnInit {
     const total = this.getTotal();
     const tax = +(total * 0.13).toFixed(2);
     const grandTotal = +(total + tax).toFixed(2);
+    if (!this.checkOutForm.controls['promoCode'].value) {
+      this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
+    }
     const order = {
       orders: this.orders,
       total,
@@ -117,10 +131,12 @@ export class CheckoutComponent implements OnInit {
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date()
+      date: new Date().toISOString()
     };
-    this.auth.user.addOrders(order);
-    this.toastr.success('Orders added to profile', 'Success');
+    this.user.addOrders(order);
+    this.auth.updateProfile('orders', this.user.orders)
+      .subscribe(
+        (data) => this.toastr.success('Orders added to profile', 'Success'));
   }
 
   public changeLevel(isNext: boolean, level?: string) {
