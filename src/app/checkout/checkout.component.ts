@@ -6,6 +6,7 @@ import { Address } from '../shared/address.model';
 import { Auth, Cart } from '../shared/services';
 import { User } from '../shared/user.model';
 import { Subscription } from 'rxjs/Subscription';
+import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
   selector: 'app-checkout',
@@ -36,7 +37,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
               private auth: Auth,
               private formBulder: FormBuilder,
               private toastr: ToastsManager,
-              private router: Router) {
+              private router: Router,
+              private promocodeService: PromocodeService) {
   }
 
   public ngOnInit() {
@@ -86,25 +88,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let discount = 1;
-
-    switch (this.checkOutForm.value.promoCode) {
-      case 'ANGULAR 2':
-        discount = 0.75;
-        this.promoCode = 'ANGULAR 2';
-        break;
-      default:
-        this.promoCode = 'null';
-        discount = 1;
+    this.promocodeService.check(this.checkOutForm.value.promoCode)
+      .subscribe(
+        (response) => {
+          this.orders.forEach((item) => {
+            item.price *= ((100 - response.persent) / 100);
+            item.total = +(item.price * item.count).toFixed(2);
+          });
+          this.toastr.success(`You have ${response.persent}% discount`, 'Success!');
+          this.activePromoCode = false;
+        },
+        (error) => {
+          this.checkOutForm.controls['promoCode'].reset();
+          this.toastr.error(error.json().errorMessage, 'Error');
+        }
+      );
     }
-    if (discount === 1) {
-      this.checkOutForm.controls['promoCode'].reset();
-    } else {
-      this.activePromoCode = false;
-    }
-
-    this.orders.map((item) => item.price *= discount);
-  }
 
   public onChangeAddress(key) {
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);

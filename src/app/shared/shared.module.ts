@@ -14,6 +14,7 @@ import { MyAroundPipe } from './pipes/around.pipe';
 import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
 import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { PromocodeService } from './services/promocode.service';
 
 @NgModule({
   imports: [
@@ -64,10 +65,11 @@ export class SharedModule {
         BooksService,
         GamesService,
         MovieService,
+        Cart,
         Auth,
         AuthGuard,
-        Cart,
         HelperService,
+        PromocodeService
       ],
     };
   }

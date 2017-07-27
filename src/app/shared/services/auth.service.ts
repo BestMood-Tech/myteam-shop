@@ -1,13 +1,15 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
+import { PromocodeService } from './promocode.service';
+import { ToastsManager } from 'ng2-toastr';
+import { baseUrl, setOptions } from '../helper';
 
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
-const urlProfile = 'https://7m3etwllfd.execute-api.eu-central-1.amazonaws.com/dev/api/profile';
 
 @Injectable()
 export class Auth {
@@ -19,7 +21,9 @@ export class Auth {
   private downloadingProfile: boolean;
 
   constructor(private router: Router,
-              private http: Http) {
+              private http: Http,
+              private promocodeService: PromocodeService,
+              private toastr: ToastsManager) {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
@@ -101,6 +105,11 @@ export class Auth {
         if (res.statusCode === 201) {
           this.user = user;
           this.onAuth.emit(this.user);
+          this.promocodeService.create(true)
+            .subscribe((response) => {
+              this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+                `New promocode in your profile!`);
+            });
         } else {
           this.getProfile();
         }
@@ -108,13 +117,13 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    return this.http.post(`${urlProfile}/create`, user, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/create`, user, setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.post(`${urlProfile}/update`, {field, value}, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/update`, {field, value}, setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
@@ -130,7 +139,7 @@ export class Auth {
       return;
     }
     this.downloadingProfile = true;
-    this.http.get(`${urlProfile}/get`, this.setOptions())
+    this.http.get(`${baseUrl}api/profile/get`, setOptions())
       .map((res) => {
         this.user = new User(res.json());
         this.downloadingProfile = false;
@@ -142,15 +151,7 @@ export class Auth {
       );
   }
 
-  private setOptions() {
-    const token = localStorage.getItem('id_token');
-    if (!token) {
-      return;
-    }
-    const myHeaders = new Headers();
-    myHeaders.set('Authorization', `Bearer ${token}`);
-    return new RequestOptions({
-      headers: myHeaders
-    });
+  public getOrderCount() {
+    return this.user.orders.length;
   }
 }
