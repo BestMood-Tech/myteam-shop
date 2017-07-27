@@ -64,8 +64,15 @@ button {
   color: #5a5a6e;
   cursor: pointer;
   transition: all .3s;
+
   &:hover {
     background: #78788c;
+    color: #fff;
+  }
+
+  &:disabled {
+    background-image: linear-gradient(#b3b3b3, #d9d9d9);
+    border: none;
     color: #fff;
   }
 }

@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="reviewForm">
   <span class="glyphicon glyphicon-remove" (click)="activeModal.dismiss()"></span>
   <h2>New review</h2>
-  <ng-container *ngIf="(auth.authenticated() && auth.user)">
+  <ng-container *ngIf="(auth.authenticated() && auth.onAuth)">
     <div class="form-group">
       <p type="Text review:">
       <textarea [ngClass]="reviewForm.controls.text.errors? 'has-error': 'has-success'"
@@ -13,8 +13,8 @@
     <div class="form-group rate">
       <app-ratio [rate]="reviewForm.value.rate" [isEdit]="true" (onChange)="setRate($event)"></app-ratio>
     </div>
-    <recaptcha (resolved)="resolved()" siteKey="6LduCCoUAAAAABhZ822fD5A_BqNQH0RJMSV_DJjn"></recaptcha>
-    <button [disabled]="!reviewForm.valid" (click)="save()" *ngIf="isCaptcha">Save</button>
+    <recaptcha (resolved)="resolved()" [siteKey]="siteKey"></recaptcha>
+    <button [disabled]="!reviewForm.valid || !isCaptcha" (click)="save()">Save</button>
   </ng-container>
   <ng-container *ngIf="!(auth.authenticated() && auth.user)">
     <p>You must be logged in</p>
