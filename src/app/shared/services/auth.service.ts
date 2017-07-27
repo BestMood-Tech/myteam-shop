@@ -1,11 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
 import { PromocodeService } from './promocode.service';
 import { ToastsManager } from 'ng2-toastr';
-import { baseUrl } from '../helper';
+import { baseUrl, setOptions } from '../helper';
 
 
 // Avoid name not found warnings
@@ -117,13 +117,13 @@ export class Auth {
   }
 
   public createProfile(user: User) {
-    return this.http.post(`${baseUrl}api/profile/create`, user, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/create`, user, setOptions())
       .map((res) => res.json());
   }
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.post(`${baseUrl}api/profile/update`, {field, value}, this.setOptions())
+    return this.http.post(`${baseUrl}api/profile/update`, {field, value}, setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
@@ -139,7 +139,7 @@ export class Auth {
       return;
     }
     this.downloadingProfile = true;
-    this.http.get(`${baseUrl}api/profile/get`, this.setOptions())
+    this.http.get(`${baseUrl}api/profile/get`, setOptions())
       .map((res) => {
         this.user = new User(res.json());
         this.downloadingProfile = false;
@@ -153,17 +153,5 @@ export class Auth {
 
   public getOrderCount() {
     return this.user.orders.length;
-  }
-
-  private setOptions() {
-    const token = localStorage.getItem('id_token');
-    if (!token) {
-      return;
-    }
-    const myHeaders = new Headers();
-    myHeaders.set('Authorization', `Bearer ${token}`);
-    return new RequestOptions({
-      headers: myHeaders
-    });
   }
 }
