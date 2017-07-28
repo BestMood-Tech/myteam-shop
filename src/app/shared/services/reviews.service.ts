@@ -14,6 +14,6 @@ export class ReviewsService {
   }
 
   public get(id) {
-    return this.http.get(`${this.reviewsURL}/${id}`).map((res) => res.json().body);
+    return this.http.get(`${this.reviewsURL}/${id}`).map((res) => res.json().result);
   }
 }
