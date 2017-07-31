@@ -151,6 +151,16 @@ export class Auth {
       );
   }
 
+  public createOrder(orderData) {
+    return this.http.post(`${baseUrl}api/admin/createOrder`, orderData, setOptions())
+      .map((res) => res.json());
+  }
+
+  public getOrdersByProfile() {
+    return this.http.get(`${baseUrl}api/admin/getOrdersByProfile`, setOptions())
+      .map((res) => res.json());
+  }
+
   public getOrderCount() {
     return this.user.orders.length;
   }

@@ -123,7 +123,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
     }
     const order = {
-      orders: this.orders,
+      items: this.orders,
       total,
       tax,
       currency: this.checkOutCurrency,
@@ -133,7 +133,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       date: new Date().toISOString()
     };
     this.user.addOrders(order);
-    this.auth.updateProfile('orders', this.user.orders)
+    this.auth.createOrder(this.user.orders[this.user.orders.length - 1])
       .subscribe(
         (data) => this.toastr.success('Orders added to profile', 'Success'));
   }

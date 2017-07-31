@@ -72,7 +72,7 @@ export class UsersComponent implements OnInit {
           name: `${item.formProfile.firstName} ${item.formProfile.lastName}`,
           total: item.total,
           payment: item.formProfile.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress} 
+          address: JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}
