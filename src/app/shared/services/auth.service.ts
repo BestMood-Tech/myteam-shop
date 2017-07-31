@@ -132,6 +132,7 @@ export class Auth {
 
   public getProfile() {
     if (!localStorage.getItem('id_token') || this.downloadingProfile) {
+      this.onAuth.emit(null);
       return;
     }
     if (this.user && !this.downloadingProfile) {

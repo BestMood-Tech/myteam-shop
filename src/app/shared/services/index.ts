@@ -6,3 +6,4 @@ export { Auth } from './auth.service';
 export { AuthGuard } from './authGuard.service';
 export { HelperService } from './helper.service';
 export { PromocodeService } from './promocode.service';
+export { ReviewsService } from './reviews.service';

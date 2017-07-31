@@ -14,6 +14,9 @@ import { MyAroundPipe } from './pipes/around.pipe';
 import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
 import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { ReviewFormComponent } from './components/review-form/review-form.component';
+import { RecaptchaModule } from 'ng2-recaptcha';
+import { ReviewsService } from './services/reviews.service';
 import { PromocodeService } from './services/promocode.service';
 
 @NgModule({
@@ -24,6 +27,7 @@ import { PromocodeService } from './services/promocode.service';
     RouterModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
+    RecaptchaModule.forRoot()
   ],
   exports: [
     CommonModule,
@@ -34,6 +38,7 @@ import { PromocodeService } from './services/promocode.service';
     CapitalizePipe,
     NgbModule,
     AddressFormComponent,
+    ReviewFormComponent,
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
@@ -45,6 +50,7 @@ import { PromocodeService } from './services/promocode.service';
     MyAroundPipe,
     CapitalizePipe,
     AddressFormComponent,
+    ReviewFormComponent,
     ProductCardComponent,
     FiltersComponent,
     RatioComponent,
@@ -53,6 +59,7 @@ import { PromocodeService } from './services/promocode.service';
   ],
   entryComponents: [
     AddressFormComponent,
+    ReviewFormComponent,
     VideoModalWindowComponent
   ],
 })
@@ -69,7 +76,8 @@ export class SharedModule {
         Auth,
         AuthGuard,
         HelperService,
-        PromocodeService
+        PromocodeService,
+        ReviewsService
       ],
     };
   }

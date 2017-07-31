@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="col-sm-6 col-md-6 col-lg-6" *ngIf="view === 'info'">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-12 description-title">
               <div class="description-name">
@@ -46,7 +46,7 @@
           </div>
           <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-12 description-item extra-info">
-              <app-ratio [product]="product" *ngIf="product.type!=='book'"></app-ratio>
+              <app-ratio [rate]="product.vote" *ngIf="product.type!=='book'"></app-ratio>
               <div class="votes" *ngIf="product.type==='book'">
                 <span class="bold">{{product.voteCount | myAround}}</span>
                 <span class="description">Votes</span>
@@ -149,6 +149,49 @@
             </div>
           </div>
         </div>
+        <div class="col-sm-6 col-md-6 col-lg-6" *ngIf="view === 'reviews'">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="description-name">
+                Reviews
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="reviews-group" drag-scroll [drag-scroll-x-disabled]="true">
+                <div class="item" *ngFor="let review of reviews">
+                  <div class="row">
+                    <div class="col-md-8 user-name">
+                      {{review.username}}
+                    </div>
+                    <div class="col-md-4 date">
+                      {{review.createDate | date:'longDate' }}
+                    </div>
+                    <div class="col-md-12 text">
+                      {{review.text}}
+                    </div>
+                    <div class="ratio">
+                      <app-ratio [rate]="review.rate"></app-ratio>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="!reviews.length">
+                  Not reviews
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="change-view">
+          <div class="group">
+            <div class="item" (click)="setView('info')" [ngClass]="{active : view == 'info'}">Info</div>
+            <div class="item" (click)="setView('reviews')" [ngClass]="{active : view == 'reviews'}">Reviews</div>
+          </div>
+      </div>
+      <div class="review-buttons">
+        <div class="add" (click)="newReview()">New review</div>
       </div>
     </div>
     <div class="col-sm-3 col-md-3 col-lg-3 recommended"
@@ -167,7 +210,7 @@
             </a>
           </div>
         </div>
-        <app-ratio [product]="recommend" *ngIf="recommend.type!=='book'"></app-ratio>
+        <app-ratio [rate]="recommend.vote" *ngIf="recommend.type!=='book'"></app-ratio>
         <div class="title">
           <a [routerLink]="['/category', recommend.type, recommend.id]">{{recommend.name}}</a>
         </div>
@@ -175,3 +218,4 @@
     </div>
   </div>
 </div>
+
