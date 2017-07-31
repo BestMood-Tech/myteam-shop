@@ -28,7 +28,7 @@
               </div>
               <div class="info">
                 <div class="ratio">
-                  <app-ratio [product]="movieData"></app-ratio>
+                  <app-ratio [rate]="movieData.vote"></app-ratio>
                   <p class="description">Based on {{movieData.voteCount | myAround}} rates</p>
                 </div>
                 <div class="play-time">
@@ -63,7 +63,7 @@
               </div>
               <div class="info">
                 <div class="votes">
-                  <app-ratio [product]="gameData"></app-ratio>
+                  <app-ratio [rate]="gameData.vote"></app-ratio>
                   <p class="description">{{gameData.voteCount | myAround}} Votes</p>
                 </div>
                 <div class="year">
