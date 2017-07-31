@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth } from '../../services/auth.service';
 import { siteKeyGC } from '../../helper';
+import { User } from '../../user.model';
 
 @Component({
   selector: 'app-review-form',
@@ -14,6 +15,7 @@ export class ReviewFormComponent implements OnInit {
   public reviewForm: FormGroup;
   public isCaptcha: boolean;
   public siteKey = siteKeyGC;
+  public isAuth = false;
   constructor (public activeModal: NgbActiveModal,
                public auth: Auth,
                private formBulder: FormBuilder) {
@@ -24,6 +26,14 @@ export class ReviewFormComponent implements OnInit {
       text: ['', Validators.required],
       rate: [5, Validators.required]
     });
+    this.auth.onAuth.subscribe((user: User) => {
+      if (!user) {
+        this.isAuth = false;
+        return;
+      }
+      this.isAuth = true;
+    });
+    this.auth.getProfile();
     this.isCaptcha = false;
   }
 
