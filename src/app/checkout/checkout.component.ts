@@ -88,7 +88,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.promocodeService.check(this.checkOutForm.value.promoCode)
+    this.promocodeService.check(this.user.id, this.checkOutForm.value.promoCode)
       .subscribe(
         (response) => {
           this.orders.forEach((item) => {

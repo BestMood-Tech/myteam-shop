@@ -23,7 +23,11 @@ export class CartComponent implements OnInit {
 
   public ngOnInit() {
     this.auth.onAuth.subscribe((user: User) => {
-      this.cartCurrency = user.currency;
+      if (user) {
+        this.cartCurrency = user.currency;
+      } else {
+        this.cartCurrency = '$';
+      }
       this.authorization = !!user;
     });
     this.auth.getProfile();
