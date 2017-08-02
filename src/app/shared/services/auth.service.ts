@@ -68,7 +68,6 @@ export class Auth {
   public logout() {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    localStorage.removeItem('id_user');
     this.user = null;
     this.onAuth.emit(this.user);
     this.router.navigate(['./home']);
