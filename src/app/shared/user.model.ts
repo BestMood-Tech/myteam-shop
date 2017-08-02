@@ -30,6 +30,7 @@ export interface Invoice {
 }
 
 export class User {
+  id: string;
   nickName: string;
   picture: string;
   email: string;

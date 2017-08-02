@@ -100,37 +100,19 @@ export class Auth {
       );
     }
 
-    this.createProfile(user)
-      .subscribe((res) => {
-        if (res.statusCode === 201) {
-          this.user = user;
-          this.onAuth.emit(this.user);
-          this.promocodeService.create(true)
-            .subscribe((response) => {
-              this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
-                `New promocode in your profile!`);
-            });
-        } else {
-          this.getProfile();
-        }
-      });
-  }
-
-  public createProfile(user: User) {
-    return this.http.post(`${baseUrl}api/profile/create`, user, setOptions())
-      .map((res) => res.json());
+    this.getProfile(user);
   }
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.post(`${baseUrl}api/profile/update`, {field, value}, setOptions())
+    return this.http.put(`${baseUrl}api/profile/${this.user.id}`, {field, value}, setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
       });
   }
 
-  public getProfile() {
+  public getProfile(user?) {
     if (!localStorage.getItem('id_token') || this.downloadingProfile) {
       this.onAuth.emit(null);
       return;
@@ -140,9 +122,19 @@ export class Auth {
       return;
     }
     this.downloadingProfile = true;
-    this.http.get(`${baseUrl}api/profile/get`, setOptions())
-      .map((res) => {
-        this.user = new User(res.json());
+    this.http.post(`${baseUrl}api/profile`, user, setOptions())
+      .map((response) => response.json())
+      .map((data) => {
+        if (data.statusCode === 201) {
+          this.user = new User(data.body);
+          this.promocodeService.create(this.user.id, true)
+            .subscribe((response) => {
+              this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+                `New promocode in your profile!`);
+            });
+        } else {
+          this.user = new User(data);
+        }
         this.downloadingProfile = false;
         return this.user;
       })
