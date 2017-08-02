@@ -32,14 +32,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.nameCountry = res;
       });
-    this.subscriber = this.auth.onAuth.subscribe((user) => this.user = user);
+    this.subscriber = this.auth.onAuth.subscribe((user) => {
+      if (!user) { return; }
+      if (!this.user) {
+        this.promocodeService.get(user.id)
+          .subscribe((response) => {
+            this.promocode = response.promocode;
+            this.persent = response.persent;
+          });
+      }
+      this.user = user;
+    });
     this.auth.getProfile();
-
-    this.promocodeService.get()
-      .subscribe((response) => {
-        this.promocode = response.promocode;
-        this.persent = response.persent;
-      })
   }
 
   public ngOnDestroy() {
