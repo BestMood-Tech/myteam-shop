@@ -130,7 +130,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+      orderedBy: this.user.id
     };
     this.user.addOrders(order);
     this.auth.createOrder(this.user.orders[this.user.orders.length - 1])

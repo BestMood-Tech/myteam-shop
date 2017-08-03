@@ -20,12 +20,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.subscriber = this.auth.onAuth.subscribe((user) => {
+      if (!user) { return; }
+      if (!this.user) {
+        console.log(user);
+        this.auth.getOrdersByProfile(user.id)
+          .subscribe((orders) => this.orders = orders.Items);
+      }
+      this.user = user;
+    });
     this.auth.getProfile();
-    this.auth.getOrdersByProfile()
-      .subscribe((orders) => {
-      this.orders = orders.Items;
-      });
   }
 
   public ngOnDestroy() {
