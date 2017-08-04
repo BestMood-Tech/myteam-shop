@@ -123,17 +123,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
     }
     const order = {
-      orders: this.orders,
+      items: this.orders,
       total,
       tax,
       currency: this.checkOutCurrency,
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+      orderedBy: this.user.id
     };
     this.user.addOrders(order);
-    this.auth.updateProfile('orders', this.user.orders)
+    this.auth.createOrder(this.user.orders[this.user.orders.length - 1])
       .subscribe(
         (data) => this.toastr.success('Orders added to profile', 'Success'));
   }

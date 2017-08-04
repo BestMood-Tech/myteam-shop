@@ -147,7 +147,7 @@ export class OrdersComponent implements OnInit {
     this.adminService.getSelling().subscribe((res) => {
       res.forEach((item) => {
         this.rowData.push({
-          numberGoods: item.orders.length,
+          numberGoods: item.items.length,
           total: item.total,
           promoCode: item.formProfile.promoCode,
           payment: item.formProfile.payment,

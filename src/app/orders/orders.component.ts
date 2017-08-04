@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class OrdersComponent implements OnInit, OnDestroy {
   public showOrder: any;
   public user: User;
+  public orders;
   private subscriber: Subscription;
 
   constructor(private auth: Auth,
@@ -19,7 +20,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.subscriber = this.auth.onAuth.subscribe((user) => {
+      if (!user) { return; }
+      if (!this.user) {
+        console.log(user);
+        this.auth.getOrdersByProfile(user.id)
+          .subscribe((orders) => this.orders = orders.Items);
+      }
+      this.user = user;
+    });
     this.auth.getProfile();
   }
 
@@ -29,7 +38,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   public culcCount(order) {
     let count = 0;
-    order.orders.forEach((item) => count += item.count);
+    order.items.forEach((item) => count += item.count);
     return count;
   }
 

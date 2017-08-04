@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user.model';
@@ -142,6 +142,19 @@ export class Auth {
         (data) => this.onAuth.emit(this.user),
         (error) => this.onAuth.emit(null)
       );
+  }
+
+  public createOrder(orderData) {
+    return this.http.post(`${baseUrl}api/admin/createOrder`, orderData, setOptions())
+      .map((res) => res.json());
+  }
+
+  public getOrdersByProfile(id) {
+    const options: RequestOptions = setOptions();
+    options.params = new URLSearchParams();
+    options.params.set('id', id);
+    return this.http.get(`${baseUrl}api/admin/getOrdersByProfile`, options)
+      .map((res) => res.json());
   }
 
   public getOrderCount() {

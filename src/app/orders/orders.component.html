@@ -18,7 +18,7 @@
         </thead>
         <tbody>
 
-        <ng-template ngFor let-order [ngForOf]="user.orders">
+        <ng-template ngFor let-order [ngForOf]="orders">
           <tr>
             <td>{{order.date | date:'yy-MM-dd HH:MM'}}</td>
             <td>{{culcCount(order)}}</td>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-10 col-md-10 col-lg-10">
                   <div class="orders" drag-scroll [scrollbar-hidden]="true">
-                    <div class="order" *ngFor="let item of order.orders">
+                    <div class="order" *ngFor="let item of order.items">
                       <div class="poster" [style.background-image]="'url(' + item.cover + ')'">
                         <div class="type"><span>{{item.type}}</span></div>
                         <div class="price">
