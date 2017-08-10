@@ -157,6 +157,14 @@ export class Auth {
       .map((res) => res.json());
   }
 
+  public getOrderById(id) {
+    const options: RequestOptions = setOptions();
+    options.params = new URLSearchParams();
+    options.params.set('id', id);
+    return this.http.get(`${baseUrl}api/admin/getOrderById`, options)
+      .map((res) => res.json());
+  }
+
   public getOrderCount() {
     return this.user.orders.length;
   }

@@ -46,8 +46,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.showOrder = order;
   }
 
-  public getInvoice(id) {
-    const invoice = this.user.getInvoice(id);
+  public getInvoice(order) {
+    const invoice = this.user.getInvoice(order);
     const newWindow = window.open('', '_blank');
     this.cart.printInvoice(invoice).subscribe(url => {
       newWindow.location.href = url;

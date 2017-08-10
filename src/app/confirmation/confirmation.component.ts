@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/address.model';
 import { Auth, Cart } from '../shared/services';
@@ -17,6 +18,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   public addressOrder: any;
   public orderDate: Date = new Date();
   public orderUser: string;
+  public orderId;
   public loading = false;
   private user: User;
   private subscriber: Subscription;
@@ -24,7 +26,8 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   constructor(private auth: Auth,
               private cart: Cart,
               private toastr: ToastsManager,
-              private promocodeService: PromocodeService) {
+              private promocodeService: PromocodeService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   public ngOnInit() {
@@ -34,21 +37,61 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       }
       this.user = user;
       this.orderUser = user.lastName + ' ' + user.firstName;
-      this.order = user.orders[user.orders.length - 1];
-      this.addressOrder = new Address(this.order.addressOrder);
-      this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
-      this.toastr.success('Your order has been successfully processed', 'Success!');
-      if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
-        this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
-          .subscribe((response) => {
-            this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
-              `New promocode in your profile!`);
-          })
-      } else {
-        if (this.order.formProfile.promoCode) {
-          this.promocodeService.remove(this.user.id).subscribe();
-        }
-      }
+      this.activatedRoute.paramMap
+        .mergeMap((params) => this.auth.getOrderById(params.get('id')))
+        .subscribe((orders) => {
+          console.log(orders);
+          this.order = orders.Items[orders.Items.length - 1];
+          console.log(this.order);
+          this.addressOrder = new Address(this.order.addressOrder);
+          this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+          this.toastr.success('Your order has been successfully processed', 'Success!');
+          if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+            this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
+              .subscribe((response) => {
+                this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+                  `New promocode in your profile!`);
+              })
+          } else {
+            if (this.order.formProfile.promoCode) {
+              this.promocodeService.remove(this.user.id).subscribe();
+            }
+          }
+        });
+      // this.auth.getOrderById(this.orderId)
+      //   .subscribe((orders) => {
+      //   console.log(orders);
+      //   this.order = orders.Items[orders.Items.length - 1];
+      //     console.log(this.order);
+      //     this.addressOrder = new Address(this.order.addressOrder);
+      //     this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+      //     this.toastr.success('Your order has been successfully processed', 'Success!');
+      //     if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+      //       this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
+      //         .subscribe((response) => {
+      //           this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+      //             `New promocode in your profile!`);
+      //         })
+      //     } else {
+      //       if (this.order.formProfile.promoCode) {
+      //         this.promocodeService.remove(this.user.id).subscribe();
+      //       }
+      //     }
+      //   });
+      // this.addressOrder = new Address(this.order.addressOrder);
+      // this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+      // this.toastr.success('Your order has been successfully processed', 'Success!');
+      // if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+      //   this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
+      //     .subscribe((response) => {
+      //       this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+      //         `New promocode in your profile!`);
+      //     })
+      // } else {
+      //   if (this.order.formProfile.promoCode) {
+      //     this.promocodeService.remove(this.user.id).subscribe();
+      //   }
+      // }
     });
     this.auth.getProfile();
   }
@@ -64,7 +107,9 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   public getInvoice() {
     this.loading = true;
     const newWindow = window.open('', '_blank');
-    const invoice = this.user.getInvoice(this.user.orders[this.user.orders.length - 1].id);
+    console.log(this.order);
+    const invoice = this.user.getInvoice(this.order);
+    console.log(invoice);
     this.cart.printInvoice(invoice).subscribe(url => {
       this.loading = false;
       newWindow.location.href = url;

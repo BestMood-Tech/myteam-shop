@@ -103,8 +103,8 @@ export class User {
     this.address.splice(key, 1);
   }
 
-  public getInvoice(id): Invoice {
-    const order = this.orders.find(item => item.id === id);
+  public getInvoice(order): Invoice {
+    // const order = this.orders.find(item => item.id === id);
     return {
       id: order.id,
       number: Math.floor(Math.random() * 100) + 1,
@@ -112,7 +112,7 @@ export class User {
       address: order.addressOrder,
       currency: order.currency,
       payment: order.formProfile.payment,
-      products: order.orders.map(item => {
+      products: order.items.map(item => {
         return {
           title: item.name.replace(/([\uD800-\uDFFF].)|([^\x00-\x7F])/g, ''),
           desc: item.description.substr(0, 130).replace(/([\uD800-\uDFFF].)|\n|([^\x00-\x7F])/g, ''),

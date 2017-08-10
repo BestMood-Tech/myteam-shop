@@ -135,8 +135,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     };
     this.user.addOrders(order);
     this.auth.createOrder(this.user.orders[this.user.orders.length - 1])
-      .subscribe(
-        (data) => this.toastr.success('Orders added to profile', 'Success'));
+      .subscribe((data) => this.toastr.success('Orders added to profile', 'Success'));
   }
 
   public changeLevel(isNext: boolean, level?: string) {
@@ -207,7 +206,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.cart.clearCart();
     this.isRequesting = false;
     this.saveOrders();
-    this.router.navigate(['./confirmation']);
+    this.router.navigate(['./confirmation', {id: this.user.orders[this.user.orders.length - 1].id}]);
   };
 
 }
