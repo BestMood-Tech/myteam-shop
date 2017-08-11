@@ -58,40 +58,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
             }
           }
         });
-      // this.auth.getOrderById(this.orderId)
-      //   .subscribe((orders) => {
-      //   console.log(orders);
-      //   this.order = orders.Items[orders.Items.length - 1];
-      //     console.log(this.order);
-      //     this.addressOrder = new Address(this.order.addressOrder);
-      //     this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
-      //     this.toastr.success('Your order has been successfully processed', 'Success!');
-      //     if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
-      //       this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
-      //         .subscribe((response) => {
-      //           this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
-      //             `New promocode in your profile!`);
-      //         })
-      //     } else {
-      //       if (this.order.formProfile.promoCode) {
-      //         this.promocodeService.remove(this.user.id).subscribe();
-      //       }
-      //     }
-      //   });
-      // this.addressOrder = new Address(this.order.addressOrder);
-      // this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
-      // this.toastr.success('Your order has been successfully processed', 'Success!');
-      // if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
-      //   this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
-      //     .subscribe((response) => {
-      //       this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
-      //         `New promocode in your profile!`);
-      //     })
-      // } else {
-      //   if (this.order.formProfile.promoCode) {
-      //     this.promocodeService.remove(this.user.id).subscribe();
-      //   }
-      // }
     });
     this.auth.getProfile();
   }

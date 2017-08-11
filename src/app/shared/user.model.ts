@@ -104,7 +104,6 @@ export class User {
   }
 
   public getInvoice(order): Invoice {
-    // const order = this.orders.find(item => item.id === id);
     return {
       id: order.id,
       number: Math.floor(Math.random() * 100) + 1,
