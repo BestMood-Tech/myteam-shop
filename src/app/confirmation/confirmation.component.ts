@@ -40,9 +40,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       this.activatedRoute.paramMap
         .mergeMap((params) => this.auth.getOrderById(params.get('id')))
         .subscribe((orders) => {
-          console.log(orders);
-          this.order = orders.Items[orders.Items.length - 1];
-          console.log(this.order);
+          this.order = orders;
           this.addressOrder = new Address(this.order.addressOrder);
           this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
           this.toastr.success('Your order has been successfully processed', 'Success!');
@@ -73,9 +71,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   public getInvoice() {
     this.loading = true;
     const newWindow = window.open('', '_blank');
-    console.log(this.order);
     const invoice = this.user.getInvoice(this.order);
-    console.log(invoice);
     this.cart.printInvoice(invoice).subscribe(url => {
       this.loading = false;
       newWindow.location.href = url;

@@ -97,6 +97,7 @@ export class User {
   public addOrders(item) {
     item.id = this.uniqueID();
     this.orders.push(item);
+    return item;
   }
 
   public deleteAddress(key) {

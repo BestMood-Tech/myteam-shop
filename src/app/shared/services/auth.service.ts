@@ -158,10 +158,7 @@ export class Auth {
   }
 
   public getOrderById(id) {
-    const options: RequestOptions = setOptions();
-    options.params = new URLSearchParams();
-    options.params.set('id', id);
-    return this.http.get(`${baseUrl}api/admin/getOrderById`, options)
+    return this.http.get(`${baseUrl}api/admin/getOrderById/${id}`, setOptions())
       .map((res) => res.json());
   }
 
