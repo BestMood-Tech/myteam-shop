@@ -80,6 +80,6 @@ export class Cart {
 
   public printInvoice(invoice: Invoice): Observable<any> {
     return this.http.post(`${baseUrl}receipt`, invoice)
-      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-fix-print-pdf/${res.json().id}`);
+      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res.json().id}`);
   }
 }
