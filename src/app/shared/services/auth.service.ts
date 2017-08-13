@@ -157,6 +157,11 @@ export class Auth {
       .map((res) => res.json());
   }
 
+  public getOrderById(id) {
+    return this.http.get(`${baseUrl}api/admin/getOrderById/${id}`, setOptions())
+      .map((res) => res.json());
+  }
+
   public getOrderCount() {
     return this.user.orders.length;
   }

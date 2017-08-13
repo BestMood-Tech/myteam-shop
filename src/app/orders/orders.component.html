@@ -25,7 +25,7 @@
             <td>{{order.formProfile.payment}}</td>
             <td>{{user.currency}} {{order.total | currency: user.currency}}</td>
             <td>
-              <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order.id)"></span>
+              <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order)"></span>
             </td>
             <td class="show-order" *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
             <td class="show-order" *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
