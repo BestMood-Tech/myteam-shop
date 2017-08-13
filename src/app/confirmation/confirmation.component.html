@@ -15,7 +15,7 @@
         <br>
         <i>Order For Very Special Customer Inside!</i>
       </div>
-      <div class="shipping">
+      <div class="shipping" *ngIf="addressOrder">
         <p><strong>Ship to:</strong></p>
         <p>{{orderUser}}</p>
         <p>{{addressOrder.streetAddress}}</p>
