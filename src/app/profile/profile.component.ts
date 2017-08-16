@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public nameCountry: any;
   private subscriber: Subscription;
   public promocode: string;
-  public persent: number;
+  public percent: number;
 
   constructor(private auth: Auth,
               private toastr: ToastsManager,
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.promocodeService.get(user.id)
           .subscribe((response) => {
             this.promocode = response.promocode;
-            this.persent = response.persent;
+            this.percent = response.percent;
           });
       }
       this.user = user;

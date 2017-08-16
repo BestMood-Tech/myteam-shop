@@ -5,7 +5,7 @@ import { baseUrl } from '../helper';
 
 @Injectable()
 export class ReviewsService {
-  private reviewsURL = `${baseUrl}reviews`;
+  private reviewsURL = `${baseUrl}review`;
   constructor(private http: Http) {
   }
 

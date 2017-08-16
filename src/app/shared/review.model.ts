@@ -1,4 +1,5 @@
 export class Review {
+  id: string;
   username: string;
   createDate: string;
   text: string;

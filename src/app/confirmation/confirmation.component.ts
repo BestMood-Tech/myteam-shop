@@ -47,7 +47,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
           if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
             this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
               .subscribe((response) => {
-                this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+                this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
                   `New promocode in your profile!`);
               })
           } else {
