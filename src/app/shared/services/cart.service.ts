@@ -80,6 +80,6 @@ export class Cart {
 
   public printInvoice(id): Observable<any> {
     return this.http.get(`${baseUrl}api/invoice/print/${id}`)
-      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${id}`);
+      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-refactor-pdf/${id}`);
   }
 }

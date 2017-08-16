@@ -8,23 +8,23 @@ export class PromocodeService {
   }
 
   public create(id: string, isNewUser: boolean, orderCount?: number) {
-    return this.http.post(`${baseUrl}promocode/${id}`,
+    return this.http.post(`${baseUrl}api/promocode/${id}`,
       { isNewUser, orderCount }, setOptions())
       .map((response) => response.json());
   }
 
   public get(id: string) {
-    return this.http.get(`${baseUrl}promocode/${id}`, setOptions())
+    return this.http.get(`${baseUrl}api/promocode/${id}`, setOptions())
       .map((response) => response.json());
   }
 
   public check(id: string, promocode: string) {
-    return this.http.put(`${baseUrl}promocode/${id}`, { promocode }, setOptions())
+    return this.http.put(`${baseUrl}api/promocode/${id}`, { promocode }, setOptions())
       .map((response) => response.json());
   }
 
   public remove(id: string) {
-    return this.http.delete(`${baseUrl}promocode/${id}`, setOptions())
+    return this.http.delete(`${baseUrl}api/promocode/${id}`, setOptions())
       .map((response) => response.json());
   }
 }

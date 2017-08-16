@@ -23,7 +23,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   private user: User;
   private subscriber: Subscription;
 
-  private orderId: string;
 
   constructor(private auth: Auth,
               private cart: Cart,
@@ -39,9 +38,9 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       }
       this.user = user;
       this.orderUser = user.lastName + ' ' + user.firstName;
-      this.activatedRoute.paramMap
+      this.activatedRoute.params
         .subscribe((params) => {
-          this.orderId = params.get('id');
+          this.orderId = params.id;
           this.order = this.user.getOrderById(this.orderId);
           this.addressOrder = new Address(this.order.addressOrder);
 

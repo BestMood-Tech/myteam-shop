@@ -133,7 +133,7 @@ export class Auth {
                 `New promocode in your profile!`);
             });
         } else {
-          this.user = new User(data);
+          this.user = new User(data.body);
         }
         this.downloadingProfile = false;
         return this.user;
@@ -151,7 +151,13 @@ export class Auth {
 
   public getOrdersByProfile(id) {
     return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
-      .map((res) => res.json());
+      .map((res) => res.json())
+      .map(orders => {
+        return orders.map(order => {
+          order.createdAt = new Date(order.createdAt);
+          return order;
+        })
+      });
   }
 
   public getOrderById(id) {

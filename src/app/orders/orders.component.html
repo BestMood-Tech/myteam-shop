@@ -20,8 +20,8 @@
 
         <ng-template ngFor let-order [ngForOf]="orders">
           <tr>
-            <td>{{order.date | date:'yy-MM-dd HH:MM'}}</td>
-            <td>{{culcCount(order)}}</td>
+            <td>{{order.createdAt | date:'yy-MM-dd HH:MM'}}</td>
+            <td>{{calcCount(order)}}</td>
             <td>{{order.formProfile.payment}}</td>
             <td>{{user.currency}} {{order.total | currency: user.currency}}</td>
             <td>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-10 col-md-10 col-lg-10">
                   <div class="orders" drag-scroll [scrollbar-hidden]="true">
-                    <div class="order" *ngFor="let item of order.items">
+                    <div class="order" *ngFor="let item of order.products">
                       <div class="poster" [style.background-image]="'url(' + item.cover + ')'">
                         <div class="type"><span>{{item.type}}</span></div>
                         <div class="price">

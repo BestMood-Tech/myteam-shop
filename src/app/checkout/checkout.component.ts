@@ -123,21 +123,21 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
     }
     const order = {
-      items: this.orders,
+      products: this.orders,
       total,
       tax,
       currency: this.checkOutCurrency,
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date().toISOString(),
-      orderedBy: this.user.id
     };
     this.auth.createOrder(order)
       .subscribe((data) => {
         this.user.addOrders(data);
+        this.isRequesting = false;
+        this.cart.clearCart();
         this.toastr.success('Orders added to profile', 'Success');
-        this.router.navigate(['./confirmation', {id: data['id']}]);
+        this.router.navigate(['./confirmation', data['id']]);
       });
   }
 
@@ -199,16 +199,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
     this.isRequesting = true;
-
-    setTimeout(() => {
-      this.myPay();
-    }, 5000);
-  }
-
-  private myPay = function () {
-    this.cart.clearCart();
-    this.isRequesting = false;
     this.saveOrders();
-  };
-
+  }
 }
