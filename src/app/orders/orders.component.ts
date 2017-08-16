@@ -47,10 +47,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice(order) {
-    const newWindow = window.open('', '_blank');
     this.cart.printInvoice(order.id).subscribe(url => {
-      newWindow.location.href = url;
-      newWindow.focus();
+      setTimeout(() => {
+        const newWindow = window.open('', '_blank');
+        newWindow.location.href = url;
+        newWindow.focus();
+      }, 3000);
     });
   }
 }

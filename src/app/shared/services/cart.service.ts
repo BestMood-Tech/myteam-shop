@@ -79,6 +79,7 @@ export class Cart {
   }
 
   public printInvoice(id): Observable<any> {
+    this.toastr.warning('Processing', 'Your invoice is processing');
     return this.http.get(`${baseUrl}api/invoice/print/${id}`, setOptions())
       .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-refactor-pdf/${id}`);
   }

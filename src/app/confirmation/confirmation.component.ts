@@ -71,11 +71,13 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
   public getInvoice(id: string) {
     this.loading = true;
-    const newWindow = window.open('', '_blank');
     this.cart.printInvoice(id).subscribe(url => {
-      this.loading = false;
-      newWindow.location.href = url;
-      newWindow.focus();
+      setTimeout(() => {
+        this.loading = false;
+        const newWindow = window.open('', '_blank');
+        newWindow.location.href = url;
+        newWindow.focus();
+      }, 3000);
     });
   }
 }
