@@ -69,9 +69,9 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     return `${this.orderDate.getDate()}/${this.orderDate.getMonth()}/${this.orderDate.getFullYear()}`;
   }
 
-  public getInvoice(id: string) {
+  public getInvoice() {
     this.loading = true;
-    this.cart.printInvoice(id).subscribe(url => {
+    this.cart.printInvoice(this.orderId).subscribe(url => {
       setTimeout(() => {
         this.loading = false;
         const newWindow = window.open('', '_blank');
