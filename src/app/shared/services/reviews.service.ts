@@ -10,7 +10,7 @@ export class ReviewsService {
   }
 
   public add(data: Review) {
-    return this.http.post(`${this.reviewsURL}/add`, data).map((res) => res.json());
+    return this.http.post(`${this.reviewsURL}`, data).map((res) => res.json());
   }
 
   public get(id) {
