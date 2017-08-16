@@ -23,6 +23,8 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   private user: User;
   private subscriber: Subscription;
 
+  private orderId: string;
+
   constructor(private auth: Auth,
               private cart: Cart,
               private toastr: ToastsManager,
@@ -38,11 +40,11 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       this.user = user;
       this.orderUser = user.lastName + ' ' + user.firstName;
       this.activatedRoute.paramMap
-        .mergeMap((params) => this.auth.getOrderById(params.get('id')))
-        .subscribe((orders) => {
-          this.order = orders;
+        .subscribe((params) => {
+          this.orderId = params.get('id');
+          this.order = this.user.getOrderById(this.orderId);
           this.addressOrder = new Address(this.order.addressOrder);
-          this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+
           this.toastr.success('Your order has been successfully processed', 'Success!');
           if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
             this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
@@ -55,7 +57,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
               this.promocodeService.remove(this.user.id).subscribe();
             }
           }
-        });
+        })
     });
     this.auth.getProfile();
   }
@@ -68,11 +70,10 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     return `${this.orderDate.getDate()}/${this.orderDate.getMonth()}/${this.orderDate.getFullYear()}`;
   }
 
-  public getInvoice() {
+  public getInvoice(id: string) {
     this.loading = true;
     const newWindow = window.open('', '_blank');
-    const invoice = this.user.getInvoice(this.order);
-    this.cart.printInvoice(invoice).subscribe(url => {
+    this.cart.printInvoice(id).subscribe(url => {
       this.loading = false;
       newWindow.location.href = url;
       newWindow.focus();

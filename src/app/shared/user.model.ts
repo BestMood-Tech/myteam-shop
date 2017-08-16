@@ -95,9 +95,12 @@ export class User {
   }
 
   public addOrders(item) {
-    item.id = this.uniqueID();
     this.orders.push(item);
     return item;
+  }
+
+  public getOrderById(id) {
+    return this.orders.find(order => order.id === id);
   }
 
   public deleteAddress(key) {
@@ -126,17 +129,5 @@ export class User {
       tax: order.tax,
       grandTotal: order.grandTotal,
     };
-  }
-
-  private uniqueID() {
-    function chr4() {
-      return Math.random().toString(16).slice(-4);
-    }
-
-    return chr4() + chr4() +
-      '-' + chr4() +
-      '-' + chr4() +
-      '-' + chr4() +
-      '-' + chr4() + chr4() + chr4();
   }
 }
