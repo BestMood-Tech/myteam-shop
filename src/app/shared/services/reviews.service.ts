@@ -5,12 +5,12 @@ import { baseUrl } from '../helper';
 
 @Injectable()
 export class ReviewsService {
-  private reviewsURL = `${baseUrl}reviews`;
+  private reviewsURL = `${baseUrl}api/review`;
   constructor(private http: Http) {
   }
 
   public add(data: Review) {
-    return this.http.post(`${this.reviewsURL}/add`, data).map((res) => res.json());
+    return this.http.post(`${this.reviewsURL}`, data).map((res) => res.json());
   }
 
   public get(id) {

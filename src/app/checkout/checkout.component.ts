@@ -92,10 +92,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           this.orders.forEach((item) => {
-            item.price *= ((100 - response.persent) / 100);
+            item.price *= ((100 - response.percent) / 100);
             item.total = +(item.price * item.count).toFixed(2);
           });
-          this.toastr.success(`You have ${response.persent}% discount`, 'Success!');
+          this.toastr.success(`You have ${response.percent}% discount`, 'Success!');
           this.activePromoCode = false;
         },
         (error) => {
@@ -122,22 +122,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (!this.checkOutForm.controls['promoCode'].value) {
       this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
     }
-    let order = {
-      items: this.orders,
+    const order = {
+      products: this.orders,
       total,
       tax,
       currency: this.checkOutCurrency,
       grandTotal,
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
-      date: new Date().toISOString(),
-      orderedBy: this.user.id
     };
-    order = this.user.addOrders(order);
     this.auth.createOrder(order)
       .subscribe((data) => {
+        this.user.addOrders(data);
+        this.isRequesting = false;
+        this.cart.clearCart();
         this.toastr.success('Orders added to profile', 'Success');
-        this.router.navigate(['./confirmation', {id: order['id']}]);
+        this.router.navigate(['./confirmation', data['id']]);
       });
   }
 
@@ -199,16 +199,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
     this.isRequesting = true;
-
-    setTimeout(() => {
-      this.myPay();
-    }, 5000);
-  }
-
-  private myPay = function () {
-    this.cart.clearCart();
-    this.isRequesting = false;
     this.saveOrders();
-  };
-
+  }
 }

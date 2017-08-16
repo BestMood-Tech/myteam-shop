@@ -4,13 +4,12 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve --proxy-config proxy.conf.json & nodemon src/server/server.js",
+    "start": "ng serve",
     "lint": "ng lint",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "bundle-report": "webpack-bundle-analyzer dist/stats.json",
-    "serve:prod": "http-server -p 4200 -g -P http://localhost:3000 dist/ && nodemon src/server/server.js"
+    "bundle-report": "webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {

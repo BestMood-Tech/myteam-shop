@@ -25,7 +25,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       if (!this.user) {
         console.log(user);
         this.auth.getOrdersByProfile(user.id)
-          .subscribe((orders) => this.orders = orders.Items);
+          .subscribe((orders) => this.orders = orders);
       }
       this.user = user;
     });
@@ -36,9 +36,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subscriber.unsubscribe();
   }
 
-  public culcCount(order) {
+  public calcCount(order) {
     let count = 0;
-    order.items.forEach((item) => count += item.count);
+    order.products.forEach((item) => count += item.count);
     return count;
   }
 
@@ -47,11 +47,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice(order) {
-    const invoice = this.user.getInvoice(order);
-    const newWindow = window.open('', '_blank');
-    this.cart.printInvoice(invoice).subscribe(url => {
-      newWindow.location.href = url;
-      newWindow.focus();
+    this.cart.printInvoice(order.id).subscribe(url => {
+      setTimeout(() => {
+        const newWindow = window.open('', '_blank');
+        newWindow.location.href = url;
+        newWindow.focus();
+      }, 3000);
     });
   }
 }

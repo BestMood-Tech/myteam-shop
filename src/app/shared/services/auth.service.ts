@@ -129,11 +129,11 @@ export class Auth {
           this.user = new User(data.body);
           this.promocodeService.create(this.user.id, true)
             .subscribe((response) => {
-              this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+              this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
                 `New promocode in your profile!`);
             });
         } else {
-          this.user = new User(data);
+          this.user = new User(data.body);
         }
         this.downloadingProfile = false;
         return this.user;
@@ -145,20 +145,23 @@ export class Auth {
   }
 
   public createOrder(orderData) {
-    return this.http.post(`${baseUrl}api/admin/createOrder`, orderData, setOptions())
+    return this.http.post(`${baseUrl}api/order`, orderData, setOptions())
       .map((res) => res.json());
   }
 
   public getOrdersByProfile(id) {
-    const options: RequestOptions = setOptions();
-    options.params = new URLSearchParams();
-    options.params.set('id', id);
-    return this.http.get(`${baseUrl}api/admin/getOrdersByProfile`, options)
-      .map((res) => res.json());
+    return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
+      .map((res) => res.json())
+      .map(orders => {
+        return orders.map(order => {
+          order.createdAt = new Date(order.createdAt);
+          return order;
+        })
+      });
   }
 
   public getOrderById(id) {
-    return this.http.get(`${baseUrl}api/admin/getOrderById/${id}`, setOptions())
+    return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
       .map((res) => res.json());
   }
 

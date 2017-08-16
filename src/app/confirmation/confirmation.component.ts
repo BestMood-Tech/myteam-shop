@@ -23,6 +23,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   private user: User;
   private subscriber: Subscription;
 
+
   constructor(private auth: Auth,
               private cart: Cart,
               private toastr: ToastsManager,
@@ -37,17 +38,17 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       }
       this.user = user;
       this.orderUser = user.lastName + ' ' + user.firstName;
-      this.activatedRoute.paramMap
-        .mergeMap((params) => this.auth.getOrderById(params.get('id')))
-        .subscribe((orders) => {
-          this.order = orders;
+      this.activatedRoute.params
+        .subscribe((params) => {
+          this.orderId = params.id;
+          this.order = this.user.getOrderById(this.orderId);
           this.addressOrder = new Address(this.order.addressOrder);
-          this.orderDate.setDate(new Date(this.order.date).getDate() + 14);
+
           this.toastr.success('Your order has been successfully processed', 'Success!');
           if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
             this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
               .subscribe((response) => {
-                this.toastr.info(`You have a promocode with ${response.persent}% discount!`,
+                this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
                   `New promocode in your profile!`);
               })
           } else {
@@ -55,7 +56,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
               this.promocodeService.remove(this.user.id).subscribe();
             }
           }
-        });
+        })
     });
     this.auth.getProfile();
   }
@@ -70,12 +71,13 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
   public getInvoice() {
     this.loading = true;
-    const newWindow = window.open('', '_blank');
-    const invoice = this.user.getInvoice(this.order);
-    this.cart.printInvoice(invoice).subscribe(url => {
-      this.loading = false;
-      newWindow.location.href = url;
-      newWindow.focus();
+    this.cart.printInvoice(this.orderId).subscribe(url => {
+      setTimeout(() => {
+        this.loading = false;
+        const newWindow = window.open('', '_blank');
+        newWindow.location.href = url;
+        newWindow.focus();
+      }, 3000);
     });
   }
 }

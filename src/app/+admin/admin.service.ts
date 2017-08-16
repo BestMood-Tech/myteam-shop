@@ -13,8 +13,9 @@ export class AdminService {
     const params = new URLSearchParams();
     params.set('from', fromYear);
     params.set('to', toYear);
+    params.set('isFake', 'true');
 
-    return this.http.get(`${baseUrl}/api/admin/getOrders`, new RequestOptions({search: params}))
+    return this.http.get(`${baseUrl}api/order/getByRangeDates`, new RequestOptions({search: params}))
       .map(res => res.json());
   }
 

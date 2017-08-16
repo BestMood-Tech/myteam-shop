@@ -3,7 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Invoice } from '../user.model';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { baseUrl } from '../helper';
+import { baseUrl, setOptions } from '../helper';
 
 @Injectable()
 export class Cart {
@@ -78,8 +78,9 @@ export class Cart {
     localStorage.setItem('cart', JSON.stringify(basket));
   }
 
-  public printInvoice(invoice: Invoice): Observable<any> {
-    return this.http.post(`${baseUrl}receipt`, invoice)
-      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/${res.json().id}`);
+  public printInvoice(id): Observable<any> {
+    this.toastr.warning('Processing', 'Your invoice is processing');
+    return this.http.get(`${baseUrl}api/invoice/print/${id}`, setOptions())
+      .map(res => `https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-refactor-pdf/${id}`);
   }
 }

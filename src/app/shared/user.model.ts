@@ -95,48 +95,15 @@ export class User {
   }
 
   public addOrders(item) {
-    item.id = this.uniqueID();
     this.orders.push(item);
     return item;
   }
 
+  public getOrderById(id) {
+    return this.orders.find(order => order.id === id);
+  }
+
   public deleteAddress(key) {
     this.address.splice(key, 1);
-  }
-
-  public getInvoice(order): Invoice {
-    return {
-      id: order.id,
-      number: Math.floor(Math.random() * 100) + 1,
-      date: (new Date(order.date)).toLocaleDateString(),
-      address: order.addressOrder,
-      currency: order.currency,
-      payment: order.formProfile.payment,
-      products: order.items.map(item => {
-        return {
-          title: item.name.replace(/([\uD800-\uDFFF].)|([^\x00-\x7F])/g, ''),
-          desc: item.description.substr(0, 130).replace(/([\uD800-\uDFFF].)|\n|([^\x00-\x7F])/g, ''),
-          price: item.price,
-          count: item.count,
-          total: item.total,
-        };
-      }),
-      user: this.userProfile,
-      total: order.total,
-      tax: order.tax,
-      grandTotal: order.grandTotal,
-    };
-  }
-
-  private uniqueID() {
-    function chr4() {
-      return Math.random().toString(16).slice(-4);
-    }
-
-    return chr4() + chr4() +
-      '-' + chr4() +
-      '-' + chr4() +
-      '-' + chr4() +
-      '-' + chr4() + chr4() + chr4();
   }
 }
