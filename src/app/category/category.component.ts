@@ -20,17 +20,19 @@ export class CategoryComponent implements OnInit {
               private booksService: BooksService,
               private cart: Cart) {
     switch (this.route.snapshot.url[1].path) {
-      case 'books': this.currentService = this.booksService; break;
-      case 'movies': this.currentService = this.movieService; break;
-      default: this.currentService = this.gamesService; break;
+      case 'books':
+        this.currentService = this.booksService;
+        break;
+      case 'movies':
+        this.currentService = this.movieService;
+        break;
+      default:
+        this.currentService = this.gamesService;
+        break;
     }
   }
 
   public ngOnInit() {
     this.products = this.currentService.processData(this.route.snapshot.data['category']);
-  }
-
-  public addToCart(product) {
-    this.cart.addToCart(product);
   }
 }

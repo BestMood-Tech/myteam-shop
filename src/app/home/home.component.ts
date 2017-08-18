@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { Auth, BooksService, GamesService, MovieService } from '../shared/services';
-import { User } from '../shared/user.model';
+import { AuthService, BooksService, GamesService, MovieService } from '../shared/services';
+import { Profile } from '../shared/models/profile.model';
+import { Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +13,13 @@ import { User } from '../shared/user.model';
 export class HomeComponent implements OnInit {
   public gameData: any;
   public movieData: any;
-  public bookData: any;
+  public bookData: Product[];
   public productCurrency: any;
 
   constructor(private movieService: MovieService,
               private gamesService: GamesService,
               private booksService: BooksService,
-              private auth: Auth,
+              private auth: AuthService,
               private modalService: NgbModal) {
   }
 
@@ -29,10 +30,10 @@ export class HomeComponent implements OnInit {
     this.movieService.recent().subscribe(res => {
       this.movieData = this.movieService.processData(res)[0];
     });
-    this.booksService.getStories().subscribe((res) => {
-      this.bookData = this.booksService.processData(res)[0];
+    this.booksService.getItems().subscribe((books: Product[]) => {
+      this.bookData = books;
     });
-    this.auth.onAuth.subscribe((user: User) => {
+    this.auth.profile.subscribe((user: Profile) => {
       if (!user) {
         return;
       }

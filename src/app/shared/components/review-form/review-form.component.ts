@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Auth } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { siteKeyGC } from '../../helper';
-import { User } from '../../user.model';
+import { Profile } from '../../models/profile.model';
 
 @Component({
   selector: 'app-review-form',
@@ -17,7 +17,7 @@ export class ReviewFormComponent implements OnInit {
   public siteKey = siteKeyGC;
   public isAuth = false;
   constructor (public activeModal: NgbActiveModal,
-               public auth: Auth,
+               public auth: AuthService,
                private formBulder: FormBuilder) {
   }
 
@@ -26,7 +26,7 @@ export class ReviewFormComponent implements OnInit {
       text: ['', Validators.required],
       rate: [5, Validators.required]
     });
-    this.auth.onAuth.subscribe((user: User) => {
+    this.auth.profile.subscribe((user: Profile) => {
       if (!user) {
         this.isAuth = false;
         return;

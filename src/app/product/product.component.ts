@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
-import { User } from '../shared/user.model';
+import { Profile } from '../shared/models/profile.model';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
 import { ReviewFormComponent } from '../shared/components/review-form/review-form.component';
-import { Review } from '../shared/review.model';
+import { Review } from '../shared/models/review.model';
 import { ReviewsService } from '../shared/services/reviews.service';
 import { ToastsManager } from 'ng2-toastr';
-import { Auth, BooksService, Cart, GamesService, MovieService } from '../shared/services';
+import { AuthService, BooksService, Cart, GamesService, MovieService } from '../shared/services';
 
 @Component({
   selector: 'app-product',
@@ -28,7 +28,7 @@ export class ProductComponent implements OnInit {
               private movieService: MovieService,
               private gamesService: GamesService,
               private cart: Cart,
-              private auth: Auth,
+              private auth: AuthService,
               private modalService: NgbModal,
               private reviewsService: ReviewsService,
               private toastr: ToastsManager) {
@@ -47,7 +47,7 @@ export class ProductComponent implements OnInit {
 
   public ngOnInit() {
     this.route.params.subscribe(() => {
-      this.product = this.currentService.processItem(this.route.snapshot.data['product']);
+      this.product = this.route.snapshot.data['product'];
       this.product.coverUrl = this.product.cover;
       if (!this.currentService.data || this.currentService.data.length === 0) {
         let getData;
@@ -56,7 +56,7 @@ export class ProductComponent implements OnInit {
             getData = this.movieService.recent();
             break;
           case 'book':
-            getData = this.booksService.getStories();
+            getData = this.booksService.getItems();
             break;
           default:
             getData = this.gamesService.latest();
@@ -77,7 +77,7 @@ export class ProductComponent implements OnInit {
         this.currentService.getDevelopers(this.product.developers)
           .subscribe(res => this.product.developers = res);
       }
-      this.auth.onAuth.subscribe((user: User) => {
+      this.auth.profile.subscribe((user: Profile) => {
         if (!user) {
           this.productCurrency = '$';
           return;

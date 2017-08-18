@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Address } from '../shared/address.model';
-import { Auth, Cart } from '../shared/services';
-import { User } from '../shared/user.model';
+import { Address } from '../shared/models/address.model';
+import { AuthService, Cart } from '../shared/services';
+import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
 
@@ -29,20 +29,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public direction = 'next';
 
   public isRequesting: boolean;
-  private user: User;
+  private user: Profile;
   private promoCode: string;
   private subscriber: Subscription;
 
   constructor(private cart: Cart,
-              private auth: Auth,
-              private formBulder: FormBuilder,
+              private auth: AuthService,
+              private formBuilder: FormBuilder,
               private toastr: ToastsManager,
               private router: Router,
               private promocodeService: PromocodeService) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.auth.profile.subscribe((user: Profile) => {
       this.user = user;
       this.checkOutCurrency = user.currency;
       this.arrayAddressUser = user.address;
@@ -66,7 +66,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutAddressKey = 0;
     }
 
-    this.checkOutForm = this.formBulder.group({
+    this.checkOutForm = this.formBuilder.group({
       promoCode: '',
       address: [this.checkOutAddress, Validators.required],
       payment: ['PayPal', Validators.required]
@@ -131,14 +131,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       formProfile: this.checkOutForm.value,
       addressOrder: this.checkOutAddress,
     };
-    this.auth.createOrder(order)
+    /*this.auth.createOrder(order)
       .subscribe((data) => {
         this.user.addOrders(data);
         this.isRequesting = false;
         this.cart.clearCart();
         this.toastr.success('Orders added to profile', 'Success');
         this.router.navigate(['./confirmation', data['id']]);
-      });
+      });*/
   }
 
   public changeLevel(isNext: boolean, level?: string) {

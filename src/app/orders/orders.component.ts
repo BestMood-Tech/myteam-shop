@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, Cart } from '../shared/services';
-import { User } from '../shared/user.model';
+import { AuthService, Cart } from '../shared/services';
+import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,21 +11,21 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class OrdersComponent implements OnInit, OnDestroy {
   public showOrder: any;
-  public user: User;
+  public user: Profile;
   public orders;
   private subscriber: Subscription;
 
-  constructor(private auth: Auth,
+  constructor(private auth: AuthService,
               private cart: Cart) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user) => {
+    this.subscriber = this.auth.profile.subscribe((user) => {
       if (!user) { return; }
       if (!this.user) {
         console.log(user);
-        this.auth.getOrdersByProfile(user.id)
-          .subscribe((orders) => this.orders = orders);
+        /*this.auth.getOrdersByProfile(user.id)
+          .subscribe((orders) => this.orders = orders);*/
       }
       this.user = user;
     });

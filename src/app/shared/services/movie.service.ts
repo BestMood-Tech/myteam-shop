@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
+import { Product } from '../models/product.model';
 
 @Injectable()
 export class MovieService {
@@ -71,9 +72,9 @@ export class MovieService {
       .map(res => res.json());
   }
 
-  public processData(data) {
+  public processData(data): Product[] {
     this.data = data.results.map((movie) => {
-      return {
+      return new Product({
         id: movie.id,
         type: 'movie',
         name: movie.title,
@@ -83,7 +84,7 @@ export class MovieService {
         voteCount: movie.vote_count,
         price: movie.vote_average * 20 / 10,
         year: movie.release_date.split('-')[0]
-      };
+      });
     });
     return this.data;
   }
@@ -138,9 +139,9 @@ export class MovieService {
       cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
       description: movie.overview,
       genres: movie.genres,
-      production_companies: movie.production_companies,
-      vote_average: movie.vote_average,
-      release_date: moment(movie.release_date).format('YYYY'),
+      productionCompanies: movie.production_companies,
+      voteAverage: movie.vote_average,
+      year: moment(movie.release_date).format('YYYY'),
       price: movie.vote_average * 20 / 10,
       vote: movie.vote_average,
       homepage: movie.homepage || ''

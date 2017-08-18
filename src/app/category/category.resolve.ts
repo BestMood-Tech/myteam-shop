@@ -8,14 +8,19 @@ import { BooksService } from '../shared/services/books.service';
 @Injectable()
 export class CategoryResolve implements Resolve<any> {
 
-  constructor (private movieService: MovieService,
-               private gamesService: GamesService,
-               private booksService: BooksService) {}
+  constructor(private movieService: MovieService,
+              private gamesService: GamesService,
+              private booksService: BooksService) {
+  }
+
   public resolve(route: ActivatedRouteSnapshot) {
     switch (route.url[1].path) {
-      case 'movies': return this.movieService.recent();
-      case 'books': return this.booksService.getStories();
-      default: return this.gamesService.latest();
+      case 'movies':
+        return this.movieService.recent();
+      case 'books':
+        return this.booksService.getItems();
+      default:
+        return this.gamesService.latest();
     }
   }
 }

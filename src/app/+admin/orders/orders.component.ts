@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
 import { AdminService } from '../admin.service';
-import { NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
+import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
 
 @Component({
   selector: 'app-users',

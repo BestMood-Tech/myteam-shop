@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Review } from '../review.model';
+import { Review } from '../models/review.model';
 import { baseUrl } from '../helper';
 
 @Injectable()

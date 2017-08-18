@@ -2,15 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { DragScrollModule } from 'angular2-drag-scroll';
+
+import { CustomOption } from './customOptionsToasts';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { CategoryResolve } from './category/category.resolve';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { CategoryResolve } from './category/category.resolve';
 import { ProductResolve } from './product/product.resolve';
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CustomOption } from './customOptionsToasts';
-import { DragScrollModule } from 'angular2-drag-scroll';
 
 @NgModule({
   declarations: [

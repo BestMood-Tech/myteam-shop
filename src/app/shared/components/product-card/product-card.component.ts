@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../../shared/user.model';
-import { Auth, Cart } from '../../services/';
+import { Profile } from '../../models/profile.model';
+import { AuthService, Cart } from '../../services/';
 
 @Component({
   selector: 'app-product-card',
@@ -18,11 +18,11 @@ export class ProductCardComponent implements OnInit {
   public productCover: string;
   public state = 'large';
 
-  constructor(private cart: Cart, private auth: Auth) {
+  constructor(private cart: Cart, private auth: AuthService) {
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => {
+    this.auth.profile.subscribe((user: Profile) => {
       if (!user) {
         this.productCurrency = '$';
         return;

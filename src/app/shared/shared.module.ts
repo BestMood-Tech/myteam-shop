@@ -1,23 +1,79 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrencyPipe } from './pipes/currency.pipe';
-import { BooksService, GamesService, MovieService, Auth, Cart, AuthGuard } from './services';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddressFormComponent } from './components/address-form/address-form.component';
-import { HelperService } from './services/helper.service';
-import { ProductCardComponent } from './components/product-card/product-card.component';
 import { RouterModule } from '@angular/router';
-import { FiltersComponent } from './components/filter/filters.component';
-import { RatioComponent } from './components/ratio/ratio.component';
-import { MyAroundPipe } from './pipes/around.pipe';
-import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
-import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
-import { CapitalizePipe } from './pipes/capitalize.pipe';
-import { ReviewFormComponent } from './components/review-form/review-form.component';
+/*
+ * Third-party modules
+ */
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RecaptchaModule } from 'ng2-recaptcha';
-import { ReviewsService } from './services/reviews.service';
-import { PromocodeService } from './services/promocode.service';
+/*
+ * Module components
+ */
+import {
+  ReviewFormComponent,
+  VideoModalWindowComponent,
+  ProfileFieldComponent,
+  RatioComponent,
+  FiltersComponent,
+  ProductCardComponent,
+  AddressFormComponent
+} from './components';
+/*
+ * Module pipes
+ */
+import {
+  CapitalizePipe,
+  AroundPipe,
+  CurrencyPipe
+} from './pipes';
+/*
+ * Module services
+ */
+import {
+  ReviewsService,
+  PromocodeService,
+  BooksService,
+  GamesService,
+  MovieService,
+  AuthService,
+  Cart,
+  HelperService
+} from './services';
+/*
+ * Module guards
+ */
+import { AuthGuard } from './guards';
+
+const SharedComponents = [
+  ProfileFieldComponent,
+  RatioComponent,
+  FiltersComponent,
+  ProductCardComponent
+];
+
+const SharedEntryComponents = [
+  ReviewFormComponent,
+  VideoModalWindowComponent,
+  AddressFormComponent
+];
+
+const SharedPipes = [
+  CapitalizePipe,
+  AroundPipe,
+  CurrencyPipe
+];
+
+const SharedServices = [
+  ReviewsService,
+  PromocodeService,
+  BooksService,
+  GamesService,
+  MovieService,
+  AuthService,
+  Cart,
+  HelperService
+];
 
 @NgModule({
   imports: [
@@ -33,34 +89,18 @@ import { PromocodeService } from './services/promocode.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CurrencyPipe,
-    MyAroundPipe,
-    CapitalizePipe,
     NgbModule,
-    AddressFormComponent,
-    ReviewFormComponent,
-    ProductCardComponent,
-    FiltersComponent,
-    RatioComponent,
-    ProfileFieldComponent,
-    VideoModalWindowComponent
+    ...SharedComponents,
+    ...SharedEntryComponents,
+    ...SharedPipes
   ],
   declarations: [
-    CurrencyPipe,
-    MyAroundPipe,
-    CapitalizePipe,
-    AddressFormComponent,
-    ReviewFormComponent,
-    ProductCardComponent,
-    FiltersComponent,
-    RatioComponent,
-    ProfileFieldComponent,
-    VideoModalWindowComponent
+    ...SharedComponents,
+    ...SharedEntryComponents,
+    ...SharedPipes
   ],
   entryComponents: [
-    AddressFormComponent,
-    ReviewFormComponent,
-    VideoModalWindowComponent
+    ...SharedEntryComponents
   ],
 })
 
@@ -69,15 +109,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        BooksService,
-        GamesService,
-        MovieService,
-        Cart,
-        Auth,
-        AuthGuard,
-        HelperService,
-        PromocodeService,
-        ReviewsService
+        ...SharedServices,
+        AuthGuard
       ],
     };
   }

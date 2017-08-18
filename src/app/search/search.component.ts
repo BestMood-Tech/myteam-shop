@@ -78,7 +78,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     ])
       .map(([books, games, movies]) => {
         if (!objState.checkBooks) {
-          books.stories = [];
+          books = [];
         }
         if (!objState.checkMovies) {
           movies.results = [];
@@ -87,7 +87,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           games = [];
         }
         return [].concat(
-          this.bookService.processData(books),
+          books,
           this.gamesService.processData(games),
           this.movieService.processData(movies));
       })

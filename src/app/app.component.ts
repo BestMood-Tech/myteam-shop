@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { ToastsManager } from 'ng2-toastr';
-import { User } from './shared/user.model';
-import { Auth, AuthGuard, Cart, HelperService } from './shared/services';
+
+import { Profile } from './shared/models/profile.model';
+import { AuthService, Cart, HelperService } from './shared/services';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +23,10 @@ export class AppComponent implements OnInit {
     checkGames: true
   };
   public changedCount = false;
-  public user: User;
+  public user: Profile;
 
-  constructor(public authGuard: AuthGuard,
-              public auth: Auth,
+  constructor(public auth: AuthService,
               private router: Router,
-              private route: ActivatedRoute,
               private cart: Cart,
               private fb: FormBuilder,
               private viewContainer: ViewContainerRef,
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
 
       setTimeout(() => this.changedCount = false, 1000);
     });
-    this.auth.onAuth.subscribe((user: User) => this.user = user);
+    this.auth.profile.subscribe((user: Profile) => this.user = user);
     this.auth.getProfile();
   }
 

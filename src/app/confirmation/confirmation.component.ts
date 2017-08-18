@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Address } from '../shared/address.model';
-import { Auth, Cart } from '../shared/services';
-import { User } from '../shared/user.model';
+import { Address } from '../shared/models/address.model';
+import { AuthService, Cart } from '../shared/services';
+import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
 
@@ -20,11 +20,11 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   public orderUser: string;
   public orderId;
   public loading = false;
-  private user: User;
+  private user: Profile;
   private subscriber: Subscription;
 
 
-  constructor(private auth: Auth,
+  constructor(private auth: AuthService,
               private cart: Cart,
               private toastr: ToastsManager,
               private promocodeService: PromocodeService,
@@ -32,7 +32,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.auth.profile.subscribe((user: Profile) => {
       if (!user || this.user) {
         return;
       }
@@ -45,7 +45,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
           this.addressOrder = new Address(this.order.addressOrder);
 
           this.toastr.success('Your order has been successfully processed', 'Success!');
-          if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
+          /*if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
             this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
               .subscribe((response) => {
                 this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
@@ -55,7 +55,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
             if (this.order.formProfile.promoCode) {
               this.promocodeService.remove(this.user.id).subscribe();
             }
-          }
+          }*/
         })
     });
     this.auth.getProfile();

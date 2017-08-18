@@ -39,7 +39,7 @@
                       class="status-game">({{getStatusGame()}})</span>
               </div>
               <div class="description-release">
-                <span>{{product.release_date}}</span>
+                <span>{{product.year}}</span>
                 <span>year</span>
               </div>
             </div>
@@ -48,11 +48,11 @@
             <div class="col-md-12 col-sm-12 col-lg-12 description-item extra-info">
               <app-ratio [rate]="product.vote" *ngIf="product.type!=='book'"></app-ratio>
               <div class="votes" *ngIf="product.type==='book'">
-                <span class="bold">{{product.voteCount | myAround}}</span>
+                <span class="bold">{{product.voteCount | around}}</span>
                 <span class="description">Votes</span>
               </div>
               <div class="read-count" *ngIf="product.type==='book'">
-                <span class="bold">{{product.readCount | myAround}}</span>
+                <span class="bold">{{product.readCount | around}}</span>
                 <span class="description">Read</span>
               </div>
               <div class="references" *ngIf="product.type !== 'game'">
@@ -123,7 +123,7 @@
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-lg-12 description-item">
                   <span class="title-description">Production companies</span>
-                  <span class="item" *ngFor="let company of product.production_companies; let lastCompany=last">
+                  <span class="item" *ngFor="let company of product.productionCompanies; let lastCompany=last">
                 {{lastCompany?company.name+'.':company.name+', '}}
               </span>
                 </div>

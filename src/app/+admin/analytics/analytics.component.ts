@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss']
+  templateUrl: 'analytics.component.html',
+  styleUrls: ['analytics.component.scss']
 })
 
 export class AnalyticsComponent implements OnInit {

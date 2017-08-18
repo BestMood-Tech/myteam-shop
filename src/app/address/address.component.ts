@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Address } from '../shared/address.model';
+import { Address } from '../shared/models/address.model';
 import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
-import { Auth } from '../shared/services';
-import { User } from '../shared/user.model';
+import { AuthService } from '../shared/services';
+import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -18,16 +18,16 @@ export class AddressComponent implements OnInit, OnDestroy {
   @Output() public chosenAddress = new EventEmitter<number>();
   public error = false;
   public addresses: any;
-  private user: User;
+  private user: Profile;
   private subscriber: Subscription;
 
-  constructor(public auth: Auth,
+  constructor(public auth: AuthService,
               private modalService: NgbModal,
               private toastr: ToastsManager) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.auth.profile.subscribe((user: Profile) => {
       if (!user) {
         return;
       }

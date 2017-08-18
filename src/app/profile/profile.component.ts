@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Currency } from '../shared/currency.model';
-import { Auth, HelperService } from '../shared/services/';
-import { User } from '../shared/user.model';
+import { Currency } from '../shared/models/currency.model';
+import { AuthService, HelperService } from '../shared/services/';
+import { Profile } from '../shared/models/profile.model';
 import { PromocodeService } from '../shared/services/promocode.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -13,14 +13,14 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  public user: User;
+  public user: Profile;
   public profileCurrency: any;
   public nameCountry: any;
   private subscriber: Subscription;
   public promocode: string;
   public percent: number;
 
-  constructor(private auth: Auth,
+  constructor(private auth: AuthService,
               private toastr: ToastsManager,
               private helperService: HelperService,
               private promocodeService: PromocodeService) {
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.nameCountry = res;
       });
-    this.subscriber = this.auth.onAuth.subscribe((user) => {
+    this.subscriber = this.auth.profile.subscribe((user) => {
       if (!user) { return; }
       if (!this.user) {
         this.promocodeService.get(user.id)

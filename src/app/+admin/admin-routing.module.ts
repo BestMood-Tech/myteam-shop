@@ -16,3 +16,9 @@ const routes: Routes = [
 })
 
 export class AdminRoutingModule {}
+
+export const routingComponents = [
+  OrdersComponent,
+  UsersComponent,
+  AnalyticsComponent
+];

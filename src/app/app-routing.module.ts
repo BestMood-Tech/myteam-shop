@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { CartComponent } from './cart/cart.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
-import { AuthGuard } from './shared/services/authGuard.service';
+import { AuthGuard } from './shared/guards/auth.guard';
 import { CategoryResolve } from './category/category.resolve';
 import { ProductResolve } from './product/product.resolve';
 import { NgModule } from '@angular/core';
@@ -29,7 +29,7 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'address', component: AddressComponent, canActivate: [AuthGuard]},
   {path: 'cart', component: CartComponent},
-  {path: 'orders', component: OrdersComponent},
+  {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
   {path: 'admin', loadChildren: './+admin/admin.module#AdminModule'}
 ];
 @NgModule({

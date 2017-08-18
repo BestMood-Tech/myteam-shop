@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
+import { Product } from '../models/product.model';
 
 @Injectable()
 export class GamesService {
@@ -121,9 +122,9 @@ export class GamesService {
     return this.http.get(getItemUrl, options).map(res => res.json());
   }
 
-  public processData(data) {
+  public processData(data): Product[] {
     this.data = data.map((game) => {
-      const tempObject = {
+      return new Product( {
         id: game.id,
         type: 'game',
         name: game.name,
@@ -131,22 +132,11 @@ export class GamesService {
         year: moment(game.first_release_date).format('YYYY'),
         vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
         voteCount: game.collection,
-        trailer: game.videos ? game.videos[0].video_id : ''
-      };
-
-      if (game.cover) {
-        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg`;
-      } else {
-        tempObject['cover'] = 'http://placehold.it/320x150';
-      }
-
-      if (game.summary) {
-        tempObject['description'] = game.summary;
-      } else {
-        tempObject['description'] = `this game hasn't description yet.`;
-      }
-
-      return tempObject;
+        trailer: game.videos ? game.videos[0].video_id : '',
+        cover: game.cover ?
+          `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
+        description: game.summary || `this game hasn't description yet.`
+      });
     });
     return this.data;
   }
@@ -163,7 +153,7 @@ export class GamesService {
         name: game.name,
         genres: game.genres,
         developers: game.developers,
-        release_date: moment(game.first_release_date).format('YYYY'),
+        year: moment(game.first_release_date).format('YYYY'),
         price: Math.floor(game.popularity / 10),
         vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
         trailer: game.videos ? game.videos[0].video_id : '',

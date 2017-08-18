@@ -1,24 +1,27 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
-import { User } from '../user.model';
-import { PromocodeService } from './promocode.service';
-import { ToastsManager } from 'ng2-toastr';
-import { baseUrl, setOptions } from '../helper';
 
+import { tokenNotExpired } from 'angular2-jwt';
+import { ToastsManager } from 'ng2-toastr';
+
+import { Profile } from '../models/profile.model';
+import { PromocodeService } from './promocode.service';
+import { baseUrl, setOptions } from '../helper';
+import { Address } from '../models/address.model';
+import { Observable } from 'rxjs/Observable';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
 
 @Injectable()
-export class Auth {
+export class AuthService {
   // Configure Auth0
   public lock = new Auth0Lock('hfDx6WXS2nkcLUhOcHe0Xq34lZE3wfrH', 'myteam-shop.eu.auth0.com', {});
-  public onAuth: EventEmitter<User> = new EventEmitter();
+  public profile: EventEmitter<Profile> = new EventEmitter();
 
-  private user: User;
-  private downloadingProfile: boolean;
+  private profileData: Profile;
+  private isLoading: boolean;
 
   constructor(private router: Router,
               private http: Http,
@@ -43,7 +46,7 @@ export class Auth {
         if (error) {
           // Handle error
           console.log(error);
-          this.onAuth.emit(null);
+          this.profile.emit(null);
           return;
         }
         this.saveProfile(currentUser);
@@ -51,121 +54,86 @@ export class Auth {
     });
   }
 
-  public login() {
+  public login(): void {
     // Call the show method to display the widget.
     this.lock.show((err, currentUser, id_token) => {
       localStorage.setItem('id_token', id_token);
     });
   };
 
-  public authenticated() {
+  public get isAuthenticated(): boolean {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
     return tokenNotExpired('id_token');
   };
 
 
-  public logout() {
+  public logout(): void {
     // Remove token and profile from localStorage
     localStorage.removeItem('id_token');
-    this.user = null;
-    this.onAuth.emit(this.user);
+    this.profileData = null;
+    this.profile.emit(this.profileData);
     this.router.navigate(['./home']);
   };
 
-  private saveProfile(currentUser) {
-    let user: User;
+  private saveProfile(currentUser: any): void {
+    let user: Profile;
     if (currentUser.identities[0].provider === 'vkontakte') {
-      user = new User(
-        {
-          nickName: currentUser.nickname,
-          picture: currentUser.picture,
-          currentUser: currentUser.identities[0].provider,
-          firstName: currentUser.given_name,
-          lastName: currentUser.family_name,
-        }
-      );
-    }
-
-    if (currentUser.identities[0].provider === 'github') {
-      user = new User(
-        {
-          nickName: currentUser.nickname,
-          picture: currentUser.picture,
-          currentUser: currentUser.identities[0].provider,
-          email: currentUser.email[0].email,
-          firstName: currentUser.name.split(' ')[0],
-          lastName: currentUser.name.split(' ')[1],
-        }
-      );
+      user = new Profile({
+        nickName: currentUser.nickname,
+        picture: currentUser.picture,
+        firstName: currentUser.given_name,
+        lastName: currentUser.family_name,
+      });
+    } else {
+      user = new Profile({
+        nickName: currentUser.nickname,
+        picture: currentUser.picture,
+        email: currentUser.email[0].email,
+        firstName: currentUser.name.split(' ')[0],
+        lastName: currentUser.name.split(' ')[1],
+      });
     }
 
     this.getProfile(user);
   }
 
-  public updateProfile(field, value) {
-    this.user[field] = value;
-    return this.http.put(`${baseUrl}api/profile/${this.user.id}`, {field, value}, setOptions())
-      .map((res) => {
-        this.onAuth.emit(this.user);
-        return res.json();
+  public updateProfile(field: string, value: string | Address[]): Observable<any> {
+    this.profileData[field] = value;
+    return this.http.put(`${baseUrl}api/profile/${this.profileData.id}`, { field, value }, setOptions())
+      .map((response) => {
+        this.profile.emit(this.profileData);
+        return response.json();
       });
   }
 
-  public getProfile(user?) {
-    if (!localStorage.getItem('id_token') || this.downloadingProfile) {
-      this.onAuth.emit(null);
+  public getProfile(user?: Profile): void {
+    if (!localStorage.getItem('id_token') || this.isLoading) {
+      this.profile.emit(null);
       return;
     }
-    if (this.user && !this.downloadingProfile) {
-      this.onAuth.emit(this.user);
+    if (this.profileData && !this.isLoading) {
+      this.profile.emit(this.profileData);
       return;
     }
-    this.downloadingProfile = true;
+    this.isLoading = true;
     this.http.post(`${baseUrl}api/profile`, user, setOptions())
       .map((response) => response.json())
       .map((data) => {
+        this.profileData = new Profile(data.body);
         if (data.statusCode === 201) {
-          this.user = new User(data.body);
-          this.promocodeService.create(this.user.id, true)
+          this.promocodeService.create(this.profileData.id, true)
             .subscribe((response) => {
               this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
                 `New promocode in your profile!`);
             });
-        } else {
-          this.user = new User(data.body);
         }
-        this.downloadingProfile = false;
-        return this.user;
+        this.isLoading = false;
+        return this.profileData;
       })
       .subscribe(
-        (data) => this.onAuth.emit(this.user),
-        (error) => this.onAuth.emit(null)
+        (data) => this.profile.emit(this.profileData),
+        (error) => this.profile.emit(null)
       );
-  }
-
-  public createOrder(orderData) {
-    return this.http.post(`${baseUrl}api/order`, orderData, setOptions())
-      .map((res) => res.json());
-  }
-
-  public getOrdersByProfile(id) {
-    return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
-      .map((res) => res.json())
-      .map(orders => {
-        return orders.map(order => {
-          order.createdAt = new Date(order.createdAt);
-          return order;
-        })
-      });
-  }
-
-  public getOrderById(id) {
-    return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
-      .map((res) => res.json());
-  }
-
-  public getOrderCount() {
-    return this.user.orders.length;
   }
 }

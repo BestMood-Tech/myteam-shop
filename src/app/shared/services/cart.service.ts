@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Invoice } from '../user.model';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { baseUrl, setOptions } from '../helper';

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'myAround'
+  name: 'around'
 })
-export class MyAroundPipe implements PipeTransform {
+export class AroundPipe implements PipeTransform {
 
   public transform(value: any): any {
     if (value >= 1000 && value <= 1000000) {

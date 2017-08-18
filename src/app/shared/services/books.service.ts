@@ -1,44 +1,59 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, RequestOptions, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
+
 import * as moment from 'moment';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+
+import { Product } from '../models/product.model';
 
 @Injectable()
 export class BooksService {
-  public data: any[];
-  private baseUrl = 'https://api.wattpad.com/v4/';
+  private data: Product[];
+  private isLoading: boolean;
+  private baseUrl = 'https://api.wattpad.com/v4/stories';
   private apiKey = 'tEIdSUrwgw7TWjk5ymOxk4JIbUlxIXMEVkI5IJwu65t9';
-  private options: RequestOptions;
 
   constructor(private http: Http) {
-    this.options = new RequestOptions({
-      headers: this.getHeaders(),
-      params: this.getParams()
+  }
+
+  public getItems(): Observable<Product[]> {
+    if ((!this.data || !this.data.length) && !this.isLoading) {
+      this.isLoading = true;
+      return this.http.get(this.baseUrl, this.options)
+        .map((response) => response.json().stories)
+        .map((data) => {
+          this.isLoading = false;
+          this.data = this.processData(data);
+          return this.data;
+        });
+    }
+    return Observable.of(this.data);
+  }
+
+  public getItem(id: string): Observable<Product> {
+    return this.getItems().map((data) => {
+      const found = data.find((item) => parseInt(item.id, 10) === parseInt(id, 10));
+      if (found) {
+        return this.processItem(found);
+      }
+      return null;
     });
   }
 
-  public getStories() {
-    return this.http.get(`${this.baseUrl}stories`, this.options).map((res) => res.json());
+  public search(query: string): Observable<Product[]> {
+    return this.getItems().map((data) => data.filter((item) => item.name.indexOf(query) !== -1));
   }
 
-  public getItem(id) {
-    return this.http.get(`${this.baseUrl}stories`, this.options).map((res) => {
-      return res.json().stories.filter((item) => item.id === parseInt(id, 10));
-    });
+  public getRecommended(id: string): Observable<Product[]> {
+    return this.getItems()
+      .map((data) => data.filter((item) => item.id !== id));
   }
 
-  public search(query) {
-    return this.http.get(`${this.baseUrl}stories`, this.options)
-      .map((res) => res.json())
-      .map((res) => {
-        res.stories = res.stories.filter((item) => item.title.indexOf(query) !== -1);
-        return res;
-      });
-  }
-
-  public processData(data) {
-    this.data = data.stories.map((item) => {
-      return {
+  private processData(data: any[]): Product[] {
+    return data.map((item) => {
+      return new Product({
         id: item.id,
         type: 'book',
         name: item.title,
@@ -48,32 +63,30 @@ export class BooksService {
         voteCount: item.voteCount,
         readCount: item.readCount,
         year: moment(item.createDate).format('YYYY')
-      };
+      });
     });
-    return this.data;
   }
 
-  public getRecommended(book) {
-    return this.data.filter((item) => item.id !== book.id);
+  private processItem(data: any): Product {
+    return new Product({
+      id: data.id,
+      type: 'book',
+      name: data.title,
+      cover: data.cover,
+      description: data.description,
+      price: Math.floor(Math.random() * 10 + 1),
+      voteCount: data.voteCount,
+      readCount: data.readCount,
+      year: moment(data.createDate).format('YYYY'),
+      homepage: data.url
+    });
   }
 
-  public processItem(data) {
-    const resultingData = data.map((book) => {
-      return {
-        id: book.id,
-        type: 'book',
-        name: book.title,
-        description: book.description,
-        cover: book.cover,
-        release_date: moment(book.createDate).format('YYYY'),
-        voteCount: book.voteCount,
-        readCount: book.readCount,
-        price: Math.floor(Math.random() * 10 + 1),
-        homepage: book.url
-      };
+  private get options(): RequestOptions {
+    return new RequestOptions({
+      headers: this.getHeaders(),
+      params: this.getParams()
     });
-
-    return resultingData[0];
   }
 
   private getHeaders(): Headers {
