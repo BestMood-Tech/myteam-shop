@@ -70,11 +70,11 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice() {
+    const newWindow = window.open('', '_blank');
     this.loading = true;
     this.cart.printInvoice(this.orderId).subscribe(url => {
       setTimeout(() => {
         this.loading = false;
-        const newWindow = window.open('', '_blank');
         newWindow.location.href = url;
         newWindow.focus();
       }, 3000);

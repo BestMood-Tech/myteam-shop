@@ -23,7 +23,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subscriber = this.auth.onAuth.subscribe((user) => {
       if (!user) { return; }
       if (!this.user) {
-        console.log(user);
         this.auth.getOrdersByProfile(user.id)
           .subscribe((orders) => this.orders = orders);
       }
@@ -47,9 +46,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice(order) {
+    const newWindow = window.open('', '_blank');
     this.cart.printInvoice(order.id).subscribe(url => {
       setTimeout(() => {
-        const newWindow = window.open('', '_blank');
         newWindow.location.href = url;
         newWindow.focus();
       }, 3000);
