@@ -1,11 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from '../user.model';
-import { PromocodeService } from './promocode.service';
 import { ToastsManager } from 'ng2-toastr';
 import { baseUrl, setOptions } from '../helper';
+import { User } from '../user.model';
+import { PromocodeService } from './promocode.service';
 
 
 // Avoid name not found warnings
@@ -105,7 +105,7 @@ export class Auth {
 
   public updateProfile(field, value) {
     this.user[field] = value;
-    return this.http.put(`${baseUrl}api/profile/${this.user.id}`, {field, value}, setOptions())
+    return this.http.put(`${baseUrl}api/profile/${this.user.id}`, { field, value }, setOptions())
       .map((res) => {
         this.onAuth.emit(this.user);
         return res.json();
@@ -124,16 +124,16 @@ export class Auth {
     this.downloadingProfile = true;
     this.http.post(`${baseUrl}api/profile`, user, setOptions())
       .map((response) => response.json())
-      .map((data) => {
-        if (data.statusCode === 201) {
-          this.user = new User(data.body);
-          this.promocodeService.create(this.user.id, true)
+      .map((profile) => {
+        if (profile.isNew) {
+          this.user = new User(profile);
+          this.promocodeService.create(this.user.id, profile.isNew)
             .subscribe((response) => {
               this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
                 `New promocode in your profile!`);
             });
         } else {
-          this.user = new User(data.body);
+          this.user = new User(profile);
         }
         this.downloadingProfile = false;
         return this.user;

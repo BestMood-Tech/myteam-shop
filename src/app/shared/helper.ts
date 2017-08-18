@@ -1,5 +1,6 @@
 import { Headers, RequestOptions } from '@angular/http';
-export const baseUrl = 'https://vywmb27wg4.execute-api.eu-central-1.amazonaws.com/dev/';
+// export const baseUrl = 'https://ita4p3xw63.execute-api.eu-central-1.amazonaws.com/dev/';
+export const baseUrl = 'http://localhost:3000/';
 export const siteKeyGC = '6LduCCoUAAAAABhZ822fD5A_BqNQH0RJMSV_DJjn';
 
 export function setOptions() {
