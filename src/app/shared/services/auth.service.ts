@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 
 import { tokenNotExpired } from 'angular2-jwt';
 import { ToastsManager } from 'ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
 import { Profile } from '../models/profile.model';
 import { PromocodeService } from './promocode.service';
 import { baseUrl, setOptions } from '../helper';
 import { Address } from '../models/address.model';
-import { Observable } from 'rxjs/Observable';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
@@ -119,15 +119,16 @@ export class AuthService {
     this.isLoading = true;
     this.http.post(`${baseUrl}api/profile`, user, setOptions())
       .map((response) => response.json())
-      .map((data) => {
-        this.profileData = new Profile(data.body);
-        if (data.statusCode === 201) {
-          this.promocodeService.create(this.profileData.id, true)
-            .subscribe((response) => {
-              this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
+      .map((profile) => {
+        if (profile.isNew) {
+          this.promocodeService.create(profile.id, profile.isNew)
+            .subscribe((data) => {
+              this.toastr.info(`You have a promocode with ${data.percent}% discount!`,
                 `New promocode in your profile!`);
             });
+          delete profile.isNew;
         }
+        this.profileData = new Profile(profile);
         this.isLoading = false;
         return this.profileData;
       })

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
+
 import { Developer, Genre, Product } from '../models/product.model';
 
 @Injectable()
