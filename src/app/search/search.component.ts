@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MovieService } from '../shared/services/movie.service';
+import { MoviesService } from '../shared/services/movies.service';
 import { GamesService } from '../shared/services/games.service';
 import { BooksService } from '../shared/services/books.service';
 import { HelperService } from '../shared/services/helper.service';
@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public emptySearch = false;
 
   constructor(private gamesService: GamesService,
-              private movieService: MovieService,
+              private movieService: MoviesService,
               private bookService: BooksService,
               private router: Router,
               private route: ActivatedRoute,
@@ -81,15 +81,15 @@ export class SearchComponent implements OnInit, OnDestroy {
           books = [];
         }
         if (!objState.checkMovies) {
-          movies.results = [];
+          movies = [];
         }
         if (!objState.checkGames) {
           games = [];
         }
         return [].concat(
           books,
-          this.gamesService.processData(games),
-          this.movieService.processData(movies));
+          games,
+          movies);
       })
       .subscribe(items => {
         this.products = items;

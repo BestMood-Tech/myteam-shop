@@ -35,7 +35,7 @@ import {
   PromocodeService,
   BooksService,
   GamesService,
-  MovieService,
+  MoviesService,
   AuthService,
   Cart,
   HelperService
@@ -69,7 +69,7 @@ const SharedServices = [
   PromocodeService,
   BooksService,
   GamesService,
-  MovieService,
+  MoviesService,
   AuthService,
   Cart,
   HelperService

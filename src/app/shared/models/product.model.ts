@@ -4,21 +4,21 @@ export class Product {
   public name: string;
   public cover: string;
   public description: string;
-  public vote: string;
-  public voteCount: string;
-  public price: string;
+  public vote: number;
+  public voteCount?: number;
+  public price: number;
   public year: string;
   public trailer?: string;
-  public readCount?: string;
+  public readCount?: number;
   public homepage?: string;
   public websites?: Website[];
   public esrb?: string;
   public status?: string;
-  public developers?: Developer[];
-  public genres?: Genre[];
+  public developers?: Developer[] | number[];
+  public genres?: Genre[] | number[];
   public productionCompanies?: Company[];
   public voteAverage?: string;
-  public credits: Credit[];
+  public credits?: Credit[];
 
   constructor(obj) {
     Object.keys(obj).forEach((key) => {
@@ -33,18 +33,21 @@ export interface Website {
 }
 
 export interface Genre {
+  id: number;
   name: string;
 }
 
 export interface Developer {
+  id: number;
   name: string;
 }
 
 export interface Company {
+  id: number;
   name: string;
 }
 
 export interface Credit {
   name: string;
-  profile_path: string;
+  profilePath: string;
 }

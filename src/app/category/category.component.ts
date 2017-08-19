@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BooksService } from '../shared/services/books.service';
-import { MovieService } from '../shared/services/movie.service';
+import { MoviesService } from '../shared/services/movies.service';
 import { GamesService } from '../shared/services/games.service';
 import { Cart } from '../shared/services/cart.service';
 
@@ -15,7 +15,7 @@ export class CategoryComponent implements OnInit {
   private currentService;
 
   constructor(private route: ActivatedRoute,
-              private movieService: MovieService,
+              private movieService: MoviesService,
               private gamesService: GamesService,
               private booksService: BooksService,
               private cart: Cart) {
@@ -33,6 +33,6 @@ export class CategoryComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.products = this.currentService.processData(this.route.snapshot.data['category']);
+    this.products = this.route.snapshot.data['category'];
   }
 }

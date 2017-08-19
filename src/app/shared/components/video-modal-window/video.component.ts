@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MovieService } from '../../services/movie.service';
+import { MoviesService } from '../../services/movies.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 @Component({
   selector: 'app-video-modal-window',
@@ -14,7 +14,7 @@ export class VideoModalWindowComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private sanitizer: DomSanitizer,
-              private movieService: MovieService) {
+              private movieService: MoviesService) {
   }
 
   public ngOnInit() {

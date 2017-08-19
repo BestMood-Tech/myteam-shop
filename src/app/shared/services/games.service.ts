@@ -1,182 +1,141 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
-import { Product } from '../models/product.model';
+import { Developer, Genre, Product } from '../models/product.model';
 
 @Injectable()
 export class GamesService {
-  public data: any[];
+  private data: Product[];
+  private isLoading: boolean;
   private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
-  private xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
 
-  constructor(private http: Http) {
-  }
-
-  private getParams(): URLSearchParams {
+  static getParams(): URLSearchParams {
     const params = new URLSearchParams();
     params.set('fields', '*');
     return params;
   }
 
-  private getHeaders(): Headers {
+  static getHeaders(): Headers {
+    const xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
     const headers = new Headers();
-    headers.set('X-Mashape-Key', this.xMashapeKey);
+    headers.set('X-Mashape-Key', xMashapeKey);
     headers.set('Accept', 'application/json');
     return headers;
   }
 
-  public getItem(id) {
-    const getItemUrl = `${this.baseUrl}games/${id}`;
-
-    const options = new RequestOptions({
-      search: this.getParams(),
-      headers: this.getHeaders()
-    });
-
-    return this.http.get(getItemUrl, options)
-      .map(res => res.json());
+  constructor(private http: Http) {
   }
 
-  public getDevelopers(ids) {
-    if (!ids) {
-      return Observable.from(['']);
+  public getItems(): Observable<Product[]> {
+    if ((!this.data || !this.data.length) && !this.isLoading) {
+      this.isLoading = true;
+      return this.http.get(`${this.baseUrl}games/`, this.options({ order: 'popularity:desc', limit: '20' }))
+        .map((response) => response.json())
+        .map((data) => {
+          this.data = this.convertItems(data);
+          this.isLoading = false;
+          return this.data;
+        });
     }
-    const idString = ids.join();
-    const getDeveloperUrl = `${this.baseUrl}companies/${idString}`;
-    const params = this.getParams();
-    params.set('fields', 'name');
-
-    const options = new RequestOptions({
-      search: params,
-      headers: this.getHeaders()
-    });
-
-    return this.http.get(getDeveloperUrl, options).map(res => res.json());
+    return Observable.of(this.data);
   }
 
-  public getGenres(ids) {
-    if (!ids) {
-      return Observable.from(['']);
-    }
-    const idString = ids.join();
-    const getGenreUrl = `${this.baseUrl}genres/${idString}`;
-    const params = this.getParams();
-    params.set('fields', 'name');
-
-    const options = new RequestOptions({
-      search: params,
-      headers: this.getHeaders()
-    });
-
-    return this.http.get(getGenreUrl, options)
-      .map(res => res.json());
+  public getItem(id: string): Observable<Product> {
+    return this.http.get(`${this.baseUrl}games/${id}`, this.options())
+      .map((response) => response.json()[0])
+      .map((data) => this.convertItem(data));
   }
 
-  public getAllGenres() {
-    const options = new RequestOptions({
-      headers: this.getHeaders()
-    });
-    return this.http.get(`${this.baseUrl}genres/`, options).map(res => res.json());
-  }
-
-  public search(query, filters?) {
-    const getItemUrl = `${this.baseUrl}games/`;
-    const params = this.getParams();
-    let limit;
-    params.set(`search`, query);
+  public search(query: string, filters?: any): Observable<Product[]> {
+    const additionalParams = {};
+    additionalParams['search'] = query;
     if (filters) {
-      for (const value of Object.keys(filters)) {
+      Object.keys(filters).forEach((value) => {
         if (value === 'limit') {
-          limit = filters[value];
+          additionalParams['limit'] = filters[value];
         } else {
-          params.set(`filter[${value}][eq]`, filters[value]);
+          additionalParams[`filter[${value}][eq]`] = filters[value];
         }
-      }
+      });
     }
 
-    if (limit) {
-      params.set('limit', limit);
+    return this.http.get(`${this.baseUrl}games/`, this.options(additionalParams))
+      .map((response) => response.json())
+      .map((data) => this.convertItems(data));
+  }
+
+  public getRecommended(id: string): Observable<Product[]> {
+    return this.getItems().map((data) => data.filter((item) => parseInt(item.id, 10) !== parseInt(id, 10)));
+  }
+
+  public getDevelopers(ids: number[]): Observable<Developer[]> {
+    if (!ids || !ids.length) {
+      return Observable.from([]);
     }
-
-    const options = new RequestOptions({
-      search: params,
-      headers: this.getHeaders()
-    });
-
-    return this.http.get(getItemUrl, options).map(res => res.json());
+    const idsString = ids.join();
+    return this.http.get(`${this.baseUrl}companies/${idsString}`, this.options({ fields: 'name' }))
+      .map((response) => response.json());
   }
 
-  public latest() {
-    const getItemUrl = `${this.baseUrl}games/`;
-    const params = this.getParams();
-    params.set('order', 'popularity:desc');
-    params.set('limit', '20');
-    const options = new RequestOptions({
-      search: params,
-      headers: this.getHeaders()
-    });
-
-    return this.http.get(getItemUrl, options).map(res => res.json());
+  public getGenres(ids: number[]): Observable<Genre[]> {
+    if (!ids || !ids.length) {
+      return Observable.from([]);
+    }
+    const idsString = ids.join();
+    return this.http.get(`${this.baseUrl}genres/${idsString}`, this.options({ fields: 'name' }))
+      .map(res => res.json());
   }
 
-  public processData(data): Product[] {
-    this.data = data.map((game) => {
-      return new Product( {
-        id: game.id,
+  private convertItems(data: any[]): Product[] {
+    return data.map((item) => {
+      return new Product({
+        id: item.id,
         type: 'game',
-        name: game.name,
-        price: Math.floor(game.popularity / 10),
-        year: moment(game.first_release_date).format('YYYY'),
-        vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
-        voteCount: game.collection,
-        trailer: game.videos ? game.videos[0].video_id : '',
-        cover: game.cover ?
-          `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
-        description: game.summary || `this game hasn't description yet.`
+        name: item.name,
+        price: Math.floor(item.popularity / 10),
+        year: moment(item.first_release_date).format('YYYY'),
+        vote: item.popularity % 5 === 0 ? 5 : item.popularity % 5 < 2 ? item.popularity % 5 + 2 : item.popularity % 5,
+        voteCount: item.collection,
+        trailer: item.videos ? item.videos[0].video_id : '',
+        cover: item.cover ?
+          `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
+        description: item.summary || `this game hasn't description yet.`
       });
     });
-    return this.data;
   }
 
-  public getRecommended(game) {
-    return this.data.filter((item) => item.id !== game.id);
-  }
-
-  public processItem(data) {
-    const resultingData = data.map((game) => {
-      const tempObject = {
-        id: game.id,
-        type: 'game',
-        name: game.name,
-        genres: game.genres,
-        developers: game.developers,
-        year: moment(game.first_release_date).format('YYYY'),
-        price: Math.floor(game.popularity / 10),
-        vote: game.popularity % 5 === 0 ? 5 : game.popularity % 5 < 2 ? game.popularity % 5 + 2 : game.popularity % 5,
-        trailer: game.videos ? game.videos[0].video_id : '',
-        websites: game.websites,
-        esrb: game.esrb ? game.esrb.rating : '',
-        status: game.status || ''
-      };
-      if (game.cover) {
-        tempObject['cover'] = `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${game.cover.cloudinary_id}.jpg`;
-      } else {
-        tempObject['cover'] = 'http://placehold.it/320x150';
-      }
-
-      if (game.summary) {
-        tempObject['description'] = game.summary;
-      } else {
-        tempObject['description'] = `this game hasn't description yet.`;
-      }
-
-      return tempObject;
+  private convertItem(item: any): Product {
+    return new Product({
+      id: item.id,
+      type: 'game',
+      name: item.name,
+      genres: item.genres,
+      developers: item.developers,
+      year: moment(item.first_release_date).format('YYYY'),
+      price: Math.floor(item.popularity / 10),
+      vote: item.popularity % 5 === 0 ? 5 : item.popularity % 5 < 2 ? item.popularity % 5 + 2 : item.popularity % 5,
+      trailer: item.videos ? item.videos[0].video_id : '',
+      websites: item.websites,
+      esrb: item.esrb ? item.esrb.rating : '',
+      status: item.status || '',
+      cover: item.cover ?
+        `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
+      description: item.summary || `this game hasn't description yet.`
     });
+  }
 
-    return resultingData[0];
+  private options(params?: any): RequestOptions {
+    const defaultParams = GamesService.getParams();
+    if (params) {
+      Object.keys(params).forEach((key) => defaultParams.set(key, params[key]));
+    }
+    return new RequestOptions({
+      headers: GamesService.getHeaders(),
+      search: defaultParams
+    })
   }
 
 }

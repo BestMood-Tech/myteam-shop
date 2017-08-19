@@ -7,7 +7,8 @@ import { ReviewFormComponent } from '../shared/components/review-form/review-for
 import { Review } from '../shared/models/review.model';
 import { ReviewsService } from '../shared/services/reviews.service';
 import { ToastsManager } from 'ng2-toastr';
-import { AuthService, BooksService, Cart, GamesService, MovieService } from '../shared/services';
+import { AuthService, BooksService, Cart, GamesService, MoviesService } from '../shared/services';
+import { Developer, Genre, Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-product',
@@ -25,7 +26,7 @@ export class ProductComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private booksService: BooksService,
-              private movieService: MovieService,
+              private movieService: MoviesService,
               private gamesService: GamesService,
               private cart: Cart,
               private auth: AuthService,
@@ -48,34 +49,19 @@ export class ProductComponent implements OnInit {
   public ngOnInit() {
     this.route.params.subscribe(() => {
       this.product = this.route.snapshot.data['product'];
+      console.log(this.product);
       this.product.coverUrl = this.product.cover;
-      if (!this.currentService.data || this.currentService.data.length === 0) {
-        let getData;
-        switch (this.product.type) {
-          case 'movie':
-            getData = this.movieService.recent();
-            break;
-          case 'book':
-            getData = this.booksService.getItems();
-            break;
-          default:
-            getData = this.gamesService.latest();
-        }
-        getData.subscribe((data) => {
-          this.currentService.processData(data);
-          this.recommended = this.currentService.getRecommended(this.product);
-          this.recommended.forEach((item) => item.coverUrl = item.cover);
-        });
-      } else {
-        this.recommended = this.currentService.getRecommended(this.product);
+      this.currentService.getRecommended(this.product.id).subscribe((recommended: Product[]) => {
+        this.recommended = recommended;
         this.recommended.forEach((item) => item.coverUrl = item.cover);
-      }
+      });
+
       if (this.route.snapshot.url[1].path === 'game') {
         this.currentService.getGenres(this.product.genres)
-          .subscribe(res => this.product.genres = res);
+          .subscribe((genres: Genre[]) => this.product.genres = genres);
 
         this.currentService.getDevelopers(this.product.developers)
-          .subscribe(res => this.product.developers = res);
+          .subscribe((developers: Developer[]) => this.product.developers = developers);
       }
       this.auth.profile.subscribe((user: Profile) => {
         if (!user) {
