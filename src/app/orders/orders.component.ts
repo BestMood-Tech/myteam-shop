@@ -23,14 +23,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subscriber = this.auth.profile.subscribe((user) => {
       if (!user) { return; }
       if (!this.user) {
-<<<<<<< HEAD
         console.log(user);
         /*this.auth.getOrdersByProfile(user.id)
           .subscribe((orders) => this.orders = orders);*/
-=======
-        this.auth.getOrdersByProfile(user.id)
-          .subscribe((orders) => this.orders = orders);
->>>>>>> eb130be572bd649ddc7916375eeaf715e2c56b4b
       }
       this.user = user;
     });

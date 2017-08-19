@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-<<<<<<< HEAD
+
 import { Review } from '../models/review.model';
-import { baseUrl } from '../helper';
-=======
-import { Review } from '../review.model';
 import { baseUrl, setOptions } from '../helper';
->>>>>>> eb130be572bd649ddc7916375eeaf715e2c56b4b
+
 
 @Injectable()
 export class ReviewsService {
