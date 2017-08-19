@@ -3,7 +3,7 @@ import { AgEditorComponent } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-numeric-cell',
-  templateUrl: './numeric-editor.html'
+  templateUrl: 'numeric-editor.html'
 })
 export class NumericEditorComponent implements AgEditorComponent, AfterViewInit {
   private params: any;

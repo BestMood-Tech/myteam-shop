@@ -5,8 +5,8 @@ import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  templateUrl: 'orders.component.html',
+  styleUrls: ['orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
@@ -41,12 +41,12 @@ export class OrdersComponent implements OnInit {
   /*************
    *** Theme ***
    ************/
-  public isTheme(key) {
+  public isTheme(key): boolean {
     const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     return arrayClassTheme[key] === this.classTheme;
   }
 
-  public setTheme(key) {
+  public setTheme(key): void {
     const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     this.classTheme = arrayClassTheme[key];
   }
@@ -54,7 +54,7 @@ export class OrdersComponent implements OnInit {
   /*************
    ** Ag-grid **
    ************/
-  private createColumnDefs() {
+  private createColumnDefs(): any[] {
     return [
       {
         headerName: '#',
@@ -142,7 +142,7 @@ export class OrdersComponent implements OnInit {
     ];
   }
 
-  public update() {
+  public update(): void {
     this.rowData = [];
     this.adminService.getSelling().subscribe((res) => {
       res.forEach((item) => {
@@ -176,11 +176,11 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  public sortAndFilter(allOfTheData, sortModel, filterModel) {
+  public sortAndFilter(allOfTheData, sortModel, filterModel): any[] {
     return this.sortData(sortModel, this.filterData(filterModel, allOfTheData));
   }
 
-  private sortData(sortModel, data) {
+  private sortData(sortModel, data): any[] {
     const sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
       return data;
@@ -208,7 +208,7 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  public filterData(filterModel, data) {
+  public filterData(filterModel, data): any[] {
     const filterPresent = filterModel && Object.keys(filterModel).length > 0;
     if (!filterPresent) {
       return data;
@@ -257,15 +257,15 @@ export class OrdersComponent implements OnInit {
     return resultOfFilter;
   }
 
-  public saveTable() {
+  public saveTable(): void {
     console.log(this.gridOptions.rowData);
   }
 
-  public onQuickFilterChanged($event) {
+  public onQuickFilterChanged($event): void {
     this.gridOptions.api.setQuickFilter($event.target.value);
   }
 
-  public clearPinned() {
+  public clearPinned(): void {
     this.gridOptions.columnApi.setColumnsPinned([
       'numberGoods',
       'total',
@@ -276,14 +276,14 @@ export class OrdersComponent implements OnInit {
     ], null);
   }
 
-  public resetPinned() {
+  public resetPinned(): void {
     this.gridOptions.columnApi.setColumnsPinned([
       'numberGoods',
       'date'
     ], 'right');
   }
 
-  public pinTotal() {
+  public pinTotal(): void {
     this.gridOptions.columnApi.setColumnPinned('total', 'right');
   }
 

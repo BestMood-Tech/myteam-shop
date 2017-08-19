@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Profile } from './shared/models/profile.model';
-import { AuthService, Cart, HelperService } from './shared/services';
+import { AuthService, CartService, HelperService } from './shared/services';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
 
 export class AppComponent implements OnInit {
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
   public changedCount = false;
   public user: Profile;
 
-  constructor(public auth: AuthService,
+  constructor(public authService: AuthService,
               private router: Router,
-              private cart: Cart,
+              private cartService: CartService,
               private fb: FormBuilder,
               private viewContainer: ViewContainerRef,
               private toastr: ToastsManager,
@@ -49,18 +49,18 @@ export class AppComponent implements OnInit {
       this.searchObj.checkGames = filters['checkGames'];
     });
 
-    this.cart.changedCount.subscribe(() => {
+    this.cartService.changedCount.subscribe(() => {
       this.changedCount = true;
 
       setTimeout(() => this.changedCount = false, 1000);
     });
-    this.auth.profile.subscribe((user: Profile) => this.user = user);
-    this.auth.getProfile();
+    this.authService.profile.subscribe((user: Profile) => this.user = user);
+    this.authService.get();
   }
 
   public search() {
     const searchTerm = this.searchTermForm.value.term;
-    if (!searchTerm || !(searchTerm.length > 3)) {
+    if (!searchTerm || searchTerm.length <= 3) {
       return;
     }
     this.helperService.searchTerm = searchTerm;
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
   }
 
   public count() {
-    return this.cart.countCart;
+    return this.cartService.count;
   }
 
 }

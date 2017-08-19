@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/models/address.model';
-import { AuthService, Cart } from '../shared/services';
+import { AuthService, CartService } from '../shared/services';
 import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
@@ -25,7 +25,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
 
   constructor(private auth: AuthService,
-              private cart: Cart,
+              private cart: CartService,
               private toastr: ToastsManager,
               private promocodeService: PromocodeService,
               private activatedRoute: ActivatedRoute) {
@@ -41,7 +41,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       this.activatedRoute.params
         .subscribe((params) => {
           this.orderId = params.id;
-          this.order = this.user.getOrderById(this.orderId);
+          // this.order = this.user.getOrderById(this.orderId);
           this.addressOrder = new Address(this.order.addressOrder);
 
           this.toastr.success('Your order has been successfully processed', 'Success!');
@@ -58,7 +58,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
           }*/
         })
     });
-    this.auth.getProfile();
+    this.auth.get();
   }
 
   public ngOnDestroy() {

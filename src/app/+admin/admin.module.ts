@@ -23,7 +23,8 @@ import { NumericEditorComponent } from './numeric-editor/numeric-editor';
     routingComponents,
     NumericEditorComponent
   ],
-  providers: [ AdminService ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  providers: [AdminService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AdminModule {}
+export class AdminModule {
+}

@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
       }
       this.productCurrency = user.currency;
     });
-    this.auth.getProfile();
+    this.auth.get();
   }
 
   public showTrailer(item) {

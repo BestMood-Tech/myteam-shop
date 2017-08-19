@@ -34,7 +34,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       this.user = user;
       this.addresses = user.address;
     });
-    this.auth.getProfile();
+    this.auth.get();
   }
 
   public ngOnDestroy() {
@@ -51,7 +51,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   public delete(key) {
     this.user.deleteAddress(key);
-    this.auth.updateProfile('address', this.user.address)
+    this.auth.update('address', this.user.address)
       .subscribe(
         (data) => this.toastr.success('Address delete', 'Success'),
         (error) => this.toastr.error(error, 'Error')
@@ -79,7 +79,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         } else {
           this.user.updateAddress(key, new Address(result));
         }
-        this.auth.updateProfile('address', this.user.address)
+        this.auth.update('address', this.user.address)
           .subscribe(
             (data) => this.toastr.success('Address update to profile', 'Success'),
             (error) => {

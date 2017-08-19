@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../admin.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-users',
@@ -45,14 +46,14 @@ export class AnalyticsComponent implements OnInit {
     });
   }
 
-  public update(fromYear?, toYear?) {
+  public update(fromYear?, toYear?): void {
     this.chartData = [];
     this.pieChartData = [];
     this.pieChartLabels = [];
 
-    this.adminService.getSelling(fromYear, toYear).subscribe((res) => {
+    this.adminService.getSelling(fromYear, toYear).subscribe((data) => {
 
-      res.forEach((item) => {
+      data.forEach((item) => {
         const date = new Date(item.date);
 
         if (this.isYear(date.getFullYear()) === -1) {
@@ -78,11 +79,11 @@ export class AnalyticsComponent implements OnInit {
 
   }
 
-  public isEmptyData() {
+  public isEmptyData(): boolean {
     return !!this.chartData.length;
   }
 
-  public toggle() {
+  public toggle(): void {
     switch (this.ChartType) {
       case 'bar':
         this.ChartType = 'line';
@@ -114,7 +115,7 @@ export class AnalyticsComponent implements OnInit {
     }
   }
 
-  public show() {
+  public show(): void {
     if (!this.validDate()) {
       return;
     }
@@ -136,7 +137,7 @@ export class AnalyticsComponent implements OnInit {
     return key;
   }
 
-  private initData() {
+  private initData(): number[] {
     const data = [];
 
     for (let i = 0; i < this.labelMonth.length; i++) {

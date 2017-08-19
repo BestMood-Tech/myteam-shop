@@ -30,7 +30,7 @@ export class AuthService {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
-        this.getProfile();
+        this.get();
       }
     } catch (e) {
       console.log(e);
@@ -42,14 +42,14 @@ export class AuthService {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error, currentUser) => {
+      this.lock.get(authResult.idToken, (error, currentUser) => {
         if (error) {
           // Handle error
           console.log(error);
           this.profile.emit(null);
           return;
         }
-        this.saveProfile(currentUser);
+        this.save(currentUser);
       });
     });
   }
@@ -76,7 +76,7 @@ export class AuthService {
     this.router.navigate(['./home']);
   };
 
-  private saveProfile(currentUser: any): void {
+  private save(currentUser: any): void {
     let user: Profile;
     if (currentUser.identities[0].provider === 'vkontakte') {
       user = new Profile({
@@ -95,10 +95,10 @@ export class AuthService {
       });
     }
 
-    this.getProfile(user);
+    this.get(user);
   }
 
-  public updateProfile(field: string, value: string | Address[]): Observable<any> {
+  public update(field: string, value: string | Address[]): Observable<any> {
     this.profileData[field] = value;
     return this.http.put(`${baseUrl}api/profile/${this.profileData.id}`, { field, value }, setOptions())
       .map((response) => {
@@ -107,7 +107,7 @@ export class AuthService {
       });
   }
 
-  public getProfile(user?: Profile): void {
+  public get(user?: Profile): void {
     if (!localStorage.getItem('id_token') || this.isLoading) {
       this.profile.emit(null);
       return;

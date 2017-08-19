@@ -3,17 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { Profile } from '../shared/models/profile.model';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { ReviewFormComponent } from '../shared/components/review-form/review-form.component';
+import { ReviewFormComponent } from '../review-form/review-form.component';
 import { Review } from '../shared/models/review.model';
-import { ReviewsService } from '../shared/services/reviews.service';
+import { ReviewsService } from './reviews.service';
 import { ToastsManager } from 'ng2-toastr';
-import { AuthService, BooksService, Cart, GamesService, MoviesService } from '../shared/services';
+import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
 import { Developer, Genre, Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  templateUrl: 'product.component.html',
+  styleUrls: ['product.component.scss'],
+  providers: [ReviewsService]
 })
 export class ProductComponent implements OnInit {
   public product;
@@ -28,7 +29,7 @@ export class ProductComponent implements OnInit {
               private booksService: BooksService,
               private movieService: MoviesService,
               private gamesService: GamesService,
-              private cart: Cart,
+              private cart: CartService,
               private auth: AuthService,
               private modalService: NgbModal,
               private reviewsService: ReviewsService,
@@ -71,7 +72,7 @@ export class ProductComponent implements OnInit {
         this.productCurrency = user.currency;
         this.user = user;
       });
-      this.auth.getProfile();
+      this.auth.get();
 
       if (this.product.type === 'movie') {
         this.currentService.getCredits(this.product.id)
@@ -84,7 +85,7 @@ export class ProductComponent implements OnInit {
   }
 
   public addToCart(product) {
-    this.cart.addToCart(product);
+    this.cart.add(product);
   }
 
   public showTrailer(item) {
@@ -99,11 +100,11 @@ export class ProductComponent implements OnInit {
 
   public getStatusGame() {
     const status = [
-      {status: 0, value: 'Main game'},
-      {status: 1, value: 'DLC / Addon'},
-      {status: 2, value: 'Expansion'},
-      {status: 3, value: 'Bundle'},
-      {status: 4, value: 'Standalone expansion'}
+      { status: 0, value: 'Main game' },
+      { status: 1, value: 'DLC / Addon' },
+      { status: 2, value: 'Expansion' },
+      { status: 3, value: 'Bundle' },
+      { status: 4, value: 'Standalone expansion' }
     ];
     return status.find((item) => item.status === this.product.status).value
   }

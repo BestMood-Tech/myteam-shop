@@ -89,35 +89,35 @@ export class MoviesService {
   }
 
   private convertItems(data: any[]): Product[] {
-    return data.map((movie) => {
+    return data.map((item) => {
       return new Product({
-        id: movie.id,
+        id: item.id,
         type: 'movie',
-        name: movie.title,
-        cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
-        description: movie.overview,
-        vote: movie.vote_average,
-        voteCount: movie.vote_count,
-        price: movie.vote_average * 20 / 10,
-        year: movie.release_date.split('-')[0]
+        name: item.title,
+        cover: `https://image.tmdb.org/t/p/w780${item.poster_path}`,
+        description: item.overview,
+        vote: item.vote_average,
+        voteCount: item.vote_count,
+        price: item.vote_average * 20 / 10,
+        year: item.release_date.split('-')[0]
       });
     });
   }
 
-  private convertItem(movie) {
+  private convertItem(item: any) {
     return {
-      id: movie.id,
+      id: item.id,
       type: 'movie',
-      name: movie.title,
-      cover: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
-      description: movie.overview,
-      genres: movie.genres,
-      productionCompanies: movie.production_companies,
-      voteAverage: movie.vote_average,
-      year: moment(movie.release_date).format('YYYY'),
-      price: movie.vote_average * 20 / 10,
-      vote: movie.vote_average,
-      homepage: movie.homepage || ''
+      name: item.title,
+      cover: `https://image.tmdb.org/t/p/w780${item.poster_path}`,
+      description: item.overview,
+      genres: item.genres,
+      productionCompanies: item.production_companies,
+      voteAverage: item.vote_average,
+      year: moment(item.release_date).format('YYYY'),
+      price: item.vote_average * 20 / 10,
+      vote: item.vote_average,
+      homepage: item.homepage || ''
     };
   }
 

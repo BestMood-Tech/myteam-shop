@@ -2,34 +2,48 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { baseUrl, setOptions } from '../helper';
+import { Order } from '../models/order.model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrderService {
+  private data: Order[];
+  private isLoading: boolean;
+
   constructor(private http: Http) {
   }
 
-  public createOrder(orderData) {
-    return this.http.post(`${baseUrl}api/order`, orderData, setOptions())
-      .map((res) => res.json());
-  }
-
-  public getOrdersByProfile(id) {
-    return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
-      .map((res) => res.json())
-      .map(orders => {
-        return orders.map(order => {
-          order.createdAt = new Date(order.createdAt);
-          return order;
-        })
+  public create(order: Order): Observable<Order> {
+    return this.http.post(`${baseUrl}api/order`, order, setOptions())
+      .map((response) => response.json())
+      .map((data) => {
+        const newOrder = new Order(data);
+        this.data.push(newOrder);
+        return newOrder;
       });
   }
 
-  public getOrderById(id) {
-    return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
-      .map((res) => res.json());
+  public getByProfile(id: string): Observable<Order[]> {
+    if ((!this.data || !this.data.length) && !this.isLoading) {
+      this.isLoading = true;
+      return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
+        .map((response) => response.json())
+        .map((data) => {
+          this.data = data.map((item) => new Order(item));
+          this.isLoading = false;
+          return this.data;
+        });
+    }
+    return Observable.of(this.data);
   }
 
-  public getOrderCount() {
-    // return this.user.orders.length;
+  public getById(id: string): Observable<Order> {
+    return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
+      .map((response) => response.json())
+      .map((data) => new Order(data));
+  }
+
+  public get count() {
+    return this.data ? this.data.length : 0;
   }
 }

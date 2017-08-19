@@ -57,10 +57,10 @@
       </li>
     </ul>
     <ul class="nav login">
-      <li *ngIf="!auth.isAuthenticated"><a (click)="auth.login()">
+      <li *ngIf="!authService.isAuthenticated"><a (click)="authService.login()">
         <span class="glyphicon glyphicon-log-in"></span>Log In</a>
       </li>
-      <li *ngIf="auth.isAuthenticated"><a (click)="auth.logout()">
+      <li *ngIf="authService.isAuthenticated"><a (click)="authService.logout()">
         <span class="glyphicon glyphicon-log-out"></span>Log Out</a>
       </li>
     </ul>
@@ -91,7 +91,7 @@
                   </a>
                   <span class="separator"> </span>
                 </li>
-                <li class="user-profile dropdown" ngbDropdown *ngIf="(auth.isAuthenticated && user)">
+                <li class="user-profile dropdown" ngbDropdown *ngIf="(authService.isAuthenticated && user)">
 
                   <a class="dropdown-toggle" id="dropdownMenuProfile" ngbDropdownToggle>
                     <span>{{user.nickName}}</span>

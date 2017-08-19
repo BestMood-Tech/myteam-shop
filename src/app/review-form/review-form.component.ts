@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { siteKeyGC } from '../../helper';
-import { Profile } from '../../models/profile.model';
+import { AuthService } from '../shared/services';
+import { siteKeyGC } from '../shared/helper';
+import { Profile } from '../shared/models/profile.model';
 
 @Component({
   selector: 'app-review-form',
-  templateUrl: './review-form.component.html',
-  styleUrls: ['./review-form.component.scss']
+  templateUrl: 'review-form.component.html',
+  styleUrls: ['review-form.component.scss']
 })
 
 export class ReviewFormComponent implements OnInit {
@@ -33,7 +33,7 @@ export class ReviewFormComponent implements OnInit {
       }
       this.isAuth = true;
     });
-    this.auth.getProfile();
+    this.auth.get();
     this.isCaptcha = false;
   }
 

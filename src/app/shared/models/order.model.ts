@@ -10,15 +10,23 @@ export class Order {
   public grandTotal: number;
   public payment: string;
   public addressOrder: Address;
-  public createdAt: string;
-  public createdBy: Date;
+  public createdAt: Date;
+  public createdBy: string;
 
   constructor(obj) {
     Object.keys(obj).forEach((key) => {
-      if (key !== 'addressOrder') {
-        this[key] = obj[key];
-      } else {
-        this[key] = new Address(obj[key]);
+      switch (key) {
+        case 'addressOrder':
+          this.addressOrder = obj[key];
+          break;
+        case 'createdAt':
+          this.createdAt = new Date(obj.key);
+          break;
+        case 'products':
+          this.products = obj[key].map((item) => new Product(item));
+          break;
+        default:
+          this[key] = obj[key];
       }
     });
   }

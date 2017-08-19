@@ -1,20 +1,20 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
-import { HelperService } from '../../services/helper.service';
-import { Address } from '../../models/address.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, Input } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
 
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+
+import { Country, HelperService } from '../../services/helper.service';
+import { Address } from '../../models/address.model';
 
 @Component({
   selector: 'app-address-form',
-  templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  templateUrl: 'address-form.component.html',
+  styleUrls: ['address-form.component.scss']
 })
 export class AddressFormComponent implements OnInit {
-  @Input() address;
+  @Input() address: Address;
 
-  public nameCountry: any;
+  public countries: Country[];
   public addressForm: FormGroup;
   public copyAddress: Address;
 
@@ -26,8 +26,8 @@ export class AddressFormComponent implements OnInit {
   public ngOnInit() {
     this.copyAddress = new Address(this.address);
 
-    this.helper.getCountry().subscribe(res => {
-      this.nameCountry = res;
+    this.helper.getCountries().subscribe((countries: Country[]) => {
+      this.countries = countries;
     });
 
     this.addressForm = this.formBulder.group({

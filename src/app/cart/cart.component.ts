@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, Cart } from '../shared/services';
+import { AuthService, CartService } from '../shared/services';
 import { Profile } from '../shared/models/profile.model';
 
 @Component({
@@ -14,10 +14,10 @@ export class CartComponent implements OnInit {
   public authorization: boolean;
   public cartCurrency = '$';
 
-  constructor(private cart: Cart,
+  constructor(private cart: CartService,
               private auth: AuthService,
               private router: Router) {
-    this.orders = this.cart.getCart();
+    this.orders = this.cart.get();
     this.authorization = this.auth.isAuthenticated;
   }
 
@@ -29,13 +29,13 @@ export class CartComponent implements OnInit {
         this.cartCurrency = '$';
       }
     });
-    this.auth.getProfile();
+    this.auth.get();
   }
 
 
   public deleteProduct(product) {
-    this.cart.deleteItem(product);
-    this.orders = this.cart.getCart();
+    this.cart.remove(product);
+    this.orders = this.cart.get();
   }
 
   public getTotalPrice() {
@@ -47,7 +47,7 @@ export class CartComponent implements OnInit {
   }
 
   public disabledPay(): boolean {
-    return !!this.cart.countCart && this.authorization;
+    return !!this.cart.count && this.authorization;
   }
 
   public checkout() {

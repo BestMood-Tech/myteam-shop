@@ -6,12 +6,10 @@ import { RouterModule } from '@angular/router';
  * Third-party modules
  */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RecaptchaModule } from 'ng2-recaptcha';
 /*
  * Module components
  */
 import {
-  ReviewFormComponent,
   VideoModalWindowComponent,
   ProfileFieldComponent,
   RatioComponent,
@@ -31,13 +29,12 @@ import {
  * Module services
  */
 import {
-  ReviewsService,
   PromocodeService,
   BooksService,
   GamesService,
   MoviesService,
   AuthService,
-  Cart,
+  CartService,
   HelperService
 } from './services';
 /*
@@ -53,7 +50,6 @@ const SharedComponents = [
 ];
 
 const SharedEntryComponents = [
-  ReviewFormComponent,
   VideoModalWindowComponent,
   AddressFormComponent
 ];
@@ -65,13 +61,12 @@ const SharedPipes = [
 ];
 
 const SharedServices = [
-  ReviewsService,
   PromocodeService,
   BooksService,
   GamesService,
   MoviesService,
   AuthService,
-  Cart,
+  CartService,
   HelperService
 ];
 
@@ -79,11 +74,9 @@ const SharedServices = [
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
-    RecaptchaModule.forRoot()
+    NgbModule.forRoot()
   ],
   exports: [
     CommonModule,

@@ -19,6 +19,8 @@ export class Product {
   public productionCompanies?: Company[];
   public voteAverage?: string;
   public credits?: Credit[];
+  public count?: number;
+  public total?: number;
 
   constructor(obj) {
     Object.keys(obj).forEach((key) => {

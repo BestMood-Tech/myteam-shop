@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
@@ -7,7 +8,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 const routes: Routes = [
   { path: 'orders', component: OrdersComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'analytics', component: AnalyticsComponent}
+  { path: 'analytics', component: AnalyticsComponent }
 ];
 
 @NgModule({
@@ -15,7 +16,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class AdminRoutingModule {}
+export class AdminRoutingModule {
+}
 
 export const routingComponents = [
   OrdersComponent,

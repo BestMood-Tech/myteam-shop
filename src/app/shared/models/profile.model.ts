@@ -48,15 +48,6 @@ export class Profile {
     this.address.push(address);
   }
 
-  public addOrders(item) {
-    // this.orders.push(item);
-    return item;
-  }
-
-  public getOrderById(id) {
-    // return this.orders.find(order => order.id === id);
-  }
-
   public deleteAddress(key) {
     this.address.splice(key, 1);
   }

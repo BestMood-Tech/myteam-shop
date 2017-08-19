@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, URLSearchParams, RequestOptions} from '@angular/http';
-import { baseUrl } from '../shared/helper';
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+
 import 'rxjs/add/operator/map';
+
+import { baseUrl } from '../shared/helper';
 
 @Injectable()
 export class AdminService {
@@ -15,7 +17,7 @@ export class AdminService {
     params.set('to', toYear);
     params.set('isFake', 'true');
 
-    return this.http.get(`${baseUrl}api/order/getByRangeDates`, new RequestOptions({search: params}))
+    return this.http.get(`${baseUrl}api/order/getByRangeDates`, new RequestOptions({ search: params }))
       .map(res => res.json());
   }
 

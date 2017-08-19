@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/models/address.model';
-import { AuthService, Cart } from '../shared/services';
+import { AuthService, CartService } from '../shared/services';
 import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private promoCode: string;
   private subscriber: Subscription;
 
-  constructor(private cart: Cart,
+  constructor(private cart: CartService,
               private auth: AuthService,
               private formBuilder: FormBuilder,
               private toastr: ToastsManager,
@@ -47,10 +47,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutCurrency = user.currency;
       this.arrayAddressUser = user.address;
     });
-    this.auth.getProfile();
+    this.auth.get();
 
     try {
-      this.orders = JSON.parse(JSON.stringify(this.cart.getCart()));
+      this.orders = JSON.parse(JSON.stringify(this.cart.get()));
     } catch (e) {
       this.orders = [];
     }

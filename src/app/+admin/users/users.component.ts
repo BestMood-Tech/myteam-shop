@@ -4,8 +4,8 @@ import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  templateUrl: 'users.component.html',
+  styleUrls: ['users.component.scss']
 })
 export class UsersComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
     this.update();
   }
 
-  private createColumnDefs() {
+  private createColumnDefs(): any[] {
     return [
       {
         headerName: 'Name',
@@ -64,7 +64,7 @@ export class UsersComponent implements OnInit {
     ];
   }
 
-  public update() {
+  public update(): void {
     this.rowData = [];
     this.adminService.getSelling().subscribe((res) => {
       res.forEach((item) => {
@@ -96,7 +96,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  private sortData(sortModel, data) {
+  private sortData(sortModel, data): any[] {
     const sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
       return data;
@@ -124,7 +124,7 @@ export class UsersComponent implements OnInit {
 
   }
 
-  public saveTable() {
+  public saveTable(): void {
     console.log(this.gridOptions.rowData);
   }
 }

@@ -5,5 +5,4 @@ export * from './movies.service';
 export * from './auth.service';
 export * from './helper.service';
 export * from './promocode.service';
-export * from './reviews.service';
 export * from './order.service';

@@ -5,6 +5,7 @@ import { AuthService, HelperService } from '../shared/services/';
 import { Profile } from '../shared/models/profile.model';
 import { PromocodeService } from '../shared/services/promocode.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Country } from '../shared/services/helper.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public user: Profile;
   public profileCurrency: any;
-  public nameCountry: any;
+  public countries: Country[];
   private subscriber: Subscription;
   public promocode: string;
   public percent: number;
@@ -28,9 +29,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.profileCurrency = Currency.getCurrency();
-    this.helperService.getCountry()
-      .subscribe((res) => {
-        this.nameCountry = res;
+    this.helperService.getCountries()
+      .subscribe((countries: Country[]) => {
+        this.countries = countries;
       });
     this.subscriber = this.auth.profile.subscribe((user) => {
       if (!user) { return; }
@@ -43,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
       this.user = user;
     });
-    this.auth.getProfile();
+    this.auth.get();
   }
 
   public ngOnDestroy() {
@@ -51,7 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public update(field: string, value: string) {
-    this.auth.updateProfile(field, value)
+    this.auth.update(field, value)
       .subscribe(
         (data) => this.toastr.success('Profile update', 'Success'),
         (error) => this.toastr.success(error)
