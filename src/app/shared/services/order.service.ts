@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrderService {
-  private data: Order[];
+  private data: Order[] = [];
   private isLoading: boolean;
 
   constructor(private http: Http) {
@@ -38,6 +38,12 @@ export class OrderService {
   }
 
   public getById(id: string): Observable<Order> {
+    if (this.data && this.data.length) {
+      const found = this.data.find((item) => item.id === id);
+      if (found) {
+        return Observable.of(found);
+      }
+    }
     return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
       .map((response) => response.json())
       .map((data) => new Order(data));

@@ -6,6 +6,8 @@ import { AuthService, CartService } from '../shared/services';
 import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
+import { OrderService } from '../shared/services/order.service';
+import { Order } from '../shared/models/order.model';
 
 @Component({
   selector: 'app-confirmation',
@@ -14,9 +16,7 @@ import { PromocodeService } from '../shared/services/promocode.service';
 })
 export class ConfirmationComponent implements OnInit, OnDestroy {
 
-  public order: any;
-  public addressOrder: any;
-  public orderDate: Date = new Date();
+  public order: Order;
   public orderUser: string;
   public orderId;
   public loading = false;
@@ -24,15 +24,16 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   private subscriber: Subscription;
 
 
-  constructor(private auth: AuthService,
-              private cart: CartService,
+  constructor(private authService: AuthService,
+              private cartService: CartService,
               private toastr: ToastsManager,
               private promocodeService: PromocodeService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private orderService: OrderService) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.profile.subscribe((user: Profile) => {
+    this.subscriber = this.authService.profile.subscribe((user: Profile) => {
       if (!user || this.user) {
         return;
       }
@@ -41,24 +42,24 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       this.activatedRoute.params
         .subscribe((params) => {
           this.orderId = params.id;
-          // this.order = this.user.getOrderById(this.orderId);
-          this.addressOrder = new Address(this.order.addressOrder);
-
-          this.toastr.success('Your order has been successfully processed', 'Success!');
-          /*if (this.auth.getOrderCount() / 5 && !(this.auth.getOrderCount() % 5)) {
-            this.promocodeService.create(this.user.id, false, this.auth.getOrderCount())
-              .subscribe((response) => {
-                this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
-                  `New promocode in your profile!`);
-              })
-          } else {
-            if (this.order.formProfile.promoCode) {
-              this.promocodeService.remove(this.user.id).subscribe();
+          this.orderService.getById(this.orderId).subscribe((order: Order) => {
+            this.order = order;
+            this.toastr.success('Your order has been successfully processed', 'Success!');
+            if (this.orderService.count / 5 && !(this.orderService.count % 5)) {
+              this.promocodeService.create(this.user.id, false, this.orderService.count)
+                .subscribe((response) => {
+                  this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
+                    `New promocode in your profile!`);
+                })
+            } else {
+              if (this.order.promocode) {
+                this.promocodeService.remove(this.user.id).subscribe();
+              }
             }
-          }*/
+          });
         })
     });
-    this.auth.get();
+    this.authService.get();
   }
 
   public ngOnDestroy() {
@@ -66,13 +67,13 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   }
 
   public getDate() {
-    return `${this.orderDate.getDate()}/${this.orderDate.getMonth()}/${this.orderDate.getFullYear()}`;
+    return `${this.order.createdAt.getDate()}/${this.order.createdAt.getMonth()}/${this.order.createdAt.getFullYear()}`;
   }
 
   public getInvoice() {
     const newWindow = window.open('', '_blank');
     this.loading = true;
-    this.cart.printInvoice(this.orderId).subscribe(url => {
+    this.cartService.printInvoice(this.orderId).subscribe(url => {
       setTimeout(() => {
         this.loading = false;
         newWindow.location.href = url;

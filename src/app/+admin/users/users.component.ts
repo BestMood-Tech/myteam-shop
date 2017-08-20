@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
 import { AdminService } from '../admin.service';
+import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-users',
@@ -66,12 +67,12 @@ export class UsersComponent implements OnInit {
 
   public update(): void {
     this.rowData = [];
-    this.adminService.getSelling().subscribe((res) => {
-      res.forEach((item) => {
+    this.adminService.getSelling().subscribe((orders: Order[]) => {
+      orders.forEach((item) => {
         this.rowData.push({
-          name: `${item.formProfile.firstName} ${item.formProfile.lastName}`,
+          name: `${item.firstName} ${item.lastName}`,
           total: item.total,
-          payment: item.formProfile.payment,
+          payment: item.payment,
           address: JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}

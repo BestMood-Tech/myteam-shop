@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Address } from '../shared/models/address.model';
@@ -7,6 +6,9 @@ import { AuthService, CartService } from '../shared/services';
 import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { PromocodeService } from '../shared/services/promocode.service';
+import { Order } from '../shared/models/order.model';
+import { Product } from '../shared/models/product.model';
+import { OrderService } from '../shared/services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -15,9 +17,8 @@ import { PromocodeService } from '../shared/services/promocode.service';
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
 
-  public orders: any;
+  public products: Product[];
   public checkOutCurrency = '$';
-  public checkOutForm: FormGroup;
   public checkOutAddress: Address;
   public checkOutAddressKey: number;
   public activePromoCode: boolean;
@@ -29,33 +30,35 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public direction = 'next';
 
   public isRequesting: boolean;
+
+  public promocode: string;
+  public payment = 'PayPal';
   private user: Profile;
-  private promoCode: string;
   private subscriber: Subscription;
 
-  constructor(private cart: CartService,
-              private auth: AuthService,
-              private formBuilder: FormBuilder,
+  constructor(private cartService: CartService,
+              private authService: AuthService,
               private toastr: ToastsManager,
               private router: Router,
-              private promocodeService: PromocodeService) {
+              private promocodeService: PromocodeService,
+              private orderService: OrderService) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.profile.subscribe((user: Profile) => {
+    this.subscriber = this.authService.profile.subscribe((user: Profile) => {
       this.user = user;
       this.checkOutCurrency = user.currency;
       this.arrayAddressUser = user.address;
     });
-    this.auth.get();
+    this.authService.get();
 
     try {
-      this.orders = JSON.parse(JSON.stringify(this.cart.get()));
+      this.products = JSON.parse(JSON.stringify(this.cartService.get()));
     } catch (e) {
-      this.orders = [];
+      this.products = [];
     }
 
-    this.orders = this.orders.map(item => {
+    this.products = this.products.map(item => {
       item.total = +(item.price * item.count).toFixed(2);
       return item;
     });
@@ -65,12 +68,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.checkOutAddress = new Address(this.arrayAddressUser[0]);
       this.checkOutAddressKey = 0;
     }
-
-    this.checkOutForm = this.formBuilder.group({
-      promoCode: '',
-      address: [this.checkOutAddress, Validators.required],
-      payment: ['PayPal', Validators.required]
-    });
   }
 
   public ngOnDestroy() {
@@ -79,19 +76,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   public getTotal(): number {
     let price = 0.0;
-    this.orders.forEach((item) => price += item.total);
+    this.products.forEach((item) => price += item.total);
     return +price.toFixed(2);
   }
 
   public checkPromoCode() {
-    if (!this.checkOutForm.value.promoCode.length && this.activePromoCode) {
+    if (!this.promocode.length && this.activePromoCode) {
       return;
     }
 
-    this.promocodeService.check(this.user.id, this.checkOutForm.value.promoCode)
+    this.promocodeService.check(this.user.id, this.promocode)
       .subscribe(
         (response) => {
-          this.orders.forEach((item) => {
+          this.products.forEach((item) => {
             item.price *= ((100 - response.percent) / 100);
             item.total = +(item.price * item.count).toFixed(2);
           });
@@ -99,7 +96,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           this.activePromoCode = false;
         },
         (error) => {
-          this.checkOutForm.controls['promoCode'].reset();
+          this.promocode = '';
           this.toastr.error(error.json().errorMessage, 'Error');
         }
       );
@@ -108,37 +105,33 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public onChangeAddress(key) {
     this.checkOutAddress = new Address(this.arrayAddressUser[key]);
     this.checkOutAddressKey = key;
-    this.checkOutForm.controls['address'].setValue(this.checkOutAddress);
   }
 
   public checkPay(): boolean {
-    return this.checkOutForm.valid && this.checkOutAddress != null;
+    return this.checkOutAddress != null;
   }
 
   public saveOrders() {
     const total = this.getTotal();
     const tax = +(total * 0.13).toFixed(2);
     const grandTotal = +(total + tax).toFixed(2);
-    if (!this.checkOutForm.controls['promoCode'].value) {
-      this.checkOutForm.controls['promoCode'].setValue(this.promoCode);
-    }
-    const order = {
-      products: this.orders,
+    const order = new Order({
+      products: this.products,
       total,
       tax,
       currency: this.checkOutCurrency,
       grandTotal,
-      formProfile: this.checkOutForm.value,
-      addressOrder: this.checkOutAddress,
-    };
-    /*this.auth.createOrder(order)
+      payment: this.payment,
+      promocode: this.promocode,
+      addressOrder: this.checkOutAddress
+    });
+    this.orderService.create(order)
       .subscribe((data) => {
-        this.user.addOrders(data);
         this.isRequesting = false;
-        this.cart.clearCart();
+        this.cartService.clear();
         this.toastr.success('Orders added to profile', 'Success');
         this.router.navigate(['./confirmation', data['id']]);
-      });*/
+      });
   }
 
   public changeLevel(isNext: boolean, level?: string) {
@@ -190,7 +183,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   public changePayment(method: string) {
-    this.checkOutForm.controls['payment'].setValue(method);
+    this.payment = method;
   }
 
   public pay() {

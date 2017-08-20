@@ -39,7 +39,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let order of orders">
+        <tr *ngFor="let order of products">
           <td>{{order.name}}</td>
           <td>{{order.count}}</td>
           <td>{{checkOutCurrency}} {{order.price | number:'1.1-5' | currency: checkOutCurrency}}</td>
@@ -53,21 +53,19 @@
         </tr>
         </tfoot>
       </table>
-      <form [formGroup]="checkOutForm" role="form" class="promo-code">
-        <h4>2. Enter a promo code:</h4>
-        <div *ngIf="activePromoCode" class="form-group">
-          <div class="input-group">
-            <input #input type="text" placeholder="Promo code..." formControlName="promoCode" class="form-control"
-                   (mousedown)="input.focus()">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" (click)="checkPromoCode()">Save</button>
-            </span>
-          </div>
+      <h4>2. Enter a promo code:</h4>
+      <div *ngIf="activePromoCode" class="form-group">
+        <div class="input-group">
+          <input #input type="text" placeholder="Promocode..." [(ngModel)]="promocode" class="form-control"
+                 (mousedown)="input.focus()">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" (click)="checkPromoCode()">Save</button>
+          </span>
         </div>
-        <div *ngIf="!activePromoCode" class="form-group">
-          <p class="promo-success">Promo code success</p>
-        </div>
-      </form>
+      </div>
+      <div *ngIf="!activePromoCode" class="form-group">
+        <p class="promo-success">Promo code success</p>
+      </div>
     </div>
 
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
@@ -82,7 +80,7 @@
       <h4>4. Choose payment method</h4>
       <div class="payment-blocks">
         <div *ngFor="let method of paymentSystem" class="thumbnail payment-block"
-             [ngClass]="method === checkOutForm.value.payment ? 'chosen-payment' : ''" (click)="changePayment(method)">
+             [ngClass]="method === payment ? 'chosen-payment' : ''" (click)="changePayment(method)">
           <img [src]="'../../assets/' + method + '.png'" class="thumb-image">
           <h2>{{method}}</h2>
         </div>

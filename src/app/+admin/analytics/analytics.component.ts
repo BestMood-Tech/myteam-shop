@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AdminService } from '../admin.service';
+import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-users',
@@ -31,7 +32,7 @@ export class AnalyticsComponent implements OnInit {
   public pieChartType = 'pie';
 
   public analyticsForm: FormGroup;
-  public yearForm: number[] = [2014, 2015, 2016];
+  public yearForm: number[] = [2014, 2015, 2016, 2017];
 
 
   constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
@@ -51,10 +52,10 @@ export class AnalyticsComponent implements OnInit {
     this.pieChartData = [];
     this.pieChartLabels = [];
 
-    this.adminService.getSelling(fromYear, toYear).subscribe((data) => {
+    this.adminService.getSelling(fromYear, toYear).subscribe((orders: Order[]) => {
 
-      data.forEach((item) => {
-        const date = new Date(item.date);
+      orders.forEach((item) => {
+        const date = new Date(item.createdAt);
 
         if (this.isYear(date.getFullYear()) === -1) {
 
@@ -63,7 +64,7 @@ export class AnalyticsComponent implements OnInit {
 
           this.chartData.push(obj);
 
-          this.pieChartData.push(item.total);
+          this.pieChartData.push(item.total.toString());
           this.pieChartLabels.push(date.getFullYear());
 
         } else {

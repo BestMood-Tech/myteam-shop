@@ -35,6 +35,7 @@ import {
   MoviesService,
   AuthService,
   CartService,
+  OrderService,
   HelperService
 } from './services';
 /*
@@ -67,6 +68,7 @@ const SharedServices = [
   MoviesService,
   AuthService,
   CartService,
+  OrderService,
   HelperService
 ];
 

@@ -42,7 +42,7 @@ export class AuthService {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
-      this.lock.get(authResult.idToken, (error, currentUser) => {
+      this.lock.getProfile(authResult.idToken, (error, currentUser) => {
         if (error) {
           // Handle error
           console.log(error);
@@ -84,6 +84,7 @@ export class AuthService {
         picture: currentUser.picture,
         firstName: currentUser.given_name,
         lastName: currentUser.family_name,
+        currency: '$'
       });
     } else {
       user = new Profile({
@@ -92,6 +93,7 @@ export class AuthService {
         email: currentUser.email[0].email,
         firstName: currentUser.name.split(' ')[0],
         lastName: currentUser.name.split(' ')[1],
+        currency: '$'
       });
     }
 

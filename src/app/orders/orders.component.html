@@ -22,7 +22,7 @@
           <tr>
             <td>{{order.createdAt | date:'yy-MM-dd HH:MM'}}</td>
             <td>{{calcCount(order)}}</td>
-            <td>{{order.formProfile.payment}}</td>
+            <td>{{order.payment}}</td>
             <td>{{user.currency}} {{order.total | currency: user.currency}}</td>
             <td>
               <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order)"></span>

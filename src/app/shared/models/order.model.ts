@@ -9,9 +9,12 @@ export class Order {
   public currency: string;
   public grandTotal: number;
   public payment: string;
+  public promocode: string;
   public addressOrder: Address;
   public createdAt: Date;
   public createdBy: string;
+  public firstName?: string;
+  public lastName?: string;
 
   constructor(obj) {
     Object.keys(obj).forEach((key) => {
@@ -20,7 +23,7 @@ export class Order {
           this.addressOrder = obj[key];
           break;
         case 'createdAt':
-          this.createdAt = new Date(obj.key);
+          this.createdAt = new Date(obj[key]);
           break;
         case 'products':
           this.products = obj[key].map((item) => new Product(item));

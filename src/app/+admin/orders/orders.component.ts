@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
 import { AdminService } from '../admin.service';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
+import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-users',
@@ -144,20 +145,20 @@ export class OrdersComponent implements OnInit {
 
   public update(): void {
     this.rowData = [];
-    this.adminService.getSelling().subscribe((res) => {
-      res.forEach((item) => {
+    this.adminService.getSelling().subscribe((orders: Order[]) => {
+      orders.forEach((item) => {
         this.rowData.push({
           numberGoods: item.products.length,
           total: item.total,
-          promoCode: item.formProfile.promoCode,
-          payment: item.formProfile.payment,
+          promoCode: item.promocode,
+          payment: item.payment,
           address: JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}
                     ${item.addressOrder.zip}
                     ${item.addressOrder.country}`),
-          date: item.date
+          date: item.createdAt
         });
       });
       this.dataSource = {
