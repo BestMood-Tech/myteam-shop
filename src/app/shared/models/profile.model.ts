@@ -14,16 +14,16 @@ export class Profile {
   public mobile: string;
 
   constructor(obj) {
-    Object.keys(obj).forEach((key) => {
-      if (key !== 'address') {
+    for (const key in obj) {
+      if (key === 'address') {
+        this[key] = obj[key].map(value => new Address(value));
+      } else {
         if (typeof obj[key] === 'string') {
           obj[key] = obj[key].replace(/[\uD800-\uDFFF]./g, '');
         }
         this[key] = obj[key];
-      } else {
-        this[key] = obj[key].map(value => new Address(value));
       }
-    });
+    }
 
     if (!this.address) {
       this.address = [];

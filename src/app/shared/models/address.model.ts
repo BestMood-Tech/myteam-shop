@@ -7,8 +7,8 @@ export class Address {
   public state: string;
 
   constructor(obj) {
-    Object.keys(obj).forEach((key) => {
+    for (const key in obj) {
       this[key] = obj[key];
-    });
+    }
   }
 }

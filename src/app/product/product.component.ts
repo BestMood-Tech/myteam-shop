@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { ToastsManager } from 'ng2-toastr';
+
 import { Profile } from '../shared/models/profile.model';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
 import { ReviewFormComponent } from '../review-form/review-form.component';
 import { Review } from '../shared/models/review.model';
 import { ReviewsService } from './reviews.service';
-import { ToastsManager } from 'ng2-toastr';
 import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
-import { Developer, Genre, Product } from '../shared/models/product.model';
+import { Credit, Developer, Genre, Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-product',
@@ -24,6 +26,7 @@ export class ProductComponent implements OnInit {
   public reviews: Review[] = [];
   public user = null;
   private currentService;
+  private path;
 
   constructor(private route: ActivatedRoute,
               private booksService: BooksService,
@@ -34,7 +37,11 @@ export class ProductComponent implements OnInit {
               private modalService: NgbModal,
               private reviewsService: ReviewsService,
               private toastr: ToastsManager) {
-    switch (this.route.snapshot.url[1].path) {
+  }
+
+  public ngOnInit() {
+    this.path = this.route.snapshot.url[1].path;
+    switch (this.path) {
       case 'book':
         this.currentService = this.booksService;
         break;
@@ -45,42 +52,40 @@ export class ProductComponent implements OnInit {
         this.currentService = this.gamesService;
         break;
     }
-  }
-
-  public ngOnInit() {
-    this.route.params.subscribe(() => {
+    this.route.params.mergeMap(() => {
       this.product = this.route.snapshot.data['product'];
-      console.log(this.product);
       this.product.coverUrl = this.product.cover;
-      this.currentService.getRecommended(this.product.id).subscribe((recommended: Product[]) => {
-        this.recommended = recommended;
-        this.recommended.forEach((item) => item.coverUrl = item.cover);
-      });
-
-      if (this.route.snapshot.url[1].path === 'game') {
-        this.currentService.getGenres(this.product.genres)
-          .subscribe((genres: Genre[]) => this.product.genres = genres);
-
-        this.currentService.getDevelopers(this.product.developers)
-          .subscribe((developers: Developer[]) => this.product.developers = developers);
-      }
-      this.auth.profile.subscribe((user: Profile) => {
-        if (!user) {
-          this.productCurrency = '$';
-          return;
-        }
-        this.productCurrency = user.currency;
-        this.user = user;
-      });
-      this.auth.get();
-
-      if (this.product.type === 'movie') {
-        this.currentService.getCredits(this.product.id)
-          .subscribe((data) => this.product['credits'] = data.slice(0, 4));
-      }
-      this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
-        .subscribe((res) => this.reviews = res)
+      return this.currentService.getRecommended(this.product.id)
+    }).subscribe((recommended: Product[]) => {
+      this.recommended = recommended;
+      this.recommended.forEach((item) => item.coverUrl = item.cover);
     });
+
+    this.auth.profile.subscribe((user: Profile) => {
+      if (!user) {
+        this.productCurrency = '$';
+        return;
+      }
+      this.productCurrency = user.currency;
+      this.user = user;
+    });
+    this.auth.get();
+
+    if (this.path === 'game') {
+      this.currentService.getGenres(this.product.genres)
+        .subscribe((genres: Genre[]) => this.product.genres = genres);
+
+      this.currentService.getDevelopers(this.product.developers)
+        .subscribe((developers: Developer[]) => this.product.developers = developers);
+    }
+
+    if (this.path === 'movie') {
+      this.currentService.getCredits(this.product.id)
+        .subscribe((credits: Credit[]) => this.product.credits = credits);
+    }
+
+    this.reviewsService.get(`${this.path}${this.route.snapshot.url[2].path}`)
+      .subscribe((res) => this.reviews = res)
 
   }
 

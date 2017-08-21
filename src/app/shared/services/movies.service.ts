@@ -76,7 +76,7 @@ export class MoviesService {
             'http://placehold.it/138x175',
           name: item.name
         };
-      }));
+      }).slice(0, 4));
   }
 
   public getVideos(id: string): Observable<any> {

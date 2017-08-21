@@ -3,6 +3,7 @@ export class Product {
   public type: string;
   public name: string;
   public cover: string;
+  public coverUrl?: string;
   public description: string;
   public vote: number;
   public voteCount?: number;
@@ -23,9 +24,9 @@ export class Product {
   public total?: number;
 
   constructor(obj) {
-    Object.keys(obj).forEach((key) => {
+    for (const key in obj) {
       this[key] = obj[key];
-    });
+    }
   }
 }
 

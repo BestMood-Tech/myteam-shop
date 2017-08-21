@@ -17,7 +17,7 @@ export class Order {
   public lastName?: string;
 
   constructor(obj) {
-    Object.keys(obj).forEach((key) => {
+    for (const key in obj) {
       switch (key) {
         case 'addressOrder':
           this.addressOrder = obj[key];
@@ -31,6 +31,6 @@ export class Order {
         default:
           this[key] = obj[key];
       }
-    });
+    }
   }
 }
