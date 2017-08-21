@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { GamesService } from '../shared/services/games.service';
-import { MoviesService } from '../shared/services/movies.service';
-import { BooksService } from '../shared/services/books.service';
-
+import { BooksService, GamesService, MoviesService } from '../shared/services';
 
 @Injectable()
 export class CategoryResolve implements Resolve<any> {

@@ -1,21 +1,21 @@
-<div class="btn btn-nav btn-nav-next" *ngIf="level === 'shipping' || level === 'products'"
-     (click)="changeLevel(true)"><span class="glyphicon glyphicon-chevron-right"></span>
+<div class="btn btn-nav btn-nav-next" *ngIf="step < levels.length-1"
+     (click)="setStep('next')"><span class="glyphicon glyphicon-chevron-right"></span>
 </div>
-<div class="btn btn-nav btn-nav-prev" *ngIf="level === 'shipping' || level === 'payment'"
-     (click)="changeLevel(false)"><span class="glyphicon glyphicon-chevron-left"></span>
+<div class="btn btn-nav btn-nav-prev" *ngIf="step > 0"
+     (click)="setStep('prev')"><span class="glyphicon glyphicon-chevron-left"></span>
 </div>
 
 <div class="container checkout-header">
   <div class="flex-container">
     <h1>Checkout</h1>
-    <h5 [ngClass]="level === 'products' ? 'level': ''"
-        (click)="changeLevel(false, 'products')">Check products and enter promo code</h5>
+    <h5 [ngClass]="step === 0 ? 'active': ''"
+        (click)="setStep(0)">Check products and enter promo code</h5>
     <div class="border"></div>
-    <h5 [ngClass]="level === 'shipping' ? 'level': ''"
-        (click)="changeLevel(false, 'shipping')">Shipping</h5>
+    <h5 [ngClass]="step === 1 ? 'active': ''"
+        (click)="setStep(1)">Shipping</h5>
     <div class="border"></div>
-    <h5 [ngClass]="level === 'payment' ? 'level': ''"
-        (click)="changeLevel(false, 'payment')">Payment method</h5>
+    <h5 [ngClass]="step === 2 ? 'active': ''"
+        (click)="setStep(2)">Payment method</h5>
   </div>
 </div>
 
@@ -23,11 +23,12 @@
   <img class="spin" src="/assets/grid.svg" alt="Loading">
 </div>
 
-<div class="container slides" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true" *ngIf="arrayAddressUser">
+<div class="container slides" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true"
+     *ngIf="arrayAddressUser">
   <div class="flex-container">
 
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
-         *ngIf="level === 'products'">
+         *ngIf="currentLevel === 'products'">
       <h4>1. Check order details</h4>
       <table class="table">
         <thead>
@@ -69,14 +70,14 @@
     </div>
 
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
-         *ngIf="level === 'shipping'">
+         *ngIf="currentLevel === 'shipping'">
       <h4>3. Choose address for shipping</h4>
       <app-address [isCart]="true" [addressKey]="checkOutAddressKey"
                    (chosenAddress)="onChangeAddress($event)"></app-address>
     </div>
 
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"
-         *ngIf="level === 'payment'">
+         *ngIf="currentLevel === 'payments'">
       <h4>4. Choose payment method</h4>
       <div class="payment-blocks">
         <div *ngFor="let method of paymentSystem" class="thumbnail payment-block"

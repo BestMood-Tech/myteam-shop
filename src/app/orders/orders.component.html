@@ -1,7 +1,8 @@
 <div *ngIf="!user" class="loading">
   <img class="spin" src="/assets/grid.svg" alt="Loading">
 </div>
-<div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true" *ngIf="user">
+<div class="container left-transform" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true"
+     *ngIf="user">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <h2>Orders</h2>
@@ -27,10 +28,10 @@
             <td>
               <span class="glyphicon glyphicon-download-alt" (click)="getInvoice(order)"></span>
             </td>
-            <td class="show-order" *ngIf="showOrder !== order"><a (click)="(show(order))">Show more</a></td>
-            <td class="show-order" *ngIf="showOrder === order"><a (click)="(show(null))">Hide details</a></td>
+            <td class="show-order" *ngIf="currentOrder !== order"><a (click)="(show(order))">Show more</a></td>
+            <td class="show-order" *ngIf="currentOrder === order"><a (click)="(show(null))">Hide details</a></td>
           </tr>
-          <tr *ngIf="showOrder === order">
+          <tr *ngIf="currentOrder === order">
             <td colspan="6">
               <div class="row left-transform">
                 <div class="col-sm-2 col-md-2 col-lg-2">

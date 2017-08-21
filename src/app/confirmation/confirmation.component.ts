@@ -1,13 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Address } from '../shared/models/address.model';
-import { AuthService, CartService } from '../shared/services';
-import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
-import { PromocodeService } from '../shared/services/promocode.service';
-import { OrderService } from '../shared/services/order.service';
-import { Order } from '../shared/models/order.model';
+import { Order, Profile } from '../shared/models';
+import { AuthService, CartService, OrderService, PromocodeService } from '../shared/services';
 
 @Component({
   selector: 'app-confirmation',
@@ -18,15 +14,14 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
   public order: Order;
   public orderUser: string;
-  public orderId;
+  public orderId: string;
   public loading = false;
   private user: Profile;
   private subscriber: Subscription;
 
-
   constructor(private authService: AuthService,
               private cartService: CartService,
-              private toastr: ToastsManager,
+              private toastsManager: ToastsManager,
               private promocodeService: PromocodeService,
               private activatedRoute: ActivatedRoute,
               private orderService: OrderService) {
@@ -40,24 +35,25 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
       this.user = user;
       this.orderUser = user.lastName + ' ' + user.firstName;
       this.activatedRoute.params
-        .subscribe((params) => {
+        .mergeMap((params) => {
           this.orderId = params.id;
-          this.orderService.getById(this.orderId).subscribe((order: Order) => {
-            this.order = order;
-            this.toastr.success('Your order has been successfully processed', 'Success!');
-            if (this.orderService.count / 5 && !(this.orderService.count % 5)) {
-              this.promocodeService.create(this.user.id, false, this.orderService.count)
-                .subscribe((response) => {
-                  this.toastr.info(`You have a promocode with ${response.percent}% discount!`,
-                    `New promocode in your profile!`);
-                })
-            } else {
-              if (this.order.promocode) {
-                this.promocodeService.remove(this.user.id).subscribe();
-              }
-            }
-          });
+          return this.orderService.getById(this.orderId);
         })
+        .subscribe((order: Order) => {
+          this.order = order;
+          this.toastsManager.success('Your order has been successfully processed', 'Success!');
+          if (this.orderService.count / 5 && !(this.orderService.count % 5)) {
+            this.promocodeService.create(this.user.id, false, this.orderService.count)
+              .subscribe((response) => {
+                this.toastsManager.info(`You have a promocode with ${response.percent}% discount!`,
+                  `New promocode in your profile!`);
+              })
+          } else {
+            if (this.order.promocode) {
+              this.promocodeService.remove(this.user.id).subscribe();
+            }
+          }
+        });
     });
     this.authService.get();
   }

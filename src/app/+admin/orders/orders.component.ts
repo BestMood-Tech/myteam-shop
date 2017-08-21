@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
+import { Order } from '../../shared/models';
 import { AdminService } from '../admin.service';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
-import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +14,7 @@ export class OrdersComponent implements OnInit {
   public rowData: any[];
   public dataSource: any;
   public classTheme = 'ag-dark';
-  public arrayTheme: string[] = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
+  public arrayTheme = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
 
   constructor(private adminService: AdminService) {
     this.gridOptions = <GridOptions>{
@@ -36,26 +36,56 @@ export class OrdersComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.update();
+    this.rowData = [];
+    this.adminService.getSelling().subscribe((orders: Order[]) => {
+      orders.forEach((item) => {
+        this.rowData.push({
+          numberGoods: item.products.length,
+          total: item.total,
+          promoCode: item.promocode,
+          payment: item.payment,
+          address: JSON.stringify(`${item.addressOrder.streetAddress}
+                    ${item.addressOrder.addressLine2}
+                    ${item.addressOrder.city}
+                    ${item.addressOrder.state}
+                    ${item.addressOrder.zip}
+                    ${item.addressOrder.country}`),
+          date: item.createdAt
+        });
+      });
+      this.dataSource = {
+        rowCount: null,
+        getRows: (params) => {
+          const rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
+          const rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
+          let lastRow = -1;
+          if (this.rowData.length <= params.endRow) {
+            lastRow = this.rowData.length;
+          }
+          params.successCallback(rowsThisPage, lastRow);
+        }
+      };
+      this.gridOptions.rowData = this.rowData;
+    });
   }
 
   /*************
    *** Theme ***
    ************/
   public isTheme(key): boolean {
-    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    const arrayClassTheme = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     return arrayClassTheme[key] === this.classTheme;
   }
 
   public setTheme(key): void {
-    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
+    const arrayClassTheme = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
     this.classTheme = arrayClassTheme[key];
   }
 
   /*************
    ** Ag-grid **
    ************/
-  private createColumnDefs(): any[] {
+  private createColumnDefs() {
     return [
       {
         headerName: '#',
@@ -143,45 +173,11 @@ export class OrdersComponent implements OnInit {
     ];
   }
 
-  public update(): void {
-    this.rowData = [];
-    this.adminService.getSelling().subscribe((orders: Order[]) => {
-      orders.forEach((item) => {
-        this.rowData.push({
-          numberGoods: item.products.length,
-          total: item.total,
-          promoCode: item.promocode,
-          payment: item.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress}
-                    ${item.addressOrder.addressLine2}
-                    ${item.addressOrder.city}
-                    ${item.addressOrder.state}
-                    ${item.addressOrder.zip}
-                    ${item.addressOrder.country}`),
-          date: item.createdAt
-        });
-      });
-      this.dataSource = {
-        rowCount: null,
-        getRows: (params) => {
-          const rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
-          const rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
-          let lastRow = -1;
-          if (this.rowData.length <= params.endRow) {
-            lastRow = this.rowData.length;
-          }
-          params.successCallback(rowsThisPage, lastRow);
-        }
-      };
-      this.gridOptions.rowData = this.rowData;
-    });
-  }
-
-  public sortAndFilter(allOfTheData, sortModel, filterModel): any[] {
+  public sortAndFilter(allOfTheData, sortModel, filterModel) {
     return this.sortData(sortModel, this.filterData(filterModel, allOfTheData));
   }
 
-  private sortData(sortModel, data): any[] {
+  private sortData(sortModel, data) {
     const sortPresent = sortModel && sortModel.length > 0;
     if (!sortPresent) {
       return data;
@@ -209,7 +205,7 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  public filterData(filterModel, data): any[] {
+  public filterData(filterModel, data) {
     const filterPresent = filterModel && Object.keys(filterModel).length > 0;
     if (!filterPresent) {
       return data;
@@ -266,7 +262,7 @@ export class OrdersComponent implements OnInit {
     this.gridOptions.api.setQuickFilter($event.target.value);
   }
 
-  public clearPinned(): void {
+  public clearPinned() {
     this.gridOptions.columnApi.setColumnsPinned([
       'numberGoods',
       'total',
@@ -277,7 +273,7 @@ export class OrdersComponent implements OnInit {
     ], null);
   }
 
-  public resetPinned(): void {
+  public resetPinned() {
     this.gridOptions.columnApi.setColumnsPinned([
       'numberGoods',
       'date'
@@ -287,5 +283,4 @@ export class OrdersComponent implements OnInit {
   public pinTotal(): void {
     this.gridOptions.columnApi.setColumnPinned('total', 'right');
   }
-
 }
