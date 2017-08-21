@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { CategoryResolve } from './category/category.resolve';
-import { ProductResolve } from './product/product.resolve';
 import { ReviewFormComponent } from './review-form/review-form.component';
 
 @NgModule({
@@ -33,7 +32,6 @@ import { ReviewFormComponent } from './review-form/review-form.component';
   ],
   providers: [
     CategoryResolve,
-    ProductResolve,
     { provide: ToastOptions, useClass: CustomOption },
   ],
   entryComponents: [ReviewFormComponent],

@@ -54,3 +54,11 @@ export interface Credit {
   name: string;
   profilePath: string;
 }
+
+export const GameStatuses = [
+  { status: '0', value: 'Main game' },
+  { status: '1', value: 'DLC / Addon' },
+  { status: '2', value: 'Expansion' },
+  { status: '3', value: 'Bundle' },
+  { status: '4', value: 'Standalone expansion' }
+];
