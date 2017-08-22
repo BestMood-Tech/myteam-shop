@@ -6,11 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filters',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss']
+  templateUrl: 'filters.component.html',
+  styleUrls: ['filters.component.scss']
 })
 export class FiltersComponent implements OnInit {
-  public genres: any;
   public filtersForm: FormGroup;
   public display = true;
   public filters: any;
@@ -21,45 +20,30 @@ export class FiltersComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.filters = this.route.snapshot.queryParams;
-    this.filtersForm = this.fb.group({
-      dateFrom: this.filters.dateFrom || '',
-      dateTo: this.filters.dateTo || '',
-      gameGroup: this.fb.group({
-        genres: this.filters.genres || '',
-        developer: this.filters.developer || ''
-      }),
-      checkMovies: this.filters.checkMovies || true,
-      checkGames: this.filters.checkGames || true,
-      checkBooks: this.filters.checkBooks || true,
+    this.route.queryParams.subscribe((queryParams) => {
+      this.filters = Object.assign({}, queryParams);
+      this.filtersForm = this.fb.group({
+        dateFrom: this.filters.dateFrom || '',
+        dateTo: this.filters.dateTo || '',
+        checkMovies: this.filters.checkMovies,
+        checkGames: this.filters.checkGames,
+        checkBooks: this.filters.checkBooks,
+      });
     });
   }
 
   public applyFilters() {
     const form = this.filtersForm.value;
-    const filterObject = {};
     if (form.dateFrom) {
-      filterObject['dateFrom'] = form.dateFrom;
+      this.filters.dateFrom = form['dateFrom'];
     }
     if (form.dateTo) {
-      filterObject['dateTo'] = form.dateTo;
+      this.filters.dateTo = form.dateTo;
     }
-    if (form.movie) {
-      filterObject['movie'] = form.movie;
-    }
-    if (form.game) {
-      filterObject['game'] = form.game;
-    }
-    if (form.checkGames) {
-      filterObject['checkGames'] = form.checkGames;
-    }
-    if (form.checkMovies) {
-      filterObject['checkMovies'] = form.checkMovies;
-    }
-    if (form.checkBooks) {
-      filterObject['checkBooks'] = form.checkBooks;
-    }
-    this.helperService.updateFilters.emit(filterObject);
+    this.filters.checkGames = form.checkGames;
+    this.filters.checkMovies = form.checkMovies;
+    this.filters.checkBooks = form.checkBooks;
+    this.helperService.updateFilters.emit(this.filters);
   }
 
 }

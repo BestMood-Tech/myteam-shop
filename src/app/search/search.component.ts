@@ -1,19 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
+
 import { MoviesService } from '../shared/services/movies.service';
 import { GamesService } from '../shared/services/games.service';
 import { BooksService } from '../shared/services/books.service';
 import { HelperService } from '../shared/services/helper.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
+import { Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: 'search.component.html',
+  styleUrls: ['search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-  public products = [];
+  public products: Product[] = [];
   public loading = false;
   public emptySearch = false;
 
@@ -29,8 +32,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.helperService.showFilters.emit(true);
 
     this.helperService.updateFilters.subscribe((filters) => {
-      filters['q'] = this.helperService.searchTerm;
-      if (filters['q'] || (filters['q'].length > 3)) {
+      filters.q = this.helperService.searchTerm || filters.q;
+      if (filters.q || (filters.q.length > 3)) {
         this.router.navigate(['/search'], {queryParams: filters});
       }
     });
@@ -43,12 +46,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   private searchProduct() {
-    const objState = {
-      checkMovies: true,
-      checkBooks: true,
-      checkGames: true
-    };
-
     if (!this.route.snapshot.queryParams.hasOwnProperty('q') || this.route.snapshot.queryParams['q'] === '') {
       this.emptySearch = true;
       this.loading = true;
@@ -60,38 +57,28 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.products = [];
     const gameFilter = {limit: '10'};
     const movieFilter = {limit: '10'};
-    if (filters['genres']) {
-      gameFilter['genres'] = filters['genres'];
-    }
     if (filters['dateFrom']) {
       movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
     }
     if (filters['dateTo']) {
       movieFilter['primary_release_date.gte'] = filters['dateTo'].split('-')[0];
     }
-    Object.keys(objState).forEach((nameField) => objState[nameField] = filters[nameField]);
 
-    Observable.forkJoin([
-      this.bookService.search(filters['q']),
-      this.gamesService.search(filters['q'], gameFilter),
-      this.movieService.search(filters['q'], movieFilter)
-    ])
-      .map(([books, games, movies]) => {
-        if (!objState.checkBooks) {
-          books = [];
-        }
-        if (!objState.checkMovies) {
-          movies = [];
-        }
-        if (!objState.checkGames) {
-          games = [];
-        }
-        return [].concat(
-          books,
-          games,
-          movies);
+    const observables = [];
+    if (filters.checkBooks) {
+      observables.push(this.bookService.search(filters['q']));
+    }
+    if (filters.checkMovies) {
+      observables.push(this.gamesService.search(filters['q'], gameFilter));
+    }
+    if (filters.checkGames) {
+      observables.push(this.movieService.search(filters['q'], movieFilter));
+    }
+    Observable.forkJoin(observables)
+      .map((data) => {
+        return [].concat.apply([], data);
       })
-      .subscribe(items => {
+      .subscribe((items: Product[]) => {
         this.products = items;
         this.loading = true;
       });

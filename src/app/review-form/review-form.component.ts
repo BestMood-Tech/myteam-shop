@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { AuthService } from '../shared/services';
 import { siteKeyGC } from '../shared/helper';
 import { Profile } from '../shared/models/profile.model';
@@ -13,11 +15,12 @@ import { Profile } from '../shared/models/profile.model';
 
 export class ReviewFormComponent implements OnInit {
   public reviewForm: FormGroup;
-  public isCaptcha: boolean;
+  public isCaptcha = false;
   public siteKey = siteKeyGC;
   public isAuth = false;
+
   constructor (public activeModal: NgbActiveModal,
-               public auth: AuthService,
+               public authService: AuthService,
                private formBulder: FormBuilder) {
   }
 
@@ -26,19 +29,14 @@ export class ReviewFormComponent implements OnInit {
       text: ['', Validators.required],
       rate: [5, Validators.required]
     });
-    this.auth.profile.subscribe((user: Profile) => {
-      if (!user) {
-        this.isAuth = false;
-        return;
-      }
-      this.isAuth = true;
+    this.authService.profile.subscribe((user: Profile) => {
+      this.isAuth = !!user;
     });
-    this.auth.get();
-    this.isCaptcha = false;
+    this.authService.get();
   }
 
   public save() {
-    if (!this.reviewForm.valid && this.isCaptcha) {
+    if (!this.reviewForm.valid && !this.isCaptcha) {
       return;
     }
     this.activeModal.close(this.reviewForm.value);

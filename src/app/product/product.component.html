@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-9 col-md-9 col-lg-9 product left-transform">
+    <div class="col-sm-9 col-md-9 col-lg-9 product left-transform" *ngIf="product">
       <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
           <div class="poster" [style.background-image]="'url(' + product.cover + ')'">
@@ -195,7 +195,7 @@
       </div>
     </div>
     <div class="col-sm-3 col-md-3 col-lg-3 recommended"
-         drag-scroll [drag-scroll-x-disabled]="true">
+         drag-scroll [drag-scroll-x-disabled]="true" *ngIf="recommended">
       <h4>You might also like</h4>
       <div class="item" *ngFor="let recommend of recommended">
         <div class="poster">

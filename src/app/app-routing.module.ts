@@ -9,7 +9,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { AddressComponent } from './address/address.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { CategoryResolve } from './category/category.resolve';
-import { ProductResolve } from './product/product.resolve';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OrdersComponent } from './orders/orders.component';
@@ -24,11 +23,10 @@ const routes: Routes = [
   {path: 'search', component: SearchComponent},
   {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: 'cart', component: CartComponent},
-  {path: 'category/:type/:id', component: ProductComponent, resolve: {product: ProductResolve}},
+  {path: 'category/:type/:id', component: ProductComponent},
   {path: 'confirmation/:id', component: ConfirmationComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'address', component: AddressComponent, canActivate: [AuthGuard]},
-  {path: 'cart', component: CartComponent},
   {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
   {path: 'admin', loadChildren: './+admin/admin.module#AdminModule'}
 ];
