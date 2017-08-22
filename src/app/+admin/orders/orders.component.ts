@@ -181,28 +181,18 @@ export class OrdersComponent implements OnInit {
   }
 
   private sortData(sortModel, data) {
-    if (!sortModel || sortModel.length < 0) {
+    if (!sortModel || sortModel.length <= 0) {
       return data;
     }
-
-    const resultOfSort = data.slice();
-    resultOfSort.sort((a, b) => {
-      for (let k = 0; k < sortModel.length; k++) {
-        const sortColModel = sortModel[k];
-        if (a[sortColModel.colId] === b[sortColModel.colId]) {
-          continue;
-        }
-        const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
-        return a[sortColModel.colId] > b[sortColModel.colId] ? sortDirection : sortDirection * -1;
-      }
-      return 0;
+    const sortColModel = sortModel[0];
+    return data.sort((a, b) => {
+      const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
+      return a[sortColModel.colId] > b[sortColModel.colId] ? sortDirection : sortDirection * -1;
     });
-    return resultOfSort;
-
   }
 
   public filterData(filterModel, data) {
-    if (!filterModel || Object.keys(filterModel).length === 0) {
+    if (!filterModel || !Object.keys(filterModel).length) {
       return data;
     }
     const resultOfFilter = [];

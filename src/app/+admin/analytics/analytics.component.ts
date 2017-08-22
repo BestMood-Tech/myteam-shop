@@ -69,10 +69,6 @@ export class AnalyticsComponent implements OnInit {
     });
   }
 
-  public isNotEmptyData() {
-    return !!this.chartData.length;
-  }
-
   public toggle() {
     const currentTypeChart = this.typesOfChart.indexOf(this.chartType);
     this.chartType = this.typesOfChart[currentTypeChart + 1] ? this.typesOfChart[currentTypeChart + 1] : this.typesOfChart[0];

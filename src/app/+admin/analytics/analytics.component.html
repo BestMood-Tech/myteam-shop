@@ -27,8 +27,8 @@
       </button>
     </form>
   </div>
-  <div class="row graphics">
-    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf="isNotEmptyData()">
+  <div class="row graphics" *ngIf="chartData && chartData.length">
+    <div class="col-sm-6 col-md-6 col-lg-6">
       <canvas baseChart
               [datasets]="chartData"
               [labels]="labelMonth"
@@ -37,7 +37,7 @@
               [chartType]="chartType">
       </canvas>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf='isNotEmptyData()'>
+    <div class="col-sm-6 col-md-6 col-lg-6">
       <canvas baseChart
               [data]="pieChartData"
               [labels]="pieChartLabels"
