@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import * as moment from 'moment';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import * as moment from 'moment';
+import { Observable } from 'rxjs/Observable';
 
-import { Developer, Genre, Product } from '../models/product.model';
+import { Developer, Genre, Product } from '../models';
 
 @Injectable()
 export class GamesService {

@@ -9,60 +9,53 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
   private params: any;
   public value: number;
   private cancelBeforeStart = false;
+  @ViewChild('input', { read: ViewContainerRef }) public input;
 
-  @ViewChild('input', {read: ViewContainerRef}) public input;
-
-
-  public agInit(params: any): void {
-    this.params = params;
-    this.value = this.params.value;
-    this.cancelBeforeStart = params.charPress && this.isCharNumeric(params.charPress);
+  static isCharNumeric(charStr) {
+    return /\d/.test(charStr);
   }
 
-  public getValue(): any {
+  static getCharCodeFromEvent(event) {
+    event = event || window.event;
+    return (typeof event.which === 'undefined') ? event.keyCode : event.which;
+  }
+
+  public agInit(params: any) {
+    this.params = params;
+    this.value = this.params.value;
+    this.cancelBeforeStart = params.charPress && NumericEditorComponent.isCharNumeric(params.charPress);
+  }
+
+  public getValue() {
     return this.value;
   }
 
-  public isCancelBeforeStart(): boolean {
+  public isCancelBeforeStart() {
     return this.cancelBeforeStart;
   }
 
-  public isCancelAfterEnd(): boolean {
+  public isCancelAfterEnd() {
     return this.value > 1000000;
   };
 
-  public onKeyDown(event): void {
-    if (!this.isKeyPressedNumeric(event)) {
-      if (event.preventDefault) {
-        event.preventDefault();
-      }
+  public onKeyDown(event) {
+    if (this.isKeyPressedNumeric(event) && !event.preventDefault) {
+      return;
     }
+    event.preventDefault();
   }
 
   public ngAfterViewInit() {
     this.input.element.nativeElement.focus();
   }
 
-  private getCharCodeFromEvent(event): any {
-    event = event || window.event;
-    return (typeof event.which === 'undefined') ? event.keyCode : event.which;
-  }
-
-  private isCharNumeric(charStr): boolean {
-    return !!/\d/.test(charStr);
-  }
-
-  private isKeyPressedNumeric(event): boolean {
-    if (this.getCharCodeFromEvent(event) === 8) {
+  private isKeyPressedNumeric(event) {
+    if (NumericEditorComponent.getCharCodeFromEvent(event) === 8) {
       const stringValue = this.value.toString(10);
-      if (stringValue.length === 1) {
-        this.value = 0;
-      } else {
-        this.value = parseInt(stringValue.slice(0, stringValue.length - 1), 10);
-      }
+      this.value = stringValue.length === 1 ? 0 : parseInt(stringValue.slice(0, stringValue.length - 1), 10);
     }
-    const charCode = this.getCharCodeFromEvent(event);
+    const charCode = NumericEditorComponent.getCharCodeFromEvent(event);
     const charStr = String.fromCharCode(charCode);
-    return this.isCharNumeric(charStr);
+    return NumericEditorComponent.isCharNumeric(charStr);
   }
 }

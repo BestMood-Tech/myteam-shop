@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import * as moment from 'moment';
 
 import 'rxjs/add/operator/map';
-import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 
-import { Credit, Product } from '../models/product.model';
+import { Credit, Product } from '../models';
 
 @Injectable()
 export class MoviesService {

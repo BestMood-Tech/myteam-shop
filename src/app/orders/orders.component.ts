@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService, CartService } from '../shared/services';
-import { Profile } from '../shared/models/profile.model';
 import { Subscription } from 'rxjs/Subscription';
-import { Order } from '../shared/models/order.model';
-import { OrderService } from '../shared/services/order.service';
+import { Order, Profile } from '../shared/models';
+import { AuthService, CartService, OrderService } from '../shared/services';
 
 @Component({
   selector: 'app-orders',
@@ -12,7 +10,7 @@ import { OrderService } from '../shared/services/order.service';
 })
 
 export class OrdersComponent implements OnInit, OnDestroy {
-  public showOrder: any;
+  public currentOrder: Order;
   public user: Profile;
   public orders: Order[];
   private subscriber: Subscription;
@@ -23,15 +21,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subscriber = this.authService.profile.subscribe((user) => {
-      if (!user) { return; }
-      if (!this.user) {
-        console.log(user);
-        this.orderService.getByProfile(user.id)
+    this.subscriber = this.authService.profile
+      .subscribe((profile: Profile) => {
+        if (!profile) {
+          return;
+        }
+        this.user = profile;
+        this.orderService.getByProfile(this.user.id)
           .subscribe((orders) => this.orders = orders);
-      }
-      this.user = user;
-    });
+      });
     this.authService.get();
   }
 
@@ -46,7 +44,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public show(order) {
-    this.showOrder = order;
+    this.currentOrder = order;
   }
 
   public getInvoice(order) {

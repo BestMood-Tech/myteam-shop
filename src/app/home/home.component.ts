@@ -1,25 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { AuthService, BooksService, GamesService, MoviesService } from '../shared/services';
-import { Profile } from '../shared/models/profile.model';
-import { Product } from '../shared/models/product.model';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, MoviesService } from '../shared/services';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public gameData: any;
-  public movieData: any;
+  public gameData: Product;
+  public movieData: Product;
   public bookData: Product;
-  public productCurrency: any;
 
   constructor(private movieService: MoviesService,
               private gamesService: GamesService,
               private booksService: BooksService,
-              private auth: AuthService,
               private modalService: NgbModal) {
   }
 
@@ -33,13 +30,6 @@ export class HomeComponent implements OnInit {
     this.booksService.getItems().subscribe((books: Product[]) => {
       this.bookData = books[0];
     });
-    this.auth.profile.subscribe((user: Profile) => {
-      if (!user) {
-        return;
-      }
-      this.productCurrency = user.currency;
-    });
-    this.auth.get();
   }
 
   public showTrailer(item) {

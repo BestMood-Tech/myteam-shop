@@ -1,4 +1,4 @@
-<div *ngIf="orders && !orders.length" class="container">
+<div *ngIf="products && !products.length" class="container">
   <div class="flex-container empty-cart">
     <h1>Your cart is empty</h1>
     <h3>Feel free to start browsing around</h3>
@@ -16,14 +16,14 @@
   </div>
 </div>
 <div class="container products" drag-scroll [scrollbar-hidden]="true">
-  <div class="flex-container" *ngIf="orders && orders.length">
-    <div *ngFor="let item of orders" class="left-transform">
+  <div class="flex-container" *ngIf="products && products.length">
+    <div *ngFor="let item of products" class="left-transform">
     <app-product-card [product]="item" [isCart]="true"
                       (deleteFromCart)="deleteProduct($event)"></app-product-card>
     </div>
   </div>
 </div>
-<div *ngIf="orders && orders.length" class="container total">
+<div *ngIf="products && products.length" class="container total">
   <div class="flex-container total-right">
     <h3>Total cost: {{cartCurrency}} {{getTotalPrice() | currency:cartCurrency}}</h3>
     <p *ngIf="!authorization" class="alert-danger">For payment you must be logged in!</p>

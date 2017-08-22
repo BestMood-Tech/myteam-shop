@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Profile } from '../../models/profile.model';
+import { Profile } from '../../models';
 import { AuthService, CartService } from '../../services/';
 import { Product } from '../../models/product.model';
 

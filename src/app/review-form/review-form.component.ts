@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { AuthService } from '../shared/services';
 import { siteKeyGC } from '../shared/helper';
-import { Profile } from '../shared/models/profile.model';
+import { Profile } from '../shared/models';
+
+import { AuthService } from '../shared/services';
 
 @Component({
   selector: 'app-review-form',

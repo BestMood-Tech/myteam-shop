@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
-import { Profile } from './shared/models/profile.model';
+import { Profile } from './shared/models';
 import { AuthService, CartService, HelperService } from './shared/services';
 import { Search } from './shared/helper';
 
@@ -35,8 +35,7 @@ export class AppComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       if (params.hasOwnProperty('query')) {
         this.filters = new Search(params);
-      }
-    });
+      }});
     this.helperService.showFilters.subscribe((data: boolean) => {
       setTimeout(() => this.showFilters = data);
       if (!data) {
@@ -53,7 +52,7 @@ export class AppComponent implements OnInit {
   }
 
   public search(): void {
-    this.router.navigate(['/search'], { queryParams: this.filters });
+    this.router.navigate(['/search'], {queryParams: this.filters });
   }
 
   public isAuthenticated(): boolean {

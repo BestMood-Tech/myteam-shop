@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
-import { Product } from '../models/product.model';
+import { Product } from '../models';
 
 @Injectable()
 export class BooksService {

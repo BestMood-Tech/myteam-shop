@@ -1,24 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BooksService } from '../shared/services/books.service';
-import { MoviesService } from '../shared/services/movies.service';
-import { GamesService } from '../shared/services/games.service';
-import { CartService } from '../shared/services/cart.service';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, MoviesService } from '../shared/services';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  templateUrl: 'category.component.html',
+  styleUrls: ['category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  public products;
-  private currentService;
+  public products: Product[];
+  private currentService: any;
 
   constructor(private route: ActivatedRoute,
               private movieService: MoviesService,
               private gamesService: GamesService,
-              private booksService: BooksService,
-              private cart: CartService) {
+              private booksService: BooksService) {
     switch (this.route.snapshot.url[1].path) {
       case 'books':
         this.currentService = this.booksService;

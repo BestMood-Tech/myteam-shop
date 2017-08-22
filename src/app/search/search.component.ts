@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
+import { Observable } from 'rxjs/Observable';
 
-import { MoviesService } from '../shared/services/movies.service';
-import { GamesService } from '../shared/services/games.service';
-import { BooksService } from '../shared/services/books.service';
-import { HelperService } from '../shared/services/helper.service';
-import { Product } from '../shared/models/product.model';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, HelperService, MoviesService } from '../shared/services';
 import { Search } from '../shared/helper';
 
 @Component({
@@ -40,8 +37,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   private searchProduct(params: Search): void {
     this.products = [];
     if (params.query === '') {
-      this.isEmptySearch = true;
-      this.isLoaded = true;
+    this.isEmptySearch = true;
+    this.isLoaded = true;
       return;
     }
     this.isEmptySearch = false;

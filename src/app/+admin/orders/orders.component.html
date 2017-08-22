@@ -12,16 +12,14 @@
         <a class="tool" (click)="pinTotal()"><span class="glyphicon glyphicon-indent-left"></span><span
           class="tooltiptext">Right = Total</span></a>
         <a class="tool" (click)="saveTable()"><span class="glyphicon glyphicon-floppy-disk"></span><span
-          class="tooltiptext">saveTable</span></a>
+          class="tooltiptext">Save Table</span></a>
       </div>
       <form class="form-inline ordersForm">
         <div class="form-group">
           <label for="theme">Select theme</label>
-          <select id="theme" class="form-control" (change)="setTheme($event.target.value)">
-            <option *ngFor="let itemTheme of arrayTheme;let key = index;"
-                    [selected]="isTheme(key)"
-                    [value]="key">
-              {{itemTheme}}
+          <select id="theme" name="theme" class="form-control" [(ngModel)]="currentTheme">
+            <option *ngFor="let itemTheme of arrayTheme" [ngValue]="itemTheme">
+              {{itemTheme.name}}
             </option>
           </select>
         </div>
@@ -31,9 +29,9 @@
   <div class="row grid-table">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <ag-grid-angular #agGrid
-                   [ngClass]="classTheme"
-                   [gridOptions]="gridOptions"
-                   [datasource]="dataSource">
+                       [ngClass]="currentTheme.theme"
+                       [gridOptions]="gridOptions"
+                       [datasource]="dataSource">
       </ag-grid-angular>
     </div>
   </div>

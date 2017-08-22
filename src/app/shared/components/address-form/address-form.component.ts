@@ -1,10 +1,10 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
-import { Country, HelperService } from '../../services/helper.service';
-import { Address } from '../../models/address.model';
+import { Address } from '../../models';
+import { Country, HelperService } from '../../services';
 
 @Component({
   selector: 'app-address-form',
@@ -19,7 +19,7 @@ export class AddressFormComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private helper: HelperService,
-              private formBulder: FormBuilder) {
+              private formBuilder: FormBuilder) {
   }
 
   public ngOnInit() {
@@ -29,7 +29,7 @@ export class AddressFormComponent implements OnInit {
       this.countries = countries;
     });
 
-    this.addressForm = this.formBulder.group({
+    this.addressForm = this.formBuilder.group({
       streetAddress: [this.copyAddress.streetAddress, Validators.required],
       addressLine2: [this.copyAddress.addressLine2, Validators.required],
       city: [this.copyAddress.city, Validators.required],

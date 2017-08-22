@@ -1,53 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Product, Profile } from '../shared/models';
 import { AuthService, CartService } from '../shared/services';
-import { Profile } from '../shared/models/profile.model';
 
 @Component({
   selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  templateUrl: 'cart.component.html',
+  styleUrls: ['cart.component.scss']
 })
 export class CartComponent implements OnInit {
 
-  public orders: any;
+  public products: Product[];
   public authorization: boolean;
-  public cartCurrency = '$';
+  public cartCurrency: string;
 
-  constructor(private cart: CartService,
-              private auth: AuthService,
+  constructor(private cartService: CartService,
+              private authService: AuthService,
               private router: Router) {
-    this.orders = this.cart.get();
-    this.authorization = this.auth.isAuthenticated;
+    this.products = this.cartService.get();
+    this.authorization = this.authService.isAuthenticated;
   }
 
   public ngOnInit() {
-    this.auth.profile.subscribe((user: Profile) => {
-      if (user) {
-        this.cartCurrency = user.currency;
-      } else {
-        this.cartCurrency = '$';
-      }
-    });
-    this.auth.get();
+    this.authService.profile
+      .subscribe((profile: Profile) => this.cartCurrency = profile ? profile.currency : '$');
+    this.authService.get();
   }
 
 
   public deleteProduct(product) {
-    this.cart.remove(product);
-    this.orders = this.cart.get();
+    this.cartService.remove(product);
+    this.products = this.cartService.get();
   }
 
   public getTotalPrice() {
     let price = 0.0;
-    this.orders.forEach((item) => {
+    this.products.forEach((item) => {
       price += item.price * item.count;
     });
     return price.toFixed(2);
   }
 
   public disabledPay(): boolean {
-    return !!this.cart.count && this.authorization;
+    return !!this.cartService.count && this.authorization;
   }
 
   public checkout() {

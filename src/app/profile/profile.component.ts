@@ -5,9 +5,9 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Currency } from '../shared/helper';
 import { AuthService, HelperService } from '../shared/services/';
-import { Profile } from '../shared/models/profile.model';
-import { PromocodeService } from '../shared/services/promocode.service';
+import { Profile } from '../shared/models';
 import { Country } from '../shared/services/helper.service';
+import { PromocodeService } from '../shared/services/promocode.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +36,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.countries = countries;
       });
     this.subscriber = this.authService.profile.subscribe((user) => {
-      if (!user) { return; }
+      if (!user) {
+        return;
+      }
       if (!this.user) {
         this.promocodeService.get(user.id)
           .subscribe((response) => {
