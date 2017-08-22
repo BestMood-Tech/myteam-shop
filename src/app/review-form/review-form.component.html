@@ -4,7 +4,7 @@
   <ng-container *ngIf="isAuth">
     <div class="form-group">
       <p type="Text review:">
-      <textarea [ngClass]="reviewForm.controls.text.errors? 'has-error': 'has-success'"
+      <textarea [ngClass]="reviewForm.controls['text'].errors? 'has-error': 'has-success'"
                 placeholder="Write your review.."
                 formControlName="text">
       </textarea>
