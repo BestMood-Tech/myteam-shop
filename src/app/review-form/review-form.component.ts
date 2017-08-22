@@ -35,18 +35,18 @@ export class ReviewFormComponent implements OnInit {
     this.authService.get();
   }
 
-  public save() {
+  public save(): void {
     if (!this.reviewForm.valid && !this.isCaptcha) {
       return;
     }
     this.activeModal.close(this.reviewForm.value);
   }
 
-  public setRate(value) {
+  public setRate(value: number): void {
     this.reviewForm.controls.rate.setValue(value);
   }
 
-  public resolved() {
+  public resolved(): void {
     this.isCaptcha = true;
   }
 }

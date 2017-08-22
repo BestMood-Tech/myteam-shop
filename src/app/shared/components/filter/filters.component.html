@@ -1,19 +1,15 @@
 <div class="filter">
   <form [formGroup]="filtersForm">
     <div class="form-group">
-      <label for="dateFrom">Date from</label>
-      <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="dateTo">Date to</label>
-      <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
+      <label for="date">Release date</label>
+      <input type="date" id="date" formControlName="date" class="form-control">
     </div>
     <div class="form-group toggle-items">
-      <input type="checkbox" id="Movie" formControlName="checkMovies" class="form-control">
+      <input type="checkbox" id="Movie" formControlName="movies" class="form-control">
       <label for="Movie">Movie</label>
-      <input type="checkbox" id="Books" formControlName="checkBooks" class="form-control">
+      <input type="checkbox" id="Books" formControlName="books" class="form-control">
       <label for="Books">Books</label>
-      <input type="checkbox" id="Games" formControlName="checkGames" class="form-control">
+      <input type="checkbox" id="Games" formControlName="games" class="form-control">
       <label for="Games">Games</label>
     </div>
     <button class="btn btn-block filter-apply-button" (click)="applyFilters()">Apply</button>

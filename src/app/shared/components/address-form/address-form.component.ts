@@ -12,8 +12,7 @@ import { Address } from '../../models/address.model';
   styleUrls: ['address-form.component.scss']
 })
 export class AddressFormComponent implements OnInit {
-  @Input() address: Address;
-
+  @Input() public address: Address;
   public countries: Country[];
   public addressForm: FormGroup;
   public copyAddress: Address;
@@ -40,16 +39,11 @@ export class AddressFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     if (!this.addressForm.valid) {
       return;
     }
     this.activeModal.close(this.addressForm.value);
   }
-
-  public compareCountry(data): boolean {
-    return this.copyAddress.country === data;
-  }
-
 
 }

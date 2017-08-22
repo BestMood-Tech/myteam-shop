@@ -12,8 +12,6 @@ export interface Country {
 @Injectable()
 export class HelperService {
   public showFilters = new EventEmitter<boolean>();
-  public updateFilters = new EventEmitter<any>();
-  public searchTerm: string;
 
   constructor(private http: Http) {
   }

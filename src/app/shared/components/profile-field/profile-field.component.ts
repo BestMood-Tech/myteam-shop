@@ -11,7 +11,7 @@ export class ProfileFieldComponent implements OnInit {
   @Input() public value: string;
   @Input() public type: string;
   @Input() public selected: any[];
-  @Output() public save = new EventEmitter<string>();
+  @Output() public save: EventEmitter<string> = new EventEmitter();
   public edit = false;
   public formValue: FormGroup;
 
@@ -24,19 +24,18 @@ export class ProfileFieldComponent implements OnInit {
         Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
       ]
     });
-
   }
 
-  public editItem() {
+  public editItem(): void {
     this.edit = true;
   }
 
-  public saveItem() {
+  public saveItem(): void {
     this.edit = false;
     this.save.emit(this.formValue.controls['changedValue'].value);
   }
 
-  public cancelEdit() {
+  public cancelEdit(): void {
     this.edit = false;
   }
 }

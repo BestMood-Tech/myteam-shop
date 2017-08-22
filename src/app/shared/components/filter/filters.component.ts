@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HelperService } from '../../services/helper.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { Search } from '../../helper';
 
 @Component({
   selector: 'app-filters',
@@ -12,38 +12,31 @@ import { ActivatedRoute } from '@angular/router';
 export class FiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public display = true;
-  public filters: any;
 
   constructor(private fb: FormBuilder,
-              private helperService: HelperService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   public ngOnInit() {
-    this.route.queryParams.subscribe((queryParams) => {
-      this.filters = Object.assign({}, queryParams);
+    this.route.queryParams.subscribe((params) => {
+      const filter = new Search(params);
       this.filtersForm = this.fb.group({
-        dateFrom: this.filters.dateFrom || '',
-        dateTo: this.filters.dateTo || '',
-        checkMovies: this.filters.checkMovies,
-        checkGames: this.filters.checkGames,
-        checkBooks: this.filters.checkBooks,
+        date: filter.date || '',
+        movies: filter.movies,
+        games: filter.games,
+        books: filter.books,
+        query: filter.query
       });
     });
   }
 
-  public applyFilters() {
-    const form = this.filtersForm.value;
-    if (form.dateFrom) {
-      this.filters.dateFrom = form['dateFrom'];
+  public applyFilters(): void {
+    const filters = this.filtersForm.value;
+    if (!filters.date) {
+      delete filters.date;
     }
-    if (form.dateTo) {
-      this.filters.dateTo = form.dateTo;
-    }
-    this.filters.checkGames = form.checkGames;
-    this.filters.checkMovies = form.checkMovies;
-    this.filters.checkBooks = form.checkBooks;
-    this.helperService.updateFilters.emit(this.filters);
+    this.router.navigate(['/search'], { queryParams: filters })
   }
 
 }

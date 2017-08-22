@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { Profile } from '../shared/models/profile.model';
@@ -12,7 +13,6 @@ import { Review } from '../shared/models/review.model';
 import { ReviewsService } from './reviews.service';
 import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
 import { GameStatuses, Product } from '../shared/models/product.model';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-product',
@@ -98,29 +98,29 @@ export class ProductComponent implements OnInit {
     this.authService.get();
   }
 
-  public addToCart(product) {
+  public addToCart(product: Product): void {
     this.cartService.add(product);
   }
 
-  public showTrailer(item) {
+  public showTrailer(item: Product): void {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
     modalRef.componentInstance.product = item;
     modalRef.result.then((resolve) => null, (error) => null);
   }
 
-  public imgError(product) {
+  public imgError(product: Product): void {
     product.coverUrl = `../../assets/${product.type}.png`;
   }
 
-  public getStatusGame() {
+  public getStatusGame(): string {
     return GameStatuses.find((item) => item.status === this.product.status).value
   }
 
-  public setView(type) {
+  public setView(type: string): void {
     this.view = type;
   }
 
-  public newReview() {
+  public newReview(): void {
     const modalRef = this.modalService.open(ReviewFormComponent);
     modalRef.result
       .then(

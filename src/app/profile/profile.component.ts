@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Currency } from '../shared/models/currency.model';
+import { Currency } from '../shared/helper';
 import { AuthService, HelperService } from '../shared/services/';
 import { Profile } from '../shared/models/profile.model';
 import { PromocodeService } from '../shared/services/promocode.service';
@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscriber.unsubscribe();
   }
 
-  public update(field: string, value: string) {
+  public update(field: string, value: string): void {
     this.authService.update(field, value)
       .subscribe(
         (data) => this.toastr.success('Profile update', 'Success!'),

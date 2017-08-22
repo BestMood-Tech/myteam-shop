@@ -1,14 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MoviesService } from '../../services/movies.service';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+
+import { MoviesService } from '../../services/movies.service';
+import { Product } from '../../models/product.model';
+
 @Component({
   selector: 'app-video-modal-window',
   templateUrl: 'video.component.html',
   styleUrls: ['video.component.scss']
 })
 export class VideoModalWindowComponent implements OnInit {
-  @Input() public product: any;
+  @Input() public product: Product;
   public url = 'https://www.youtube.com/embed/';
   public safeUrl: SafeUrl;
 
