@@ -1,6 +1,6 @@
 import { Headers, RequestOptions } from '@angular/http';
 
-export const baseUrl = 'https://4bcupf4xi2.execute-api.eu-central-1.amazonaws.com/dev/';
+export const baseUrl = 'https://zegcdv5ffe.execute-api.eu-central-1.amazonaws.com/dev/';
 // export const baseUrl = 'http://localhost:3000/'; // for local development
 export const bucketUrl = 'https://s3.eu-central-1.amazonaws.com/bmt-media-shop-service-pdf/';
 // export const bucketUrl = 'http://localhost:8800/bmt-media-shop-service-pdf/'; // for local development
