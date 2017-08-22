@@ -67,7 +67,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.subscriber.unsubscribe();
   }
 
-  public getTotal(): number {
+  public getTotal() {
     let price = 0.0;
     this.products.forEach((item) => price += item.total);
     return +price.toFixed(2);
