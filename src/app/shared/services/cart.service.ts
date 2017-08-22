@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { backetUrl, baseUrl, setOptions } from '../helper';
+import { bucketUrl, baseUrl, setOptions } from '../helper';
 import { Product } from '../models/product.model';
 
 @Injectable()
@@ -76,7 +76,7 @@ export class CartService {
   public printInvoice(id: string): Observable<any> {
     this.toastr.warning('Your invoice is processing', 'Processing');
     return this.http.get(`${baseUrl}api/invoice/print/${id}`, setOptions())
-      .map(res => `${backetUrl}${id}`);
+      .map(res => `${bucketUrl}${id}`);
   }
 
   private update(): void {
