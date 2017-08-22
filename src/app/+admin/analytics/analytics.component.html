@@ -5,7 +5,7 @@
       </button>
       <button class="btn-myshop" (click)="toggle()"><span class="glyphicon glyphicon-retweet"></span>Toggle
       </button>
-      <div class="form-group" [ngClass]="analyticsForm.controls.from.errors? 'has-error': 'has-success'">
+      <div class="form-group" [ngClass]="analyticsForm.controls['from'].errors? 'has-error': 'has-success'">
         <label for="from">From</label>
         <select id="from" formControlName="from">
           <option *ngFor="let year of yearForm;" [value]="year">
@@ -13,7 +13,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group" [ngClass]="analyticsForm.controls.to.errors? 'has-error': 'has-success'">
+      <div class="form-group" [ngClass]="analyticsForm.controls['to'].errors? 'has-error': 'has-success'">
         <label for="to">To</label>
         <select id="to" formControlName="to">
           <option *ngFor="let year of yearForm;" [value]="year">
@@ -28,16 +28,16 @@
     </form>
   </div>
   <div class="row graphics">
-    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf='isEmptyData()'>
+    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf="isNotEmptyData()">
       <canvas baseChart
               [datasets]="chartData"
               [labels]="labelMonth"
-              [options]="ChartOptions"
-              [legend]="ChartLegend"
-              [chartType]="ChartType">
+              [options]="chartOptions"
+              [legend]="chartLegend"
+              [chartType]="chartType">
       </canvas>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf='isEmptyData()'>
+    <div class="col-sm-6 col-md-6 col-lg-6" *ngIf='isNotEmptyData()'>
       <canvas baseChart
               [data]="pieChartData"
               [labels]="pieChartLabels"

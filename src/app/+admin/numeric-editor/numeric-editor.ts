@@ -9,29 +9,27 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
   private params: any;
   public value: number;
   private cancelBeforeStart = false;
+  @ViewChild('input', { read: ViewContainerRef }) public input;
 
-  @ViewChild('input', {read: ViewContainerRef}) public input;
-
-
-  public agInit(params: any): void {
+  public agInit(params: any) {
     this.params = params;
     this.value = this.params.value;
     this.cancelBeforeStart = params.charPress && this.isCharNumeric(params.charPress);
   }
 
-  public getValue(): any {
+  public getValue() {
     return this.value;
   }
 
-  public isCancelBeforeStart(): boolean {
+  public isCancelBeforeStart() {
     return this.cancelBeforeStart;
   }
 
-  public isCancelAfterEnd(): boolean {
+  public isCancelAfterEnd() {
     return this.value > 1000000;
   };
 
-  public onKeyDown(event): void {
+  public onKeyDown(event) {
     if (!this.isKeyPressedNumeric(event)) {
       if (event.preventDefault) {
         event.preventDefault();
@@ -43,16 +41,16 @@ export class NumericEditorComponent implements AgEditorComponent, AfterViewInit 
     this.input.element.nativeElement.focus();
   }
 
-  private getCharCodeFromEvent(event): any {
+  private getCharCodeFromEvent(event) {
     event = event || window.event;
     return (typeof event.which === 'undefined') ? event.keyCode : event.which;
   }
 
-  private isCharNumeric(charStr): boolean {
+  private isCharNumeric(charStr) {
     return !!/\d/.test(charStr);
   }
 
-  private isKeyPressedNumeric(event): boolean {
+  private isKeyPressedNumeric(event) {
     if (this.getCharCodeFromEvent(event) === 8) {
       const stringValue = this.value.toString(10);
       if (stringValue.length === 1) {
