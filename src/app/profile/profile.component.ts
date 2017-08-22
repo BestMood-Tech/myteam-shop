@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public percent: number;
 
   constructor(private authService: AuthService,
-              private toastr: ToastsManager,
+              private toastsManager: ToastsManager,
               private helperService: HelperService,
               private promocodeService: PromocodeService) {
   }
@@ -58,8 +58,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public update(field: string, value: string): void {
     this.authService.update(field, value)
       .subscribe(
-        (data) => this.toastr.success('Profile update', 'Success!'),
-        (error) => this.toastr.error(error, 'Error!')
+        (data) => this.toastsManager.success('Profile update', 'Success!'),
+        (error) => this.toastsManager.error(error, 'Error!')
       );
   }
 }

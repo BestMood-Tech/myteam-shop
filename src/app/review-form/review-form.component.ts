@@ -22,11 +22,11 @@ export class ReviewFormComponent implements OnInit {
 
   constructor (public activeModal: NgbActiveModal,
                public authService: AuthService,
-               private formBulder: FormBuilder) {
+               private formBuilder: FormBuilder) {
   }
 
   public ngOnInit() {
-    this.reviewForm = this.formBulder.group({
+    this.reviewForm = this.formBuilder.group({
       text: ['', Validators.required],
       rate: [5, Validators.required]
     });

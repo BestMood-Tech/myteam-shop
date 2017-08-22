@@ -13,7 +13,7 @@ export class FiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public display = true;
 
-  constructor(private fb: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -21,7 +21,7 @@ export class FiltersComponent implements OnInit {
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const filter = new Search(params);
-      this.filtersForm = this.fb.group({
+      this.filtersForm = this.formBuilder.group({
         date: filter.date || '',
         movies: filter.movies,
         games: filter.games,

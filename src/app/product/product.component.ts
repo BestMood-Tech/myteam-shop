@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
               private authService: AuthService,
               private modalService: NgbModal,
               private reviewsService: ReviewsService,
-              private toastr: ToastsManager) {
+              private toastsManager: ToastsManager) {
   }
 
   public ngOnInit() {
@@ -135,7 +135,7 @@ export class ProductComponent implements OnInit {
           this.reviewsService.add(bufferReview).toPromise()
             .then((review: Review) => {
               this.reviews.unshift(review);
-              this.toastr.success('Review is added', 'Success!')
+              this.toastsManager.success('Review is added', 'Success!')
             });
         },
         (error) => null
