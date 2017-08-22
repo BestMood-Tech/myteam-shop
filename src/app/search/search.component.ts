@@ -1,14 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
-import { MoviesService } from '../shared/services/movies.service';
-import { GamesService } from '../shared/services/games.service';
-import { BooksService } from '../shared/services/books.service';
-import { HelperService } from '../shared/services/helper.service';
-import { Product } from '../shared/models/product.model';
+import { Observable } from 'rxjs/Observable';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, HelperService, MoviesService } from '../shared/services';
 
 @Component({
   selector: 'app-search',
@@ -34,7 +30,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.helperService.updateFilters.subscribe((filters) => {
       filters.q = this.helperService.searchTerm || filters.q;
       if (filters.q || (filters.q.length > 3)) {
-        this.router.navigate(['/search'], {queryParams: filters});
+        this.router.navigate(['/search'], { queryParams: filters });
       }
     });
 
@@ -55,8 +51,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.emptySearch = false;
     this.loading = false;
     this.products = [];
-    const gameFilter = {limit: '10'};
-    const movieFilter = {limit: '10'};
+    const gameFilter = { limit: '10' };
+    const movieFilter = { limit: '10' };
     if (filters['dateFrom']) {
       movieFilter['primary_release_date.gte'] = filters['dateFrom'].split('-')[0];
     }

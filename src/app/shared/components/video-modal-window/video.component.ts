@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MoviesService } from '../../services/movies.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { MoviesService } from '../../services';
+
 @Component({
   selector: 'app-video-modal-window',
   templateUrl: 'video.component.html',

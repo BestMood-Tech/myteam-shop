@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 import { baseUrl, setOptions } from '../helper';
-import { Observable } from 'rxjs/Observable';
-import { Promocode } from '../models/promocode.model';
+import { Promocode } from '../models';
 
 interface Percent {
   percent: number;

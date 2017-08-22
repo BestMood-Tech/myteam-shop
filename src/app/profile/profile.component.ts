@@ -3,11 +3,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Currency } from '../shared/models/currency.model';
+import { Currency, Profile } from '../shared/models';
+import { Country, PromocodeService } from '../shared/services';
 import { AuthService, HelperService } from '../shared/services/';
-import { Profile } from '../shared/models/profile.model';
-import { PromocodeService } from '../shared/services/promocode.service';
-import { Country } from '../shared/services/helper.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +34,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.countries = countries;
       });
     this.subscriber = this.authService.profile.subscribe((user) => {
-      if (!user) { return; }
+      if (!user) {
+        return;
+      }
       if (!this.user) {
         this.promocodeService.get(user.id)
           .subscribe((response) => {

@@ -4,15 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr';
 import 'rxjs/add/operator/toPromise';
-
-import { Profile } from '../shared/models/profile.model';
-import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { ReviewFormComponent } from '../review-form/review-form.component';
-import { Review } from '../shared/models/review.model';
-import { ReviewsService } from './reviews.service';
-import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
-import { GameStatuses, Product } from '../shared/models/product.model';
 import { Observable } from 'rxjs/Observable';
+import { ReviewFormComponent } from '../review-form/review-form.component';
+import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+
+import { GameStatuses, Product, Profile, Review } from '../shared/models';
+import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
+import { ReviewsService } from './reviews.service';
 
 @Component({
   selector: 'app-product',

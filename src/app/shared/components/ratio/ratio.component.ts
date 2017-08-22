@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 
 @Component({
   selector: 'app-ratio',
-  template: `    
+  template: `
     <ul class="list-unstyled lines" *ngIf="!isEdit">
       <li class="line" *ngFor="let item of rationAsAnArray"></li>
       <li class="line empty" *ngFor="let item of emptyRatio"></li>
     </ul>
     <ul class="list-unstyled lines" *ngIf="isEdit">
-      <li class="line edit" *ngFor="let item of editArray" [ngClass]="{empty: item > rate}" (click)="setRate(item)"></li>
+      <li class="line edit" *ngFor="let item of editArray" [ngClass]="{empty: item > rate}"
+          (click)="setRate(item)"></li>
     </ul>
     <div class="rates">
       {{rate}} / 5
@@ -54,7 +55,7 @@ export class RatioComponent implements OnInit, OnChanges {
   @Output('onChange') public onChange: EventEmitter<number> = new EventEmitter();
   public rationAsAnArray: any[];
   public emptyRatio: any[] = [];
-  public editArray: any[] = [ 1, 2, 3, 4, 5 ];
+  public editArray: any[] = [1, 2, 3, 4, 5];
 
   constructor() {
   }
@@ -79,7 +80,7 @@ export class RatioComponent implements OnInit, OnChanges {
   }
 
   public setRate(date) {
-   this.rate = date;
-   this.onChange.emit(this.rate);
+    this.rate = date;
+    this.onChange.emit(this.rate);
   }
 }

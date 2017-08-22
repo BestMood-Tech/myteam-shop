@@ -5,11 +5,10 @@ import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 import { ToastsManager } from 'ng2-toastr';
 import { Observable } from 'rxjs/Observable';
-
-import { Profile } from '../models/profile.model';
-import { PromocodeService } from './promocode.service';
 import { baseUrl, setOptions } from '../helper';
-import { Address } from '../models/address.model';
+
+import { Address, Profile } from '../models';
+import { PromocodeService } from './promocode.service';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;

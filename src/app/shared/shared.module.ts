@@ -1,5 +1,5 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 /*
@@ -10,38 +10,34 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
  * Module components
  */
 import {
-  VideoModalWindowComponent,
-  ProfileFieldComponent,
-  RatioComponent,
+  AddressFormComponent,
   FiltersComponent,
   ProductCardComponent,
-  AddressFormComponent
+  ProfileFieldComponent,
+  RatioComponent,
+  VideoModalWindowComponent
 } from './components';
-/*
- * Module pipes
- */
-import {
-  CapitalizePipe,
-  AroundPipe,
-  CurrencyPipe
-} from './pipes';
-/*
- * Module services
- */
-import {
-  PromocodeService,
-  BooksService,
-  GamesService,
-  MoviesService,
-  AuthService,
-  CartService,
-  OrderService,
-  HelperService
-} from './services';
 /*
  * Module guards
  */
 import { AuthGuard } from './guards';
+/*
+ * Module pipes
+ */
+import { AroundPipe, CapitalizePipe, CurrencyPipe } from './pipes';
+/*
+ * Module services
+ */
+import {
+  AuthService,
+  BooksService,
+  CartService,
+  GamesService,
+  HelperService,
+  MoviesService,
+  OrderService,
+  PromocodeService
+} from './services';
 
 const SharedComponents = [
   ProfileFieldComponent,

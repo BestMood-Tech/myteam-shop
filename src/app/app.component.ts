@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
-import { Profile } from './shared/models/profile.model';
+import { Profile } from './shared/models';
 import { AuthService, CartService, HelperService } from './shared/services';
 
 @Component({
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.searchTermForm = this.fb.group({term: ''});
+    this.searchTermForm = this.fb.group({ term: '' });
     this.helperService.showFilters.subscribe((data) => {
       setTimeout(() => this.showFilters = data);
       if (!data) {
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     }
     this.helperService.searchTerm = searchTerm;
     this.searchObj.q = searchTerm;
-    this.router.navigate(['/search'], {queryParams: this.searchObj});
+    this.router.navigate(['/search'], { queryParams: this.searchObj });
   }
 
   public count() {

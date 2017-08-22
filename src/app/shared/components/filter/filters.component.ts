@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HelperService } from '../../services/helper.service';
 import { ActivatedRoute } from '@angular/router';
+import { HelperService } from '../../services';
 
 
 @Component({

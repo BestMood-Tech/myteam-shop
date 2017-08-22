@@ -4,8 +4,8 @@ import { Http } from '@angular/http';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { bucketUrl, baseUrl, setOptions } from '../helper';
-import { Product } from '../models/product.model';
+import { baseUrl, bucketUrl, setOptions } from '../helper';
+import { Product } from '../models';
 
 @Injectable()
 export class CartService {

@@ -1,10 +1,10 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { Address } from '../../models';
 
-import { Country, HelperService } from '../../services/helper.service';
-import { Address } from '../../models/address.model';
+import { Country, HelperService } from '../../services';
 
 @Component({
   selector: 'app-address-form',

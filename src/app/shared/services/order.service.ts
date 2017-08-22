@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 import { baseUrl, setOptions } from '../helper';
-import { Order } from '../models/order.model';
-import { Observable } from 'rxjs/Observable';
+import { Order } from '../models';
 
 @Injectable()
 export class OrderService {

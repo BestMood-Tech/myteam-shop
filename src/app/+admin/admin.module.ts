@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { AgGridModule } from 'ag-grid-angular/src/aggrid.module';
 
 import { ChartsModule } from 'ng2-charts/charts/charts';
-import { AgGridModule } from 'ag-grid-angular/src/aggrid.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { AdminRoutingModule, routingComponents } from './admin-routing.module';
 import { AdminService } from './admin.service';
-import { SharedModule } from '../shared/shared.module';
 import { NumericEditorComponent } from './numeric-editor/numeric-editor';
 
 @NgModule({
