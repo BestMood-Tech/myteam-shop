@@ -1,34 +1,28 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { ToastsManager } from 'ng2-toastr';
-import { User } from './shared/user.model';
-import { Auth, AuthGuard, Cart, HelperService } from './shared/services';
+
+import { Profile } from './shared/models';
+import { AuthService, CartService, HelperService } from './shared/services';
+import { Search } from './shared/helper';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
 
 export class AppComponent implements OnInit {
-  public searchTermForm: FormGroup;
   public showFilters: boolean;
-  public searchObj = {
-    q: '',
-    checkMovies: true,
-    checkBooks: true,
-    checkGames: true
-  };
+  public filters: Search;
   public changedCount = false;
-  public user: User;
+  public user: Profile;
 
-  constructor(public authGuard: AuthGuard,
-              public auth: Auth,
+  constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private cart: Cart,
-              private fb: FormBuilder,
+              private cartService: CartService,
               private viewContainer: ViewContainerRef,
               private toastr: ToastsManager,
               private helperService: HelperService) {
@@ -36,40 +30,54 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.searchTermForm = this.fb.group({term: ''});
-    this.helperService.showFilters.subscribe((data) => {
+    this.resetFilter();
+
+    this.route.queryParams.subscribe((params) => {
+      if (params.hasOwnProperty('query')) {
+        this.filters = new Search(params);
+      }});
+    this.helperService.showFilters.subscribe((data: boolean) => {
       setTimeout(() => this.showFilters = data);
       if (!data) {
-        this.searchTermForm.reset();
+        this.resetFilter();
       }
     });
-    this.helperService.updateFilters.subscribe((filters) => {
-      this.searchObj.checkMovies = filters['checkMovies'];
-      this.searchObj.checkBooks = filters['checkBooks'];
-      this.searchObj.checkGames = filters['checkGames'];
-    });
 
-    this.cart.changedCount.subscribe(() => {
+    this.cartService.changedCount.subscribe(() => {
       this.changedCount = true;
-
       setTimeout(() => this.changedCount = false, 1000);
     });
-    this.auth.onAuth.subscribe((user: User) => this.user = user);
-    this.auth.getProfile();
+    this.authService.profile.subscribe((user: Profile) => this.user = user);
+    this.authService.get();
   }
 
-  public search() {
-    const searchTerm = this.searchTermForm.value.term;
-    if (!searchTerm || !(searchTerm.length > 3)) {
-      return;
-    }
-    this.helperService.searchTerm = searchTerm;
-    this.searchObj.q = searchTerm;
-    this.router.navigate(['/search'], {queryParams: this.searchObj});
+  public search(): void {
+    this.router.navigate(['/search'], {queryParams: this.filters });
   }
 
-  public count() {
-    return this.cart.countCart;
+  public isAuthenticated(): boolean {
+    return this.authService.isAuthenticated;
+  }
+
+  public login(): void {
+    this.authService.login();
+  }
+
+  public logout(): void {
+    this.authService.logout();
+  }
+
+  public count(): number {
+    return this.cartService.count;
+  }
+
+  private resetFilter(): void {
+    this.filters = new Search({
+      query: '',
+      books: true,
+      games: true,
+      movies: true
+    });
   }
 
 }

@@ -1,19 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
+import { Order } from '../../shared/models';
 import { AdminService } from '../admin.service';
-import { NumericEditorComponent } from '../numericEditorComponent/numeric-editor';
+import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
+
+interface RowData {
+  numberGoods: number;
+  total: number;
+  payment: string;
+  promoCode: string;
+  address: string;
+  date: Date;
+}
 
 @Component({
   selector: 'app-users',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  templateUrl: 'orders.component.html',
+  styleUrls: ['orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
   public gridOptions: GridOptions;
-  public rowData: any[];
+  public rowData: RowData[];
   public dataSource: any;
-  public classTheme = 'ag-dark';
-  public arrayTheme: string[] = ['None', 'Fresh', 'Dark', 'Bootstrap', 'Blue', 'Material'];
+  public arrayTheme = [
+    { name: 'None', theme: '' },
+    { name: 'Fresh', theme: 'ag-fresh' },
+    { name: 'Dark', theme: 'ag-dark' },
+    { name: 'Bootstrap', theme: 'ag-bootstrap' },
+    { name: 'Blue', theme: 'ag-blue' },
+    { name: 'Material', theme: 'ag-material' }
+  ];
+  public currentTheme = this.arrayTheme[2];
 
   constructor(private adminService: AdminService) {
     this.gridOptions = <GridOptions>{
@@ -35,20 +52,37 @@ export class OrdersComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.update();
-  }
-
-  /*************
-   *** Theme ***
-   ************/
-  public isTheme(key) {
-    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
-    return arrayClassTheme[key] === this.classTheme;
-  }
-
-  public setTheme(key) {
-    const arrayClassTheme: string[] = ['', 'ag-fresh', 'ag-dark', 'ag-bootstrap', 'ag-blue', 'ag-material'];
-    this.classTheme = arrayClassTheme[key];
+    this.rowData = [];
+    this.adminService.getSelling().subscribe((orders: Order[]) => {
+      orders.forEach((item) => {
+        this.rowData.push({
+          numberGoods: item.products.length,
+          total: item.total,
+          promoCode: item.promocode,
+          payment: item.payment,
+          address: JSON.stringify(`${item.addressOrder.streetAddress}
+                    ${item.addressOrder.addressLine2}
+                    ${item.addressOrder.city}
+                    ${item.addressOrder.state}
+                    ${item.addressOrder.zip}
+                    ${item.addressOrder.country}`),
+          date: item.createdAt
+        });
+      });
+      this.dataSource = {
+        rowCount: null,
+        getRows: (params) => {
+          const rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
+          const rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
+          let lastRow = -1;
+          if (this.rowData.length <= params.endRow) {
+            lastRow = this.rowData.length;
+          }
+          params.successCallback(rowsThisPage, lastRow);
+        }
+      };
+      this.gridOptions.rowData = this.rowData;
+    });
   }
 
   /*************
@@ -142,114 +176,60 @@ export class OrdersComponent implements OnInit {
     ];
   }
 
-  public update() {
-    this.rowData = [];
-    this.adminService.getSelling().subscribe((res) => {
-      res.forEach((item) => {
-        this.rowData.push({
-          numberGoods: item.products.length,
-          total: item.total,
-          promoCode: item.formProfile.promoCode,
-          payment: item.formProfile.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress}
-                    ${item.addressOrder.addressLine2}
-                    ${item.addressOrder.city}
-                    ${item.addressOrder.state}
-                    ${item.addressOrder.zip}
-                    ${item.addressOrder.country}`),
-          date: item.date
-        });
-      });
-      this.dataSource = {
-        rowCount: null,
-        getRows: (params) => {
-          const rowDataAfterSortingAndFilter = this.sortAndFilter(this.rowData, params.sortModel, params.filterModel);
-          const rowsThisPage = rowDataAfterSortingAndFilter.slice(params.startRow, params.endRow);
-          let lastRow = -1;
-          if (this.rowData.length <= params.endRow) {
-            lastRow = this.rowData.length;
-          }
-          params.successCallback(rowsThisPage, lastRow);
-        }
-      };
-      this.gridOptions.rowData = this.rowData;
-    });
-  }
-
   public sortAndFilter(allOfTheData, sortModel, filterModel) {
     return this.sortData(sortModel, this.filterData(filterModel, allOfTheData));
   }
 
   private sortData(sortModel, data) {
-    const sortPresent = sortModel && sortModel.length > 0;
-    if (!sortPresent) {
+    if (!sortModel || sortModel.length <= 0) {
       return data;
     }
-
-    const resultOfSort = data.slice();
-    resultOfSort.sort(function (a, b) {
-      for (let k = 0; k < sortModel.length; k++) {
-        const sortColModel = sortModel[k];
-        const valueA = a[sortColModel.colId];
-        const valueB = b[sortColModel.colId];
-        if (valueA === valueB) {
-          continue;
-        }
-        const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
-        if (valueA > valueB) {
-          return sortDirection;
-        } else {
-          return sortDirection * -1;
-        }
-      }
-      return 0;
+    const sortColModel = sortModel[0];
+    return data.sort((a, b) => {
+      const sortDirection = sortColModel.sort === 'asc' ? 1 : -1;
+      return a[sortColModel.colId] > b[sortColModel.colId] ? sortDirection : sortDirection * -1;
     });
-    return resultOfSort;
-
   }
 
   public filterData(filterModel, data) {
-    const filterPresent = filterModel && Object.keys(filterModel).length > 0;
-    if (!filterPresent) {
+    if (!filterModel || !Object.keys(filterModel).length) {
       return data;
     }
     const resultOfFilter = [];
     const fieldFilter = Object.keys(filterModel);
     fieldFilter.forEach(field => {
       data.forEach((item) => {
-        if (filterModel[field]) {
-          const filterTotal = filterModel[field].filter.toString();
-          switch (filterModel[field].type) {
-            case 'contains':
-              if (item[field].toString().indexOf(filterTotal) === -1) {
-                return;
-              }
-              break;
-            case 'equals':
-              if (item[field].toString() !== filterTotal) {
-                return;
-              }
-              break;
-            case 'notEquals':
-              if (item[field].toString() === filterTotal) {
-                return;
-              }
-              break;
-            case 'startsWith':
-              if (item[field].toString().indexOf(filterTotal) !== 0) {
-                return;
-              }
-              break;
-            case 'endsWith': {
-              const myReverse = function (str) {
-                return str.split('').reverse().join();
-              };
-              if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) {
-                return;
-              }
+        const filterTotal = filterModel[field].filter.toString();
+        switch (filterModel[field].type) {
+          case 'contains':
+            if (item[field].toString().indexOf(filterTotal) === -1) {
+              return;
             }
-              break;
+            break;
+          case 'equals':
+            if (item[field].toString() !== filterTotal) {
+              return;
+            }
+            break;
+          case 'notEquals':
+            if (item[field].toString() === filterTotal) {
+              return;
+            }
+            break;
+          case 'startsWith':
+            if (item[field].toString().indexOf(filterTotal) !== 0) {
+              return;
+            }
+            break;
+          case 'endsWith': {
+            const myReverse = (str) => {
+              return str.split('').reverse().join();
+            };
+            if (myReverse(item[field].toString()).indexOf(myReverse(filterTotal)) !== 0) {
+              return;
+            }
           }
+            break;
         }
         resultOfFilter.push(item);
       });
@@ -259,10 +239,6 @@ export class OrdersComponent implements OnInit {
 
   public saveTable() {
     console.log(this.gridOptions.rowData);
-  }
-
-  public onQuickFilterChanged($event) {
-    this.gridOptions.api.setQuickFilter($event.target.value);
   }
 
   public clearPinned() {
@@ -286,5 +262,4 @@ export class OrdersComponent implements OnInit {
   public pinTotal() {
     this.gridOptions.columnApi.setColumnPinned('total', 'right');
   }
-
 }

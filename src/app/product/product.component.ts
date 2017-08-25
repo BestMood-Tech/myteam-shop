@@ -1,149 +1,144 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
-import { User } from '../shared/user.model';
-import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { ReviewFormComponent } from '../shared/components/review-form/review-form.component';
-import { Review } from '../shared/review.model';
-import { ReviewsService } from '../shared/services/reviews.service';
 import { ToastsManager } from 'ng2-toastr';
-import { Auth, BooksService, Cart, GamesService, MovieService } from '../shared/services';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
+
+import { Profile } from '../shared/models/profile.model';
+import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { ReviewFormComponent } from '../review-form/review-form.component';
+import { Review } from '../shared/models/review.model';
+import { ReviewsService } from './reviews.service';
+import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
+import { GameStatuses, Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  templateUrl: 'product.component.html',
+  styleUrls: ['product.component.scss'],
+  providers: [ReviewsService]
 })
 export class ProductComponent implements OnInit {
-  public product;
-  public productCurrency: any;
-  public recommended: any[];
+  public product: Product;
+  public productCurrency = '$';
+  public recommended: Product[];
   public view = 'info';
   public reviews: Review[] = [];
-  public user = null;
+  public user: Profile = null;
   private currentService;
+  private type: string;
+  private id: string;
 
   constructor(private route: ActivatedRoute,
               private booksService: BooksService,
-              private movieService: MovieService,
+              private movieService: MoviesService,
               private gamesService: GamesService,
-              private cart: Cart,
-              private auth: Auth,
+              private cartService: CartService,
+              private authService: AuthService,
               private modalService: NgbModal,
               private reviewsService: ReviewsService,
-              private toastr: ToastsManager) {
-    switch (this.route.snapshot.url[1].path) {
-      case 'book':
-        this.currentService = this.booksService;
-        break;
-      case 'movie':
-        this.currentService = this.movieService;
-        break;
-      default:
-        this.currentService = this.gamesService;
-        break;
-    }
+              private toastsManager: ToastsManager) {
   }
 
   public ngOnInit() {
-    this.route.params.subscribe(() => {
-      this.product = this.currentService.processItem(this.route.snapshot.data['product']);
-      this.product.coverUrl = this.product.cover;
-      if (!this.currentService.data || this.currentService.data.length === 0) {
-        let getData;
-        switch (this.product.type) {
-          case 'movie':
-            getData = this.movieService.recent();
-            break;
+    this.route.params
+      .mergeMap((params: { type: string, id: string }) => {
+        this.type = params.type;
+        this.id = params.id;
+        switch (this.type) {
           case 'book':
-            getData = this.booksService.getStories();
+            this.currentService = this.booksService;
+            break;
+          case 'movie':
+            this.currentService = this.movieService;
             break;
           default:
-            getData = this.gamesService.latest();
+            this.currentService = this.gamesService;
         }
-        getData.subscribe((data) => {
-          this.currentService.processData(data);
-          this.recommended = this.currentService.getRecommended(this.product);
-          this.recommended.forEach((item) => item.coverUrl = item.cover);
-        });
-      } else {
-        this.recommended = this.currentService.getRecommended(this.product);
+        return this.currentService.getItem(this.id);
+      })
+      .mergeMap((product: Product) => {
+        this.product = product;
+        this.product.coverUrl = this.product.cover;
+
+        const observables = [];
+        observables.push(this.currentService.getRecommended(this.id));
+        observables.push(this.reviewsService.get(`${this.type}${this.id}`));
+        if (this.type === 'game') {
+          observables.push(this.currentService.getGenres(this.product.genres));
+          observables.push(this.currentService.getDevelopers(this.product.developers));
+        }
+        if (this.type === 'movie') {
+          observables.push(this.currentService.getCredits(this.id));
+        }
+        return Observable.forkJoin(observables)
+      })
+      .subscribe(([recommended, reviews, ...data]: any[]) => {
+        this.recommended = recommended;
         this.recommended.forEach((item) => item.coverUrl = item.cover);
-      }
-      if (this.route.snapshot.url[1].path === 'game') {
-        this.currentService.getGenres(this.product.genres)
-          .subscribe(res => this.product.genres = res);
-
-        this.currentService.getDevelopers(this.product.developers)
-          .subscribe(res => this.product.developers = res);
-      }
-      this.auth.onAuth.subscribe((user: User) => {
-        if (!user) {
-          this.productCurrency = '$';
-          return;
+        this.reviews = reviews;
+        if (this.type === 'game') {
+          this.product.genres = data[0];
+          this.product.developers = data[1]
         }
-        this.productCurrency = user.currency;
-        this.user = user;
+        if (this.type === 'movie') {
+          this.product.credits = data[0];
+        }
       });
-      this.auth.getProfile();
 
-      if (this.product.type === 'movie') {
-        this.currentService.getCredits(this.product.id)
-          .subscribe((data) => this.product['credits'] = data.slice(0, 4));
+    this.authService.profile.subscribe((user: Profile) => {
+      if (!user) {
+        return;
       }
-      this.reviewsService.get(`${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`)
-        .subscribe((res) => this.reviews = res)
+      this.productCurrency = user.currency;
+      this.user = user;
     });
-
+    this.authService.get();
   }
 
-  public addToCart(product) {
-    this.cart.addToCart(product);
+  public addToCart(product: Product): void {
+    this.cartService.add(product);
   }
 
-  public showTrailer(item) {
+  public showTrailer(item: Product): void {
     const modalRef = this.modalService.open(VideoModalWindowComponent);
     modalRef.componentInstance.product = item;
     modalRef.result.then((resolve) => null, (error) => null);
   }
 
-  public imgError(product) {
+  public imgError(product: Product): void {
     product.coverUrl = `../../assets/${product.type}.png`;
   }
 
-  public getStatusGame() {
-    const status = [
-      {status: 0, value: 'Main game'},
-      {status: 1, value: 'DLC / Addon'},
-      {status: 2, value: 'Expansion'},
-      {status: 3, value: 'Bundle'},
-      {status: 4, value: 'Standalone expansion'}
-    ];
-    return status.find((item) => item.status === this.product.status).value
+  public getStatusGame(): string {
+    return GameStatuses.find((item) => item.status === this.product.status).value
   }
 
-  public setView(type) {
+  public setView(type: string): void {
     this.view = type;
   }
 
-  public newReview() {
+  public newReview(): void {
     const modalRef = this.modalService.open(ReviewFormComponent);
-    modalRef.result.then(
-      (resolve) => {
-        const bufferReview = new Review({
-          text: resolve.text,
-          rate: resolve.rate,
-          username: this.user ? `${this.user.firstName} ${this.user.lastName}` : 'No name',
-          productID: `${this.route.snapshot.url[1].path}${this.route.snapshot.url[2].path}`,
-          createDate: new Date()
-        });
-        this.reviewsService.add(bufferReview)
-          .subscribe(() => {
-            this.reviews.unshift(bufferReview);
-            this.toastr.success('Review added', 'Success')
+    modalRef.result
+      .then(
+        (resolve) => {
+          const bufferReview = new Review({
+            text: resolve.text,
+            rate: resolve.rate,
+            username: this.user ? this.user.fullName : 'No name',
+            productID: `${this.type}${this.id}`,
+            createDate: new Date()
           });
-      },
-      (error) => null
-    );
+          this.reviewsService.add(bufferReview).toPromise()
+            .then((review: Review) => {
+              this.reviews.unshift(review);
+              this.toastsManager.success('Review is added', 'Success!')
+            });
+        },
+        (error) => null
+      )
   }
 }

@@ -1,44 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
-import { Auth, BooksService, GamesService, MovieService } from '../shared/services';
-import { User } from '../shared/user.model';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, MoviesService } from '../shared/services';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public gameData: any;
-  public movieData: any;
-  public bookData: any;
-  public productCurrency: any;
+  public gameData: Product;
+  public movieData: Product;
+  public bookData: Product;
 
-  constructor(private movieService: MovieService,
+  constructor(private movieService: MoviesService,
               private gamesService: GamesService,
               private booksService: BooksService,
-              private auth: Auth,
               private modalService: NgbModal) {
   }
 
   public ngOnInit() {
-    this.gamesService.latest().subscribe(res => {
-      this.gameData = this.gamesService.processData(res)[0];
+    this.gamesService.getItems().subscribe((games: Product[]) => {
+      this.gameData = games[0];
     });
-    this.movieService.recent().subscribe(res => {
-      this.movieData = this.movieService.processData(res)[0];
+    this.movieService.getItems().subscribe((movies: Product[]) => {
+      this.movieData = movies[0];
     });
-    this.booksService.getStories().subscribe((res) => {
-      this.bookData = this.booksService.processData(res)[0];
+    this.booksService.getItems().subscribe((books: Product[]) => {
+      this.bookData = books[0];
     });
-    this.auth.onAuth.subscribe((user: User) => {
-      if (!user) {
-        return;
-      }
-      this.productCurrency = user.currency;
-    });
-    this.auth.getProfile();
   }
 
   public showTrailer(item) {

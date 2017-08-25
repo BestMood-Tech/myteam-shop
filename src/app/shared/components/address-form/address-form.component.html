@@ -3,14 +3,14 @@
   <h2>Billing Address</h2>
   <div class="form-group">
     <p type="Street address:">
-      <input [ngClass]="addressForm.controls.streetAddress.errors? 'has-error': 'has-success'"
+      <input [ngClass]="addressForm.controls['streetAddress'].errors? 'has-error': 'has-success'"
              placeholder="Write your street address here.."
              formControlName="streetAddress">
     </p>
   </div>
   <div class="form-group">
     <p type="Address Line 2:">
-      <input [ngClass]="addressForm.controls.addressLine2.errors? 'has-error': 'has-success'"
+      <input [ngClass]="addressForm.controls['addressLine2'].errors? 'has-error': 'has-success'"
              placeholder="Write your address Line 2 here.."
              formControlName="addressLine2">
     </p>
@@ -18,27 +18,25 @@
   <div class="row">
     <div class="col-md-6">
       <p type="City:">
-        <input [ngClass]="addressForm.controls.city.errors? 'has-error': 'has-success'"
+        <input [ngClass]="addressForm.controls['city'].errors? 'has-error': 'has-success'"
                placeholder="Write your city here.."
                formControlName="city">
       </p>
       <p type="State / Province / Region:">
-        <input [ngClass]="addressForm.controls.state.errors? 'has-error': 'has-success'"
+        <input [ngClass]="addressForm.controls['state'].errors? 'has-error': 'has-success'"
                placeholder="Write your region here.."
                formControlName="state">
       </p>
     </div>
     <div class="col-md-6">
       <p type="Zip / Postal Code:">
-        <input [ngClass]="addressForm.controls.zip.errors? 'has-error': 'has-success'"
+        <input [ngClass]="addressForm.controls['zip'].errors? 'has-error': 'has-success'"
                placeholder="Write your Zip here.."
                formControlName="zip">
       </p>
       <p type="Country:">
-        <select [ngClass]="addressForm.controls.country.errors? 'has-error': 'has-success'" formControlName="country">
-          <option *ngFor="let nC of nameCountry;"
-                  [selected]="compareCountry(nC.name)">{{nC.name}}
-          </option>
+        <select [ngClass]="addressForm.controls['country'].errors? 'has-error': 'has-success'" formControlName="country">
+          <option *ngFor="let country of countries;" [value]="country.value">{{country.name}}</option>
         </select>
       </p>
     </div>

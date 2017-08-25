@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { AdminRoutingModule } from './admin-routing.module';
-import { OrdersComponent } from './orders/orders.component';
-import { UsersComponent } from './users/users.component';
-import { AnalyticsComponent } from './analytics/analytics.component';
-import { AdminService } from './admin.service';
-import { SharedModule } from '../shared/shared.module';
-import { ChartsModule } from 'ng2-charts/charts/charts';
-import { AgGridModule } from 'ag-grid-angular/src/aggrid.module';
-import { NumericEditorComponent } from './numericEditorComponent/numeric-editor';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { AgGridModule } from 'ag-grid-angular/src/aggrid.module';
+
+import { ChartsModule } from 'ng2-charts/charts/charts';
+import { SharedModule } from '../shared/shared.module';
+
+import { AdminRoutingModule, routingComponents } from './admin-routing.module';
+import { AdminService } from './admin.service';
+import { NumericEditorComponent } from './numeric-editor/numeric-editor';
 
 @NgModule({
   imports: [
@@ -21,12 +20,11 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
     ])
   ],
   declarations: [
-    OrdersComponent,
-    UsersComponent,
-    AnalyticsComponent,
+    routingComponents,
     NumericEditorComponent
   ],
-  providers: [ AdminService ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  providers: [AdminService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AdminModule {}
+export class AdminModule {
+}

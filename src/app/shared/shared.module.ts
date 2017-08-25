@@ -1,66 +1,97 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrencyPipe } from './pipes/currency.pipe';
-import { BooksService, GamesService, MovieService, Auth, Cart, AuthGuard } from './services';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddressFormComponent } from './components/address-form/address-form.component';
-import { HelperService } from './services/helper.service';
-import { ProductCardComponent } from './components/product-card/product-card.component';
 import { RouterModule } from '@angular/router';
-import { FiltersComponent } from './components/filter/filters.component';
-import { RatioComponent } from './components/ratio/ratio.component';
-import { MyAroundPipe } from './pipes/around.pipe';
-import { ProfileFieldComponent } from './components/profile-field/profile-field.component';
-import { VideoModalWindowComponent } from './components/video-modal-window/video.component';
-import { CapitalizePipe } from './pipes/capitalize.pipe';
-import { ReviewFormComponent } from './components/review-form/review-form.component';
-import { RecaptchaModule } from 'ng2-recaptcha';
-import { ReviewsService } from './services/reviews.service';
-import { PromocodeService } from './services/promocode.service';
+/*
+ * Third-party modules
+ */
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+/*
+ * Module components
+ */
+import {
+  AddressFormComponent,
+  FiltersComponent,
+  ProductCardComponent,
+  ProfileFieldComponent,
+  RatioComponent,
+  VideoModalWindowComponent
+} from './components';
+/*
+ * Module guards
+ */
+import { AuthGuard } from './guards';
+/*
+ * Module pipes
+ */
+import { AroundPipe, CapitalizePipe, CurrencyPipe } from './pipes';
+/*
+ * Module services
+ */
+import {
+  AuthService,
+  BooksService,
+  CartService,
+  GamesService,
+  HelperService,
+  MoviesService,
+  OrderService,
+  PromocodeService
+} from './services';
+
+const SharedComponents = [
+  ProfileFieldComponent,
+  RatioComponent,
+  FiltersComponent,
+  ProductCardComponent
+];
+
+const SharedEntryComponents = [
+  VideoModalWindowComponent,
+  AddressFormComponent
+];
+
+const SharedPipes = [
+  CapitalizePipe,
+  AroundPipe,
+  CurrencyPipe
+];
+
+const SharedServices = [
+  PromocodeService,
+  BooksService,
+  GamesService,
+  MoviesService,
+  AuthService,
+  CartService,
+  OrderService,
+  HelperService
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
-    RecaptchaModule.forRoot()
+    NgbModule.forRoot()
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CurrencyPipe,
-    MyAroundPipe,
-    CapitalizePipe,
     NgbModule,
-    AddressFormComponent,
-    ReviewFormComponent,
-    ProductCardComponent,
-    FiltersComponent,
-    RatioComponent,
-    ProfileFieldComponent,
-    VideoModalWindowComponent
+    ...SharedComponents,
+    ...SharedEntryComponents,
+    ...SharedPipes
   ],
   declarations: [
-    CurrencyPipe,
-    MyAroundPipe,
-    CapitalizePipe,
-    AddressFormComponent,
-    ReviewFormComponent,
-    ProductCardComponent,
-    FiltersComponent,
-    RatioComponent,
-    ProfileFieldComponent,
-    VideoModalWindowComponent
+    ...SharedComponents,
+    ...SharedEntryComponents,
+    ...SharedPipes
   ],
   entryComponents: [
-    AddressFormComponent,
-    ReviewFormComponent,
-    VideoModalWindowComponent
+    ...SharedEntryComponents
   ],
 })
 
@@ -69,15 +100,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        BooksService,
-        GamesService,
-        MovieService,
-        Cart,
-        Auth,
-        AuthGuard,
-        HelperService,
-        PromocodeService,
-        ReviewsService
+        ...SharedServices,
+        AuthGuard
       ],
     };
   }

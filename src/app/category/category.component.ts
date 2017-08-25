@@ -1,36 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BooksService } from '../shared/services/books.service';
-import { MovieService } from '../shared/services/movie.service';
-import { GamesService } from '../shared/services/games.service';
-import { Cart } from '../shared/services/cart.service';
+import { Product } from '../shared/models';
+import { BooksService, GamesService, MoviesService } from '../shared/services';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  templateUrl: 'category.component.html',
+  styleUrls: ['category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  public products;
-  private currentService;
+  public products: Product[];
+  private currentService: any;
 
   constructor(private route: ActivatedRoute,
-              private movieService: MovieService,
+              private movieService: MoviesService,
               private gamesService: GamesService,
-              private booksService: BooksService,
-              private cart: Cart) {
+              private booksService: BooksService) {
     switch (this.route.snapshot.url[1].path) {
-      case 'books': this.currentService = this.booksService; break;
-      case 'movies': this.currentService = this.movieService; break;
-      default: this.currentService = this.gamesService; break;
+      case 'books':
+        this.currentService = this.booksService;
+        break;
+      case 'movies':
+        this.currentService = this.movieService;
+        break;
+      default:
+        this.currentService = this.gamesService;
+        break;
     }
   }
 
   public ngOnInit() {
-    this.products = this.currentService.processData(this.route.snapshot.data['category']);
-  }
-
-  public addToCart(product) {
-    this.cart.addToCart(product);
+    this.products = this.route.snapshot.data['category'];
   }
 }

@@ -1,48 +1,48 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../../shared/user.model';
-import { Auth, Cart } from '../../services/';
+
+import { Profile } from '../../models';
+import { AuthService, CartService } from '../../services/';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-card',
-  templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.scss']
+  templateUrl: 'product-card.component.html',
+  styleUrls: ['product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
 
-  @Input() public product;
+  @Input() public product: Product;
   @Input() public isCart: boolean;
   @Input() public isSearch: boolean;
-  @Output() public deleteFromCart: EventEmitter<any> = new EventEmitter();
+  @Output() public deleteFromCart: EventEmitter<Product> = new EventEmitter();
 
-  public productCurrency: any;
+  public productCurrency = '$';
   public productCover: string;
-  public state = 'large';
 
-  constructor(private cart: Cart, private auth: Auth) {
+  constructor(private cart: CartService, private authService: AuthService) {
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => {
+    this.authService.profile.subscribe((user: Profile) => {
       if (!user) {
-        this.productCurrency = '$';
         return;
       }
       this.productCurrency = user.currency
     });
-    this.auth.getProfile();
+    this.authService.get();
 
     this.productCover = this.product.cover;
   }
 
-  public addToCart(product) {
-    this.cart.addToCart(product);
+  public addToCart(product: Product): void {
+    this.cart.add(product);
   }
 
-  public deleteProduct(product) {
+  public deleteProduct(product: Product): void {
     this.deleteFromCart.emit(product);
   }
 
-  public imgError() {
+  public imgError(): void {
     this.productCover = `../../assets/${this.product.type}.png`;
   }
 }

@@ -1,0 +1,30 @@
+.lines {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0;
+  margin-top: 15px;
+}
+
+.line {
+  height: 4px;
+  width: 25px;
+  background: #ffc033;
+}
+
+.edit {
+  cursor: pointer;
+}
+
+.line:not(:last-child) {
+  margin-right: 3px;
+}
+
+.empty {
+  background: #ffecc1;
+}
+
+.rates {
+  font-size: 16px;
+  color: #ffc033;
+}

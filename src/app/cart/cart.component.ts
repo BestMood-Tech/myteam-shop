@@ -1,54 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, Cart } from '../shared/services';
-import { User } from '../shared/user.model';
+import { Product, Profile } from '../shared/models';
+import { AuthService, CartService } from '../shared/services';
 
 @Component({
   selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  templateUrl: 'cart.component.html',
+  styleUrls: ['cart.component.scss']
 })
 export class CartComponent implements OnInit {
 
-  public orders: any;
+  public products: Product[];
   public authorization: boolean;
-  public cartCurrency = '$';
+  public cartCurrency: string;
 
-  constructor(private cart: Cart,
-              private auth: Auth,
+  constructor(private cartService: CartService,
+              private authService: AuthService,
               private router: Router) {
-    this.orders = this.cart.getCart();
-    this.authorization = this.auth.authenticated();
+    this.products = this.cartService.get();
+    this.authorization = this.authService.isAuthenticated;
   }
 
   public ngOnInit() {
-    this.auth.onAuth.subscribe((user: User) => {
-      if (user) {
-        this.cartCurrency = user.currency;
-      } else {
-        this.cartCurrency = '$';
-      }
-      this.authorization = !!user;
-    });
-    this.auth.getProfile();
+    this.authService.profile
+      .subscribe((profile: Profile) => this.cartCurrency = profile ? profile.currency : '$');
+    this.authService.get();
   }
 
 
   public deleteProduct(product) {
-    this.cart.deleteItem(product);
-    this.orders = this.cart.getCart();
+    this.cartService.remove(product);
+    this.products = this.cartService.get();
   }
 
   public getTotalPrice() {
     let price = 0.0;
-    this.orders.forEach((item) => {
+    this.products.forEach((item) => {
       price += item.price * item.count;
     });
     return price.toFixed(2);
   }
 
   public disabledPay(): boolean {
-    return !!this.cart.countCart && this.authorization;
+    return !!this.cartService.count && this.authorization;
   }
 
   public checkout() {

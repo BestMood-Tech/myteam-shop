@@ -1,72 +1,64 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Address } from '../shared/address.model';
-import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
-import { Auth } from '../shared/services';
-import { User } from '../shared/user.model';
 import { Subscription } from 'rxjs/Subscription';
+import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+import { Address, Profile } from '../shared/models';
+import { AuthService } from '../shared/services';
+
+const maxNumberOfAddresses = 7;
 
 @Component({
   selector: 'app-address',
-  templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  templateUrl: 'address.component.html',
+  styleUrls: ['address.component.scss']
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() public isCart: boolean;
   @Input() public addressKey: number;
   @Output() public chosenAddress = new EventEmitter<number>();
   public error = false;
-  public addresses: any;
-  private user: User;
+  public addresses: Address[];
+  private user: Profile;
   private subscriber: Subscription;
 
-  constructor(public auth: Auth,
+  constructor(public authService: AuthService,
               private modalService: NgbModal,
-              private toastr: ToastsManager) {
+              private toastsManager: ToastsManager) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user: User) => {
+    this.subscriber = this.authService.profile.subscribe((user: Profile) => {
       if (!user) {
         return;
       }
       this.user = user;
       this.addresses = user.address;
     });
-    this.auth.getProfile();
+    this.authService.get();
   }
 
   public ngOnDestroy() {
     this.subscriber.unsubscribe()
   }
 
-  public update(key) {
-    this.open(key);
-  }
-
-  public add() {
-    this.open();
-  }
-
-  public delete(key) {
+  public delete(key: number) {
     this.user.deleteAddress(key);
-    this.auth.updateProfile('address', this.user.address)
+    this.authService.update('address', this.user.address)
       .subscribe(
-        (data) => this.toastr.success('Address delete', 'Success'),
-        (error) => this.toastr.error(error, 'Error')
+        (data) => this.toastsManager.success('Address delete', 'Success'),
+        (error) => this.toastsManager.error(error, 'Error')
       );
   }
 
-
-  private open(key?) {
-    if (this.user.address.length === 7) {
+  private openModalWindow(key?: number) {
+    if (this.user.address.length === maxNumberOfAddresses && key === undefined) {
       this.error = true;
       return;
     }
     this.error = false;
-    const modalRef = this.modalService.open(AddressFormComponent, {windowClass: 'modal-add-address'});
-    if (key == null) {
+    const modalRef = this.modalService.open(AddressFormComponent, { windowClass: 'modal-add-address' });
+    if (key === null) {
       modalRef.componentInstance.address = new Address({});
     } else {
       modalRef.componentInstance.address = this.user.address[key];
@@ -79,12 +71,11 @@ export class AddressComponent implements OnInit, OnDestroy {
         } else {
           this.user.updateAddress(key, new Address(result));
         }
-        this.auth.updateProfile('address', this.user.address)
+        this.authService.update('address', this.user.address)
           .subscribe(
-            (data) => this.toastr.success('Address update to profile', 'Success'),
+            (data) => this.toastsManager.success('Address update to profile', 'Success'),
             (error) => {
-              console.log('error=', error);
-              this.toastr.error(error, 'Error');
+              this.toastsManager.error(error, 'Error');
             }
           );
       },

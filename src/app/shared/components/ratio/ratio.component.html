@@ -1,0 +1,10 @@
+<ul class="list-unstyled lines" *ngIf="!isEdit">
+  <li class="line" *ngFor="let item of rationAsAnArray"></li>
+  <li class="line empty" *ngFor="let item of emptyRatio"></li>
+</ul>
+<ul class="list-unstyled lines" *ngIf="isEdit">
+  <li class="line edit" *ngFor="let item of editArray" [ngClass]="{empty: item > rate}" (click)="setRate(item)"></li>
+</ul>
+<div class="rates">
+  {{rate}} / 5
+</div>

@@ -1,20 +1,20 @@
-<div *ngIf="products.length === 0 && loading && !emptySearch" class="error">
+<div *ngIf="products.length === 0 && isLoaded && !isEmptySearch" class="error">
   <div class="message">
     <h1>Oops!</h1>
-    <h2>Products not found</h2>
+    <h2>Products not found!</h2>
   </div>
 </div>
-<div class="error" *ngIf="emptySearch">
+<div class="error" *ngIf="isEmptySearch">
   <div class="message">
     <h1>Oops!</h1>
-    <h2>Search input is empty</h2>
+    <h2>Search input is empty!</h2>
   </div>
 </div>
 <div class="container" drag-scroll [scrollbar-hidden]="true">
-  <div *ngIf="!loading" class="loading">
+  <div *ngIf="!isLoaded" class="loading">
     <img class="spin" src="/assets/grid.svg" alt="Loading">
   </div>
-  <div *ngIf="products.length!==0 && loading" class="box">
+  <div *ngIf="products.length!==0 && isLoaded" class="box">
     <div *ngFor="let product of products" class="left-transform">
       <app-product-card [product]='product' [isSearch]="true"></app-product-card>
     </div>

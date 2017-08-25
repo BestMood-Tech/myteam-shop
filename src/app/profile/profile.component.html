@@ -9,8 +9,8 @@
       <p>{{user.fullName}}</p>
       <div class="item-info">
         <span class="field-name">Location:</span>
-        <app-profile-field [selected]="nameCountry" [value]="user.country" [type]="'select'"
-                       (save)="update('country', $event)"></app-profile-field>
+        <app-profile-field [selected]="countries" [value]="user.country" [type]="'select'"
+                           (save)="update('country', $event)"></app-profile-field>
       </div>
       <div class="item-info">
         <span class="field-name">Currency: </span>

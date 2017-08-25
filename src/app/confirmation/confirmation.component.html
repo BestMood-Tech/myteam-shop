@@ -15,13 +15,13 @@
         <br>
         <i>Order For Very Special Customer Inside!</i>
       </div>
-      <div class="shipping" *ngIf="addressOrder">
+      <div class="shipping" *ngIf="order">
         <p><strong>Ship to:</strong></p>
         <p>{{orderUser}}</p>
-        <p>{{addressOrder.streetAddress}}</p>
-        <p>{{addressOrder.addressLine2}}</p>
-        <p>{{addressOrder.city}}, {{addressOrder.state}}</p>
-        <p>{{addressOrder.country}}, {{addressOrder.zip}}</p>
+        <p>{{order.addressOrder.streetAddress}}</p>
+        <p>{{order.addressOrder.addressLine2}}</p>
+        <p>{{order.addressOrder.city}}, {{order.addressOrder.state}}</p>
+        <p>{{order.addressOrder.country}}, {{order.addressOrder.zip}}</p>
         <p><strong>Expected delivery date:</strong></p>
         <p>{{getDate()}}</p>
       </div>

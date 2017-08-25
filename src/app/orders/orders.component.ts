@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, Cart } from '../shared/services';
-import { User } from '../shared/user.model';
 import { Subscription } from 'rxjs/Subscription';
+import { Order, Profile } from '../shared/models';
+import { AuthService, CartService, OrderService } from '../shared/services';
 
 @Component({
   selector: 'app-orders',
@@ -10,25 +10,27 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class OrdersComponent implements OnInit, OnDestroy {
-  public showOrder: any;
-  public user: User;
-  public orders;
+  public currentOrder: Order;
+  public user: Profile;
+  public orders: Order[];
   private subscriber: Subscription;
 
-  constructor(private auth: Auth,
-              private cart: Cart) {
+  constructor(private authService: AuthService,
+              private cartService: CartService,
+              private orderService: OrderService) {
   }
 
   public ngOnInit() {
-    this.subscriber = this.auth.onAuth.subscribe((user) => {
-      if (!user) { return; }
-      if (!this.user) {
-        this.auth.getOrdersByProfile(user.id)
+    this.subscriber = this.authService.profile
+      .subscribe((profile: Profile) => {
+        if (!profile) {
+          return;
+        }
+        this.user = profile;
+        this.orderService.getByProfile(this.user.id)
           .subscribe((orders) => this.orders = orders);
-      }
-      this.user = user;
-    });
-    this.auth.getProfile();
+      });
+    this.authService.get();
   }
 
   public ngOnDestroy() {
@@ -42,13 +44,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public show(order) {
-    this.showOrder = order;
+    this.currentOrder = order;
   }
 
   public getInvoice(order) {
-    const newWindow = window.open('', '_blank');
-    this.cart.printInvoice(order.id).subscribe(url => {
+    this.cartService.printInvoice(order.id).subscribe(url => {
       setTimeout(() => {
+        const newWindow = window.open('', '_blank');
         newWindow.location.href = url;
         newWindow.focus();
       }, 3000);
