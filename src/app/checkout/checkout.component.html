@@ -55,7 +55,7 @@
         </tfoot>
       </table>
       <h4>2. Enter a promo code:</h4>
-      <div *ngIf="activePromoCode" class="form-group">
+      <div *ngIf="activePromoCode" class="form-group promo-code">
         <div class="input-group">
           <input #input type="text" placeholder="Promocode..." [(ngModel)]="promocode" class="form-control"
                  (mousedown)="input.focus()">

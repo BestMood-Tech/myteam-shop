@@ -101,7 +101,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   public checkPay(): boolean {
-    return this.checkOutAddress !== null;
+    return !!this.checkOutAddress;
   }
 
   public saveOrders() {
