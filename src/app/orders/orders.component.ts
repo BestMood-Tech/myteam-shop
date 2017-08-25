@@ -48,9 +48,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice(order) {
-    const newWindow = window.open('', '_blank');
     this.cartService.printInvoice(order.id).subscribe(url => {
       setTimeout(() => {
+        const newWindow = window.open('', '_blank');
         newWindow.location.href = url;
         newWindow.focus();
       }, 3000);
