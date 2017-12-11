@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
 import * as moment from 'moment';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 
 import { Developer, Genre, Product } from '../models';
 
@@ -12,7 +12,7 @@ import { Developer, Genre, Product } from '../models';
 export class GamesService {
   private data: Product[];
   private isLoading: boolean;
-  private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
+  private baseUrl = '/games_api/';
 
   static getParams(): URLSearchParams {
     const params = new URLSearchParams();
@@ -21,9 +21,9 @@ export class GamesService {
   }
 
   static getHeaders(): Headers {
-    const xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
+    const userKey = '1ce166ae276a59f478a836ff4398eb50';
     const headers = new Headers();
-    headers.set('X-Mashape-Key', xMashapeKey);
+    headers.set('user-key', userKey);
     headers.set('Accept', 'application/json');
     return headers;
   }

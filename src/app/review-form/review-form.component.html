@@ -13,7 +13,7 @@
     <div class="form-group rate">
       <app-ratio [rate]="reviewForm.value.rate" [isEdit]="true" (onChange)="setRate($event)"></app-ratio>
     </div>
-    <recaptcha (resolved)="resolved()" [siteKey]="siteKey"></recaptcha>
+    <re-captcha (resolved)="resolved()" [siteKey]="siteKey"></re-captcha>
     <button [disabled]="!reviewForm.valid || !isCaptcha" (click)="save()">Save</button>
   </ng-container>
   <ng-container *ngIf="!isAuth">

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DragScrollModule } from 'angular2-drag-scroll';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
-import { RecaptchaModule } from 'ng2-recaptcha';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';

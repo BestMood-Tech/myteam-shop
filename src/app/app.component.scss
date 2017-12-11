@@ -87,7 +87,7 @@
     display: flex;
     flex-direction: row;
 
-    .open > a {
+    .show > a {
       background: #e2e2e2;
     }
 
@@ -147,8 +147,8 @@
       .dropdown-menu {
         border-radius: 0;
         background: #ffffff;
-        top: 42px;
-        right:0;
+        top: 42px !important;
+        right: 0;
         margin: 0;
         padding: 0;
         border: solid 1px #e1e1e8;
@@ -205,8 +205,9 @@
   position: relative;
   background: #ffbc1c;
 
-  .open .dropdown-menu {
-    left: 80px;
+  .show .dropdown-menu {
+    left: 80px !important;
+    position: fixed;
   }
 
   .dropdown-menu {
@@ -214,7 +215,7 @@
     border: none;
     background: #ffffff;
     left: -200px;
-    top: 0;
+    top: 0 !important;
     margin: 0;
     padding: 0;
     width: 200px;
@@ -233,11 +234,7 @@
     }
   }
 
-  .open {
-    position: inherit;
-  }
-
-  .open > a {
+  .show > a {
     background: #e5a50d;
   }
 

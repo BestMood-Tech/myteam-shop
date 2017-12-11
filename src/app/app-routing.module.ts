@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
   { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
-  { path: 'admin', loadChildren: './+admin/admin.module#AdminModule' }
+  { path: 'admin', loadChildren: './admin/admin.module#AdminModule' }
 ];
 
 @NgModule({

@@ -18,7 +18,7 @@
         <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
           <span class="glyphicon glyphicon-list-alt"></span>Admin panel
         </a>
-        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin">
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin" ngbDropdownMenu>
           <ul class="admin-menu">
             <li><a [routerLink]="'/admin/orders'"><span class="glyphicon glyphicon-paperclip"></span>Orders</a></li>
             <li><a [routerLink]="'/admin/users'"><span class="glyphicon glyphicon-user"></span>Users</a></li>
@@ -30,7 +30,7 @@
         <a class="dropdown-toggle" id="dropdownMenuFiters" ngbDropdownToggle>
           <span class="glyphicon glyphicon-filter"></span>Filters
         </a>
-        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuFilters"
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuFilters" ngbDropdownMenu
              (click)="$event.stopPropagation();">
           <app-filters></app-filters>
         </div>
@@ -46,8 +46,8 @@
         </a>
       </li>
       <li>
-        <a href="https://www.mashape.com/" target="_blank">
-          <img class="img-powered-with" src=".././assets/gamedb.png">
+        <a href="https://www.igdb.com/" target="_blank">
+          <img class="img-powered-with" src=".././assets/igdb.gif">
         </a>
       </li>
       <li>
@@ -98,7 +98,7 @@
                     <span class="caret"></span>
                     <img class="img-circle" [src]="user.picture">
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfile" ngbDropdownMenu>
                     <li><a [routerLink]="'/profile'">Profile</a></li>
                     <li><a [routerLink]="'/address'">Addresses</a></li>
                     <li><a [routerLink]="'/orders'">Orders</a></li>
