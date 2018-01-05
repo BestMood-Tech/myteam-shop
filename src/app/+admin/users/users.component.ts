@@ -38,12 +38,12 @@ export class UsersComponent implements OnInit {
           name: `${item.firstName} ${item.lastName}`,
           total: item.total,
           payment: item.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress}
+          address: item.addressOrder ? JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}
                     ${item.addressOrder.zip}
-                    ${item.addressOrder.country}`)
+                    ${item.addressOrder.country}`) : ''
         });
       });
       this.dataSource = {

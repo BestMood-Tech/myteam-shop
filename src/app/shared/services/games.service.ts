@@ -12,7 +12,7 @@ import { Developer, Genre, Product } from '../models';
 export class GamesService {
   private data: Product[];
   private isLoading: boolean;
-  private baseUrl = 'https://igdbcom-internet-game-database-v1.p.mashape.com/';
+  private baseUrl = '/games_api/';
 
   static getParams(): URLSearchParams {
     const params = new URLSearchParams();
@@ -21,9 +21,9 @@ export class GamesService {
   }
 
   static getHeaders(): Headers {
-    const xMashapeKey = 'mOOXc4tX8Pmsh0FpTzd1KwlWjSHhp1MuPfXjsnCJsAUgGEcL9O';
+    const userKey = '1ce166ae276a59f478a836ff4398eb50';
     const headers = new Headers();
-    headers.set('X-Mashape-Key', xMashapeKey);
+    headers.set('user-key', userKey);
     headers.set('Accept', 'application/json');
     return headers;
   }
@@ -75,7 +75,7 @@ export class GamesService {
 
   public getDevelopers(ids: number[]): Observable<Developer[]> {
     if (!ids || !ids.length) {
-      return Observable.from([]);
+      return Observable.of([]);
     }
     const idsString = ids.join();
     return this.http.get(`${this.baseUrl}companies/${idsString}`, this.options({ fields: 'name' }))
@@ -84,7 +84,7 @@ export class GamesService {
 
   public getGenres(ids: number[]): Observable<Genre[]> {
     if (!ids || !ids.length) {
-      return Observable.from([]);
+      return Observable.of([]);
     }
     const idsString = ids.join();
     return this.http.get(`${this.baseUrl}genres/${idsString}`, this.options({ fields: 'name' }))
@@ -101,7 +101,7 @@ export class GamesService {
         year: moment(item.first_release_date).format('YYYY'),
         vote: item.popularity % 5 === 0 ? 5 : item.popularity % 5 < 2 ? item.popularity % 5 + 2 : item.popularity % 5,
         voteCount: item.collection,
-        trailer: item.videos ? item.videos[0].video_id : '',
+        trailer: item.videos ? item.videos[0].video_id : null,
         cover: item.cover ?
           `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
         description: item.summary || `this game hasn't description yet.`
