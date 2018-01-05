@@ -19,12 +19,12 @@
   </div>
 </div>
 
-<div *ngIf="!arrayAddressUser" class="loading">
+<div *ngIf="!products" class="loading">
   <img class="spin" src="/assets/grid.svg" alt="Loading">
 </div>
 
 <div class="container slides" drag-scroll [drag-scroll-x-disabled]="true" [scrollbar-hidden]="true"
-     *ngIf="arrayAddressUser">
+     *ngIf="products">
   <div class="flex-container">
 
     <div class="slide" [ngClass]="direction === 'next' ? 'left-transform' : 'right-transform'"

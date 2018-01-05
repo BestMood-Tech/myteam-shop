@@ -60,12 +60,12 @@ export class OrdersComponent implements OnInit {
           total: item.total,
           promoCode: item.promocode,
           payment: item.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress}
+          address: item.addressOrder ? JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}
                     ${item.addressOrder.zip}
-                    ${item.addressOrder.country}`),
+                    ${item.addressOrder.country}`) : '',
           date: item.createdAt
         });
       });
