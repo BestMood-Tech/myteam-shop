@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
-import { Order } from '../../shared/models';
-import { AdminService } from '../admin.service';
-import { NumericEditorComponent } from '../numeric-editor/numeric-editor';
+import { Store } from '@ngrx/store';
+
+import { Order } from '../../../shared/models';
+import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component';
+import { AdminState, getOrders } from '../../store/admin/admin.state';
+import * as AdminActions from '../../store/admin/admin.action';
 
 interface RowData {
   numberGoods: number;
@@ -32,7 +36,7 @@ export class OrdersComponent implements OnInit {
   ];
   public currentTheme = this.arrayTheme[2];
 
-  constructor(private adminService: AdminService) {
+  constructor(private store: Store<AdminState>) {
     this.gridOptions = <GridOptions>{
       columnDefs: this.createColumnDefs(),
       rowModelType: 'infinite',
@@ -53,19 +57,19 @@ export class OrdersComponent implements OnInit {
 
   public ngOnInit() {
     this.rowData = [];
-    this.adminService.getSelling().subscribe((orders: Order[]) => {
+    this.store.select(getOrders).subscribe((orders: Order[]) => {
       orders.forEach((item) => {
         this.rowData.push({
           numberGoods: item.products.length,
           total: item.total,
           promoCode: item.promocode,
           payment: item.payment,
-          address: JSON.stringify(`${item.addressOrder.streetAddress}
+          address: item.addressOrder ? JSON.stringify(`${item.addressOrder.streetAddress}
                     ${item.addressOrder.addressLine2}
                     ${item.addressOrder.city}
                     ${item.addressOrder.state}
                     ${item.addressOrder.zip}
-                    ${item.addressOrder.country}`),
+                    ${item.addressOrder.country}`) : '',
           date: item.createdAt
         });
       });
@@ -83,6 +87,8 @@ export class OrdersComponent implements OnInit {
       };
       this.gridOptions.rowData = this.rowData;
     });
+
+    this.store.dispatch(new AdminActions.RequestAdminData());
   }
 
   /*************

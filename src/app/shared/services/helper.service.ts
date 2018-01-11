@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
@@ -13,16 +13,13 @@ export interface Country {
 export class HelperService {
   public showFilters = new EventEmitter<boolean>();
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public getCountries(): Observable<Country[]> {
-    return this.http
+    return this.httpClient
       .get(`https://restcountries.eu/rest/v1/all`)
-      .map((response) => response.json())
-      .map((data) => data.map((item) => {
-        return { value: item.name, name: item.name };
-      }));
+      .map((data: any[]) => data.map((item) => ({ value: item.name, name: item.name })));
   }
 
 }

@@ -1,5 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
@@ -9,77 +9,74 @@ import { Product } from '../models';
 
 @Injectable()
 export class CartService {
-  public changedCount = new EventEmitter<any>();
-  private cart: Product[];
-
-  constructor(private toastr: ToastsManager, private http: Http) {
-    try {
-      if (JSON.parse(localStorage.getItem('cart'))) {
-        this.cart = JSON.parse(localStorage.getItem('cart'));
-      } else {
-        this.cart = [];
-        this.update();
-      }
-    } catch (e) {
-      console.log(e);
-      this.toastr.error('Failed to get the goods', 'Error!');
-    }
+  constructor(private toastsManager: ToastsManager,
+              private http: HttpClient) {
   }
 
-  public add(product: Product): void {
-    const foundProduct = this.cart.find((item) => item.id === product.id && item.type === product.type);
+  public add(products: Product[], addedProduct: Product): Observable<Product[]> {
+    const foundProduct = products.find((item: Product) => item.id === addedProduct.id && item.type === addedProduct.type);
+    let newProducts: Product[];
     if (foundProduct) {
-      foundProduct.count += 1;
+      const foundIndex = products.indexOf(foundProduct);
+      const editedProduct = { ...foundProduct,  count: foundProduct.count + 1 };
+      newProducts = [...products.slice(0, foundIndex), editedProduct, ...products.slice(foundIndex + 1)];
     } else {
-      product.count = 1;
-      this.cart.push(product);
+      newProducts = [...products, { ...addedProduct, count: 1 }];
     }
-    this.changedCount.emit();
-    this.update();
-    this.toastr.success(`${product.name} added to cart`, 'Success!');
+    return this.update(newProducts)
+      .map((data: Product[]) => {
+        this.toastsManager.success(`Product ${addedProduct.name} added to cart`, 'Success!');
+        return data;
+      })
   }
 
-  public get(): Product[] {
-    return this.cart;
+  public get(): Observable<Product[]> {
+    try {
+      if (localStorage.getItem('cart')) {
+        return Observable.of(JSON.parse(localStorage.getItem('cart')));
+      } else {
+        return this.update([])
+      }
+    } catch (error) {
+      console.log(error);
+      this.toastsManager.error('Failed to get the goods!', 'Error!');
+      return Observable.throw('Failed to get the goods!')
+    }
   }
 
-  public remove(product: Product): void {
-    const findProduct = this.cart.find((item) => item.id === product.id && item.type === product.type);
-    if (findProduct.count > 1) {
-      findProduct.count -= 1;
+  public remove(products: Product[], removedProduct: Product): Observable<Product[]> {
+    const foundProduct = products.find((item) => item.id === removedProduct.id && item.type === removedProduct.type);
+    const foundIndex = products.indexOf(foundProduct);
+    let newProducts: Product[];
+    if (foundProduct.count > 1) {
+      const editedProduct = { ...foundProduct,  count: foundProduct.count - 1 };
+      newProducts = [...products.slice(0, foundIndex), editedProduct, ...products.slice(foundIndex + 1)]
     } else {
-      this.cart.splice(this.cart.indexOf(findProduct), 1);
+      newProducts = [...products.slice(0, foundIndex), ...products.slice(foundIndex + 1)];
     }
-    this.update();
-    this.toastr.success(`${product.name} is removed from cart`, 'Success!');
+    return this.update(newProducts)
+      .map((data: Product[]) => {
+        this.toastsManager.success(`${removedProduct.name} is removed from cart`, 'Success!');
+        return data;
+      });
   }
 
-  public get count(): number {
-    let count = 0;
-    this.cart.forEach((item) => count += item.count);
-    return count;
+  public clear(): Observable<Product[]> {
+    return this.update([]);
   }
 
-  public get total(): string {
-    let price = 0.0;
-    this.cart.forEach((item) => {
-      price += item.price;
-    });
-    return price.toFixed(2);
-  }
-
-  public clear(): void {
-    this.cart = [];
-    this.update();
-  }
-
-  public printInvoice(id: string): Observable<any> {
-    this.toastr.warning('Your invoice is processing', 'Processing');
+  public printInvoice(id: string): Observable<string> {
+    this.toastsManager.warning('Your invoice is processing...', 'Processing');
     return this.http.get(`${baseUrl}api/invoice/print/${id}`, setOptions())
-      .map(res => `${bucketUrl}${id}`);
+      .map(() => `${bucketUrl}${id}`);
   }
 
-  private update(): void {
-    localStorage.setItem('cart', JSON.stringify(this.cart));
+  private update(products: Product[]): Observable<Product[]> {
+    try {
+      localStorage.setItem('cart', JSON.stringify(products));
+      return Observable.of(products);
+    } catch (error) {
+      return Observable.throw('Failed to update cart!');
+    }
   }
 }

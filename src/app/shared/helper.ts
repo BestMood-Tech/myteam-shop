@@ -1,4 +1,5 @@
 import { Headers, RequestOptions } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 export const baseUrl = 'https://oq7k3diobg.execute-api.eu-central-1.amazonaws.com/dev/';
 // export const baseUrl = 'http://localhost:3000/'; // for local development
@@ -11,11 +12,11 @@ export function setOptions() {
   if (!token) {
     return;
   }
-  const myHeaders = new Headers();
-  myHeaders.set('Authorization', `Bearer ${token}`);
-  return new RequestOptions({
+  const myHeaders = new HttpHeaders()
+    .set('Authorization', `Bearer ${token}`);
+  return {
     headers: myHeaders
-  });
+  };
 }
 
 export class Search {

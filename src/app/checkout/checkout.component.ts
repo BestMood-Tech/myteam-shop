@@ -1,9 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
+
 import { Address, Order, Product, Profile } from '../shared/models';
-import { AuthService, CartService, OrderService, PromocodeService } from '../shared/services';
+import { AuthService, OrderService, Percent, PromocodeService } from '../shared/services';
+import { AppState } from '../store/app.state';
+import { getCart } from '../store/cart/cart.state';
+import * as CartActions from '../store/cart/cart.action';
+import * as PromocodeActions from '../store/promocode/promocode.action';
+import { getPromocodeError, getPromocodePercent } from '../store/promocode/promocode.state';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +41,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private user: Profile;
   private subscriber: Subscription;
 
-  constructor(private cartService: CartService,
+  constructor(private store: Store<AppState>,
               private authService: AuthService,
               private toastsManager: ToastsManager,
               private router: Router,
@@ -50,10 +58,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.user = profile;
         this.checkOutCurrency = profile.currency;
         this.arrayAddressUser = profile.address;
-        this.products = this.cartService.get().map(item => {
-          item.total = +(item.price * item.count).toFixed(2);
-          return item;
-        });
+        this.store.select(getCart)
+          .subscribe((products: Product[]) => {
+            this.products = products;
+            this.products.map(item => {
+              item.total = +(item.price * item.count).toFixed(2);
+              return item;
+            });
+          });
+        this.store.dispatch(new CartActions.GetCart());
         if (this.arrayAddressUser && this.arrayAddressUser.length) {
           this.checkOutAddress = new Address(this.arrayAddressUser[0]);
           this.checkOutAddressKey = 0;
@@ -61,6 +74,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.activePromoCode = true;
       });
     this.authService.get();
+    this.store.select(getPromocodePercent).subscribe((percent: Percent) => {
+      this.products.forEach((item) => {
+        item.price *= ((100 - percent.percent) / 100);
+        item.total = +(item.price * item.count).toFixed(2);
+      });
+      this.toastsManager.success(`You have ${percent.percent}% discount`, 'Success!');
+      this.activePromoCode = false;
+    });
+    this.store.select(getPromocodeError).subscribe((error: string) => {
+      this.promocode = '';
+      console.log(error);
+      this.toastsManager.error(error, 'Error');
+    });
   }
 
   public ngOnDestroy() {
@@ -77,22 +103,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (!this.promocode || !this.promocode.length && this.activePromoCode) {
       return;
     }
-
-    this.promocodeService.check(this.user.id, this.promocode)
-      .subscribe(
-        (response) => {
-          this.products.forEach((item) => {
-            item.price *= ((100 - response.percent) / 100);
-            item.total = +(item.price * item.count).toFixed(2);
-          });
-          this.toastsManager.success(`You have ${response.percent}% discount`, 'Success!');
-          this.activePromoCode = false;
-        },
-        (error) => {
-          this.promocode = '';
-          this.toastsManager.error(error.json().errorMessage, 'Error');
-        }
-      );
+    this.store.dispatch(new PromocodeActions.CheckPromocode(this.user.id, this.promocode));
   }
 
   public onChangeAddress(key) {
@@ -121,7 +132,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.orderService.create(order)
       .subscribe((data) => {
         this.isRequesting = false;
-        this.cartService.clear();
+        this.store.dispatch(new CartActions.ClearCart());
         this.toastsManager.success('Orders added to profile', 'Success');
         this.router.navigate(['./confirmation', data['id']]);
       });

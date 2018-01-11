@@ -37,8 +37,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   private searchProduct(params: Search): void {
     this.products = [];
     if (params.query === '') {
-    this.isEmptySearch = true;
-    this.isLoaded = true;
+      this.isEmptySearch = true;
+      this.isLoaded = true;
       return;
     }
     this.isEmptySearch = false;

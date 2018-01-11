@@ -2,10 +2,14 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
+import { Store } from '@ngrx/store';
 
 import { Profile } from './shared/models';
-import { AuthService, CartService, HelperService } from './shared/services';
+import { AuthService, HelperService } from './shared/services';
 import { Search } from './shared/helper';
+import { getCartCount } from './store/cart/cart.state';
+import { AppState } from './store/app.state';
+import * as CartActions from './store/cart/cart.action';
 
 @Component({
   selector: 'app-root',
@@ -17,16 +21,17 @@ export class AppComponent implements OnInit {
   public showFilters: boolean;
   public filters: Search;
   public changedCount = false;
+  public count: number;
   public user: Profile;
 
   constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private cartService: CartService,
               private viewContainer: ViewContainerRef,
-              private toastr: ToastsManager,
-              private helperService: HelperService) {
-    this.toastr.setRootViewContainerRef(this.viewContainer);
+              private toastsManager: ToastsManager,
+              private helperService: HelperService,
+              private store: Store<AppState>) {
+    this.toastsManager.setRootViewContainerRef(this.viewContainer);
   }
 
   public ngOnInit() {
@@ -43,10 +48,14 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.cartService.changedCount.subscribe(() => {
-      this.changedCount = true;
-      setTimeout(() => this.changedCount = false, 1000);
+    this.store.select(getCartCount).subscribe((count: number) => {
+      if (this.count < count) {
+        this.changedCount = true;
+        setTimeout(() => this.changedCount = false, 1000);
+      }
+      this.count = count;
     });
+    this.store.dispatch(new CartActions.RequestCart());
     this.authService.profile.subscribe((user: Profile) => this.user = user);
     this.authService.get();
   }
@@ -65,10 +74,6 @@ export class AppComponent implements OnInit {
 
   public logout(): void {
     this.authService.logout();
-  }
-
-  public count(): number {
-    return this.cartService.count;
   }
 
   private resetFilter(): void {

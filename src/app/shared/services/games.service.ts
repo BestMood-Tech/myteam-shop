@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
@@ -14,29 +14,26 @@ export class GamesService {
   private isLoading: boolean;
   private baseUrl = '/games_api/';
 
-  static getParams(): URLSearchParams {
-    const params = new URLSearchParams();
-    params.set('fields', '*');
-    return params;
+  static getParams(): HttpParams {
+    return new HttpParams()
+      .set('fields', '*');
   }
 
-  static getHeaders(): Headers {
+  static getHeaders(): HttpHeaders {
     const userKey = '1ce166ae276a59f478a836ff4398eb50';
-    const headers = new Headers();
-    headers.set('user-key', userKey);
-    headers.set('Accept', 'application/json');
-    return headers;
+    return new HttpHeaders()
+      .set('user-key', userKey)
+      .set('Accept', 'application/json');
   }
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public getItems(): Observable<Product[]> {
     if ((!this.data || !this.data.length) && !this.isLoading) {
       this.isLoading = true;
-      return this.http.get(`${this.baseUrl}games/`, this.options({ order: 'popularity:desc', limit: '20' }))
-        .map((response) => response.json())
-        .map((data) => {
+      return this.httpClient.get(`${this.baseUrl}games/`, this.options({ order: 'popularity:desc', limit: '20' }))
+        .map((data: any) => {
           this.data = this.convertItems(data);
           this.isLoading = false;
           return this.data;
@@ -46,8 +43,8 @@ export class GamesService {
   }
 
   public getItem(id: string): Observable<Product> {
-    return this.http.get(`${this.baseUrl}games/${id}`, this.options())
-      .map((response) => response.json()[0])
+    return this.httpClient.get(`${this.baseUrl}games/${id}`, this.options())
+      .map((result) => result[0])
       .map((data) => this.convertItem(data));
   }
 
@@ -64,9 +61,8 @@ export class GamesService {
       });
     }
 
-    return this.http.get(`${this.baseUrl}games/`, this.options(additionalParams))
-      .map((response) => response.json())
-      .map((data) => this.convertItems(data));
+    return this.httpClient.get(`${this.baseUrl}games/`, this.options(additionalParams))
+      .map((data: any) => this.convertItems(data));
   }
 
   public getRecommended(id: string): Observable<Product[]> {
@@ -78,8 +74,7 @@ export class GamesService {
       return Observable.from([]);
     }
     const idsString = ids.join();
-    return this.http.get(`${this.baseUrl}companies/${idsString}`, this.options({ fields: 'name' }))
-      .map((response) => response.json());
+    return this.httpClient.get<Developer[]>(`${this.baseUrl}companies/${idsString}`, this.options({ fields: 'name' }));
   }
 
   public getGenres(ids: number[]): Observable<Genre[]> {
@@ -87,8 +82,7 @@ export class GamesService {
       return Observable.from([]);
     }
     const idsString = ids.join();
-    return this.http.get(`${this.baseUrl}genres/${idsString}`, this.options({ fields: 'name' }))
-      .map(res => res.json());
+    return this.httpClient.get<Genre[]>(`${this.baseUrl}genres/${idsString}`, this.options({ fields: 'name' }))
   }
 
   private convertItems(data: any[]): Product[] {
@@ -103,7 +97,8 @@ export class GamesService {
         voteCount: item.collection,
         trailer: item.videos ? item.videos[0].video_id : '',
         cover: item.cover ?
-          `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
+          `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` :
+          'httpClient://placehold.it/320x150',
         description: item.summary || `this game hasn't description yet.`
       });
     });
@@ -124,20 +119,19 @@ export class GamesService {
       esrb: item.esrb ? item.esrb.rating : '',
       status: item.status || '',
       cover: item.cover ?
-        `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'http://placehold.it/320x150',
+        `https://images.igdb.com/igdb/image/upload/t_screenshot_med/${item.cover.cloudinary_id}.jpg` : 'httpClient://placehold.it/320x150',
       description: item.summary || `this game hasn't description yet.`
     });
   }
 
-  private options(params?: any): RequestOptions {
+  private options(params?: any) {
     const defaultParams = GamesService.getParams();
     if (params) {
       Object.keys(params).forEach((key) => defaultParams.set(key, params[key]));
     }
-    return new RequestOptions({
+    return {
       headers: GamesService.getHeaders(),
-      search: defaultParams
-    })
+      params: defaultParams
+    }
   }
-
 }

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Order } from '../../shared/models';
-import { AdminService } from '../admin.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Store } from '@ngrx/store';
+
+import * as AdminActions from '../../store/admin/admin.action';
+import { AdminState, getOrders } from '../../store/admin/admin.state';
+import { Order } from '../../../shared/models';
 
 @Component({
   selector: 'app-users',
@@ -30,43 +34,45 @@ export class AnalyticsComponent implements OnInit {
   public analyticsForm: FormGroup;
   public yearForm = [2014, 2015, 2016, 2017];
 
-  constructor(private adminService: AdminService, private formBuilder: FormBuilder) {
+  constructor(private store: Store<AdminState>) {
   }
 
   public ngOnInit() {
     this.update();
-    this.analyticsForm = this.formBuilder.group({
-      from: ['', Validators.required],
-      to: ['', [Validators.required]]
+    this.analyticsForm = new FormGroup({
+      from: new FormControl('', Validators.required),
+      to: new FormControl('', Validators.required)
     });
-  }
 
-  public update(fromYear?, toYear?) {
-    this.chartData = [];
-    this.pieChartData = [];
-    this.pieChartLabels = [];
-
-    this.adminService.getSelling(fromYear, toYear).subscribe((orders: Order[]) => {
-      orders.forEach((item) => {
-        const date = new Date(item.createdAt);
+    this.store.select(getOrders).subscribe((orders: Order[]) => {
+      orders.forEach((order: Order) => {
+        const date = new Date(order.createdAt);
         const indexChartData = this.chartData.findIndex((itemChart) => itemChart.label === date.getFullYear());
         if (indexChartData === -1) {
           const obj = {
             data: Array.from({ length: this.labelMonth.length }, () => 0),
             label: date.getFullYear()
           };
-          obj.data[date.getMonth()] += item.total;
+          obj.data[date.getMonth()] += order.total;
 
           this.chartData.push(obj);
 
-          this.pieChartData.push(item.total);
+          this.pieChartData.push(order.total);
           this.pieChartLabels.push(date.getFullYear());
         } else {
-          this.chartData[indexChartData].data[date.getMonth()] += item.total;
-          this.pieChartData[indexChartData] += item.total;
+          this.chartData[indexChartData].data[date.getMonth()] += order.total;
+          this.pieChartData[indexChartData] += order.total;
         }
       });
     });
+  }
+
+  public update(fromYear?: string, toYear?: string) {
+    this.chartData = [];
+    this.pieChartData = [];
+    this.pieChartLabels = [];
+
+    this.store.dispatch(new AdminActions.RequestAdminData(fromYear, toYear));
   }
 
   public toggle() {

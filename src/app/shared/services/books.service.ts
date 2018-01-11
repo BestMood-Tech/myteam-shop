@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import * as moment from 'moment';
 import 'rxjs/add/observable/of';
@@ -15,31 +15,29 @@ export class BooksService {
   private isLoading: boolean;
   private baseUrl = 'https://api.wattpad.com/v4/stories';
 
-  static getHeaders(): Headers {
+  static getHeaders(): HttpHeaders {
     const apiKey = 'tEIdSUrwgw7TWjk5ymOxk4JIbUlxIXMEVkI5IJwu65t9';
-    const headers = new Headers();
-    headers.set('Authorization', `Basic ${apiKey}`);
-    headers.set('Accept', 'application/json');
-    headers.set('accept-language', 'en');
-    return headers;
+    return new HttpHeaders()
+      .set('Authorization', `Basic ${apiKey}`)
+      .set('Accept', 'application/json')
+      .set('accept-language', 'en');
   }
 
-  static getParams(): URLSearchParams {
-    const params = new URLSearchParams();
-    params.set('limit', '20');
-    params.set('offset', '0');
-    params.set('category', '3');
-    return params;
+  static getParams(): HttpParams {
+    return new HttpParams()
+      .set('limit', '20')
+      .set('offset', '0')
+      .set('category', '3');
   }
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public getItems(): Observable<Product[]> {
     if ((!this.data || !this.data.length) && !this.isLoading) {
       this.isLoading = true;
-      return this.http.get(this.baseUrl, this.options)
-        .map((response) => response.json().stories)
+      return this.httpClient.get(this.baseUrl, this.options)
+        .map((result: any) => result.stories)
         .map((data) => {
           this.data = this.convertItems(data);
           this.isLoading = false;
@@ -78,10 +76,10 @@ export class BooksService {
     });
   }
 
-  private get options(): RequestOptions {
-    return new RequestOptions({
+  private get options() {
+    return {
       headers: BooksService.getHeaders(),
       params: BooksService.getParams()
-    });
+    };
   }
 }

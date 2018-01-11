@@ -2,10 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 /*
  * Third-party modules
  */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 /*
  * Module components
  */
@@ -38,6 +42,11 @@ import {
   OrderService,
   PromocodeService
 } from './services';
+
+import { AppReducer } from '../store/app.reducer';
+import { AppEffects } from '../store/app.effect';
+import { DragScrollModule } from 'ngx-drag-scroll';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 const SharedComponents = [
   ProfileFieldComponent,
@@ -74,13 +83,21 @@ const SharedServices = [
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    HttpClientModule,
+    NgbModule.forRoot(),
+    StoreModule.forRoot(AppReducer),
+    StoreDevtoolsModule.instrument({ maxAge: 50 }),
+    EffectsModule.forRoot(AppEffects),
+    DragScrollModule,
+    RecaptchaModule.forRoot()
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    DragScrollModule,
+    RecaptchaModule,
     ...SharedComponents,
     ...SharedEntryComponents,
     ...SharedPipes
@@ -100,6 +117,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
+        HttpClient,
         ...SharedServices,
         AuthGuard
       ],

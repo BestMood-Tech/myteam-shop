@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+
 import { Product, Profile } from '../shared/models';
-import { AuthService, CartService } from '../shared/services';
+import { AuthService } from '../shared/services';
+import { AppState } from '../store/app.state';
+import { getCart, getCartCount } from '../store/cart/cart.state';
+import * as CartActions from '../store/cart/cart.action';
 
 @Component({
   selector: 'app-cart',
@@ -13,24 +19,28 @@ export class CartComponent implements OnInit {
   public products: Product[];
   public authorization: boolean;
   public cartCurrency: string;
+  public count: number;
 
-  constructor(private cartService: CartService,
+  constructor(private store: Store<AppState>,
               private authService: AuthService,
               private router: Router) {
-    this.products = this.cartService.get();
     this.authorization = this.authService.isAuthenticated;
   }
 
   public ngOnInit() {
     this.authService.profile
       .subscribe((profile: Profile) => this.cartCurrency = profile ? profile.currency : '$');
+    this.store.select(getCart)
+      .subscribe((products: Product[]) => this.products = products);
+    this.store.dispatch(new CartActions.RequestCart());
+    this.store.select(getCartCount)
+      .subscribe((count) => this.count = count);
     this.authService.get();
   }
 
 
-  public deleteProduct(product) {
-    this.cartService.remove(product);
-    this.products = this.cartService.get();
+  public deleteProduct(product: Product) {
+    this.store.dispatch(new CartActions.RemoveFromCart(product));
   }
 
   public getTotalPrice() {
@@ -42,7 +52,7 @@ export class CartComponent implements OnInit {
   }
 
   public disabledPay(): boolean {
-    return !!this.cartService.count && this.authorization;
+    return !!this.count && this.authorization;
   }
 
   public checkout() {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs/Observable';
 
 import { baseUrl, setOptions } from '../helper';
@@ -10,12 +11,11 @@ export class OrderService {
   private data: Order[] = [];
   private isLoading: boolean;
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public create(order: Order): Observable<Order> {
-    return this.http.post(`${baseUrl}api/order`, order, setOptions())
-      .map((response) => response.json())
+    return this.httpClient.post(`${baseUrl}api/order`, order, setOptions())
       .map((data) => {
         const newOrder = new Order(data);
         this.data.push(newOrder);
@@ -26,9 +26,8 @@ export class OrderService {
   public getByProfile(id: string): Observable<Order[]> {
     if ((!this.data || !this.data.length) && !this.isLoading) {
       this.isLoading = true;
-      return this.http.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
-        .map((response) => response.json())
-        .map((data) => {
+      return this.httpClient.get(`${baseUrl}api/order/getByProfileId/${id}`, setOptions())
+        .map((data: any[]) => {
           this.data = data.map((item) => new Order(item));
           this.isLoading = false;
           return this.data;
@@ -44,8 +43,7 @@ export class OrderService {
         return Observable.of(found);
       }
     }
-    return this.http.get(`${baseUrl}api/order/getById/${id}`, setOptions())
-      .map((response) => response.json())
+    return this.httpClient.get(`${baseUrl}api/order/getById/${id}`, setOptions())
       .map((data) => new Order(data));
   }
 

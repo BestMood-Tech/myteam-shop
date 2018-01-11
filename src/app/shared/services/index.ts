@@ -6,3 +6,4 @@ export * from './auth.service';
 export * from './helper.service';
 export * from './promocode.service';
 export * from './order.service';
+export * from '../../admin/services/admin.service';

@@ -1,38 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs/Observable';
 
 import { baseUrl, setOptions } from '../helper';
 import { Promocode } from '../models';
+import { ToastsManager } from 'ng2-toastr';
 
-interface Percent {
+export interface Percent {
   percent: number;
 }
 
 @Injectable()
 export class PromocodeService {
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public create(id: string, isNewUser: boolean, orderCount?: number): Observable<Percent> {
-    return this.http.post(`${baseUrl}api/promocode/${id}`,
-      { isNewUser, orderCount }, setOptions())
-      .map((response) => response.json());
+    return this.httpClient.post<Percent>(`${baseUrl}api/promocode/${id}`,
+      { isNewUser, orderCount }, setOptions());
   }
 
   public get(id: string): Observable<Promocode> {
-    return this.http.get(`${baseUrl}api/promocode/${id}`, setOptions())
-      .map((response) => response.json())
+    return this.httpClient.get(`${baseUrl}api/promocode/${id}`, setOptions())
       .map((data) => new Promocode(data));
   }
 
   public check(id: string, promocode: string): Observable<Percent> {
-    return this.http.put(`${baseUrl}api/promocode/${id}`, { promocode }, setOptions())
-      .map((response) => response.json());
+    return this.httpClient.put<Percent>(`${baseUrl}api/promocode/${id}`, { promocode }, setOptions());
   }
 
-  public remove(id: string): Observable<any> {
-    return this.http.delete(`${baseUrl}api/promocode/${id}`, setOptions())
-      .map((response) => response.json());
+  public remove(id: string): Observable<string> {
+    return this.httpClient.delete<string>(`${baseUrl}api/promocode/${id}`,
+      Object.assign(setOptions(), { observe: 'response', responseType: 'text' }));
   }
 }

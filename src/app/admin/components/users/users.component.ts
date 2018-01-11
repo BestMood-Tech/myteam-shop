@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
 import { GridOptions } from 'ag-grid/src/ts/entities/gridOptions';
-import { Order } from '../../shared/models';
-import { AdminService } from '../admin.service';
+import { Store } from '@ngrx/store';
+
+import { Order } from '../../../shared/models';
+import { AdminState, getOrders } from '../../store/admin/admin.state';
+import * as AdminActions from '../../store/admin/admin.action';
 
 interface RowData {
   name: string;
@@ -21,7 +25,7 @@ export class UsersComponent implements OnInit {
   public rowData: RowData[];
   public dataSource: any;
 
-  constructor(private adminService: AdminService) {
+  constructor(private store: Store<AdminState>) {
     this.gridOptions = <GridOptions>{
       columnDefs: this.createColumnDefs(),
       enableServerSideSorting: true,
@@ -32,7 +36,7 @@ export class UsersComponent implements OnInit {
 
   public ngOnInit() {
     this.rowData = [];
-    this.adminService.getSelling().subscribe((orders: Order[]) => {
+    this.store.select(getOrders).subscribe((orders: Order[]) => {
       orders.forEach((item: Order) => {
         this.rowData.push({
           name: `${item.firstName} ${item.lastName}`,
@@ -60,6 +64,8 @@ export class UsersComponent implements OnInit {
       };
       this.gridOptions.rowData = this.rowData;
     });
+
+    this.store.dispatch(new AdminActions.RequestAdminData());
   }
 
   private createColumnDefs() {

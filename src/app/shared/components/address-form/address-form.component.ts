@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
@@ -18,8 +18,7 @@ export class AddressFormComponent implements OnInit {
   public copyAddress: Address;
 
   constructor(public activeModal: NgbActiveModal,
-              private helper: HelperService,
-              private formBuilder: FormBuilder) {
+              private helper: HelperService) {
   }
 
   public ngOnInit() {
@@ -29,13 +28,13 @@ export class AddressFormComponent implements OnInit {
       this.countries = countries;
     });
 
-    this.addressForm = this.formBuilder.group({
-      streetAddress: [this.copyAddress.streetAddress, Validators.required],
-      addressLine2: [this.copyAddress.addressLine2, Validators.required],
-      city: [this.copyAddress.city, Validators.required],
-      state: [this.copyAddress.state, Validators.required],
-      zip: [this.copyAddress.zip, Validators.required],
-      country: [this.copyAddress.country, Validators.required],
+    this.addressForm = new FormGroup({
+      streetAddress: new FormControl(this.copyAddress.streetAddress, Validators.required),
+      addressLine2: new FormControl(this.copyAddress.addressLine2, Validators.required),
+      city: new FormControl(this.copyAddress.city, Validators.required),
+      state: new FormControl(this.copyAddress.state, Validators.required),
+      zip: new FormControl(this.copyAddress.zip, Validators.required),
+      country: new FormControl(this.copyAddress.country, Validators.required),
     });
   }
 

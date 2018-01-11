@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-field',
@@ -15,14 +16,11 @@ export class ProfileFieldComponent implements OnInit {
   public edit = false;
   public formValue: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-  }
-
   public ngOnInit() {
-    this.formValue = this.formBuilder.group({
-      changedValue: [this.value, this.type !== 'email' ? Validators.required :
+    this.formValue = new FormGroup({
+      changedValue: new FormControl(this.value, this.type !== 'email' ? Validators.required :
         Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
-      ]
+      )
     });
   }
 

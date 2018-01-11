@@ -1,9 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
+
 import { Order, Profile } from '../shared/models';
-import { AuthService, CartService, OrderService, PromocodeService } from '../shared/services';
+import { AuthService, OrderService, Percent } from '../shared/services';
+import { AppState } from '../store/app.state';
+import { getInvoice } from '../store/cart/cart.state';
+import * as CartActions from '../store/cart/cart.action';
+import * as PromocodeActions from '../store/promocode/promocode.action';
+import { getPromocodePercent } from '../store/promocode/promocode.state';
 
 @Component({
   selector: 'app-confirmation',
@@ -20,9 +28,8 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   private subscriber: Subscription;
 
   constructor(private authService: AuthService,
-              private cartService: CartService,
+              private store: Store<AppState>,
               private toastsManager: ToastsManager,
-              private promocodeService: PromocodeService,
               private activatedRoute: ActivatedRoute,
               private orderService: OrderService) {
   }
@@ -43,19 +50,34 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
           this.order = order;
           this.toastsManager.success('Your order has been successfully processed', 'Success!');
           if (this.orderService.count / 5 && !(this.orderService.count % 5)) {
-            this.promocodeService.create(this.user.id, false, this.orderService.count)
-              .subscribe((response) => {
-                this.toastsManager.info(`You have a promocode with ${response.percent}% discount!`,
-                  `New promocode in your profile!`);
-              })
+            this.store.dispatch(new PromocodeActions.CreatePromocode(this.user.id, false, this.orderService.count))
           } else {
             if (this.order.promocode) {
-              this.promocodeService.remove(this.user.id).subscribe();
+              this.store.dispatch(new PromocodeActions.RemovePromocode(this.user.id));
             }
           }
         });
     });
     this.authService.get();
+
+    this.store.select(getInvoice)
+      .subscribe((url: string) => {
+        if (!url) {
+          return;
+        }
+        setTimeout(() => {
+          const newWindow = window.open('', '_blank');
+          newWindow.location.href = url;
+          newWindow.focus();
+          this.loading = false;
+        }, 1000);
+      });
+    this.store.select(getPromocodePercent).select((percent: Percent) => {
+      if (percent) {
+        this.toastsManager.info(`You have a promocode with ${percent.percent}% discount!`,
+          `New promocode in your profile!`);
+      }
+    });
   }
 
   public ngOnDestroy() {
@@ -68,13 +90,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
   public getInvoice() {
     this.loading = true;
-    this.cartService.printInvoice(this.orderId).subscribe(url => {
-      setTimeout(() => {
-        const newWindow = window.open('', '_blank');
-        this.loading = false;
-        newWindow.location.href = url;
-        newWindow.focus();
-      }, 3000);
-    });
+    this.store.dispatch(new CartActions.GetInvoice(this.orderId));
   }
 }

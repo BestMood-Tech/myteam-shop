@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Profile } from '../../models';
-import { AuthService, CartService } from '../../services/';
-import { Product } from '../../models/product.model';
+import { Store } from '@ngrx/store';
+
+import { Product, Profile } from '../../models';
+import { AuthService } from '../../services/';
+import { AppState } from '../../../store/app.state';
+import * as CartActions from '../../../store/cart/cart.action';
 
 @Component({
   selector: 'app-product-card',
@@ -19,7 +22,8 @@ export class ProductCardComponent implements OnInit {
   public productCurrency = '$';
   public productCover: string;
 
-  constructor(private cart: CartService, private authService: AuthService) {
+  constructor(private store: Store<AppState>,
+              private authService: AuthService) {
   }
 
   public ngOnInit() {
@@ -35,7 +39,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   public addToCart(product: Product): void {
-    this.cart.add(product);
+    this.store.dispatch(new CartActions.AddToCart(this.product));
   }
 
   public deleteProduct(product: Product): void {

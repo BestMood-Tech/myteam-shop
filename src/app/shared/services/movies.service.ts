@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
 
 import 'rxjs/add/operator/map';
@@ -13,24 +13,23 @@ export class MoviesService {
   private isLoading: boolean;
   private baseURL = 'http://api.themoviedb.org/3/';
 
-  static getParams(): URLSearchParams {
+  static getParams(): HttpParams {
     const key = '544ce33d881d9c8b4f234cc65fa42475';
     const language = 'en-US';
-    const params = new URLSearchParams();
-    params.set('api_key', key);
-    params.set('language', language);
-    return params;
+    return new HttpParams()
+      .set('api_key', key)
+      .set('language', language);
   }
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public getItems(): Observable<Product[]> {
     if ((!this.data || !this.data.length) && !this.isLoading) {
       this.isLoading = true;
-      return this.http
+      return this.httpClient
         .get(`${this.baseURL}movie/now_playing`, this.options({ page: '1' }))
-        .map((response) => response.json().results)
+        .map((result: any) => result.results)
         .map((data) => {
           this.data = this.convertItems(data);
           this.isLoading = false;
@@ -41,9 +40,8 @@ export class MoviesService {
   }
 
   public getItem(id: string): Observable<Product> {
-    return this.http
+    return this.httpClient
       .get(`${this.baseURL}movie/${id}`, this.options())
-      .map((response) => response.json())
       .map((data) => this.convertItem(data));
   }
 
@@ -56,9 +54,9 @@ export class MoviesService {
         additionalParams[value] = filters[value];
       });
     }
-    return this.http
+    return this.httpClient
       .get(`${this.baseURL}search/movie`, this.options(additionalParams))
-      .map((response) => response.json().results)
+      .map((result: any) => result.results)
       .map((data) => this.convertItems(data));
   }
 
@@ -67,22 +65,22 @@ export class MoviesService {
   }
 
   public getCredits(id): Observable<Credit[]> {
-    return this.http
+    return this.httpClient
       .get(`${this.baseURL}movie/${id}/credits`, this.options())
-      .map((response) => response.json().cast)
+      .map((result: any) => result.cast)
       .map((data) => data.map((item) => {
         return {
           profilePath: item.profile_path ? 'https://image.tmdb.org/t/p/w138_and_h175_bestv2' + item.profile_path :
-            'http://placehold.it/138x175',
+            'httpClient://placehold.it/138x175',
           name: item.name
         };
       }).slice(0, 4));
   }
 
   public getVideos(id: string): Observable<any> {
-    return this.http
+    return this.httpClient
       .get(`${this.baseURL}movie/${id}/videos`, this.options())
-      .map((response) => response.json().results)
+      .map((result: any) => result.results)
       .map((data) => {
         return data.filter((item) => item.site === 'YouTube' && item.type === 'Trailer')[0];
       });
@@ -121,13 +119,13 @@ export class MoviesService {
     };
   }
 
-  private options(params?: any): RequestOptions {
+  private options(params?: any) {
     const defaultParams = MoviesService.getParams();
     if (params) {
       Object.keys(params).forEach((key) => defaultParams.set(key, params[key]));
     }
-    return new RequestOptions({
-      search: defaultParams
-    })
+    return {
+      params: defaultParams
+    }
   }
 }

@@ -2,12 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
 
 import { Currency } from '../shared/helper';
 import { AuthService, HelperService } from '../shared/services/';
-import { Profile } from '../shared/models';
-import { Country } from '../shared/services/helper.service';
-import { PromocodeService } from '../shared/services/promocode.service';
+import { Profile, Promocode } from '../shared/models';
+import { Country } from '../shared/services';
+import { AppState } from '../store/app.state';
+import { getPromocode } from '../store/promocode/promocode.state';
+import * as PromocodeActions from '../store/promocode/promocode.action';
 
 @Component({
   selector: 'app-profile',
@@ -26,11 +29,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private toastsManager: ToastsManager,
               private helperService: HelperService,
-              private promocodeService: PromocodeService) {
+              private store: Store<AppState>) {
   }
 
   public ngOnInit() {
     this.profileCurrency = Currency.getCurrency();
+    this.store.select(getPromocode).subscribe((promocode: Promocode) => {
+      if (!promocode) {
+        return;
+      }
+      this.promocode = promocode.promocode;
+      this.percent = promocode.percent;
+    });
     this.helperService.getCountries()
       .subscribe((countries: Country[]) => {
         this.countries = countries;
@@ -40,11 +50,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         return;
       }
       if (!this.user) {
-        this.promocodeService.get(user.id)
-          .subscribe((response) => {
-            this.promocode = response.promocode;
-            this.percent = response.percent;
-          });
+        this.store.dispatch(new PromocodeActions.GetPromocode(user.id));
       }
       this.user = user;
     });
@@ -58,7 +64,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public update(field: string, value: string): void {
     this.authService.update(field, value)
       .subscribe(
-        (data) => this.toastsManager.success('Profile update', 'Success!'),
+        () => this.toastsManager.success('Profile update', 'Success!'),
         (error) => this.toastsManager.error(error, 'Error!')
       );
   }

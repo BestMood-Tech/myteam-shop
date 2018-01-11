@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
-import { AddressFormComponent } from '../shared/components/address-form/address-form.component';
+
+import { AddressFormComponent } from '../shared/components';
 import { Address, Profile } from '../shared/models';
 import { AuthService } from '../shared/services';
 

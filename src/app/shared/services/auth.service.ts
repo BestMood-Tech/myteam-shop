@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { tokenNotExpired } from 'angular2-jwt';
@@ -8,7 +8,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { baseUrl, setOptions } from '../helper';
 import { Address, Profile } from '../models';
-import { PromocodeService } from './promocode.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import * as PromocodeActions from '../../store/promocode/promocode.action';
+import { getPromocodePercent } from '../../store/promocode/promocode.state';
+import { Percent } from './promocode.service';
 
 // Avoid name not found warnings
 declare const Auth0Lock: any;
@@ -23,9 +27,9 @@ export class AuthService {
   private isLoading: boolean;
 
   constructor(private router: Router,
-              private http: Http,
-              private promocodeService: PromocodeService,
-              private toastr: ToastsManager) {
+              private httpClient: HttpClient,
+              private store: Store<AppState>,
+              private toastsManager: ToastsManager) {
     // Set userProfile attribute of already saved profile
     try {
       if (localStorage.getItem('id_token')) {
@@ -50,6 +54,12 @@ export class AuthService {
         }
         this.save(currentUser);
       });
+    });
+    this.store.select(getPromocodePercent).subscribe((percent: Percent) => {
+      if (percent) {
+        this.toastsManager.info(`You have a promocode with ${percent.percent}% discount!`,
+          `New promocode in your profile!`);
+      }
     });
   }
 
@@ -101,10 +111,10 @@ export class AuthService {
 
   public update(field: string, value: string | Address[]): Observable<any> {
     this.profileData[field] = value;
-    return this.http.put(`${baseUrl}api/profile/${this.profileData.id}`, { field, value }, setOptions())
-      .map((response) => {
+    return this.httpClient.put(`${baseUrl}api/profile/${this.profileData.id}`, { field, value }, setOptions())
+      .map((result) => {
         this.profile.emit(this.profileData);
-        return response.json();
+        return result;
       });
   }
 
@@ -118,15 +128,10 @@ export class AuthService {
       return;
     }
     this.isLoading = true;
-    this.http.post(`${baseUrl}api/profile`, user, setOptions())
-      .map((response) => response.json())
-      .map((profile) => {
+    this.httpClient.post(`${baseUrl}api/profile`, user, setOptions())
+      .map((profile: any) => {
         if (profile.isNew) {
-          this.promocodeService.create(profile.id, profile.isNew)
-            .subscribe((data) => {
-              this.toastr.info(`You have a promocode with ${data.percent}% discount!`,
-                `New promocode in your profile!`);
-            });
+          this.store.dispatch(new PromocodeActions.CreatePromocode(profile.id, profile.isNew));
           delete profile.isNew;
         }
         this.profileData = new Profile(profile);
@@ -134,8 +139,8 @@ export class AuthService {
         return this.profileData;
       })
       .subscribe(
-        (data) => this.profile.emit(this.profileData),
-        (error) => this.profile.emit(null)
+        () => this.profile.emit(this.profileData),
+        () => this.profile.emit(null)
       );
   }
 }

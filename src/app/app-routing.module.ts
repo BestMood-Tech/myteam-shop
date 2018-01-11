@@ -9,11 +9,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { HomeComponent } from './home/home.component';
 import { OrdersComponent } from './orders/orders.component';
-import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
 import { AuthGuard } from './shared/guards';
-
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -24,7 +22,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent },
-  { path: 'category/:type/:id', component: ProductComponent },
+  { path: 'category/:type/:id', loadChildren: './product/product.module#ProductModule' },
   { path: 'confirmation/:id', component: ConfirmationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'address', component: AddressComponent, canActivate: [AuthGuard] },
@@ -45,7 +43,6 @@ export const routingComponents = [
   CategoryComponent,
   CheckoutComponent,
   ConfirmationComponent,
-  ProductComponent,
   SearchComponent,
   ProfileComponent,
   AddressComponent,

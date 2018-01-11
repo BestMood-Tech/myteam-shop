@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
-import { MoviesService } from '../../services/movies.service';
+import { MoviesService } from '../../services';
 import { Product } from '../../models';
 
 @Component({

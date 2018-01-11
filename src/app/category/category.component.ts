@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { Product } from '../shared/models';
 import { BooksService, GamesService, MoviesService } from '../shared/services';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Search } from '../../helper';
@@ -13,20 +13,19 @@ export class FiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public display = true;
 
-  constructor(private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router) {
   }
 
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const filter = new Search(params);
-      this.filtersForm = this.formBuilder.group({
-        date: filter.date || '',
-        movies: filter.movies,
-        games: filter.games,
-        books: filter.books,
-        query: filter.query
+      this.filtersForm = new FormGroup({
+        date: new FormControl(filter.date || ''),
+        movies: new FormControl(filter.movies),
+        games: new FormControl(filter.games),
+        books: new FormControl(filter.books),
+        query: new FormControl(filter.query)
       });
     });
   }

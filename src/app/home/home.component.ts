@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
-import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+
+import { VideoModalWindowComponent } from '../shared/components';
 import { Product } from '../shared/models';
 import { BooksService, GamesService, MoviesService } from '../shared/services';
 

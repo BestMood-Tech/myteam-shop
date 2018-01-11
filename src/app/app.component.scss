@@ -238,10 +238,10 @@
     background: #e5a50d;
   }
 
-  .nav > li {
+  .sidebar > li {
     width: 80px;
   }
-  .nav li {
+  .sidebar li {
     text-align: center;
     outline: none;
     .glyphicon {
@@ -260,7 +260,7 @@
     }
   }
 
-  .nav > li:first-of-type > a {
+  .sidebar > li:first-of-type > a {
     min-height: 54px;
   }
 

@@ -2,23 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
-import { ToastsManager } from 'ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import { Store } from '@ngrx/store';
 
-import { Profile } from '../shared/models/profile.model';
-import { VideoModalWindowComponent } from '../shared/components/video-modal-window/video.component';
+import { GameStatuses, Product, Profile, Review } from '../../../shared/models';
+import { VideoModalWindowComponent } from '../../../shared/components';
 import { ReviewFormComponent } from '../review-form/review-form.component';
-import { Review } from '../shared/models/review.model';
-import { ReviewsService } from './reviews.service';
-import { AuthService, BooksService, CartService, GamesService, MoviesService } from '../shared/services';
-import { GameStatuses, Product } from '../shared/models/product.model';
+import { AuthService, BooksService, GamesService, MoviesService } from '../../../shared/services';
+import { AppState } from '../../../store/app.state';
+import * as CartActions from '../../../store/cart/cart.action';
+import * as ReviewActions from '../../store/review.action';
+import { getReviews } from '../../store/review.state';
 
 @Component({
   selector: 'app-product',
   templateUrl: 'product.component.html',
-  styleUrls: ['product.component.scss'],
-  providers: [ReviewsService]
+  styleUrls: ['product.component.scss']
 })
 export class ProductComponent implements OnInit {
   public product: Product;
@@ -35,11 +35,9 @@ export class ProductComponent implements OnInit {
               private booksService: BooksService,
               private movieService: MoviesService,
               private gamesService: GamesService,
-              private cartService: CartService,
+              private store: Store<AppState>,
               private authService: AuthService,
-              private modalService: NgbModal,
-              private reviewsService: ReviewsService,
-              private toastsManager: ToastsManager) {
+              private modalService: NgbModal) {
   }
 
   public ngOnInit() {
@@ -65,23 +63,23 @@ export class ProductComponent implements OnInit {
 
         const observables = [];
         observables.push(this.currentService.getRecommended(this.id));
-        observables.push(this.reviewsService.get(`${this.type}${this.id}`));
         if (this.type === 'game') {
-          observables.push(this.currentService.getGenres(this.product.genres));
+          //observables.push(this.currentService.getGenres(this.product.genres));
           observables.push(this.currentService.getDevelopers(this.product.developers));
         }
         if (this.type === 'movie') {
           observables.push(this.currentService.getCredits(this.id));
         }
+        this.store.dispatch(new ReviewActions.GetReviews(`${this.type}${this.id}`));
+
         return Observable.forkJoin(observables)
       })
-      .subscribe(([recommended, reviews, ...data]: any[]) => {
+      .subscribe(([recommended, ...data]: [Product[], any]) => {
         this.recommended = recommended;
         this.recommended.forEach((item) => item.coverUrl = item.cover);
-        this.reviews = reviews;
         if (this.type === 'game') {
-          this.product.genres = data[0];
-          this.product.developers = data[1]
+          //this.product.genres = data[0];
+          this.product.developers = data[0]
         }
         if (this.type === 'movie') {
           this.product.credits = data[0];
@@ -96,10 +94,11 @@ export class ProductComponent implements OnInit {
       this.user = user;
     });
     this.authService.get();
+    this.store.select(getReviews).subscribe((reviews: Review[]) => this.reviews = reviews);
   }
 
   public addToCart(product: Product): void {
-    this.cartService.add(product);
+    this.store.dispatch(new CartActions.AddToCart(product));
   }
 
   public showTrailer(item: Product): void {
@@ -132,13 +131,9 @@ export class ProductComponent implements OnInit {
             productID: `${this.type}${this.id}`,
             createDate: new Date()
           });
-          this.reviewsService.add(bufferReview).toPromise()
-            .then((review: Review) => {
-              this.reviews.unshift(review);
-              this.toastsManager.success('Review is added', 'Success!')
-            });
+          this.store.dispatch(new ReviewActions.AddReview(bufferReview));
         },
-        (error) => null
+        () => null
       )
   }
 }

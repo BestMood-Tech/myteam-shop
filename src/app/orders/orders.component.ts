@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
+
 import { Order, Profile } from '../shared/models';
-import { AuthService, CartService, OrderService } from '../shared/services';
+import { AuthService, OrderService } from '../shared/services';
+import { AppState } from '../store/app.state';
+import { getInvoice } from '../store/cart/cart.state';
+import * as CartActions from '../store/cart/cart.action';
 
 @Component({
   selector: 'app-orders',
@@ -16,7 +22,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private subscriber: Subscription;
 
   constructor(private authService: AuthService,
-              private cartService: CartService,
+              private store: Store<AppState>,
               private orderService: OrderService) {
   }
 
@@ -31,6 +37,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
           .subscribe((orders) => this.orders = orders);
       });
     this.authService.get();
+
+    this.store.select(getInvoice)
+      .subscribe((url: string) => {
+        setTimeout(() => {
+          const newWindow = window.open('', '_blank');
+          newWindow.location.href = url;
+          newWindow.focus();
+        }, 1000);
+      });
   }
 
   public ngOnDestroy() {
@@ -48,12 +63,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   public getInvoice(order) {
-    this.cartService.printInvoice(order.id).subscribe(url => {
-      setTimeout(() => {
-        const newWindow = window.open('', '_blank');
-        newWindow.location.href = url;
-        newWindow.focus();
-      }, 3000);
-    });
+    this.store.dispatch(new CartActions.GetInvoice(order.id));
   }
 }
