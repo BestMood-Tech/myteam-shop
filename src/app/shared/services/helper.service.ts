@@ -18,7 +18,7 @@ export class HelperService {
 
   public getCountries(): Observable<Country[]> {
     return this.http
-      .get(`https://restcountries.eu/rest/v1/all`)
+      .get(`/country_api/all`)
       .map((response) => response.json())
       .map((data) => data.map((item) => {
         return { value: item.name, name: item.name };

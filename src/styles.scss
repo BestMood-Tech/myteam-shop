@@ -714,3 +714,9 @@ $elements: 8;
   -webkit-animation-timing-function: linear;
 }
 
+.modal.show.fade {
+  opacity: 1 !important;
+}
+.modal.fade .modal-dialog {
+  transform: translate(0,0) !important;
+}

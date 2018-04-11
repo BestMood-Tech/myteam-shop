@@ -7,5 +7,32 @@
       "^/games_api": ""
     },
     "changeOrigin": true
+  },
+  "/movies_api/*": {
+    "target": "http://api.themoviedb.org/3/",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/movies_api": ""
+    },
+    "changeOrigin": true
+  },
+  "/books_api/*": {
+    "target": "https://api.wattpad.com/v4/stories",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/books_api": ""
+    },
+    "changeOrigin": true
+  },
+  "/country_api/*": {
+    "target": "https://restcountries.eu/rest/v1/",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/country_api": ""
+    },
+    "changeOrigin": true
   }
 }

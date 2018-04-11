@@ -11,7 +11,7 @@ import { Credit, Product } from '../models';
 export class MoviesService {
   private data: Product[];
   private isLoading: boolean;
-  private baseURL = 'http://api.themoviedb.org/3/';
+  private baseURL = '/movies_api/';
 
   static getParams(): URLSearchParams {
     const key = '544ce33d881d9c8b4f234cc65fa42475';

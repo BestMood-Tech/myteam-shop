@@ -24,6 +24,30 @@ app.use(proxy('/games_api', {
   }
 }));
 
+app.use(proxy('/movies_api', {
+  target: 'http://api.themoviedb.org/3/',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/movies_api': ''
+  }
+}));
+
+app.use(proxy('/books_api', {
+  target: 'https://api.wattpad.com/v4/stories',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/books_api': ''
+  }
+}));
+
+app.use(proxy('/country_api', {
+  target: 'https://restcountries.eu/rest/v1/',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/country_api': ''
+  }
+}));
+
 app.use(express.static('dist'));
 
 app.get('*', (request, response) => response.sendFile(__dirname + '/dist/index.html'));

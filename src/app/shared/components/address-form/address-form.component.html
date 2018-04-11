@@ -35,7 +35,8 @@
                formControlName="zip">
       </p>
       <p type="Country:">
-        <select [ngClass]="addressForm.controls['country'].errors? 'has-error': 'has-success'" formControlName="country">
+        <select [ngClass]="addressForm.controls['country'].errors? 'has-error': 'has-success'"
+                formControlName="country">
           <option *ngFor="let country of countries;" [value]="country.value">{{country.name}}</option>
         </select>
       </p>

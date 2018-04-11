@@ -13,7 +13,7 @@ export class BooksService {
 
   private data: Product[];
   private isLoading: boolean;
-  private baseUrl = 'https://api.wattpad.com/v4/stories';
+  private baseUrl = '/books_api/';
 
   static getHeaders(): Headers {
     const apiKey = 'tEIdSUrwgw7TWjk5ymOxk4JIbUlxIXMEVkI5IJwu65t9';
