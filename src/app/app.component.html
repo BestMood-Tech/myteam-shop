@@ -18,7 +18,7 @@
         <a class="dropdown-toggle" id="dropdownMenuAdmin" ngbDropdownToggle>
           <span class="glyphicon glyphicon-list-alt"></span>Admin panel
         </a>
-        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin">
+        <div class="dropdown-menu sidebar-dropdown-right-transform" aria-labelledby="dropdownMenuAdmin" ngbDropdownMenu>
           <ul class="admin-menu">
             <li><a [routerLink]="'/admin/orders'"><span class="glyphicon glyphicon-paperclip"></span>Orders</a></li>
             <li><a [routerLink]="'/admin/users'"><span class="glyphicon glyphicon-user"></span>Users</a></li>
@@ -77,7 +77,7 @@
                 <a class="search-button" (click)="search()"><span class="glyphicon glyphicon-search"></span></a>
                 <div class="search-field" (submit)="search()">
                   <input type="search" class="search-input no-border" placeholder="Search movies, books..."
-                         [(ngModel)] = "filters.query" name="query" (keydown.enter)="search()">
+                         [(ngModel)]="filters.query" name="query" (keydown.enter)="search()">
                   <span class="separator"> </span>
                 </div>
               </form>
@@ -98,7 +98,7 @@
                     <span class="caret"></span>
                     <img class="img-circle" [src]="user.picture">
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfile" ngbDropdownMenu>
                     <li><a [routerLink]="'/profile'">Profile</a></li>
                     <li><a [routerLink]="'/address'">Addresses</a></li>
                     <li><a [routerLink]="'/orders'">Orders</a></li>
