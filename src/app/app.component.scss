@@ -203,6 +203,7 @@
   float: left;
   height: 100vh;
   background: #ffbc1c;
+  position: relative;
 
   .show .dropdown-menu {
     left: 80px !important;
@@ -266,11 +267,18 @@
     min-height: 54px;
   }
 
+  .nav>li {
+    position: inherit;
+  }
+
   .login {
     position: absolute;
     bottom: 0;
     a {
       cursor: pointer;
+    }
+    li {
+      position: relative;
     }
   }
 }
@@ -311,6 +319,3 @@
   margin-top: 40px;
 }
 
-.nav>li {
-  position: inherit;
-}
