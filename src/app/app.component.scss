@@ -202,11 +202,10 @@
 .left-sidebar {
   float: left;
   height: 100vh;
-  position: relative;
   background: #ffbc1c;
 
-  .open .dropdown-menu {
-    left: 80px;
+  .show .dropdown-menu {
+    left: 80px !important;
   }
 
   .dropdown-menu {
@@ -214,7 +213,7 @@
     border: none;
     background: #ffffff;
     left: -200px;
-    top: 0;
+    top: 0 !important;
     margin: 0;
     padding: 0;
     width: 200px;
@@ -310,4 +309,8 @@
 
 .apis {
   margin-top: 40px;
+}
+
+.nav>li {
+  position: inherit;
 }
